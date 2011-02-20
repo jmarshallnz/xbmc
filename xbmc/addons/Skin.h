@@ -31,6 +31,8 @@ class TiXmlNode;
 namespace ADDON
 {
 
+  typedef std::map<CStdString, CStdString> ImageMap;
+
 class CSkinInfo : public CAddon
 {
 public:
@@ -106,6 +108,8 @@ public:
 
   bool IsInUse() const;
 
+  CStdString GetArtwork(const CStdString &art) const;
+
 //  static bool Check(const CStdString& strSkinDir); // checks if everything is present and accounted for without loading the skin
   static double GetMinVersion();
 protected:
@@ -123,6 +127,8 @@ protected:
    */
   void GetDefaultResolution(const cp_extension_t *ext, const char *tag, RESOLUTION &res, const RESOLUTION &def) const;
 
+  void LoadArtwork();
+
   void LoadIncludes();
   bool LoadStartupWindows(const cp_extension_t *ext);
   bool IsWide(RESOLUTION res) const;
@@ -137,7 +143,20 @@ protected:
   std::vector<CStartupWindow> m_startupWindows;
   bool m_onlyAnimateToHome;
   bool m_debugging;
+  
+  ImageMap m_images;
 };
+
+  class CSkinArt : public CAddon
+  {
+  public:
+    CSkinArt(const ADDON::AddonProps &props);
+    CSkinArt(const cp_extension_t *ext);
+
+    void GetImages(ImageMap &map) const;
+  private:
+    bool m_folders;
+  };
 
 } /*namespace ADDON*/
 

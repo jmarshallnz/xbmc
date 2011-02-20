@@ -131,6 +131,8 @@ AddonPtr CAddonMgr::Factory(const cp_extension_t *props)
       }
     case ADDON_SKIN:
       return AddonPtr(new CSkinInfo(props));
+    case ADDON_SKIN_ART:
+      return AddonPtr(new CSkinArt(props));
     case ADDON_VIZ_LIBRARY:
       return AddonPtr(new CAddonLibrary(props));
     case ADDON_REPOSITORY:
@@ -491,6 +493,8 @@ AddonPtr CAddonMgr::AddonFromProps(AddonProps& addonProps)
       return AddonPtr(new CScraper(addonProps));
     case ADDON_SKIN:
       return AddonPtr(new CSkinInfo(addonProps));
+    case ADDON_SKIN_ART:
+      return AddonPtr(new CSkinArt(addonProps));
 #if defined(HAS_VISUALISATION)
     case ADDON_VIZ:
       return AddonPtr(new CVisualisation(addonProps));

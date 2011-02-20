@@ -72,6 +72,7 @@ void CSkinInfo::Start(const CStdString& strSkinDir /* = "" */)
   CLog::Log(LOGINFO, "Default 4:3 resolution directory is %s", URIUtils::AddFileToFolder(Path(), GetDirFromRes(m_DefaultResolution)).c_str());
   CLog::Log(LOGINFO, "Default 16:9 resolution directory is %s", URIUtils::AddFileToFolder(Path(), GetDirFromRes(m_DefaultResolutionWide)).c_str());
   LoadIncludes();
+  LoadArtwork();
 }
 
 CStdString CSkinInfo::GetSkinPath(const CStdString& strFile, RESOLUTION *res, const CStdString& strBaseDir /* = "" */) const
@@ -189,6 +190,26 @@ void CSkinInfo::LoadIncludes()
   m_includes.LoadIncludes(includesPath);
 }
 
+void CSkinInfo::LoadArtwork()
+{
+  m_images.clear();
+  VECADDONS addons;
+  CAddonMgr::Get().GetAddons(ADDON_SKIN_ART, addons);
+  for (VECADDONS::iterator i = addons.begin(); i != addons.end(); ++i)
+  {
+    boost::shared_ptr<ADDON::CSkinArt> art = boost::dynamic_pointer_cast<ADDON::CSkinArt>(*i);
+    art->GetImages(m_images);
+  }
+}
+
+CStdString CSkinInfo::GetArtwork(const CStdString &art) const
+{
+  ImageMap::const_iterator i = m_images.find(art);
+  if (i != m_images.end())
+    return i->second;
+  return "";
+}
+
 void CSkinInfo::ResolveIncludes(TiXmlElement *node)
 {
   m_includes.ResolveIncludes(node);
@@ -287,6 +308,42 @@ bool CSkinInfo::IsInUse() const
 {
   // Could extend this to prompt for reverting to the standard skin perhaps
   return g_guiSettings.GetString("lookandfeel.skin") == ID();
+}
+  
+CSkinArt::CSkinArt(const ADDON::AddonProps &props)
+  : CAddon(props), m_folders(false)
+{
+}
+
+CSkinArt::CSkinArt(const cp_extension_t *ext)
+  : CAddon(ext)
+{
+  m_folders = CAddonMgr::Get().GetExtValue(ext->configuration, "@folders").Equals("true");
+}
+
+void CSkinArt::GetImages(ImageMap &images) const
+{
+  CStdString artPath = URIUtils::AddFileToFolder(Path(), "media");
+  URIUtils::AddSlashAtEnd(artPath);
+  CFileItemList items;
+  if (m_folders)
+    CUtil::GetRecursiveDirsListing(artPath, items);
+  else
+    CUtil::GetRecursiveListing(artPath, items, "");
+  // construct the map - atm we just map based on artPath
+  for (int i = 0; i < items.Size(); i++)
+  {
+    CFileItemPtr item = items[i];
+    if (item->m_strPath.Left(artPath.GetLength()) == artPath)
+    {
+      CStdString name = item->m_strPath.Mid(artPath.GetLength());
+      if (m_folders)
+        URIUtils::AddSlashAtEnd(name);
+      else
+        URIUtils::RemoveExtension(name);
+      images.insert(make_pair(name, item->m_strPath));
+    }
+  }
 }
 
 } /*namespace ADDON*/

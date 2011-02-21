@@ -76,6 +76,7 @@
 #include "utils/log.h"
 
 #include "addons/AddonManager.h"
+#include "addons/Skin.h"
 
 #define SYSHEATUPDATEINTERVAL 60000
 
@@ -240,6 +241,7 @@ int CGUIInfoManager::TranslateSingleString(const CStdString &strCondition)
     else if (strTest.Equals("weather.location")) ret = WEATHER_LOCATION;
     else if (strTest.Equals("weather.isfetched")) ret = WEATHER_IS_FETCHED;
     else if (strTest.Equals("weather.fanartcode")) ret = WEATHER_FANART_CODE;
+    else if (strTest.Equals("weather.fanart")) ret = WEATHER_FANART;
     else if (strTest.Equals("weather.plugin")) ret = WEATHER_PLUGIN;
   }
   else if (strCategory.Equals("bar"))
@@ -1045,6 +1047,13 @@ CStdString CGUIInfoManager::GetLabel(int info, int contextWindow)
   case WEATHER_FANART_CODE:
     strLabel = URIUtils::GetFileName(g_weatherManager.GetInfo(WEATHER_IMAGE_CURRENT_ICON));
     URIUtils::RemoveExtension(strLabel);
+    break;
+  case WEATHER_FANART:
+    {
+      CStdString fanart = URIUtils::GetFileName(g_weatherManager.GetInfo(WEATHER_IMAGE_CURRENT_ICON));
+      URIUtils::RemoveExtension(fanart);
+      strLabel = g_SkinInfo->GetArtwork("weather/" + fanart + "/");
+    }
     break;
   case WEATHER_PLUGIN:
     strLabel = g_guiSettings.GetString("weather.script");

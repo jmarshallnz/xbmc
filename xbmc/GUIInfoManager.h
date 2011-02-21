@@ -101,6 +101,7 @@ class CDateTime;
 #define PLAYER_FILEPATH              46
 #define PLAYER_SEEKOFFSET            47
 
+#define WEATHER_FANART               99
 #define WEATHER_CONDITIONS          100
 #define WEATHER_TEMPERATURE         101
 #define WEATHER_LOCATION            102

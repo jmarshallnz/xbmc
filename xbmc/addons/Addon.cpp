@@ -356,9 +356,6 @@ void CAddon::BuildLibName(const cp_extension_t *extension)
     case ADDON_SCREENSAVER:
       ext = ADDON_SCREENSAVER_EXT;
       break;
-    case ADDON_SKIN:
-      m_strLibName = "skin.xml";
-      return;
     case ADDON_VIZ:
       ext = ADDON_VIS_EXT;
       break;

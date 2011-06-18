@@ -91,11 +91,11 @@ void CGUIButtonControl::Process(unsigned int currentTime, CDirtyRegionList &dirt
 
 void CGUIButtonControl::Render()
 {
-  m_imgFocus.Render();
-  m_imgNoFocus.Render();
-
   m_label.Render();
   m_label2.Render();
+
+  m_imgFocus.Render();
+  m_imgNoFocus.Render();
 
   CGUIControl::Render();
 }

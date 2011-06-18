@@ -41,9 +41,11 @@ public:
   GLint GetCord0Loc() { return m_hCord0; }
   GLint GetCord1Loc() { return m_hCord1; }
   
+  static void ResetDepth();
 protected:
   GLint m_hTex0;
   GLint m_hTex1;
+  GLint m_hDepth;
   GLint m_hProj;
   GLint m_hModel;
   GLint m_hPos;
@@ -53,6 +55,8 @@ protected:
 
   GLfloat *m_proj;
   GLfloat *m_model;
+  
+  static float depth;
 };
 
 #endif // GUI_SHADER_H

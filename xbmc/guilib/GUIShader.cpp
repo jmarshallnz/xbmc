@@ -29,6 +29,8 @@
 #include "MatrixGLES.h"
 #include "utils/log.h"
 
+float CGUIShader::depth = 1.0f;
+
 #if defined(HAS_GL)
 CGUIShader::CGUIShader( const char *shader ) : CGLSLShaderProgram("glshader_vert.glsl", shader)
 #else
@@ -38,6 +40,7 @@ CGUIShader::CGUIShader( const char *shader ) : CGLSLShaderProgram("guishader_ver
   // Initialise values
   m_hTex0   = 0;
   m_hTex1   = 0;
+  m_hDepth  = 0;
   m_hProj   = 0;
   m_hModel  = 0;
   m_hPos    = 0;
@@ -56,6 +59,7 @@ void CGUIShader::OnCompiledAndLinked()
   // Variables passed directly to the Fragment shader
   m_hTex0   = glGetUniformLocation(ProgramHandle(), "m_samp0");
   m_hTex1   = glGetUniformLocation(ProgramHandle(), "m_samp1");
+  m_hDepth  = glGetUniformLocation(ProgramHandle(), "m_depth");
   // Variables passed directly to the Vertex shader
   m_hProj   = glGetUniformLocation(ProgramHandle(), "m_proj");
   m_hModel  = glGetUniformLocation(ProgramHandle(), "m_model");
@@ -77,8 +81,14 @@ bool CGUIShader::OnEnabled()
 
   glUniformMatrix4fv(m_hProj,  1, GL_FALSE, g_matrices.GetMatrix(MM_PROJECTION));
   glUniformMatrix4fv(m_hModel, 1, GL_FALSE, g_matrices.GetMatrix(MM_MODELVIEW));
+  glUniform1f(m_hDepth, depth); depth -= 1.0f/65535.0f;
 
   return true;
+}
+
+void CGUIShader::ResetDepth()
+{
+  depth = 1.0f;
 }
 
 void CGUIShader::Free()

@@ -263,6 +263,7 @@ bool CWinSystemOSX::CreateNewWindow(const CStdString& name, bool fullScreen, RES
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  8);
   SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 
   // Enable vertical sync to avoid any tearing.
   SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);  

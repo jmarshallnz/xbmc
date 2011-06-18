@@ -230,7 +230,9 @@ bool CRenderSystemGL::ResetRenderSystem(int width, int height, bool fullScreen, 
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   glEnable(GL_BLEND);          // Turn Blending On
-  glDisable(GL_DEPTH_TEST);
+  glDepthFunc(GL_GEQUAL);
+  glEnable(GL_DEPTH_TEST);
+  glDepthMask(GL_TRUE);
 
   return true;
 }
@@ -264,6 +266,7 @@ bool CRenderSystemGL::BeginRender()
   if (!m_bRenderCreated)
     return false;
 
+  CGUIShader::ResetDepth();
   return true;
 }
 
@@ -286,8 +289,9 @@ bool CRenderSystemGL::ClearBuffers(color_t color)
   float a = GET_A(color) / 255.0f;
 
   glClearColor(r, g, b, a);
+  glClearDepth(0);
 
-  GLbitfield flags = GL_COLOR_BUFFER_BIT;
+  GLbitfield flags = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
   glClear(flags);
 
   return true;

@@ -21,6 +21,7 @@
 
 #include "GUIControlGroup.h"
 #include "GUIControlProfiler.h"
+#include "settings/AdvancedSettings.h"
 
 using namespace std;
 
@@ -120,16 +121,34 @@ void CGUIControlGroup::Render()
   CPoint pos(GetPosition());
   g_graphicsContext.SetOrigin(pos.x, pos.y);
   CGUIControl *focusedControl = NULL;
-  for (iControls it = m_children.begin(); it != m_children.end(); ++it)
+  if (m_renderFocusedLast)
   {
-    CGUIControl *control = *it;
-    if (m_renderFocusedLast && control->HasFocus())
-      focusedControl = control;
-    else
-      control->DoRender();
+    for (iControls i = m_children.begin(); i != m_children.end(); ++i)
+      if ((*i)->HasFocus())
+        focusedControl = *i;
   }
-  if (focusedControl)
-    focusedControl->DoRender();
+  if (g_advancedSettings.m_renderFrontToBack)
+  {
+    if (focusedControl)
+      focusedControl->DoRender();
+    for (rControls it = m_children.rbegin(); it != m_children.rend(); ++it)
+    {
+      CGUIControl *control = *it;
+      if (!m_renderFocusedLast || !control->HasFocus())
+        control->DoRender();
+    }
+  }
+  else
+  {
+    for (iControls it = m_children.begin(); it != m_children.end(); ++it)
+    {
+      CGUIControl *control = *it;
+      if (!m_renderFocusedLast || !control->HasFocus())
+        control->DoRender();
+    }
+    if (focusedControl)
+      focusedControl->DoRender();
+  }
   CGUIControl::Render();
   g_graphicsContext.RestoreOrigin();
 }

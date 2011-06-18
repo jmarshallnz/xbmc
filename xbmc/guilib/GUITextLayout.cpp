@@ -25,6 +25,7 @@
 #include "GUIColorManager.h"
 #include "utils/CharsetConverter.h"
 #include "utils/StringUtils.h"
+#include "settings/AdvancedSettings.h"
 
 using namespace std;
 
@@ -158,9 +159,14 @@ void CGUITextLayout::RenderOutline(float x, float y, color_t color, color_t outl
     y -= m_font->GetTextHeight(m_lines.size()) * 0.5f;;
     alignment &= ~XBFONT_CENTER_Y;
   }
-  if (m_borderFont)
+
+  // set the main text color
+  if (m_colors.size())
+    m_colors[0] = color;
+
+  float by = y;
+  if (!g_advancedSettings.m_renderFrontToBack && m_borderFont)
   {
-    float by = y;
     m_borderFont->Begin();
     for (vector<CGUIString>::iterator i = m_lines.begin(); i != m_lines.end(); i++)
     {
@@ -168,17 +174,13 @@ void CGUITextLayout::RenderOutline(float x, float y, color_t color, color_t outl
       uint32_t align = alignment;
       if (align & XBFONT_JUSTIFIED && string.m_carriageReturn)
         align &= ~XBFONT_JUSTIFIED;
-
+      
       m_borderFont->DrawText(x, by, outlineColors, 0, string.m_text, align, maxWidth);
       by += m_borderFont->GetLineHeight();
     }
     m_borderFont->End();
   }
-
-  // set the main text color
-  if (m_colors.size())
-    m_colors[0] = color;
-
+  
   m_font->Begin();
   for (vector<CGUIString>::iterator i = m_lines.begin(); i != m_lines.end(); i++)
   {
@@ -191,6 +193,22 @@ void CGUITextLayout::RenderOutline(float x, float y, color_t color, color_t outl
     y += m_font->GetLineHeight();
   }
   m_font->End();
+
+  if (g_advancedSettings.m_renderFrontToBack && m_borderFont)
+  {
+    m_borderFont->Begin();
+    for (vector<CGUIString>::iterator i = m_lines.begin(); i != m_lines.end(); i++)
+    {
+      const CGUIString &string = *i;
+      uint32_t align = alignment;
+      if (align & XBFONT_JUSTIFIED && string.m_carriageReturn)
+        align &= ~XBFONT_JUSTIFIED;
+      
+      m_borderFont->DrawText(x, by, outlineColors, 0, string.m_text, align, maxWidth);
+      by += m_borderFont->GetLineHeight();
+    }
+    m_borderFont->End();
+  }
 }
 
 bool CGUITextLayout::Update(const CStdString &text, float maxWidth, bool forceUpdate /*= false*/, bool forceLTRReadingOrder /*= false*/)

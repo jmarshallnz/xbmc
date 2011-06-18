@@ -85,6 +85,7 @@ void CGUIFont::DrawText( float x, float y, const vecColors &colors, color_t shad
   vecColors renderColors;
   for (unsigned int i = 0; i < colors.size(); i++)
     renderColors.push_back(g_graphicsContext.MergeAlpha(colors[i] ? colors[i] : m_textColor));
+  m_font->DrawTextInternal( x, y, renderColors, text, alignment, maxPixelWidth, false);
   if (!shadowColor) shadowColor = m_shadowColor;
   if (shadowColor)
   {
@@ -94,7 +95,6 @@ void CGUIFont::DrawText( float x, float y, const vecColors &colors, color_t shad
       shadowColors.push_back((renderColors[i] & 0xff000000) != 0 ? shadowColor : 0);
     m_font->DrawTextInternal(x + 1, y + 1, shadowColors, text, alignment, maxPixelWidth, false);
   }
-  m_font->DrawTextInternal( x, y, renderColors, text, alignment, maxPixelWidth, false);
 
   if (clip)
     g_graphicsContext.RestoreClipRegion();
@@ -203,6 +203,7 @@ void CGUIFont::DrawScrollingText(float x, float y, const vecColors &colors, colo
     renderColors.push_back(g_graphicsContext.MergeAlpha(colors[i] ? colors[i] : m_textColor));
 
   bool scroll =  !scrollInfo.waitTime && scrollInfo.pixelSpeed;
+  m_font->DrawTextInternal(x - offset, y, renderColors, renderText, alignment, maxWidth + scrollInfo.pixelPos + m_font->GetLineHeight(2.0f), scroll);
   if (shadowColor)
   {
     shadowColor = g_graphicsContext.MergeAlpha(shadowColor);
@@ -211,7 +212,6 @@ void CGUIFont::DrawScrollingText(float x, float y, const vecColors &colors, colo
       shadowColors.push_back((renderColors[i] & 0xff000000) != 0 ? shadowColor : 0);
     m_font->DrawTextInternal(x - offset + 1, y + 1, shadowColors, renderText, alignment, maxWidth + scrollInfo.pixelPos + m_font->GetLineHeight(2.0f), scroll);
   }
-  m_font->DrawTextInternal(x - offset, y, renderColors, renderText, alignment, maxWidth + scrollInfo.pixelPos + m_font->GetLineHeight(2.0f), scroll);
 
   g_graphicsContext.RestoreClipRegion();
 }

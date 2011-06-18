@@ -58,9 +58,9 @@ void CGUIBorderedImage::Process(unsigned int currentTime, CDirtyRegionList &dirt
 
 void CGUIBorderedImage::Render()
 {
+  CGUIImage::Render();
   if (!m_borderImage.GetFileName().IsEmpty() && m_texture.ReadyToRender())
     m_borderImage.Render();
-  CGUIImage::Render();
 }
 
 CRect CGUIBorderedImage::CalcRenderRegion() const

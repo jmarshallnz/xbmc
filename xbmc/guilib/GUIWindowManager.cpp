@@ -489,7 +489,7 @@ bool CGUIWindowManager::OnAction(const CAction &action)
 
 bool RenderOrderSortFunction(CGUIWindow *first, CGUIWindow *second)
 {
-  return first->GetRenderOrder() < second->GetRenderOrder();
+  return first->GetRenderOrder() > second->GetRenderOrder();
 }
 
 void CGUIWindowManager::Process(unsigned int currentTime)
@@ -524,20 +524,23 @@ void CGUIWindowManager::RenderPass()
 {
   CGUIWindow* pWindow = GetWindow(GetActiveWindow());
   if (pWindow)
-  {
     pWindow->ClearBackground();
+
+  if (!g_advancedSettings.m_renderFrontToBack && pWindow)
     pWindow->Render();
-  }
 
   // we render the dialogs based on their render order.
   vector<CGUIWindow *> renderList = m_activeDialogs;
   stable_sort(renderList.begin(), renderList.end(), RenderOrderSortFunction);
-  
+
   for (iDialog it = renderList.begin(); it != renderList.end(); ++it)
   {
     if ((*it)->IsDialogRunning())
       (*it)->Render();
   }
+
+  if (g_advancedSettings.m_renderFrontToBack && pWindow)
+    pWindow->Render();
 }
 
 void CGUIWindowManager::Render()

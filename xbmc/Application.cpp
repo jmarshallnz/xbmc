@@ -1975,7 +1975,7 @@ void CApplication::Render()
     ResetScreenSaver();
     return;
   }
-
+/*
   MEASURE_FUNCTION;
 
   bool decrement = false;
@@ -2065,17 +2065,17 @@ void CApplication::Render()
 
     lastFrameTime = CTimeUtils::GetTimeMS();
   }
-
+*/
   CSingleLock lock(g_graphicsContext);
   CTimeUtils::UpdateFrameTime();
   g_infoManager.UpdateFPS();
 
-  int vsync_mode = g_guiSettings.GetInt("videoscreen.vsync");
+/*  int vsync_mode = g_guiSettings.GetInt("videoscreen.vsync");
   if (g_graphicsContext.IsFullScreenVideo() && IsPlaying() && vsync_mode == VSYNC_VIDEO)
     g_Windowing.SetVSync(true);
   else if (vsync_mode == VSYNC_ALWAYS)
     g_Windowing.SetVSync(true);
-  else if (vsync_mode != VSYNC_DRIVER)
+  else if (vsync_mode != VSYNC_DRIVER)*/
     g_Windowing.SetVSync(false);
 
   if(!g_Windowing.BeginRender())
@@ -2097,14 +2097,14 @@ void CApplication::Render()
 
   g_renderManager.UpdateResolution();
   g_renderManager.ManageCaptures();
-
+/*
 #if defined(HAS_SDL) || defined(HAS_XBMC_MUTEX)
   SDL_mutexP(m_frameMutex);
   if(m_frameCount > 0 && decrement)
     m_frameCount--;
   SDL_mutexV(m_frameMutex);
   SDL_CondBroadcast(m_frameCond);
-#endif
+#endif*/
 }
 
 void CApplication::SetStandAlone(bool value)

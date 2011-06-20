@@ -31,8 +31,5 @@ void main ()
   lowp vec4 col = vec4(texture2D(m_samp0, m_cord0.xy).bgra * m_colour);
   gl_FragColor.rgb = col.rgb * col.a;
   gl_FragColor.a = col.a;
-  if (a < 0.996)
-    gl_FragDepth = 0.0;
-  else
-    gl_FragDepth = m_depth;                              
+  gl_FragDepth = step(0.996, col.a)*m_depth;
 }

@@ -282,6 +282,7 @@ void CAdvancedSettings::Initialize()
   m_canWindowed = true;
   m_guiVisualizeDirtyRegions = false;
   m_guiAlgorithmDirtyRegions = 0;
+  m_renderFrontToBack = 0;
 }
 
 bool CAdvancedSettings::Load()
@@ -899,6 +900,7 @@ void CAdvancedSettings::ParseSettingsFile(const CStdString &file)
   {
     XMLUtils::GetBoolean(pElement, "visualizedirtyregions", m_guiVisualizeDirtyRegions);
     XMLUtils::GetInt(pElement, "algorithmdirtyregions",     m_guiAlgorithmDirtyRegions);
+    XMLUtils::GetInt(pElement, "renderfronttoback",     m_renderFrontToBack);
   }
 
   // load in the GUISettings overrides:

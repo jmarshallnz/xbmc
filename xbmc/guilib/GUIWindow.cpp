@@ -929,5 +929,5 @@ void CGUIWindow::ClearBackground()
   m_clearBackground.Update();
   color_t color = m_clearBackground;
   if (color)
-    g_graphicsContext.Clear(color);
+    g_graphicsContext.Clear(color & 0xffffff); // alpha MUST be cleared
 }

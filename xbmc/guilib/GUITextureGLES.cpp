@@ -29,6 +29,7 @@
 #include "utils/MathUtils.h"
 #include "windowing/WindowingFactory.h"
 #include "guilib/GraphicContext.h"
+#include "settings/AdvancedSettings.h"
 
 #if defined(HAS_GLES)
 
@@ -70,6 +71,8 @@ void CGUITextureGLES::Begin(color_t color)
   glEnableVertexAttribArray(tex0Loc);
 
   bool hasAlpha = m_texture.m_textures[m_currentFrame]->HasAlpha() || m_col[0][3] < 255;
+  if (g_advancedSettings.m_renderFrontToBack)
+    hasAlpha = true;
 
   if (m_diffuse.size())
   {
@@ -109,7 +112,10 @@ void CGUITextureGLES::Begin(color_t color)
 
   if ( hasAlpha )
   {
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    if (g_advancedSettings.m_renderFrontToBack)
+      glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ONE);
+    else
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable( GL_BLEND );
   }
   else

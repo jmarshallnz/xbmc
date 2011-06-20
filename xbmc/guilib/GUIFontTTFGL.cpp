@@ -29,6 +29,7 @@
 #include "utils/log.h"
 #include "utils/GLUtils.h"
 #include "windowing/WindowingFactory.h"
+#include "settings/AdvancedSettings.h"
 
 // stuff for freetype
 #include <ft2build.h>
@@ -77,7 +78,10 @@ void CGUIFontTTFGL::Begin()
     }
 
     // Turn Blending On
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    if (g_advancedSettings.m_renderFrontToBack)
+      glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ONE);
+    else
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, m_nTexture);

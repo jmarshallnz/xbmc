@@ -23,6 +23,7 @@
 
 #if defined(HAS_GL) || HAS_GLES == 2
 #include "settings/Settings.h"
+#include "settings/AdvancedSettings.h"
 #include "filesystem/File.h"
 #include "Shader.h"
 #include "utils/log.h"
@@ -44,7 +45,10 @@ bool CShader::LoadSource(const string& filename, const string& prefix)
 
   CFileStream file;
 
-  if(!file.Open("special://xbmc/system/shaders/" + filename))
+  CStdString dir = "special://xbmc/system/shaders/";
+  if (g_advancedSettings.m_renderFrontToBack)
+    dir.AppendFormat("ftb%i/", g_advancedSettings.m_renderFrontToBack);
+  if(!file.Open(dir + CStdString(filename)))
   {
     CLog::Log(LOGERROR, "CYUVShaderGLSL::CYUVShaderGLSL - failed to open file %s", filename.c_str());
     return false;

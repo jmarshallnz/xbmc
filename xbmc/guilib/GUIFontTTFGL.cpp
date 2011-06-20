@@ -28,9 +28,7 @@
 #include "gui3d.h"
 #include "utils/log.h"
 #include "utils/GLUtils.h"
-#if HAS_GLES == 2
 #include "windowing/WindowingFactory.h"
-#endif
 
 // stuff for freetype
 #include <ft2build.h>
@@ -42,6 +40,7 @@ using namespace std;
 
 #if defined(HAS_GL) || defined(HAS_GLES)
 
+static bool useShaders = true;
 
 CGUIFontTTFGL::CGUIFontTTFGL(const CStdString& strFileName)
 : CGUIFontTTFBase(strFileName)
@@ -83,21 +82,22 @@ void CGUIFontTTFGL::Begin()
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, m_nTexture);
 
-#ifdef HAS_GL
-    glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_COMBINE);
-    glTexEnvi(GL_TEXTURE_ENV,GL_COMBINE_RGB,GL_REPLACE);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_PRIMARY_COLOR);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
-    glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_TEXTURE0);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
-    glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_PRIMARY_COLOR);
-    glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    VerifyGLState();
-#else
-    g_Windowing.EnableGUIShader(SM_FONTS);
-#endif
+    if (!useShaders)
+    {
+      glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_COMBINE);
+      glTexEnvi(GL_TEXTURE_ENV,GL_COMBINE_RGB,GL_REPLACE);
+      glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_PRIMARY_COLOR);
+      glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+      glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
+      glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_TEXTURE0);
+      glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+      glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_PRIMARY_COLOR);
+      glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+      VerifyGLState();
+    }
+    else
+      g_Windowing.EnableGUIShader(SM_FONTS);
 
     m_vertex_count = 0;
   }
@@ -113,57 +113,60 @@ void CGUIFontTTFGL::End()
   if (--m_nestedBeginCount > 0)
     return;
 
-#ifdef HAS_GL
-  glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
-
-  glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(SVertex), (char*)m_vertex + offsetof(SVertex, r));
-  glVertexPointer  (3, GL_FLOAT        , sizeof(SVertex), (char*)m_vertex + offsetof(SVertex, x));
-  glTexCoordPointer(2, GL_FLOAT        , sizeof(SVertex), (char*)m_vertex + offsetof(SVertex, u));
-  glEnableClientState(GL_COLOR_ARRAY);
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glDrawArrays(GL_QUADS, 0, m_vertex_count);
-  glPopClientAttrib();
-#else
-  // GLES 2.0 version. Cannot draw quads. Convert to triangles.
-  GLint posLoc  = g_Windowing.GUIShaderGetPos();
-  GLint colLoc  = g_Windowing.GUIShaderGetCol();
-  GLint tex0Loc = g_Windowing.GUIShaderGetCoord0();
-
-  // stack object until VBOs will be used
-  std::vector<SVertex> vecVertices( 6 * (m_vertex_count / 4) );
-  SVertex *vertices = &vecVertices[0];
-
-  for (int i=0; i<m_vertex_count; i+=4)
+  if (!useShaders)
   {
-    *vertices++ = m_vertex[i];
-    *vertices++ = m_vertex[i+1];
-    *vertices++ = m_vertex[i+2];
+    glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
-    *vertices++ = m_vertex[i+1];
-    *vertices++ = m_vertex[i+3];
-    *vertices++ = m_vertex[i+2];
+    glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(SVertex), (char*)m_vertex + offsetof(SVertex, r));
+    glVertexPointer  (3, GL_FLOAT        , sizeof(SVertex), (char*)m_vertex + offsetof(SVertex, x));
+    glTexCoordPointer(2, GL_FLOAT        , sizeof(SVertex), (char*)m_vertex + offsetof(SVertex, u));
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDrawArrays(GL_QUADS, 0, m_vertex_count);
+    glPopClientAttrib();
   }
+  else
+  {
+    // GLES 2.0 version. Cannot draw quads. Convert to triangles.
+    GLint posLoc  = g_Windowing.GUIShaderGetPos();
+    GLint colLoc  = g_Windowing.GUIShaderGetCol();
+    GLint tex0Loc = g_Windowing.GUIShaderGetCoord0();
 
-  vertices = &vecVertices[0];
+    // stack object until VBOs will be used
+    std::vector<SVertex> vecVertices( 6 * (m_vertex_count / 4) );
+    SVertex *vertices = &vecVertices[0];
 
-  glVertexAttribPointer(posLoc,  3, GL_FLOAT,         GL_FALSE, sizeof(SVertex), (char*)vertices + offsetof(SVertex, x));
-  // Normalize color values. Does not affect Performance at all.
-  glVertexAttribPointer(colLoc,  4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(SVertex), (char*)vertices + offsetof(SVertex, r));
-  glVertexAttribPointer(tex0Loc, 2, GL_FLOAT,         GL_FALSE, sizeof(SVertex), (char*)vertices + offsetof(SVertex, u));
+    for (int i=0; i<m_vertex_count; i+=4)
+    {
+      *vertices++ = m_vertex[i];
+      *vertices++ = m_vertex[i+3]; // 1
+      *vertices++ = m_vertex[i+1]; // 2
 
-  glEnableVertexAttribArray(posLoc);
-  glEnableVertexAttribArray(colLoc);
-  glEnableVertexAttribArray(tex0Loc);
+      *vertices++ = m_vertex[i+3]; // 1
+      *vertices++ = m_vertex[i+2]; // 3
+      *vertices++ = m_vertex[i+1]; // 2
+    }
 
-  glDrawArrays(GL_TRIANGLES, 0, vecVertices.size());
+    vertices = &vecVertices[0];
 
-  glDisableVertexAttribArray(posLoc);
-  glDisableVertexAttribArray(colLoc);
-  glDisableVertexAttribArray(tex0Loc);
+    glVertexAttribPointer(posLoc,  3, GL_FLOAT,         GL_FALSE, sizeof(SVertex), (char*)vertices + offsetof(SVertex, x));
+    // Normalize color values. Does not affect Performance at all.
+    glVertexAttribPointer(colLoc,  4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(SVertex), (char*)vertices + offsetof(SVertex, r));
+    glVertexAttribPointer(tex0Loc, 2, GL_FLOAT,         GL_FALSE, sizeof(SVertex), (char*)vertices + offsetof(SVertex, u));
 
-  g_Windowing.DisableGUIShader();
-#endif
+    glEnableVertexAttribArray(posLoc);
+    glEnableVertexAttribArray(colLoc);
+    glEnableVertexAttribArray(tex0Loc);
+
+    glDrawArrays(GL_TRIANGLES, 0, vecVertices.size());
+
+    glDisableVertexAttribArray(posLoc);
+    glDisableVertexAttribArray(colLoc);
+    glDisableVertexAttribArray(tex0Loc);
+
+    g_Windowing.DisableGUIShader();
+  }
 }
 
 CBaseTexture* CGUIFontTTFGL::ReallocTexture(unsigned int& newHeight)

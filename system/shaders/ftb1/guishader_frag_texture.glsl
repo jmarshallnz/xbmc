@@ -27,7 +27,7 @@ varying   lowp vec4 m_colour;
 // SM_TEXTURE shader
 void main ()
 {
-  vec4 col = vec4(texture2D(m_samp0, m_cord0.xy).bgra * m_colour);
+  lowp vec4 col = vec4(texture2D(m_samp0, m_cord0.xy).bgra * m_colour);
   gl_FragColor.rgb = col.rgb * col.a;
   gl_FragColor.a = col.a;
 }

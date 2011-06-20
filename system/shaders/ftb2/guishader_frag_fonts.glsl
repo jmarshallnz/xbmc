@@ -28,7 +28,7 @@ uniform   float     m_depth;
 // SM_FONTS shader
 void main ()
 {
-  float a   = m_colour.a * texture2D(m_samp0, m_cord0.xy).a;
+  lowp float a   = m_colour.a * texture2D(m_samp0, m_cord0.xy).a;
   gl_FragColor.rgb   = m_colour.rgb * a;
   gl_FragColor.b   = a;
   if (a < 0.996)

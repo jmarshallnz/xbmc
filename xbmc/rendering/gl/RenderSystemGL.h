@@ -25,6 +25,20 @@
 #pragma once
 
 #include "rendering/RenderSystem.h"
+#include "xbmc/guilib/GUIShader.h"
+
+enum ESHADERMETHOD
+{
+  SM_DEFAULT,
+  SM_TEXTURE,
+  SM_MULTI,
+  SM_FONTS,
+  SM_TEXTURE_NOBLEND,
+  SM_MULTI_BLENDCOLOR,
+  SM_TEXTURE_RGBA,
+  SM_TEXTURE_RGBA_BLENDCOLOR,
+  SM_ESHADERCOUNT
+};
 
 class CRenderSystemGL : public CRenderSystemBase
 {
@@ -64,6 +78,15 @@ public:
 
   virtual void ResetGLErrors();
 
+  void InitialiseGUIShader();
+  void EnableGUIShader(ESHADERMETHOD method);
+  void DisableGUIShader();
+
+  GLint GUIShaderGetPos();
+  GLint GUIShaderGetCol();
+  GLint GUIShaderGetCoord0();
+  GLint GUIShaderGetCoord1();
+
 protected:
   virtual void SetVSyncImpl(bool enable) = 0;
   virtual bool PresentRenderImpl() = 0;
@@ -82,6 +105,9 @@ protected:
 
   int        m_glslMajor;
   int        m_glslMinor;
+
+  CGUIShader  **m_pGUIshader;  // One GUI shader for each method
+  ESHADERMETHOD m_method;      // Current GUI Shader method
 };
 
 #endif // RENDER_SYSTEM_H

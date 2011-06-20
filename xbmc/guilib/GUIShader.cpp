@@ -23,14 +23,17 @@
 #include "system.h"
 
 #pragma message("msg1")
-#if HAS_GLES == 2
 #pragma message("msg2")
 
 #include "GUIShader.h"
 #include "MatrixGLES.h"
 #include "utils/log.h"
 
+#if defined(HAS_GL)
+CGUIShader::CGUIShader( const char *shader ) : CGLSLShaderProgram("glshader_vert.glsl", shader)
+#else
 CGUIShader::CGUIShader( const char *shader ) : CGLSLShaderProgram("guishader_vert.glsl", shader)
+#endif
 {
   // Initialise values
   m_hTex0   = 0;
@@ -84,4 +87,3 @@ void CGUIShader::Free()
   CGLSLShaderProgram::Free();
 }
 
-#endif

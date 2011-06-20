@@ -22,7 +22,6 @@
 
 #include "system.h"
 
-#if HAS_GLES == 2
 
 #include <cmath>
 #include "MatrixGLES.h"
@@ -377,4 +376,3 @@ void CMatrixGLES::PrintMatrix(void)
   }
 }
 
-#endif

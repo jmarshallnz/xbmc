@@ -32,8 +32,23 @@
 #include "utils/TimeUtils.h"
 #include "utils/SystemInfo.h"
 #include "utils/MathUtils.h"
+#include "guilib/MatrixGLES.h"
 
-CRenderSystemGL::CRenderSystemGL() : CRenderSystemBase()
+static const char* ShaderNames[SM_ESHADERCOUNT] =
+{ "glshader_frag_default.glsl",
+  "glshader_frag_texture.glsl",
+  "glshader_frag_multi.glsl",
+  "glshader_frag_fonts.glsl",
+  "glshader_frag_texture_noblend.glsl",
+  "glshader_frag_multi_blendcolor.glsl",
+  "guishader_frag_rgba.glsl",
+  "guishader_frag_rgba_blendcolor.glsl"
+};
+
+CRenderSystemGL::CRenderSystemGL()
+ : CRenderSystemBase()
+ , m_pGUIshader(0)
+ , m_method(SM_DEFAULT)
 {
   m_enumRenderingSystem = RENDERING_SYSTEM_OPENGL;
   m_glslMajor = 0;
@@ -143,6 +158,8 @@ bool CRenderSystemGL::InitRenderSystem()
 
   m_bRenderCreated = true;
 
+  InitialiseGUIShader();
+
   return true;
 }
 
@@ -203,6 +220,14 @@ bool CRenderSystemGL::ResetRenderSystem(int width, int height, bool fullScreen, 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
+  g_matrices.MatrixMode(MM_PROJECTION);
+  g_matrices.LoadIdentity();
+
+  g_matrices.Ortho(0.0f, width-1, height-1, 0.0f, -1.0f, 1.0f);
+
+  g_matrices.MatrixMode(MM_MODELVIEW);
+  g_matrices.LoadIdentity();
+
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   glEnable(GL_BLEND);          // Turn Blending On
   glDisable(GL_DEPTH_TEST);
@@ -212,6 +237,23 @@ bool CRenderSystemGL::ResetRenderSystem(int width, int height, bool fullScreen, 
 
 bool CRenderSystemGL::DestroyRenderSystem()
 {
+  CLog::Log(LOGDEBUG, "GUI Shader - Destroying Shader : %p", m_pGUIshader);
+
+  if (m_pGUIshader)
+  {
+    for (int i = 0; i < SM_ESHADERCOUNT; i++)
+    {
+      if (m_pGUIshader[i])
+      {
+        m_pGUIshader[i]->Free();
+        delete m_pGUIshader[i];
+        m_pGUIshader[i] = NULL;
+      }
+    }
+    delete[] m_pGUIshader;
+    m_pGUIshader = NULL;
+  }
+
   m_bRenderCreated = false;
 
   return true;
@@ -419,6 +461,15 @@ void CRenderSystemGL::SetCameraPosition(const CPoint &camera, int screenWidth, i
   glFrustum( (-w - offset.x)*0.5f, (w - offset.x)*0.5f, (-h + offset.y)*0.5f, (h + offset.y)*0.5f, h, 100*h);
   glMatrixMode(GL_MODELVIEW);
 
+  g_matrices.MatrixMode(MM_MODELVIEW);
+  g_matrices.LoadIdentity();
+  g_matrices.Translatef(-(viewport[0] + w + offset.x), +(viewport[1] + h + offset.y), 0);
+  g_matrices.LookAt(0.0, 0.0, -2.0*h, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0);
+  g_matrices.MatrixMode(MM_PROJECTION);
+  g_matrices.LoadIdentity();
+  g_matrices.Frustum( (-w - offset.x)*0.5f, (w - offset.x)*0.5f, (-h + offset.y)*0.5f, (h + offset.y)*0.5f, h, 100*h);
+  g_matrices.MatrixMode(MM_MODELVIEW);
+
   g_graphicsContext.EndPaint();
 }
 
@@ -448,6 +499,9 @@ void CRenderSystemGL::ApplyHardwareTransform(const TransformMatrix &finalMatrix)
   if (!m_bRenderCreated)
     return;
 
+  g_matrices.MatrixMode(MM_MODELVIEW);
+  g_matrices.PushMatrix();
+
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   GLfloat matrix[4][4];
@@ -462,6 +516,7 @@ void CRenderSystemGL::ApplyHardwareTransform(const TransformMatrix &finalMatrix)
   matrix[3][3] = 1.0f;
 
   glMultMatrixf(&matrix[0][0]);
+  g_matrices.MultMatrixf(&matrix[0][0]);
 }
 
 void CRenderSystemGL::RestoreHardwareTransform()
@@ -471,6 +526,8 @@ void CRenderSystemGL::RestoreHardwareTransform()
 
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
+  g_matrices.MatrixMode(MM_MODELVIEW);
+  g_matrices.PopMatrix();
 }
 
 void CRenderSystemGL::CalculateMaxTexturesize()
@@ -576,6 +633,88 @@ void CRenderSystemGL::ResetGLErrors()
       break;
     }
   }
+}
+
+void CRenderSystemGL::InitialiseGUIShader()
+{
+  if (!m_pGUIshader)
+  {
+    m_pGUIshader = new CGUIShader*[SM_ESHADERCOUNT];
+    for (int i = 0; i < SM_ESHADERCOUNT; i++)
+    {
+      m_pGUIshader[i] = new CGUIShader( ShaderNames[i] );
+      
+      if (!m_pGUIshader[i]->CompileAndLink())
+      {
+        m_pGUIshader[i]->Free();
+        delete m_pGUIshader[i];
+        m_pGUIshader[i] = NULL;
+        CLog::Log(LOGERROR, "GUI Shader [%s] - Initialise failed", ShaderNames[i]);
+      }
+      else
+      {
+        CLog::Log(LOGDEBUG, "GUI Shader [%s]- Initialise successful : %p", ShaderNames[i], m_pGUIshader[i]);
+      }
+    }
+  }
+  else
+  {
+    CLog::Log(LOGDEBUG, "GUI Shader - Tried to Initialise again. Was this intentional?");
+  }
+}
+
+void CRenderSystemGL::EnableGUIShader(ESHADERMETHOD method)
+{
+  m_method = method;
+  if (m_pGUIshader[m_method])
+  {
+    m_pGUIshader[m_method]->Enable();
+  }
+  else
+  {
+    CLog::Log(LOGERROR, "Invalid GUI Shader selected - [%s]", ShaderNames[(int)method]);
+  }
+}
+
+void CRenderSystemGL::DisableGUIShader()
+{
+  if (m_pGUIshader[m_method])
+  {
+    m_pGUIshader[m_method]->Disable();
+  }
+  m_method = SM_DEFAULT;
+}
+
+GLint CRenderSystemGL::GUIShaderGetPos()
+{
+  if (m_pGUIshader[m_method])
+    return m_pGUIshader[m_method]->GetPosLoc();
+
+  return -1;
+}
+
+GLint CRenderSystemGL::GUIShaderGetCol()
+{
+  if (m_pGUIshader[m_method])
+    return m_pGUIshader[m_method]->GetColLoc();
+
+  return -1;
+}
+
+GLint CRenderSystemGL::GUIShaderGetCoord0()
+{
+  if (m_pGUIshader[m_method])
+    return m_pGUIshader[m_method]->GetCord0Loc();
+
+  return -1;
+}
+
+GLint CRenderSystemGL::GUIShaderGetCoord1()
+{
+  if (m_pGUIshader[m_method])
+    return m_pGUIshader[m_method]->GetCord1Loc();
+
+  return -1;
 }
 
 #endif

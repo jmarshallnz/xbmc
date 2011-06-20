@@ -107,7 +107,7 @@ void CGLTexture::LoadToGPU()
     break;
   case XB_FMT_A8R8G8B8:
   default:
-    format = GL_BGRA;
+    format = GL_RGBA;
     break;
   }
 

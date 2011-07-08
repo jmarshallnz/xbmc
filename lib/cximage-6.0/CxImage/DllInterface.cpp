@@ -285,6 +285,80 @@ extern "C"
 	  return false;
   }
 
+  __declspec(dllexport) bool LoadImageFromMemory(BYTE *buffer, unsigned int size, const char *ext, unsigned int maxwidth, unsigned int maxheight, ImageInfo *info)
+  {
+    if (!buffer || !size || !ext) return false;
+    // load the image
+    DWORD dwImageType = CXIMAGE_FORMAT_UNKNOWN;
+    if (strlen(ext)) {
+      dwImageType = GetImageType(ext);
+      if (dwImageType == CXIMAGE_FORMAT_UNKNOWN)
+        dwImageType = DetectFileType(buffer, size);
+    }
+    else
+      dwImageType = DetectFileType(buffer, size);
+    if (dwImageType == CXIMAGE_FORMAT_UNKNOWN)
+    {
+      printf("PICTURE::LoadImageFromMemory: Unable to determine image type.");
+      return false;
+    }
+    CxImage *image = new CxImage(dwImageType);
+    if (!image) return false;
+
+    int actualwidth = maxwidth;
+    int actualheight = maxheight;
+
+    try
+    {
+      bool success = image->Decode(buffer, size, dwImageType);
+      if (!success && dwImageType != CXIMAGE_FORMAT_UNKNOWN)
+      { // try to decode with unknown imagetype
+        success = image->Decode(buffer, size, CXIMAGE_FORMAT_UNKNOWN);
+      }
+      if (!success || !image->IsValid())
+      {
+#if !defined(_LINUX) && !defined(__APPLE__)
+	    int nErr = GetLastError();
+#else
+	    int nErr = errno;
+#endif
+        printf("PICTURE::LoadImageFromMemory: Unable to decode image. Error:%s (%d)\n", image->GetLastError(), nErr);
+        delete image;
+        return false;
+      }
+    }
+    catch (...)
+    {
+      printf("PICTURE::LoadImageFromMemory: Unable to open image\n");
+      delete image;
+      return false;
+    }
+
+    // ok, now resample the image down if necessary
+    if (ResampleKeepAspect(*image, maxwidth, maxheight) < 0)
+    {
+      printf("PICTURE::LoadImageFromMemory: Unable to resample picture\n");
+      delete image;
+      return false;
+    }
+
+    // make sure our image is 24bit minimum
+    image->IncreaseBpp(24);
+
+    // fill in our struct
+    info->width = image->GetWidth();
+    info->height = image->GetHeight();
+    info->originalwidth = actualwidth;
+    info->originalheight = actualheight;
+    memcpy(&info->exifInfo, image->GetExifInfo(), sizeof(EXIFINFO));
+
+    // create our texture
+    info->context = image;
+    info->texture = image->GetBits();
+    info->alpha = image->AlphaGetBits();
+    return (info->texture != NULL);
+  };
+
   __declspec(dllexport) bool LoadImage(const char *file, unsigned int maxwidth, unsigned int maxheight, ImageInfo *info)
   {
     if (!file || !info) return false;

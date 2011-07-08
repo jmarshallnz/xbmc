@@ -26,9 +26,9 @@
 #include "pictures/DllImageLib.h"
 #include "DDSImage.h"
 #include "filesystem/SpecialProtocol.h"
+#include "filesystem/File.h"
 #if defined(__APPLE__) && defined(__arm__)
 #include <ImageIO/ImageIO.h>
-#include "filesystem/File.h"
 #include "osx/DarwinUtils.h"
 #endif
 
@@ -170,9 +170,8 @@ bool CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned int maxW
     return false;
   }
 
-#if defined(__APPLE__) && defined(__arm__)
   XFILE::CFile file;
-  UInt8 *imageBuff      = NULL;
+  uint8_t *imageBuff      = NULL;
   int64_t imageBuffSize = 0;
 
   //open path and read data to buffer
@@ -181,7 +180,7 @@ bool CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned int maxW
   if (file.Open(texturePath, 0))
   {
     imageBuffSize =file.GetLength();
-    imageBuff = new UInt8[imageBuffSize];
+    imageBuff = new uint8_t[(size_t)imageBuffSize];
     imageBuffSize = file.Read(imageBuff, imageBuffSize);
     file.Close();
   }
@@ -198,6 +197,7 @@ bool CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned int maxW
     return false;
   }
 
+#if defined(__APPLE__) && defined(__arm__)
   // create the image from buffer;
   CGImageSourceRef imageSource;
   // create a CFDataRef using CFDataCreateWithBytesNoCopy and kCFAllocatorNull for deallocator.
@@ -295,19 +295,20 @@ bool CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned int maxW
   CGContextRelease(context);
   CGImageRelease(image);
   CFRelease(cfdata);
-  delete [] imageBuff;
 #else
   DllImageLib dll;
   if (!dll.Load())
+  {
+    delete[] imageBuff;
     return false;
-
+  }
   ImageInfo image;
   memset(&image, 0, sizeof(image));
 
   unsigned int width = maxWidth ? std::min(maxWidth, g_Windowing.GetMaxTextureSize()) : g_Windowing.GetMaxTextureSize();
   unsigned int height = maxHeight ? std::min(maxHeight, g_Windowing.GetMaxTextureSize()) : g_Windowing.GetMaxTextureSize();
 
-  if(!dll.LoadImage(texturePath.c_str(), width, height, &image))
+  if(!dll.LoadImageFromMemory(imageBuff, (unsigned int)imageBuffSize, URIUtils::GetExtension(texturePath).c_str(), width, height, &image))
   {
     CLog::Log(LOGERROR, "Texture manager unable to load file: %s", texturePath.c_str());
     return false;
@@ -362,6 +363,7 @@ bool CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned int maxW
   }
   dll.ReleaseImage(&image);
 #endif
+  delete [] imageBuff;
 
   ClampToEdge();
 

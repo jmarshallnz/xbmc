@@ -73,7 +73,7 @@ bool CGUIDialogTeletext::OnMessage(CGUIMessage& message)
   return CGUIDialog::OnMessage(message);
 }
 
-void CGUIDialogTeletext::Render(const CRect *bounds)
+void CGUIDialogTeletext::Render(const CRect *bounds, CGUIControl const *start)
 {
   // Do not render if we have no texture
   if (!m_pTxtTexture)
@@ -108,7 +108,7 @@ void CGUIDialogTeletext::Render(const CRect *bounds)
   color_t color = ((color_t)(teletextFadeAmount * 2.55f) & 0xff) << 24 | 0xFFFFFF;
   CGUITexture::DrawQuad(m_vertCoords, color, m_pTxtTexture);
 
-  CGUIDialog::Render(bounds);
+  CGUIDialog::Render(bounds, start);
 }
 
 void CGUIDialogTeletext::OnInitWindow()

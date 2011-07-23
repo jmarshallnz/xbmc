@@ -71,10 +71,10 @@ void CGUIDialogVolumeBar::ResetTimer()
   m_timer = CTimeUtils::GetFrameTime();
 }
 
-void CGUIDialogVolumeBar::Render(const CRect *bounds)
+void CGUIDialogVolumeBar::Render(const CRect *bounds, CGUIControl const *start)
 {
   // and render the controls
-  CGUIDialog::Render(bounds);
+  CGUIDialog::Render(bounds, start);
   // now check if we should exit
   if (CTimeUtils::GetFrameTime() - m_timer > VOLUME_BAR_DISPLAY_TIME)
   {

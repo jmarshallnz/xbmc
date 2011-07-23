@@ -477,7 +477,7 @@ void CGUIWindowSlideShow::Process(unsigned int currentTime, CDirtyRegionList &re
   CGUIWindow::Process(currentTime, regions);
 }
 
-void CGUIWindowSlideShow::Render(const CRect *bounds)
+void CGUIWindowSlideShow::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (m_Image[m_iCurrentPic].IsLoaded())
     m_Image[m_iCurrentPic].Render();
@@ -486,7 +486,7 @@ void CGUIWindowSlideShow::Render(const CRect *bounds)
     m_Image[1 - m_iCurrentPic].Render();
 
   RenderErrorMessage();
-  CGUIWindow::Render(bounds);
+  CGUIWindow::Render(bounds, start);
 }
 
 int CGUIWindowSlideShow::GetNextSlide()

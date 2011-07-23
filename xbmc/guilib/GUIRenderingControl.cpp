@@ -89,7 +89,7 @@ void CGUIRenderingControl::Process(unsigned int currentTime, CDirtyRegionList &d
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIRenderingControl::Render(const CRect *bounds)
+void CGUIRenderingControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   CSingleLock lock(m_rendering);
   if (m_addon)
@@ -104,7 +104,7 @@ void CGUIRenderingControl::Render(const CRect *bounds)
     g_graphicsContext.RestoreViewPort();
   }
 
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 void CGUIRenderingControl::FreeResources(bool immediately)

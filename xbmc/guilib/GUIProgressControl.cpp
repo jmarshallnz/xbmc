@@ -168,7 +168,7 @@ void CGUIProgressControl::Process(unsigned int currentTime, CDirtyRegionList &di
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIProgressControl::Render(const CRect *bounds)
+void CGUIProgressControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (!IsDisabled())
   {
@@ -206,7 +206,7 @@ void CGUIProgressControl::Render(const CRect *bounds)
     m_guiOverlay.Render();
   }
 
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 

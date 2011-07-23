@@ -863,11 +863,11 @@ void CGUIWindowFullScreen::Process(unsigned int currentTime, CDirtyRegionList &d
   m_renderRegion.SetRect(0, 0, (float)g_graphicsContext.GetWidth(), (float)g_graphicsContext.GetHeight());
 }
 
-void CGUIWindowFullScreen::Render(const CRect *bounds)
+void CGUIWindowFullScreen::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (g_application.m_pPlayer)
     RenderTTFSubtitles();
-  CGUIWindow::Render(bounds);
+  CGUIWindow::Render(bounds, start);
 }
 
 void CGUIWindowFullScreen::RenderTTFSubtitles()

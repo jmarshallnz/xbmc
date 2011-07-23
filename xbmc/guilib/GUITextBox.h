@@ -51,7 +51,7 @@ public:
 
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
   virtual bool OnMessage(CGUIMessage& message);
 
   void SetPageControl(int pageControl);

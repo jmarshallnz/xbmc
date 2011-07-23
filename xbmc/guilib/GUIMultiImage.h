@@ -45,7 +45,7 @@ public:
   virtual CGUIMultiImage *Clone() const { return new CGUIMultiImage(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
   virtual void UpdateVisibility(const CGUIListItem *item = NULL);
   virtual void UpdateInfo(const CGUIListItem *item = NULL);
   virtual bool OnAction(const CAction &action);

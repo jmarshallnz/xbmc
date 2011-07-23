@@ -36,7 +36,7 @@ public:
   virtual ~CGUIWindowTestPattern(void);
   virtual bool OnMessage(CGUIMessage& message);
   virtual bool OnAction(const CAction &action);
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
 
 protected:
   virtual void DrawVerticalLines(int top, int left, int bottom, int right) = 0;

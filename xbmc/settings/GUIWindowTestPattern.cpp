@@ -70,7 +70,7 @@ bool CGUIWindowTestPattern::OnMessage(CGUIMessage& message)
   return CGUIWindow::OnMessage(message);
 }
 
-void CGUIWindowTestPattern::Render(const CRect *bounds)
+void CGUIWindowTestPattern::Render(const CRect *bounds, CGUIControl const *start)
 {
   BeginRender();
 
@@ -104,6 +104,6 @@ void CGUIWindowTestPattern::Render(const CRect *bounds)
 
   EndRender();
 
-  CGUIWindow::Render(bounds);
+  CGUIWindow::Render(bounds, start);
 }
 

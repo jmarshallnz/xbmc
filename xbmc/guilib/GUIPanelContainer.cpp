@@ -96,7 +96,7 @@ void CGUIPanelContainer::Process(unsigned int currentTime, CDirtyRegionList &dir
 }
 
 
-void CGUIPanelContainer::Render(const CRect *bounds)
+void CGUIPanelContainer::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (!m_layout || !m_focusedLayout) return;
 
@@ -164,7 +164,7 @@ void CGUIPanelContainer::Render(const CRect *bounds)
 
   g_graphicsContext.RestoreClipRegion();
 
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 bool CGUIPanelContainer::OnAction(const CAction &action)

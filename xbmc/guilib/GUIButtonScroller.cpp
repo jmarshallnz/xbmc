@@ -316,7 +316,7 @@ void CGUIButtonScroller::Process(unsigned int currentTime, CDirtyRegionList &dir
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIButtonScroller::Render(const CRect *bounds)
+void CGUIButtonScroller::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (m_bInvalidated)
   {
@@ -480,7 +480,7 @@ void CGUIButtonScroller::Render(const CRect *bounds)
 
   // reset the viewport
   g_graphicsContext.RestoreClipRegion();
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 int CGUIButtonScroller::GetNext(int iCurrent) const

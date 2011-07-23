@@ -32,7 +32,7 @@ public:
   virtual bool OnAction(const CAction &action);
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
   virtual void FrameMove();
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
   virtual void AllocResources(bool forceLoad = false);
   virtual void FreeResources(bool forceUnLoad = false);
 

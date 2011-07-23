@@ -161,11 +161,11 @@ bool CGUIFadeLabelControl::UpdateColors()
   return changed;
 }
 
-void CGUIFadeLabelControl::Render(const CRect *bounds)
+void CGUIFadeLabelControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (!m_label.font)
   { // nothing to render
-    CGUIControl::Render(bounds);
+    CGUIControl::Render(bounds, start);
     return ;
   }
 
@@ -180,7 +180,7 @@ void CGUIFadeLabelControl::Render(const CRect *bounds)
     else if (m_label.align & XBFONT_RIGHT)
       posX = m_posX + m_width;
     m_textLayout.Render(posX, posY, 0, m_label.textColor, m_label.shadowColor, m_label.align, m_width - m_label.offsetX);
-    CGUIControl::Render(bounds);
+    CGUIControl::Render(bounds, start);
     return;
   }
 
@@ -198,7 +198,7 @@ void CGUIFadeLabelControl::Render(const CRect *bounds)
   else
     m_textLayout.RenderScrolling(m_posX, posY, 0, m_label.textColor, m_label.shadowColor, (m_label.align & ~3), m_width, m_scrollInfo);
   g_graphicsContext.RemoveTransform();
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 

@@ -61,7 +61,7 @@ void CSplash::Show()
   //render splash image
   g_Windowing.BeginRender();
 
-  image->Render(NULL);
+  image->Render(NULL, NULL);
   image->FreeResources();
   delete image;
 

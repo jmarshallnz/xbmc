@@ -38,7 +38,7 @@ public:
   virtual CGUIMultiSelectTextControl *Clone() const { return new CGUIMultiSelectTextControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
 
   virtual bool OnAction(const CAction &action);
   virtual void OnLeft();

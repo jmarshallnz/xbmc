@@ -96,7 +96,7 @@ void CGUIRSSControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyre
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIRSSControl::Render(const CRect *bounds)
+void CGUIRSSControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   // only render the control if they are enabled
   if (g_guiSettings.GetBool("lookandfeel.enablerssfeeds") && g_rssManager.IsActive())
@@ -139,7 +139,7 @@ void CGUIRSSControl::Render(const CRect *bounds)
       m_pReader->m_SavedScrollPos = m_scrollInfo.characterPos;
     }
   }
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 CRect CGUIRSSControl::CalcRenderRegion() const

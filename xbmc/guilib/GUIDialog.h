@@ -44,7 +44,7 @@ public:
   virtual bool OnMessage(CGUIMessage& message);
   virtual void FrameMove();
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
 
   void DoModal(int iWindowID = WINDOW_INVALID, const CStdString &param = ""); // modal
   void Show(); // modeless

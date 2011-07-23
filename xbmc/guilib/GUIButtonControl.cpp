@@ -89,7 +89,7 @@ void CGUIButtonControl::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIButtonControl::Render(const CRect *bounds)
+void CGUIButtonControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   m_imgFocus.Render();
   m_imgNoFocus.Render();
@@ -97,7 +97,7 @@ void CGUIButtonControl::Render(const CRect *bounds)
   m_label.Render();
   m_label2.Render();
 
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 CGUILabel::COLOR CGUIButtonControl::GetTextColor() const

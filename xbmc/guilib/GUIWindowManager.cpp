@@ -532,7 +532,7 @@ void CGUIWindowManager::RenderPass(const CRect *rect)
   if (pWindow)
   {
     pWindow->ClearBackground();
-    pWindow->DoRender(rect);
+    pWindow->DoRender(rect, NULL);
   }
 
   // we render the dialogs based on their render order.
@@ -542,7 +542,7 @@ void CGUIWindowManager::RenderPass(const CRect *rect)
   for (iDialog it = renderList.begin(); it != renderList.end(); ++it)
   {
     if ((*it)->IsDialogRunning())
-      (*it)->DoRender(rect);
+      (*it)->DoRender(rect, NULL);
   }
 }
 

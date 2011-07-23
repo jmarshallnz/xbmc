@@ -95,7 +95,7 @@ void CGUIListItemLayout::Process(CGUIListItem *item, int parentID, unsigned int 
 
 void CGUIListItemLayout::Render(CGUIListItem *item, int parentID)
 {
-  m_group.DoRender(NULL);
+  m_group.DoRender(NULL, NULL);
 }
 
 void CGUIListItemLayout::SetFocusedItem(unsigned int focus)

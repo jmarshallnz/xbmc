@@ -146,7 +146,7 @@ void CGUISelectButtonControl::Process(unsigned int currentTime, CDirtyRegionList
     CGUIButtonControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISelectButtonControl::Render(const CRect *bounds)
+void CGUISelectButtonControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (m_bShowSelect)
   {
@@ -168,12 +168,12 @@ void CGUISelectButtonControl::Render(const CRect *bounds)
     if (m_iCurrentItem >= 0 && (unsigned)m_iCurrentItem < m_vecItems.size())
       m_label.Render();
 
-    CGUIControl::Render(bounds);
+    CGUIControl::Render(bounds, start);
   } // if (m_bShowSelect)
   else
   {
     // No, render a normal button
-    CGUIButtonControl::Render(bounds);
+    CGUIButtonControl::Render(bounds, start);
   }
 }
 

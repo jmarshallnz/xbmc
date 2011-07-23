@@ -296,7 +296,7 @@ void CGUIWindow::DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregi
     CLog::Log(LOGERROR, "Unbalanced UI transforms (was %d)", size);
 }
 
-void CGUIWindow::DoRender(const CRect *bounds)
+void CGUIWindow::DoRender(const CRect *bounds, CGUIControl const *start)
 {
   // If we're rendering from a different thread, then we should wait for the main
   // app thread to finish AllocResources(), as dynamic resources (images in particular)
@@ -307,7 +307,7 @@ void CGUIWindow::DoRender(const CRect *bounds)
   g_graphicsContext.SetRenderingResolution(m_coordsRes, m_needsScaling);
 
   unsigned int size = g_graphicsContext.AddGUITransform();
-  CGUIControlGroup::DoRender(bounds);
+  CGUIControlGroup::DoRender(bounds, start);
   if (size != g_graphicsContext.RemoveTransform())
     CLog::Log(LOGERROR, "Unbalanced UI transforms (was %d)", size);
 

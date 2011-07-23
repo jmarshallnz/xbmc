@@ -178,14 +178,14 @@ void CGUIControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyregio
 // 1. set the animation transform
 // 2. paint
 // 3. reset the animation transform
-void CGUIControl::DoRender(const CRect *bounds)
+void CGUIControl::DoRender(const CRect *bounds, CGUIControl const *start)
 {
   g_graphicsContext.SetTransform(m_cachedTransform);
   if (m_hasCamera)
     g_graphicsContext.SetCameraPosition(m_camera);
 
   GUIPROFILER_RENDER_BEGIN(this);
-  Render(bounds);
+  Render(bounds, start);
   GUIPROFILER_RENDER_END(this);
 
   if (m_hasCamera)
@@ -193,7 +193,7 @@ void CGUIControl::DoRender(const CRect *bounds)
   g_graphicsContext.RemoveTransform();
 }
 
-void CGUIControl::Render(const CRect *bounds)
+void CGUIControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   m_bInvalidated = false;
   m_hasRendered = true;

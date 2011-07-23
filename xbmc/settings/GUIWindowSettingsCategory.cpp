@@ -2043,9 +2043,9 @@ void CGUIWindowSettingsCategory::DoProcess(unsigned int currentTime, CDirtyRegio
   }
 }
 
-void CGUIWindowSettingsCategory::Render(const CRect *bounds)
+void CGUIWindowSettingsCategory::Render(const CRect *bounds, CGUIControl const *start)
 {
-  CGUIWindow::Render(bounds);
+  CGUIWindow::Render(bounds, start);
   // render the error message if necessary
   if (m_strErrorMessage.size())
   {

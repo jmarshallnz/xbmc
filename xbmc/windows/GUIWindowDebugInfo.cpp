@@ -153,7 +153,7 @@ void CGUIWindowDebugInfo::Process(unsigned int currentTime, CDirtyRegionList &di
   m_renderRegion.SetRect(x, y, x+w, y+h);
 }
 
-void CGUIWindowDebugInfo::Render(const CRect *bounds)
+void CGUIWindowDebugInfo::Render(const CRect *bounds, CGUIControl const *start)
 {
   g_graphicsContext.SetRenderingResolution(g_graphicsContext.GetResInfo(), false);
   if (m_layout)

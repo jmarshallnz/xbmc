@@ -55,7 +55,7 @@ void CGUICheckMarkControl::Process(unsigned int currentTime, CDirtyRegionList &d
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUICheckMarkControl::Render(const CRect *bounds)
+void CGUICheckMarkControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   m_label.SetText(m_strLabel);
 
@@ -85,7 +85,7 @@ void CGUICheckMarkControl::Render(const CRect *bounds)
     m_imgCheckMarkNoFocus.SetPosition(checkMarkPosX, m_posY);
     m_imgCheckMarkNoFocus.Render();
   }
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 CGUILabel::COLOR CGUICheckMarkControl::GetTextColor() const

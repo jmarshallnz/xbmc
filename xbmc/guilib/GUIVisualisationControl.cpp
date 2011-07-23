@@ -91,7 +91,7 @@ bool CGUIVisualisationControl::OnAction(const CAction &action)
   }
 }
 
-void CGUIVisualisationControl::Render(const CRect *bounds)
+void CGUIVisualisationControl::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (g_application.IsPlayingAudio())
   {
@@ -107,7 +107,7 @@ void CGUIVisualisationControl::Render(const CRect *bounds)
       m_bAttemptedLoad = true;
     }
   }
-  CGUIRenderingControl::Render(bounds);
+  CGUIRenderingControl::Render(bounds, start);
 }
 
 void CGUIVisualisationControl::FreeResources(bool immediately)

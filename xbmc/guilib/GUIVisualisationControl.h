@@ -29,7 +29,7 @@ public:
   CGUIVisualisationControl(const CGUIVisualisationControl &from);
   virtual CGUIVisualisationControl *Clone() const { return new CGUIVisualisationControl(*this); }; //TODO check for naughties
   virtual void FreeResources(bool immediately = false);
-  virtual void Render(const CRect *bounds);
+  virtual void Render(const CRect *bounds, CGUIControl const *start);
   virtual bool OnAction(const CAction &action);
   virtual bool OnMessage(CGUIMessage &message);
 private:

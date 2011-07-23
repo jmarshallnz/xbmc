@@ -78,8 +78,8 @@ public:
 
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void DoRender(const CRect *bounds);
-  virtual void Render(const CRect *bounds)=0;
+  virtual void DoRender(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const *start)=0;
 
   bool HasRendered() const { return m_hasRendered; };
 

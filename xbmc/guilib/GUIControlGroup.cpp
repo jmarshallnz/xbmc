@@ -115,7 +115,7 @@ void CGUIControlGroup::Process(unsigned int currentTime, CDirtyRegionList &dirty
   m_renderRegion = rect;
 }
 
-void CGUIControlGroup::Render(const CRect *bounds)
+void CGUIControlGroup::Render(const CRect *bounds, CGUIControl const *start)
 {
   vector<CGUIControl *> children;
   GetRenderOrder(children, bounds);
@@ -123,9 +123,16 @@ void CGUIControlGroup::Render(const CRect *bounds)
   CPoint pos(GetPosition());
   g_graphicsContext.SetOrigin(pos.x, pos.y);
   for (iControls it = children.begin(); it != children.end(); ++it)
-    (*it)->DoRender(bounds);
+  {
+    CGUIControl *control = *it;
+    if (control == start || !start)
+    {
+      start = NULL;
+      control->DoRender(bounds, start);
+    }
+  }
 
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
   g_graphicsContext.RestoreOrigin();
 }
 

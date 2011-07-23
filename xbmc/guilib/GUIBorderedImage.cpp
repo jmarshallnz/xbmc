@@ -56,11 +56,11 @@ void CGUIBorderedImage::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUIImage::Process(currentTime, dirtyregions);
 }
 
-void CGUIBorderedImage::Render(const CRect *bounds)
+void CGUIBorderedImage::Render(const CRect *bounds, CGUIControl const *start)
 {
   if (!m_borderImage.GetFileName().IsEmpty() && m_texture.ReadyToRender())
     m_borderImage.Render();
-  CGUIImage::Render(bounds);
+  CGUIImage::Render(bounds, start);
 }
 
 CRect CGUIBorderedImage::CalcRenderRegion() const

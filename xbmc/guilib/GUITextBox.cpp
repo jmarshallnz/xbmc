@@ -191,7 +191,7 @@ void CGUITextBox::Process(unsigned int currentTime, CDirtyRegionList &dirtyregio
     g_graphicsContext.RemoveTransform();
 }
 
-void CGUITextBox::Render(const CRect *bounds)
+void CGUITextBox::Render(const CRect *bounds, CGUIControl const *start)
 {
   // render the repeat anim as appropriate
   if (m_autoScrollRepeatAnim)
@@ -231,7 +231,7 @@ void CGUITextBox::Render(const CRect *bounds)
   }
   if (m_autoScrollRepeatAnim)
     g_graphicsContext.RemoveTransform();
-  CGUIControl::Render(bounds);
+  CGUIControl::Render(bounds, start);
 }
 
 bool CGUITextBox::OnMessage(CGUIMessage& message)

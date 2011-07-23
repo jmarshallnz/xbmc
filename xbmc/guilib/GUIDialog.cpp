@@ -267,12 +267,12 @@ void CGUIDialog::FrameMove()
   CGUIWindow::FrameMove();
 }
 
-void CGUIDialog::Render()
+void CGUIDialog::Render(const CRect *bounds)
 {
   if (!m_bRunning)
     return;
 
-  CGUIWindow::Render();
+  CGUIWindow::Render(bounds);
   // Check to see if we should close at this point
   // We check after the controls have finished rendering, as we may have to close due to
   // the controls rendering after the window has finished it's animation

@@ -434,7 +434,7 @@ void CGUISpinControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyr
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISpinControl::Render()
+void CGUISpinControl::Render(const CRect *bounds)
 {
   if ( HasFocus() )
   {
@@ -469,7 +469,7 @@ void CGUISpinControl::Render()
     // set our hit rectangle for MouseOver events
     m_hitRect = m_label.GetRenderRect();
   }
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 void CGUISpinControl::RenderText(float posX, float width)

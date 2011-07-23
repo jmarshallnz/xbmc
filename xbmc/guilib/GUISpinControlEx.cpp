@@ -75,10 +75,10 @@ void CGUISpinControlEx::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUISpinControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISpinControlEx::Render()
+void CGUISpinControlEx::Render(const CRect *bounds)
 {
-  m_buttonControl.Render();
-  CGUISpinControl::Render();
+  m_buttonControl.Render(bounds);
+  CGUISpinControl::Render(bounds);
 }
 
 void CGUISpinControlEx::SetPosition(float posX, float posY)

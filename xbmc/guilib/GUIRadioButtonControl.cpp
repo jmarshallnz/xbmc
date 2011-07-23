@@ -43,9 +43,9 @@ CGUIRadioButtonControl::CGUIRadioButtonControl(int parentID, int controlID, floa
 CGUIRadioButtonControl::~CGUIRadioButtonControl(void)
 {}
 
-void CGUIRadioButtonControl::Render()
+void CGUIRadioButtonControl::Render(const CRect *bounds)
 {
-  CGUIButtonControl::Render();
+  CGUIButtonControl::Render(bounds);
 
   if ( IsSelected() && !IsDisabled() )
     m_imgRadioOn.Render();

@@ -161,7 +161,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIImage::Render()
+void CGUIImage::Render(const CRect *bounds)
 {
   if (!IsVisible()) return;
 
@@ -170,7 +170,7 @@ void CGUIImage::Render()
 
   m_texture.Render();
 
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 bool CGUIImage::ProcessFading(CGUIImage::CFadingTexture *texture, unsigned int frameTime, unsigned int currentTime)

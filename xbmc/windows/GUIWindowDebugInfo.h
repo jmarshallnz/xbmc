@@ -35,7 +35,7 @@ public:
   CGUIWindowDebugInfo();
   virtual ~CGUIWindowDebugInfo();
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual bool OnMessage(CGUIMessage &message);
 protected:
   virtual void UpdateVisibility();

@@ -112,10 +112,10 @@ bool CGUIWindowKaraokeLyrics::OnMessage(CGUIMessage& message)
 }
 
 
-void CGUIWindowKaraokeLyrics::Render()
+void CGUIWindowKaraokeLyrics::Render(const CRect *bounds)
 {
   g_application.ResetScreenSaver();
-  CGUIWindow::Render();
+  CGUIWindow::Render(bounds);
 
   CSingleLock lock (m_CritSection);
 

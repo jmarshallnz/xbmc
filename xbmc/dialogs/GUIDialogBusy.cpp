@@ -56,11 +56,11 @@ void CGUIDialogBusy::DoProcess(unsigned int currentTime, CDirtyRegionList &dirty
   CGUIDialog::DoProcess(currentTime, dirtyregions);
 }
 
-void CGUIDialogBusy::Render()
+void CGUIDialogBusy::Render(const CRect *bounds)
 {
   if(!m_bLastVisible)
     return;
-  CGUIDialog::Render();
+  CGUIDialog::Render(bounds);
 }
 
 bool CGUIDialogBusy::OnAction(const CAction &action)

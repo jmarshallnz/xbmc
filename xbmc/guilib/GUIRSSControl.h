@@ -60,7 +60,7 @@ public:
   virtual CGUIRSSControl *Clone() const { return new CGUIRSSControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual void OnFeedUpdate(const vecText &feed);
   virtual void OnFeedRelease();
   virtual bool CanFocus() const { return false; };

@@ -35,7 +35,7 @@ public:
   virtual bool OnMessage(CGUIMessage &message);
   virtual bool OnAction(const CAction &action);
   virtual void FrameMove();
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
   virtual int GetID() const { return CGUIWindow::GetID() + m_iScreen; };
 

@@ -66,7 +66,7 @@ void CGUISliderControl::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISliderControl::Render()
+void CGUISliderControl::Render(const CRect *bounds)
 {
   m_guiBackground.SetPosition( m_posX, m_posY );
   int infoCode = m_iInfoCode;
@@ -97,7 +97,7 @@ void CGUISliderControl::Render()
   nib.SetHeight(nib.GetTextureHeight() * fScaleY);
   nib.Render();
 
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 bool CGUISliderControl::OnMessage(CGUIMessage& message)

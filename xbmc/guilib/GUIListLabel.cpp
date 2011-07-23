@@ -81,10 +81,10 @@ void CGUIListLabel::Process(unsigned int currentTime, CDirtyRegionList &dirtyreg
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIListLabel::Render()
+void CGUIListLabel::Render(const CRect *bounds)
 {
   m_label.Render();
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 void CGUIListLabel::UpdateInfo(const CGUIListItem *item)

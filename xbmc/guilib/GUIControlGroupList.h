@@ -40,7 +40,7 @@ public:
   virtual CGUIControlGroupList *Clone() const { return new CGUIControlGroupList(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual bool OnMessage(CGUIMessage& message);
 
   virtual EVENT_RESULT SendMouseEvent(const CPoint &point, const CMouseEvent &event);

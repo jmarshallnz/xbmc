@@ -526,13 +526,13 @@ void CGUIWindowManager::MarkDirty()
   m_tracker.MarkDirtyRegion(CRect(0, 0, (float)g_graphicsContext.GetWidth(), (float)g_graphicsContext.GetHeight()));
 }
 
-void CGUIWindowManager::RenderPass()
+void CGUIWindowManager::RenderPass(const CRect *rect)
 {
   CGUIWindow* pWindow = GetWindow(GetActiveWindow());
   if (pWindow)
   {
     pWindow->ClearBackground();
-    pWindow->DoRender();
+    pWindow->DoRender(rect);
   }
 
   // we render the dialogs based on their render order.
@@ -542,7 +542,7 @@ void CGUIWindowManager::RenderPass()
   for (iDialog it = renderList.begin(); it != renderList.end(); ++it)
   {
     if ((*it)->IsDialogRunning())
-      (*it)->DoRender();
+      (*it)->DoRender(rect);
   }
 }
 
@@ -568,7 +568,7 @@ bool CGUIWindowManager::Render()
         continue;
 
       g_graphicsContext.SetScissors(*i);
-      RenderPass();
+      RenderPass(&(*i));
       hasRendered = true;
     }
     g_graphicsContext.ResetScissors();

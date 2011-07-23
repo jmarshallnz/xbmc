@@ -83,7 +83,7 @@ public:
   bool InSlideShow() const;
   virtual bool OnMessage(CGUIMessage& message);
   virtual bool OnAction(const CAction &action);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual void Process(unsigned int currentTime, CDirtyRegionList &regions);
   virtual void FreeResources();
   void OnLoadPic(int iPic, int iSlideNumber, CBaseTexture* pTexture, int iOriginalWidth, int iOriginalHeight, bool bFullSize);

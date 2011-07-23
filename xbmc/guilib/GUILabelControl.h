@@ -45,7 +45,7 @@ public:
   virtual CGUILabelControl *Clone() const { return new CGUILabelControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual void UpdateInfo(const CGUIListItem *item = NULL);
   virtual bool CanFocus() const;
   virtual bool OnMessage(CGUIMessage& message);

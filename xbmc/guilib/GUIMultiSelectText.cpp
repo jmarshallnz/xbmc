@@ -106,7 +106,7 @@ void CGUIMultiSelectTextControl::Process(unsigned int currentTime, CDirtyRegionL
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIMultiSelectTextControl::Render()
+void CGUIMultiSelectTextControl::Render(const CRect *bounds)
 {
   // clip and set our scrolling origin
   bool clip(m_width < m_totalWidth);
@@ -119,7 +119,7 @@ void CGUIMultiSelectTextControl::Render()
 
   // render the buttons
   for (unsigned int i = 0; i < m_buttons.size(); i++)
-    m_buttons[i].DoRender();
+    m_buttons[i].DoRender(bounds);
 
   // position the text - we center vertically if applicable, and use the offsets.
   // all x-alignment is ignored for now (see constructor)
@@ -151,7 +151,7 @@ void CGUIMultiSelectTextControl::Render()
   if (clip)
     g_graphicsContext.RestoreClipRegion();
 
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 void CGUIMultiSelectTextControl::UpdateInfo(const CGUIListItem *item)

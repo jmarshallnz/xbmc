@@ -115,28 +115,28 @@ void CGUIControlGroup::Process(unsigned int currentTime, CDirtyRegionList &dirty
   m_renderRegion = rect;
 }
 
-void CGUIControlGroup::Render()
+void CGUIControlGroup::Render(const CRect *bounds)
 {
   vector<CGUIControl *> children;
-  GetRenderOrder(children);
+  GetRenderOrder(children, bounds);
 
   CPoint pos(GetPosition());
   g_graphicsContext.SetOrigin(pos.x, pos.y);
   for (iControls it = children.begin(); it != children.end(); ++it)
-    (*it)->DoRender();
+    (*it)->DoRender(bounds);
 
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
   g_graphicsContext.RestoreOrigin();
 }
 
-void CGUIControlGroup::GetRenderOrder(vector<CGUIControl *> &renderList) const
+void CGUIControlGroup::GetRenderOrder(vector<CGUIControl *> &renderList, const CRect *bounds) const
 {
   CGUIControl *focusedControl = NULL;
   renderList.reserve(m_children.size());
   for (ciControls i = m_children.begin(); i != m_children.end(); ++i)
   {
     CGUIControl *control = *i;
-    if (control->IsVisible())
+    if (control->IsVisible() && (!bounds || control->GetRenderRegion().Intersects(*bounds)))
     {
       if (control->HasFocus() && m_renderFocusedLast)
         focusedControl = control;

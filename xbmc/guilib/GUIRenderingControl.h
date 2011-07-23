@@ -31,7 +31,7 @@ public:
   virtual CGUIRenderingControl *Clone() const { return new CGUIRenderingControl(*this); }; //TODO check for naughties
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual void UpdateVisibility(const CGUIListItem *item = NULL);
   virtual void FreeResources(bool immediately = false);
   virtual bool CanFocus() const { return false; }

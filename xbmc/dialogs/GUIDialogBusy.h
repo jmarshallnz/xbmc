@@ -31,7 +31,7 @@ public:
   virtual ~CGUIDialogBusy(void);
   virtual bool OnAction(const CAction &action);
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
 
   bool IsCanceled() { return m_bCanceled; }
 protected:

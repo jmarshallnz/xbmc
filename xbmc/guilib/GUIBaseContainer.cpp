@@ -183,7 +183,7 @@ void CGUIBaseContainer::ProcessItem(float posX, float posY, CGUIListItem *item, 
   g_graphicsContext.RestoreOrigin();
 }
 
-void CGUIBaseContainer::Render()
+void CGUIBaseContainer::Render(const CRect *bounds)
 {
   if (!m_layout || !m_focusedLayout) return;
 
@@ -250,7 +250,7 @@ void CGUIBaseContainer::Render()
 
   UpdatePageControl(offset);
 
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 

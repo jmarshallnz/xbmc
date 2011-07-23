@@ -96,7 +96,7 @@ public:
    is not necessarily re-entrant.
    \sa FrameMove
    */
-  virtual void DoRender();
+  virtual void DoRender(const CRect *bounds);
   
   /*! \brief Main update function, called every frame prior to rendering
    Any window that requires updating on a frame by frame basis (such as to maintain

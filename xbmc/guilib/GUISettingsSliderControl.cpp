@@ -40,14 +40,14 @@ void CGUISettingsSliderControl::Process(unsigned int currentTime, CDirtyRegionLi
   CGUISliderControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISettingsSliderControl::Render()
+void CGUISettingsSliderControl::Render(const CRect *bounds)
 {
   // make sure the button has focus if it should have...
   m_buttonControl.SetFocus(HasFocus());
   m_buttonControl.SetPulseOnSelect(m_pulseOnSelect);
   m_buttonControl.SetEnabled(m_enabled);
-  m_buttonControl.Render();
-  CGUISliderControl::Render();
+  m_buttonControl.Render(bounds);
+  CGUISliderControl::Render(bounds);
 
   // now render our text
   m_label.SetMaxRect(m_buttonControl.GetXPosition(), m_posY, m_posX - m_buttonControl.GetXPosition(), m_height);

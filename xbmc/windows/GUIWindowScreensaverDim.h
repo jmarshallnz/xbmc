@@ -30,7 +30,7 @@ public:
   CGUIWindowScreensaverDim();
   virtual ~CGUIWindowScreensaverDim();
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
 protected:
   virtual void UpdateVisibility();
 private:

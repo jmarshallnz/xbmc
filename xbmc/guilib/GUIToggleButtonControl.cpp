@@ -63,16 +63,16 @@ void CGUIToggleButtonControl::Process(unsigned int currentTime, CDirtyRegionList
   CGUIButtonControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIToggleButtonControl::Render()
+void CGUIToggleButtonControl::Render(const CRect *bounds)
 {
   if (m_bSelected)
   {
-    m_selectButton.Render();
-    CGUIControl::Render();
+    m_selectButton.Render(bounds);
+    CGUIControl::Render(bounds);
   }
   else
   { // render our Normal textures...
-    CGUIButtonControl::Render();
+    CGUIButtonControl::Render(bounds);
   }
 }
 

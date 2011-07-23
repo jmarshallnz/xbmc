@@ -85,12 +85,12 @@ void CGUIMoverControl::Process(unsigned int currentTime, CDirtyRegionList &dirty
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIMoverControl::Render()
+void CGUIMoverControl::Render(const CRect *bounds)
 {
   // render both so the visibility settings cause the frame counter to resetcorrectly
   m_imgFocus.Render();
   m_imgNoFocus.Render();
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 bool CGUIMoverControl::OnAction(const CAction &action)

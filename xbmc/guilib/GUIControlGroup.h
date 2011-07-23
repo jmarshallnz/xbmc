@@ -42,7 +42,8 @@ public:
   virtual CGUIControlGroup *Clone() const { return new CGUIControlGroup(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
+
   virtual bool OnAction(const CAction &action);
   virtual bool OnMessage(CGUIMessage& message);
   virtual bool SendControlMessage(CGUIMessage& message);
@@ -97,10 +98,12 @@ protected:
   bool IsValidControl(const CGUIControl *control) const;
 
   /*! \brief Get the render order of the child controls
-   This gives visible children in the render order that they're displayed in,
+   This gives visible children optionally within the given bounds in the correct render order
    depending on m_renderFocusedLast.
+   \param renderList [out] the resulting controls to render
+   \param bounds the bounds to render within
    */
-  void GetRenderOrder(std::vector<CGUIControl *> &renderList) const;
+  void GetRenderOrder(std::vector<CGUIControl *> &renderList, const CRect *bounds = NULL) const;
 
   // sub controls
   std::vector<CGUIControl *> m_children;

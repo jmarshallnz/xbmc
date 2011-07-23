@@ -83,11 +83,11 @@ void CGUIResizeControl::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIResizeControl::Render()
+void CGUIResizeControl::Render(const CRect *bounds)
 {
   m_imgFocus.Render();
   m_imgNoFocus.Render();
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 bool CGUIResizeControl::OnAction(const CAction &action)

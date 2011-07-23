@@ -49,7 +49,7 @@ public:
   virtual CGUIProgressControl *Clone() const { return new CGUIProgressControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual bool CanFocus() const;
   virtual void AllocResources();
   virtual void FreeResources(bool immediately = false);

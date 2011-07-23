@@ -131,7 +131,7 @@ public:
   void DumpTextureUse();
 #endif
 private:
-  void RenderPass();
+  void RenderPass(const CRect *rect = NULL);
 
   void LoadNotOnDemandWindows();
   void UnloadNotOnDemandWindows();

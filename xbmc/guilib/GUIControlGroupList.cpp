@@ -99,7 +99,7 @@ void CGUIControlGroupList::Process(unsigned int currentTime, CDirtyRegionList &d
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIControlGroupList::Render()
+void CGUIControlGroupList::Render(const CRect *bounds)
 {
   // we can't use GetRenderOrder directly here as we need to know the offsets
   float pos = GetAlignOffset();
@@ -110,7 +110,7 @@ void CGUIControlGroupList::Render()
   for (iControls it = m_children.begin(); it != m_children.end(); ++it)
   {
     CGUIControl *control = *it;
-    if (control->IsVisible())
+    if (control->IsVisible() && (!bounds || control->GetRenderRegion().Intersects(*bounds)))
     {
       if (m_renderFocusedLast && control->HasFocus())
       {
@@ -139,11 +139,11 @@ void CGUIControlGroupList::Render()
       g_graphicsContext.SetOrigin(m_posX, m_posY + offsets[i] - m_offset);
     else
       g_graphicsContext.SetOrigin(m_posX + offsets[i] - m_offset, m_posY);
-    control->DoRender();
+    control->DoRender(bounds);
     g_graphicsContext.RestoreOrigin();
   }
   if (render) g_graphicsContext.RestoreClipRegion();
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 bool CGUIControlGroupList::OnMessage(CGUIMessage& message)

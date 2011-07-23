@@ -143,12 +143,12 @@ void CGUIMultiImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyre
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIMultiImage::Render()
+void CGUIMultiImage::Render(const CRect *bounds)
 {
   if (!m_files.empty())
-    m_image.Render();
+    m_image.Render(bounds);
 
-  CGUIControl::Render();
+  CGUIControl::Render(bounds);
 }
 
 bool CGUIMultiImage::OnAction(const CAction &action)

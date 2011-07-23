@@ -100,7 +100,7 @@ public:
   virtual CGUISelectButtonControl *Clone() const { return new CGUISelectButtonControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render();
+  virtual void Render(const CRect *bounds);
   virtual bool OnAction(const CAction &action) ;
   virtual void OnLeft();
   virtual void OnRight();

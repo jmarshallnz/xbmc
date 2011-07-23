@@ -91,6 +91,32 @@ public:
     return false;
   };
 
+  /*! \brief check whether the given rect is contained inside the existing rect
+   Note: This assumes that x1 <= x2, y1 <= y2.  It's equivalent to Intersect(rect) == rect.
+   \param rect the rect to check for containment
+   \return true if rect is fully contained inside, false otherwise.
+   */
+  bool Contains(const CRect &rect) const XBMC_FORCE_INLINE
+  {
+    if (x1 <= rect.x1 && rect.x2 <= x2 &&
+        y1 <= rect.y1 && rect.y2 <= y2)
+      return true;
+    return false;
+  };
+
+  /*! \brief check whether the given rect intersects the existing rect
+   Note: This assumes that x1 <= x2, y1 <= y2.  It's equivalent to Intersect(rect).IsEmpty()
+   \param rect the rect to check for intersection
+   \return true if rect intersects, false otherwise.
+   */
+  bool Intersects(const CRect &rect) const XBMC_FORCE_INLINE
+  {
+    if (rect.x2 <= x1 || rect.x1 >= x2 ||
+        rect.y2 <= y1 || rect.y1 >= y2)
+      return false;
+    return true;
+  }
+
   inline const CRect &operator -=(const CPoint &point) XBMC_FORCE_INLINE
   {
     x1 -= point.x;

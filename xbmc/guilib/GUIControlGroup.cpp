@@ -117,21 +117,35 @@ void CGUIControlGroup::Process(unsigned int currentTime, CDirtyRegionList &dirty
 
 void CGUIControlGroup::Render()
 {
+  vector<CGUIControl *> children;
+  GetRenderOrder(children);
+
   CPoint pos(GetPosition());
   g_graphicsContext.SetOrigin(pos.x, pos.y);
-  CGUIControl *focusedControl = NULL;
-  for (iControls it = m_children.begin(); it != m_children.end(); ++it)
-  {
-    CGUIControl *control = *it;
-    if (m_renderFocusedLast && control->HasFocus())
-      focusedControl = control;
-    else
-      control->DoRender();
-  }
-  if (focusedControl)
-    focusedControl->DoRender();
+  for (iControls it = children.begin(); it != children.end(); ++it)
+    (*it)->DoRender();
+
   CGUIControl::Render();
   g_graphicsContext.RestoreOrigin();
+}
+
+void CGUIControlGroup::GetRenderOrder(vector<CGUIControl *> &renderList) const
+{
+  CGUIControl *focusedControl = NULL;
+  renderList.reserve(m_children.size());
+  for (ciControls i = m_children.begin(); i != m_children.end(); ++i)
+  {
+    CGUIControl *control = *i;
+    if (control->IsVisible())
+    {
+      if (control->HasFocus() && m_renderFocusedLast)
+        focusedControl = control;
+      else
+        renderList.push_back((CGUIControl *)control);
+    }
+  }
+  if (focusedControl)
+    renderList.push_back(focusedControl);
 }
 
 bool CGUIControlGroup::OnAction(const CAction &action)

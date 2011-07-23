@@ -176,19 +176,18 @@ void CGUIControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyregio
 
 // the main render routine.
 // 1. set the animation transform
-// 2. if visible, paint
+// 2. paint
 // 3. reset the animation transform
 void CGUIControl::DoRender()
 {
   g_graphicsContext.SetTransform(m_cachedTransform);
   if (m_hasCamera)
     g_graphicsContext.SetCameraPosition(m_camera);
-  if (IsVisible())
-  {
-    GUIPROFILER_RENDER_BEGIN(this);
-    Render();
-    GUIPROFILER_RENDER_END(this);
-  }
+
+  GUIPROFILER_RENDER_BEGIN(this);
+  Render();
+  GUIPROFILER_RENDER_END(this);
+
   if (m_hasCamera)
     g_graphicsContext.RestoreCameraPosition();
   g_graphicsContext.RemoveTransform();

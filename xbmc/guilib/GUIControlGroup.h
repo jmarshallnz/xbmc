@@ -96,6 +96,12 @@ protected:
    */
   bool IsValidControl(const CGUIControl *control) const;
 
+  /*! \brief Get the render order of the child controls
+   This gives visible children in the render order that they're displayed in,
+   depending on m_renderFocusedLast.
+   */
+  void GetRenderOrder(std::vector<CGUIControl *> &renderList) const;
+
   // sub controls
   std::vector<CGUIControl *> m_children;
   typedef std::vector<CGUIControl *>::iterator iControls;

@@ -66,7 +66,7 @@ void CGUISliderControl::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISliderControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUISliderControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   m_guiBackground.SetPosition( m_posX, m_posY );
   int infoCode = m_iInfoCode;

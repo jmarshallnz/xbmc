@@ -46,7 +46,7 @@ public:
   virtual CGUIRadioButtonControl *Clone() const { return new CGUIRadioButtonControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual bool OnAction(const CAction &action) ;
   virtual bool OnMessage(CGUIMessage& message);
   virtual void AllocResources();

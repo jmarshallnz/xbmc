@@ -42,7 +42,15 @@ public:
   virtual CGUIControlGroup *Clone() const { return new CGUIControlGroup(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
+
+  /*! \brief Find the last opaque control that covers the given rectangle.
+   Used for determining where we should start rendering - if we have a control that covers
+   the given render rect and is opaque, then no need to render anything underneath that control.
+   \param bounds the rectangle the control must cover.
+   \return the last opaque control that covers the rectangle, NULL if no such control exists.
+   */
+  const CGUIControl *GetLastOpaqueControl(const CRect &bounds) const;
 
   virtual bool OnAction(const CAction &action);
   virtual bool OnMessage(CGUIMessage& message);

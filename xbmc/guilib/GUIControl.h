@@ -78,8 +78,8 @@ public:
 
   virtual void DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregions);
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void DoRender(const CRect *bounds, CGUIControl const *start);
-  virtual void Render(const CRect *bounds, CGUIControl const *start)=0;
+  virtual void DoRender(const CRect *bounds, CGUIControl const **start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start)=0;
 
   bool HasRendered() const { return m_hasRendered; };
 
@@ -153,6 +153,11 @@ public:
   virtual bool CanFocus() const;
   virtual bool IsVisible() const;
   bool IsVisibleFromSkin() const { return m_visibleFromSkinCondition; };
+
+  /*! \brief whether the control is opaque for rendering purposes
+   */
+  virtual bool IsOpaque() const { return m_renderRegionOpaque; }
+
   virtual bool IsDisabled() const;
   virtual void SetPosition(float posX, float posY);
   virtual void SetHitRect(const CRect &rect);
@@ -297,6 +302,11 @@ protected:
    */
   virtual CRect CalcRenderRegion() const;
 
+  /*! \brief determine whether the render region is opaque
+   Called during process to update m_renderRegionOpaque
+   */
+  virtual bool IsRenderRegionOpaque() const;
+
   virtual bool UpdateColors();
   virtual bool Animate(unsigned int currentTime);
   virtual bool CheckAnimation(ANIMATION_TYPE animType);
@@ -356,6 +366,7 @@ protected:
 
   bool  m_controlIsDirty;
   CRect m_renderRegion;         // In screen coordinates
+  bool  m_renderRegionOpaque;   // Whether the render region is opaque
 };
 
 #endif

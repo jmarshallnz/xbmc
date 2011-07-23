@@ -45,7 +45,7 @@ public:
   virtual CGUIFadeLabelControl *Clone() const { return new CGUIFadeLabelControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual bool CanFocus() const;
   virtual bool OnMessage(CGUIMessage& message);
 

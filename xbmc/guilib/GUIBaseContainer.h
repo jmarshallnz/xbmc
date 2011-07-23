@@ -102,7 +102,7 @@ protected:
 
   virtual void ProcessItem(float posX, float posY, CGUIListItem *item, bool focused, unsigned int currentTime, CDirtyRegionList &dirtyregions);
 
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual void RenderItem(float posX, float posY, CGUIListItem *item, bool focused);
   virtual void Scroll(int amount);
   virtual bool MoveDown(bool wrapAround);

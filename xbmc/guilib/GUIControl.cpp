@@ -62,6 +62,7 @@ CGUIControl::CGUIControl()
   m_pushedUpdates = false;
   m_pulseOnSelect = false;
   m_controlIsDirty = true;
+  m_renderRegionOpaque = false;
 }
 
 CGUIControl::CGUIControl(int parentID, int controlID, float posX, float posY, float width, float height)
@@ -95,6 +96,7 @@ CGUIControl::CGUIControl(int parentID, int controlID, float posX, float posY, fl
   m_hasCamera = false;
   m_pushedUpdates = false;
   m_pulseOnSelect = false;
+  m_renderRegionOpaque = false;
 }
 
 
@@ -172,13 +174,19 @@ void CGUIControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyregio
 {
   // update our render region
   m_renderRegion = g_graphicsContext.generateAABB(CalcRenderRegion());
+  m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && IsRenderRegionOpaque();
+}
+
+bool CGUIControl::IsRenderRegionOpaque() const
+{
+  return false;
 }
 
 // the main render routine.
 // 1. set the animation transform
 // 2. paint
 // 3. reset the animation transform
-void CGUIControl::DoRender(const CRect *bounds, CGUIControl const *start)
+void CGUIControl::DoRender(const CRect *bounds, CGUIControl const **start)
 {
   g_graphicsContext.SetTransform(m_cachedTransform);
   if (m_hasCamera)
@@ -193,7 +201,7 @@ void CGUIControl::DoRender(const CRect *bounds, CGUIControl const *start)
   g_graphicsContext.RemoveTransform();
 }
 
-void CGUIControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   m_bInvalidated = false;
   m_hasRendered = true;

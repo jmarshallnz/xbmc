@@ -434,7 +434,7 @@ void CGUISpinControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyr
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISpinControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUISpinControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   if ( HasFocus() )
   {

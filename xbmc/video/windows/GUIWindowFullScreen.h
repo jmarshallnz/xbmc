@@ -39,7 +39,7 @@ public:
   virtual bool OnAction(const CAction &action);
   virtual void FrameMove();
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregion);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual void OnWindowLoaded();
   void ChangetheTimeCode(int remote);
 

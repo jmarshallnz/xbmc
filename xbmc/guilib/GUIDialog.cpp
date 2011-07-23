@@ -267,7 +267,7 @@ void CGUIDialog::FrameMove()
   CGUIWindow::FrameMove();
 }
 
-void CGUIDialog::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIDialog::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (!m_bRunning)
     return;

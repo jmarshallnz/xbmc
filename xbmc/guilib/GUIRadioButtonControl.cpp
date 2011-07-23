@@ -43,7 +43,7 @@ CGUIRadioButtonControl::CGUIRadioButtonControl(int parentID, int controlID, floa
 CGUIRadioButtonControl::~CGUIRadioButtonControl(void)
 {}
 
-void CGUIRadioButtonControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIRadioButtonControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   CGUIButtonControl::Render(bounds, start);
 

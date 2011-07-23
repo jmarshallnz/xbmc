@@ -75,7 +75,7 @@ void CGUISpinControlEx::Process(unsigned int currentTime, CDirtyRegionList &dirt
   CGUISpinControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISpinControlEx::Render(const CRect *bounds, CGUIControl const *start)
+void CGUISpinControlEx::Render(const CRect *bounds, CGUIControl const **start)
 {
   m_buttonControl.Render(bounds, start);
   CGUISpinControl::Render(bounds, start);

@@ -46,7 +46,7 @@ void CGUIVideoControl::Process(unsigned int currentTime, CDirtyRegionList &dirty
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIVideoControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIVideoControl::Render(const CRect *bounds, CGUIControl const **start)
 {
 #ifdef HAS_VIDEO_PLAYBACK
   // don't render if we aren't playing video, or if the renderer isn't started

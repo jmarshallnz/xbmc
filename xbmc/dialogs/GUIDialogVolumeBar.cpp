@@ -71,7 +71,7 @@ void CGUIDialogVolumeBar::ResetTimer()
   m_timer = CTimeUtils::GetFrameTime();
 }
 
-void CGUIDialogVolumeBar::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIDialogVolumeBar::Render(const CRect *bounds, CGUIControl const **start)
 {
   // and render the controls
   CGUIDialog::Render(bounds, start);

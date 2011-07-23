@@ -89,7 +89,7 @@ void CGUIRenderingControl::Process(unsigned int currentTime, CDirtyRegionList &d
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIRenderingControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIRenderingControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   CSingleLock lock(m_rendering);
   if (m_addon)

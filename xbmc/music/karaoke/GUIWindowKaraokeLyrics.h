@@ -34,7 +34,7 @@ public:
   virtual ~CGUIWindowKaraokeLyrics(void);
   virtual bool OnMessage(CGUIMessage& message);
   virtual bool OnAction(const CAction &action);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
 
   void    newSong( CKaraokeLyrics * lyrics );
   void    pauseSong( bool now_paused );

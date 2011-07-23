@@ -32,7 +32,7 @@ public:
   virtual ~CGUIDialogTeletext(void);
   virtual bool OnMessage(CGUIMessage& message);
   virtual bool OnAction(const CAction& action);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual void OnInitWindow();
   virtual void OnDeinitWindow(int nextWindowID);
 

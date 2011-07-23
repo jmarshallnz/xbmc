@@ -73,7 +73,7 @@ bool CGUIDialogTeletext::OnMessage(CGUIMessage& message)
   return CGUIDialog::OnMessage(message);
 }
 
-void CGUIDialogTeletext::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIDialogTeletext::Render(const CRect *bounds, CGUIControl const **start)
 {
   // Do not render if we have no texture
   if (!m_pTxtTexture)

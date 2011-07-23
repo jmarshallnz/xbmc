@@ -146,7 +146,7 @@ void CGUISelectButtonControl::Process(unsigned int currentTime, CDirtyRegionList
     CGUIButtonControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISelectButtonControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUISelectButtonControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (m_bShowSelect)
   {

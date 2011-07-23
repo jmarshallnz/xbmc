@@ -47,7 +47,7 @@ void CGUIWindowScreensaver::Process(unsigned int currentTime, CDirtyRegionList &
   m_renderRegion.SetRect(0, 0, (float)g_graphicsContext.GetWidth(), (float)g_graphicsContext.GetHeight());
 }
 
-void CGUIWindowScreensaver::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIWindowScreensaver::Render(const CRect *bounds, CGUIControl const **start)
 {
   CSingleLock lock (m_critSection);
 

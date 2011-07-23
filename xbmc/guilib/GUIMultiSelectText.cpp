@@ -106,7 +106,7 @@ void CGUIMultiSelectTextControl::Process(unsigned int currentTime, CDirtyRegionL
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIMultiSelectTextControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIMultiSelectTextControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   // clip and set our scrolling origin
   bool clip(m_width < m_totalWidth);

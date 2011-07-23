@@ -96,7 +96,7 @@ void CGUIPanelContainer::Process(unsigned int currentTime, CDirtyRegionList &dir
 }
 
 
-void CGUIPanelContainer::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIPanelContainer::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (!m_layout || !m_focusedLayout) return;
 

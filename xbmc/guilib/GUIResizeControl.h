@@ -53,7 +53,7 @@ public:
   virtual CGUIResizeControl *Clone() const { return new CGUIResizeControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual bool OnAction(const CAction &action);
   virtual void OnUp();
   virtual void OnDown();

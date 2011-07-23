@@ -63,7 +63,7 @@ void CGUIToggleButtonControl::Process(unsigned int currentTime, CDirtyRegionList
   CGUIButtonControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIToggleButtonControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIToggleButtonControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (m_bSelected)
   {

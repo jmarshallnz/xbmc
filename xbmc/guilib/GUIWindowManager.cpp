@@ -529,20 +529,45 @@ void CGUIWindowManager::MarkDirty()
 void CGUIWindowManager::RenderPass(const CRect *rect)
 {
   CGUIWindow* pWindow = GetWindow(GetActiveWindow());
-  if (pWindow)
-  {
-    pWindow->ClearBackground();
-    pWindow->DoRender(rect, NULL);
-  }
-
-  // we render the dialogs based on their render order.
   vector<CGUIWindow *> renderList = m_activeDialogs;
   stable_sort(renderList.begin(), renderList.end(), RenderOrderSortFunction);
-  
+
+  const CGUIControl *firstControl = NULL;
+  const CGUIWindow *firstWindow = NULL;
+  if (rect)
+  {
+    for (rDialog it = renderList.rbegin(); it != renderList.rend(); ++it)
+    {
+      if ((*it)->IsDialogRunning())
+      {
+        firstControl = (*it)->GetLastOpaqueControl(*rect);
+        if (firstControl)
+        {
+          firstWindow = *it;
+          break;
+        }
+      }
+    }
+    if (pWindow && !firstControl)
+      firstControl = pWindow->GetLastOpaqueControl(*rect);
+  }
+
+  if (pWindow && !firstControl)
+    pWindow->ClearBackground();
+
+  if (pWindow && !firstWindow)
+    pWindow->DoRender(rect, &firstControl);
+
   for (iDialog it = renderList.begin(); it != renderList.end(); ++it)
   {
     if ((*it)->IsDialogRunning())
-      (*it)->DoRender(rect, NULL);
+    {
+      if (!firstWindow || *it == firstWindow)
+      {
+        firstWindow = NULL;
+        (*it)->DoRender(rect, &firstControl);
+      }
+    }
   }
 }
 

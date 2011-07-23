@@ -45,7 +45,7 @@ public:
   virtual CGUICheckMarkControl *Clone() const { return new CGUICheckMarkControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual bool OnAction(const CAction &action) ;
   virtual bool OnMessage(CGUIMessage& message);
   virtual void AllocResources();

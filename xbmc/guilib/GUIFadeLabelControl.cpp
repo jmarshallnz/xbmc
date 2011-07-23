@@ -161,7 +161,7 @@ bool CGUIFadeLabelControl::UpdateColors()
   return changed;
 }
 
-void CGUIFadeLabelControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIFadeLabelControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (!m_label.font)
   { // nothing to render

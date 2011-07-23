@@ -128,7 +128,7 @@ CRect CGUILabelControl::CalcRenderRegion() const
   return m_label.GetRenderRect();
 }
 
-void CGUILabelControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUILabelControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   m_label.Render();
   CGUIControl::Render(bounds, start);

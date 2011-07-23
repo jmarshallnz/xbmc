@@ -316,7 +316,7 @@ void CGUIButtonScroller::Process(unsigned int currentTime, CDirtyRegionList &dir
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIButtonScroller::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIButtonScroller::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (m_bInvalidated)
   {

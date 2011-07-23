@@ -99,7 +99,7 @@ void CGUIControlGroupList::Process(unsigned int currentTime, CDirtyRegionList &d
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIControlGroupList::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIControlGroupList::Render(const CRect *bounds, CGUIControl const **start)
 {
   // we can't use GetRenderOrder directly here as we need to know the offsets
   float pos = GetAlignOffset();
@@ -139,11 +139,10 @@ void CGUIControlGroupList::Render(const CRect *bounds, CGUIControl const *start)
       g_graphicsContext.SetOrigin(m_posX, m_posY + offsets[i] - m_offset);
     else
       g_graphicsContext.SetOrigin(m_posX + offsets[i] - m_offset, m_posY);
-    if (control == start || !start)
-    {
-      start = NULL;
+    if (start && (control == *start || !*start))
+      *start = NULL;
+    if (!start || !*start)
       control->DoRender(bounds, start);
-    }
     g_graphicsContext.RestoreOrigin();
   }
   if (render) g_graphicsContext.RestoreClipRegion();

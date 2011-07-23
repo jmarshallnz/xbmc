@@ -96,7 +96,7 @@ void CGUIRSSControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyre
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIRSSControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIRSSControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   // only render the control if they are enabled
   if (g_guiSettings.GetBool("lookandfeel.enablerssfeeds") && g_rssManager.IsActive())

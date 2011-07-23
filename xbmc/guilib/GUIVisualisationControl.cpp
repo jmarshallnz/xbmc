@@ -91,7 +91,7 @@ bool CGUIVisualisationControl::OnAction(const CAction &action)
   }
 }
 
-void CGUIVisualisationControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIVisualisationControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (g_application.IsPlayingAudio())
   {

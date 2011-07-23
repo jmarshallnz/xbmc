@@ -115,7 +115,7 @@ void CGUIControlGroup::Process(unsigned int currentTime, CDirtyRegionList &dirty
   m_renderRegion = rect;
 }
 
-void CGUIControlGroup::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIControlGroup::Render(const CRect *bounds, CGUIControl const **start)
 {
   vector<CGUIControl *> children;
   GetRenderOrder(children, bounds);
@@ -125,11 +125,10 @@ void CGUIControlGroup::Render(const CRect *bounds, CGUIControl const *start)
   for (iControls it = children.begin(); it != children.end(); ++it)
   {
     CGUIControl *control = *it;
-    if (control == start || !start)
-    {
-      start = NULL;
+    if (start && (control == *start || !*start))
+      *start = NULL;
+    if (!start || !*start)
       control->DoRender(bounds, start);
-    }
   }
 
   CGUIControl::Render(bounds, start);
@@ -153,6 +152,25 @@ void CGUIControlGroup::GetRenderOrder(vector<CGUIControl *> &renderList, const C
   }
   if (focusedControl)
     renderList.push_back(focusedControl);
+}
+
+const CGUIControl *CGUIControlGroup::GetLastOpaqueControl(const CRect &rect) const
+{
+  vector<CGUIControl *> children;
+  GetRenderOrder(children, &rect);
+  for (rControls it = children.rbegin(); it != children.rend(); ++it)
+  {
+    CGUIControl *control = *it;
+    if (control->IsGroup())
+    {
+      const CGUIControl *ret = ((CGUIControlGroup *)control)->GetLastOpaqueControl(rect);
+      if (ret)
+        return ret;
+    }
+    if (control->IsOpaque() && control->GetRenderRegion().Contains(rect))
+      return control;
+  }
+  return NULL;
 }
 
 bool CGUIControlGroup::OnAction(const CAction &action)

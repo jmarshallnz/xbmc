@@ -44,7 +44,7 @@ public:
   virtual CGUISpinControlEx *Clone() const { return new CGUISpinControlEx(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual void SetPosition(float posX, float posY);
   virtual float GetWidth() const { return m_buttonControl.GetWidth();};
   virtual void SetWidth(float width);

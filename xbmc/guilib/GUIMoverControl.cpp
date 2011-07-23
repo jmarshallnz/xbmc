@@ -85,7 +85,7 @@ void CGUIMoverControl::Process(unsigned int currentTime, CDirtyRegionList &dirty
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIMoverControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIMoverControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   // render both so the visibility settings cause the frame counter to resetcorrectly
   m_imgFocus.Render();

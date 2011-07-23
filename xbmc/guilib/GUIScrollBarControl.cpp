@@ -65,7 +65,7 @@ void CGUIScrollBar::Process(unsigned int currentTime, CDirtyRegionList &dirtyreg
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIScrollBar::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIScrollBar::Render(const CRect *bounds, CGUIControl const **start)
 {
   m_guiBackground.Render();
   if (m_bHasFocus)

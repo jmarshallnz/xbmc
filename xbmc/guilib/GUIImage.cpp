@@ -161,7 +161,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIImage::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIImage::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (!IsVisible()) return;
 

@@ -55,7 +55,7 @@ void CGUICheckMarkControl::Process(unsigned int currentTime, CDirtyRegionList &d
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUICheckMarkControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUICheckMarkControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   m_label.SetText(m_strLabel);
 

@@ -393,7 +393,7 @@ void CGUIWindowSettingsScreenCalibration::DoProcess(unsigned int currentTime, CD
   g_graphicsContext.RemoveTransform();
 }
 
-void CGUIWindowSettingsScreenCalibration::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIWindowSettingsScreenCalibration::Render(const CRect *bounds, CGUIControl const **start)
 {
   // we set that we need scaling here to render so that anything else on screen scales correctly
   m_needsScaling = true;

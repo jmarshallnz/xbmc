@@ -43,7 +43,7 @@ public:
   virtual CGUIToggleButtonControl *Clone() const { return new CGUIToggleButtonControl(*this); };
 
   virtual void Process(unsigned int currentTime, CDirtyRegionList &dirtyregions);
-  virtual void Render(const CRect *bounds, CGUIControl const *start);
+  virtual void Render(const CRect *bounds, CGUIControl const **start);
   virtual bool OnAction(const CAction &action);
   virtual void AllocResources();
   virtual void FreeResources(bool immediately = false);

@@ -168,7 +168,7 @@ void CGUIProgressControl::Process(unsigned int currentTime, CDirtyRegionList &di
   CGUIControl::Process(currentTime, dirtyregions);
 }
 
-void CGUIProgressControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUIProgressControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (!IsDisabled())
   {

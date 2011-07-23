@@ -296,7 +296,7 @@ void CGUIWindow::DoProcess(unsigned int currentTime, CDirtyRegionList &dirtyregi
     CLog::Log(LOGERROR, "Unbalanced UI transforms (was %d)", size);
 }
 
-void CGUIWindow::DoRender(const CRect *bounds, CGUIControl const *start)
+void CGUIWindow::DoRender(const CRect *bounds, CGUIControl const **start)
 {
   // If we're rendering from a different thread, then we should wait for the main
   // app thread to finish AllocResources(), as dynamic resources (images in particular)

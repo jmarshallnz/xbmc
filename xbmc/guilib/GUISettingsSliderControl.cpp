@@ -40,7 +40,7 @@ void CGUISettingsSliderControl::Process(unsigned int currentTime, CDirtyRegionLi
   CGUISliderControl::Process(currentTime, dirtyregions);
 }
 
-void CGUISettingsSliderControl::Render(const CRect *bounds, CGUIControl const *start)
+void CGUISettingsSliderControl::Render(const CRect *bounds, CGUIControl const **start)
 {
   // make sure the button has focus if it should have...
   m_buttonControl.SetFocus(HasFocus());

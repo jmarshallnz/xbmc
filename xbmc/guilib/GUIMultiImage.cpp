@@ -272,3 +272,13 @@ CStdString CGUIMultiImage::GetDescription() const
 {
   return m_image.GetDescription();
 }
+
+CRect CGUIMultiImage::CalcRenderRegion() const
+{
+  return m_image.CalcRenderRegion();
+}
+
+bool CGUIMultiImage::IsRenderRegionOpaque() const
+{
+  return m_image.IsRenderRegionOpaque();
+}

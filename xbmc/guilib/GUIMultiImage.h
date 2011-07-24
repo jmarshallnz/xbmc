@@ -63,6 +63,8 @@ public:
 
 protected:
   void LoadDirectory();
+  virtual CRect CalcRenderRegion() const;
+  virtual bool IsRenderRegionOpaque() const;
 
   CGUIInfoLabel m_texturePath;
   CStdString m_currentPath;

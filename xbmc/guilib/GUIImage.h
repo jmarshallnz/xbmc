@@ -94,6 +94,7 @@ public:
   float GetTextureHeight() const;
 
   virtual CRect CalcRenderRegion() const;
+  virtual bool IsRenderRegionOpaque() const;
 
 #ifdef _DEBUG
   virtual void DumpTextureUse();

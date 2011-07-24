@@ -282,6 +282,18 @@ CRect CGUIImage::CalcRenderRegion() const
   return CGUIControl::CalcRenderRegion().Intersect(region);
 }
 
+bool CGUIImage::IsRenderRegionOpaque() const
+{
+  // we're opaque if we have an opaque texture that covers our render region
+  // TODO: this could be done more efficiently in CalcRenderRegion (we only ever call them both
+  //       at the same time)
+  CRect fullRect = CalcRenderRegion();
+  for (vector<CFadingTexture *>::const_iterator i = m_fadingTextures.begin(); i != m_fadingTextures.end(); ++i)
+    if ((*i)->m_texture->IsOpaque() && (*i)->m_texture->GetRenderRect().Contains(fullRect))
+      return true;
+  return m_texture.IsOpaque() && m_texture.GetRenderRect().Contains(fullRect);
+}
+
 const CStdString &CGUIImage::GetFileName() const
 {
   return m_texture.GetFileName();

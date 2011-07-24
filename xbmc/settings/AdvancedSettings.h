@@ -287,6 +287,7 @@ class CAdvancedSettings
     bool m_guiVisualizeDirtyRegions;
     int  m_guiAlgorithmDirtyRegions;
     int  m_guiDirtyRegionNoFlipTimeout;
+    int  m_guiRenderFromOpaque;
 
     unsigned int m_cacheMemBufferSize;
 

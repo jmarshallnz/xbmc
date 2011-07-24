@@ -534,7 +534,7 @@ void CGUIWindowManager::RenderPass(const CRect *rect)
 
   const CGUIControl *firstControl = NULL;
   const CGUIWindow *firstWindow = NULL;
-  if (rect)
+  if (rect && g_advancedSettings.m_guiRenderFromOpaque > 1)
   {
     for (rDialog it = renderList.rbegin(); it != renderList.rend(); ++it)
     {
@@ -551,6 +551,8 @@ void CGUIWindowManager::RenderPass(const CRect *rect)
     if (pWindow && !firstControl)
       firstControl = pWindow->GetLastOpaqueControl(*rect);
   }
+  if (!g_advancedSettings.m_guiRenderFromOpaque)
+    rect = NULL;
 
   if (pWindow && !firstControl)
     pWindow->ClearBackground();

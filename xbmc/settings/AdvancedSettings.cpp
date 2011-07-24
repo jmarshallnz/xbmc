@@ -281,6 +281,7 @@ void CAdvancedSettings::Initialize()
   m_guiVisualizeDirtyRegions = false;
   m_guiAlgorithmDirtyRegions = 0;
   m_guiDirtyRegionNoFlipTimeout = -1;
+  m_guiRenderFromOpaque = 0;
 }
 
 bool CAdvancedSettings::Load()
@@ -898,6 +899,7 @@ void CAdvancedSettings::ParseSettingsFile(const CStdString &file)
     XMLUtils::GetBoolean(pElement, "visualizedirtyregions", m_guiVisualizeDirtyRegions);
     XMLUtils::GetInt(pElement, "algorithmdirtyregions",     m_guiAlgorithmDirtyRegions);
     XMLUtils::GetInt(pElement, "nofliptimeout",             m_guiDirtyRegionNoFlipTimeout);
+    XMLUtils::GetInt(pElement, "renderfromopaque",          m_guiRenderFromOpaque);
   }
 
   // load in the GUISettings overrides:

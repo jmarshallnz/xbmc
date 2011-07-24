@@ -70,7 +70,8 @@ public:
 
 protected:
   virtual bool UpdateColors();
-  
+  virtual bool IsRenderRegionOpaque() const { return m_buttonControl.IsRenderRegionOpaque(); };
+
 private:
   CGUIButtonControl m_buttonControl;
   CGUILabel m_label;

@@ -76,6 +76,13 @@ void CGUIToggleButtonControl::Render(const CRect *bounds, CGUIControl const **st
   }
 }
 
+bool CGUIToggleButtonControl::IsRenderRegionOpaque() const
+{
+  if (m_bSelected)
+    return m_selectButton.IsOpaque();
+  return CGUIButtonControl::IsRenderRegionOpaque();
+}
+
 bool CGUIToggleButtonControl::OnAction(const CAction &action)
 {
   if (action.GetID() == ACTION_SELECT_ITEM)

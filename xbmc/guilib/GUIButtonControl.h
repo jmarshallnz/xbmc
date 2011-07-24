@@ -79,6 +79,7 @@ public:
   bool HasClickActions() { return m_clickActions.size() > 0; };
 
   virtual bool UpdateColors();
+  virtual bool IsRenderRegionOpaque() const;
 
 protected:
   friend class CGUISpinControlEx;

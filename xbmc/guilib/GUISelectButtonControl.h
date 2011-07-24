@@ -115,6 +115,7 @@ public:
 
 protected:
   virtual EVENT_RESULT OnMouseEvent(const CPoint &point, const CMouseEvent &event);
+  virtual bool IsRenderRegionOpaque() const;
   virtual bool UpdateColors();
   bool m_bShowSelect;
   CGUITexture m_imgBackground;

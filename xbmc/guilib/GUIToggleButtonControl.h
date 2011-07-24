@@ -59,6 +59,7 @@ public:
   void SetAltClickActions(const std::vector<CGUIActionDescriptor> &clickActions);
 
 protected:
+  virtual bool IsRenderRegionOpaque() const;
   virtual bool UpdateColors();
   virtual void OnClick();
   CGUIButtonControl m_selectButton;

@@ -364,3 +364,8 @@ bool CGUIScrollBar::IsVisible() const
     return false;
   return CGUIControl::IsVisible();
 }
+
+bool CGUIScrollBar::IsRenderRegionOpaque() const
+{
+  return m_guiBackground.IsOpaque();
+}

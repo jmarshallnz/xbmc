@@ -446,3 +446,9 @@ bool CGUISelectButtonControl::UpdateColors()
   return changed;
 }
 
+bool CGUISelectButtonControl::IsRenderRegionOpaque() const
+{
+  if (m_bShowSelect)
+    return m_imgBackground.IsOpaque();
+  return CGUIButtonControl::IsRenderRegionOpaque();
+}

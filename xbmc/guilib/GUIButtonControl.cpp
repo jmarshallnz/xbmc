@@ -251,6 +251,13 @@ CRect CGUIButtonControl::CalcRenderRegion() const
   return buttonRect;
 }
 
+bool CGUIButtonControl::IsRenderRegionOpaque() const
+{
+  if (!CGUIControl::CalcRenderRegion().Contains(m_label.GetRenderRect()))
+    return false; // label outside our texture
+  return m_imgFocus.IsOpaque() || m_imgNoFocus.IsOpaque();
+}
+
 EVENT_RESULT CGUIButtonControl::OnMouseEvent(const CPoint &point, const CMouseEvent &event)
 {
   if (event.m_id == ACTION_MOUSE_LEFT_CLICK)

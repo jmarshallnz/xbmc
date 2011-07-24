@@ -66,6 +66,7 @@ public:
   void SetItemInvalid(bool invalid);
 protected:
   virtual void RenderText(float posX, float width);
+  virtual bool IsRenderRegionOpaque() const { return m_buttonControl.IsRenderRegionOpaque(); };
   virtual bool UpdateColors();
   CGUIButtonControl m_buttonControl;
   float m_spinPosX;

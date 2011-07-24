@@ -169,10 +169,6 @@ public:
   /*! \brief return the render region in screen coordinates of this control
    */
   const CRect &GetRenderRegion() const { return m_renderRegion; };
-  /*! \brief calculate the render region in parentcontrol coordinates of this control
-   Called during process to update m_renderRegion
-   */
-  virtual CRect CalcRenderRegion() const;
 
   virtual void SetNavigation(int up, int down, int left, int right);
   virtual void SetTabNavigation(int next, int prev);
@@ -295,6 +291,11 @@ protected:
    \sa UnfocusFromPoint, HitRect
    */
   virtual bool CanFocusFromPoint(const CPoint &point) const;
+
+  /*! \brief calculate the render region in parentcontrol coordinates of this control
+   Called during process to update m_renderRegion
+   */
+  virtual CRect CalcRenderRegion() const;
 
   virtual bool UpdateColors();
   virtual bool Animate(unsigned int currentTime);

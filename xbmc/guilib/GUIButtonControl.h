@@ -80,8 +80,6 @@ public:
 
   virtual bool UpdateColors();
 
-  virtual CRect CalcRenderRegion() const;
-
 protected:
   friend class CGUISpinControlEx;
   virtual EVENT_RESULT OnMouseEvent(const CPoint &point, const CMouseEvent &event);
@@ -89,6 +87,7 @@ protected:
   void OnUnFocus();
   virtual void ProcessText(unsigned int currentTime);
   CGUILabel::COLOR GetTextColor() const;
+  virtual CRect CalcRenderRegion() const;
 
   CGUITexture m_imgFocus;
   CGUITexture m_imgNoFocus;

@@ -57,10 +57,9 @@ public:
     CGUILabel::CheckAndCorrectOverlap(label1.m_label, label2.m_label);
   }
 
-  virtual CRect CalcRenderRegion() const;
-
 protected:
   virtual bool UpdateColors();
+  virtual CRect CalcRenderRegion() const;
 
   CGUILabel     m_label;
   CGUIInfoLabel m_info;

@@ -49,6 +49,7 @@ public:
   void Set(CBaseTexture *texture, int width, int height);
   void Free();
   unsigned int size() const;
+  bool HasAlpha(unsigned int image = 0) const;
 
   std::vector<CBaseTexture* > m_textures;
   std::vector<int> m_delays;

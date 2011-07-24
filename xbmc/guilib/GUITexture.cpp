@@ -551,6 +551,16 @@ bool CGUITextureBase::ReadyToRender() const
   return m_texture.size() > 0;
 }
 
+bool CGUITextureBase::IsOpaque() const
+{
+  // anything hidden, with alpha < 0xff, a transparent texture or a transparent diffuse is not opaque
+  return (m_visible && 
+          m_alpha == 0xFF &&
+          (m_diffuseColor & 0xff000000) == 0xff000000 && 
+          !m_texture.HasAlpha(m_currentFrame) &&
+          !(m_diffuse.size() && m_diffuse.HasAlpha()));
+}
+
 void CGUITextureBase::OrientateTexture(CRect &rect, float width, float height, int orientation)
 {
   switch (orientation & 3)

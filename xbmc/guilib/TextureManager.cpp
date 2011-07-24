@@ -67,6 +67,12 @@ unsigned int CTextureArray::size() const
   return m_textures.size();
 }
 
+bool CTextureArray::HasAlpha(unsigned int image) const
+{
+  if (image < m_textures.size())
+    return m_textures[image]->HasAlpha();
+  return true; // no texture -> completely transparent
+}
 
 void CTextureArray::Reset()
 {

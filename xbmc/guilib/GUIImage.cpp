@@ -291,7 +291,10 @@ bool CGUIImage::IsRenderRegionOpaque() const
   for (vector<CFadingTexture *>::const_iterator i = m_fadingTextures.begin(); i != m_fadingTextures.end(); ++i)
     if ((*i)->m_texture->IsOpaque() && (*i)->m_texture->GetRenderRect().Contains(fullRect))
       return true;
-  return m_texture.IsOpaque() && m_texture.GetRenderRect().Contains(fullRect);
+  bool opaque = m_texture.IsOpaque() && m_texture.GetRenderRect().Contains(fullRect);
+  if (opaque)
+    CLog::Log(LOGDEBUG, "image %s is opaque", m_texture.GetFileName().c_str());
+  return opaque;
 }
 
 const CStdString &CGUIImage::GetFileName() const

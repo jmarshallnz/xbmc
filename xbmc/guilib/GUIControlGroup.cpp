@@ -125,10 +125,14 @@ void CGUIControlGroup::Render(const CRect *bounds, CGUIControl const **start)
   for (iControls it = children.begin(); it != children.end(); ++it)
   {
     CGUIControl *control = *it;
-    if (start && (control == *start || !*start))
-      *start = NULL;
-    if (!start || !*start)
+    if (control->IsGroup()) // always "render" groups
       control->DoRender(bounds, start);
+    else if (!start || !*start || *start == control)
+    { // render controls past our start control only (if it exists)
+      control->DoRender(bounds, start);
+      if (start)
+        *start = NULL;
+    }
   }
 
   CGUIControl::Render(bounds, start);

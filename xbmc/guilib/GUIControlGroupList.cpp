@@ -139,10 +139,14 @@ void CGUIControlGroupList::Render(const CRect *bounds, CGUIControl const **start
       g_graphicsContext.SetOrigin(m_posX, m_posY + offsets[i] - m_offset);
     else
       g_graphicsContext.SetOrigin(m_posX + offsets[i] - m_offset, m_posY);
-    if (start && (control == *start || !*start))
-      *start = NULL;
-    if (!start || !*start)
+    if (control->IsGroup()) // always "render" groups
       control->DoRender(bounds, start);
+    else if (!start || !*start || *start == control)
+    { // render controls past our start control only (if it exists)
+      control->DoRender(bounds, start);
+      if (start)
+        *start = NULL;
+    }
     g_graphicsContext.RestoreOrigin();
   }
   if (render) g_graphicsContext.RestoreClipRegion();

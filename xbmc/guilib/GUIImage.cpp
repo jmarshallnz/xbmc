@@ -23,6 +23,7 @@
 #include "TextureManager.h"
 #include "utils/log.h"
 #include "utils/TimeUtils.h"
+#include "settings/AdvancedSettings.h"
 
 using namespace std;
 
@@ -181,9 +182,12 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
   m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && opaque != m_fadingTextures.rend();
 
   // and remove any textures that are no longer needed
-  for (vector<CFadingTexture *>::reverse_iterator i = opaque; i != m_fadingTextures.rend(); ++i)
-    delete (*i)->m_texture;
-  m_fadingTextures.erase(m_fadingTextures.begin(), m_fadingTextures.begin() + (m_fadingTextures.rend() - opaque));
+  if (g_advancedSettings.m_guiRenderFromOpaque > 1)
+  {
+    for (vector<CFadingTexture *>::reverse_iterator i = opaque; i != m_fadingTextures.rend(); ++i)
+      delete *i;
+    m_fadingTextures.erase(m_fadingTextures.begin(), m_fadingTextures.begin() + (m_fadingTextures.rend() - opaque));
+  }
 }
 
 void CGUIImage::Render(const CRect *bounds, CGUIControl const **start)

@@ -170,7 +170,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
     {
       if ((*i)->m_texture->IsOpaque() && (*i)->m_texture->GetRenderRect().Contains(bounds))
       { // kill everything under this
-        opaque = i;
+        opaque = i + 1;
         break;
       }
     }

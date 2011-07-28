@@ -554,7 +554,7 @@ bool CGUITextureBase::ReadyToRender() const
 bool CGUITextureBase::IsOpaque(bool checkAlpha) const
 {
   // anything hidden, with alpha < 0xff, a transparent texture or a transparent diffuse is not opaque
-  return (m_visible && 
+  return (m_visible && ReadyToRender() &&
           (!checkAlpha || m_alpha == 0xFF) &&
           (m_diffuseColor & 0xff000000) == 0xff000000 && 
           !m_texture.HasAlpha(m_currentFrame) &&

@@ -133,7 +133,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
         if (texture->m_fadeTime > m_crossFadeTime)
           texture->m_fadeTime = m_crossFadeTime;
 
-        if (texture->m_texture->SetAlpha(GetFadeLevel(texture->m_fadeTime)))
+        if (texture->m_texture->SetAlpha(GetFadeLevel(texture->m_fadeTime, texture->m_texture->IsOpaque(false))))
           MarkDirtyRegion();
         if (texture->m_texture->SetDiffuseColor(m_diffuseColor))
           MarkDirtyRegion();
@@ -148,7 +148,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
       if (m_currentFadeTime > m_crossFadeTime || frameTime == 0) // for if we allocate straight away on creation
         m_currentFadeTime = m_crossFadeTime;
     }
-    if (m_texture.SetAlpha(GetFadeLevel(m_currentFadeTime)))
+    if (m_texture.SetAlpha(GetFadeLevel(m_currentFadeTime, m_texture.IsOpaque(false))))
       MarkDirtyRegion();
   }
 
@@ -185,7 +185,7 @@ bool CGUIImage::ProcessFading(CGUIImage::CFadingTexture *texture, unsigned int f
   // render this texture
   texture->m_fadeTime -= frameTime;
 
-  if (texture->m_texture->SetAlpha(GetFadeLevel(texture->m_fadeTime)))
+  if (texture->m_texture->SetAlpha(GetFadeLevel(texture->m_fadeTime, texture->m_texture->IsOpaque(false))))
     MarkDirtyRegion();
   if (texture->m_texture->SetDiffuseColor(m_diffuseColor))
     MarkDirtyRegion();
@@ -381,7 +381,7 @@ void CGUIImage::SetInfo(const CGUIInfoLabel &info)
     m_texture.SetFileName(m_info.GetLabel(0));
 }
 
-unsigned char CGUIImage::GetFadeLevel(unsigned int time) const
+unsigned char CGUIImage::GetFadeLevel(unsigned int time, bool opaque) const
 {
   float amount = (float)time / m_crossFadeTime;
   // we want a semi-transparent image, so we need to use a more complicated
@@ -391,6 +391,8 @@ unsigned char CGUIImage::GetFadeLevel(unsigned int time) const
   // where a = alpha, and b(t):[0,1] -> [0,1] is the blend function.
   // solving, we get
   // b(t) = [1 - (1-a)^t] / a
+  if (opaque)
+    return (amount > 0.5f) ? 255 : (unsigned char)(510 * amount);
   const float alpha = 0.7f;
   return (unsigned char)(255.0f * (1 - pow(1-alpha, amount))/alpha);
 }

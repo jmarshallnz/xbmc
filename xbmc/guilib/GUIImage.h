@@ -103,7 +103,7 @@ protected:
   virtual void AllocateOnDemand();
   virtual void FreeTextures(bool immediately = false);
   void FreeResourcesButNotAnims();
-  unsigned char GetFadeLevel(unsigned int time) const;
+  unsigned char GetFadeLevel(unsigned int time, bool opaque) const;
   bool ProcessFading(CFadingTexture *texture, unsigned int frameTime, unsigned int currentTime);
 
   bool m_bDynamicResourceAlloc;

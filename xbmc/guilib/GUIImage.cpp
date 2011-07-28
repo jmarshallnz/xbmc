@@ -180,6 +180,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
   // perform the base class implementation now that we've actually computed things above
   m_renderRegion = g_graphicsContext.generateAABB(bounds);
   m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && opaque != m_fadingTextures.rend();
+  m_hasRendered = true;
 
   // and remove any textures that are no longer needed
   if (g_advancedSettings.m_guiRenderFromOpaque > 1)

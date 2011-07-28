@@ -175,6 +175,7 @@ void CGUIControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyregio
   // update our render region
   m_renderRegion = g_graphicsContext.generateAABB(CalcRenderRegion());
   m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && IsRenderRegionOpaque();
+  m_hasRendered = true;
 }
 
 bool CGUIControl::IsRenderRegionOpaque() const

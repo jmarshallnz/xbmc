@@ -587,7 +587,8 @@ bool CGUIWindowManager::Render()
   // If we visualize the regions we will always render the entire viewport
   if (g_advancedSettings.m_guiVisualizeDirtyRegions || g_advancedSettings.m_guiAlgorithmDirtyRegions == DIRTYREGION_SOLVER_NONE)
   {
-    RenderPass();
+    CRect rect(0, 0, (float)g_graphicsContext.GetWidth(), (float)g_graphicsContext.GetHeight());
+    RenderPass(&rect);
     hasRendered = true;
   }
   else

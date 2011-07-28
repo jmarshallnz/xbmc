@@ -117,8 +117,9 @@ public:
   bool IsLazyLoaded() const { return m_info.useLarge; };
 
   /*! \brief return whether this texture object is opaque or not
+   \param checkAlpha whether to take into account the current alpha setting (defaults to true)
    */
-  bool IsOpaque() const;
+  bool IsOpaque(bool checkAlpha = true) const;
 
   bool HitTest(const CPoint &point) const { return CRect(m_posX, m_posY, m_posX + m_width, m_posY + m_height).PtInRect(point); };
   bool IsAllocated() const { return m_isAllocated != NO; };

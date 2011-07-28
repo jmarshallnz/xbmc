@@ -53,13 +53,15 @@ CGraphicContext::CGraphicContext(void) :
   m_Resolution(RES_INVALID), 
   /*m_windowResolution,*/
   m_guiScaleX(1.0f), 
-  m_guiScaleY(1.0f) 
+  m_guiScaleY(1.0f),
   /*,m_cameras, */ 
   /*m_origins, */
   /*m_clipRegions,*/
   /*m_guiTransform,*/
   /*m_finalTransform, */
   /*m_groupTransform*/
+  m_pixelCount(0)
+  /*m_pixelRect*/
 {
 }
 
@@ -545,6 +547,7 @@ float CGraphicContext::GetPixelRatio(RESOLUTION iRes) const
 void CGraphicContext::Clear(color_t color)
 {
   g_Windowing.ClearBuffers(color);
+  m_pixelCount += m_pixelRect.Area();
 }
 
 void CGraphicContext::CaptureStateBlock()
@@ -828,3 +831,20 @@ void CGraphicContext::GetAllowedResolutions(vector<RESOLUTION> &res)
   }
 }
 
+void CGraphicContext::StartPixelMeasure(const CRect &rect)
+{
+  m_pixelRect = rect;
+  m_pixelCount = 0;
+}
+
+void CGraphicContext::AddPixels(const CRect &rect)
+{
+  m_pixelCount += generateAABB(rect).Intersect(m_pixelRect).Area();
+}
+
+float CGraphicContext::GetOverdraw() const
+{
+  if (m_pixelRect.IsEmpty())
+    return 0;
+  return m_pixelCount / m_pixelRect.Area();
+}

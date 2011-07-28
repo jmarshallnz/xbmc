@@ -260,6 +260,8 @@ void CGUITextureBase::Render(float left, float top, float right, float bottom, f
     OrientateTexture(diffuse, m_diffuseU, m_diffuseV, m_info.orientation);
   }
 
+  g_graphicsContext.AddPixels(vertex);
+
   float x[4], y[4], z[4];
 
 #define ROUND_TO_PIXEL(x) (float)(MathUtils::round_int(x))

@@ -206,6 +206,9 @@ public:
   }
 
   CRect generateAABB(const CRect &rect) const;
+  void StartPixelMeasure(const CRect &rect);
+  void AddPixels(const CRect &rect);
+  float GetOverdraw() const;
 
 protected:
   std::stack<CRect> m_viewStack;
@@ -235,6 +238,8 @@ private:
   std::stack<TransformMatrix> m_groupTransform;
 
   CRect m_scissors;
+  double m_pixelCount;
+  CRect  m_pixelRect;
 };
 
 /*!

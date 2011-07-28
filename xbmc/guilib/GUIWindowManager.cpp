@@ -528,6 +528,9 @@ void CGUIWindowManager::MarkDirty()
 
 void CGUIWindowManager::RenderPass(const CRect *rect)
 {
+  if (rect)
+    g_graphicsContext.StartPixelMeasure(*rect);
+
   CGUIWindow* pWindow = GetWindow(GetActiveWindow());
   vector<CGUIWindow *> renderList = m_activeDialogs;
   stable_sort(renderList.begin(), renderList.end(), RenderOrderSortFunction);

@@ -101,12 +101,12 @@ void CGUIWindowDebugInfo::Process(unsigned int currentTime, CDirtyRegionList &di
     CStdString profiling = CGUIControlProfiler::IsRunning() ? " (profiling)" : "";
     CStdString strCores = g_cpuInfo.GetCoresUsageString();
 #if !defined(_LINUX)
-    info.Format("LOG: %sxbmc.log\nMEM: %d/%d KB - FPS: %2.1f fps\nCPU: %s%s", g_settings.m_logFolder.c_str(),
-                stat.dwAvailPhys/1024, stat.dwTotalPhys/1024, g_infoManager.GetFPS(), strCores.c_str(), profiling.c_str());
+    info.Format("LOG: %sxbmc.log\nMEM: %d/%d KB - FPS: %2.1f fps - OD: %2.2f\nCPU: %s%s", g_settings.m_logFolder.c_str(),
+                stat.dwAvailPhys/1024, stat.dwTotalPhys/1024, g_infoManager.GetFPS(), g_graphicsContext.GetOverdraw(), strCores.c_str(), profiling.c_str());
 #else
     double dCPU = m_resourceCounter.GetCPUUsage();
-    info.Format("LOG: %sxbmc.log\nMEM: %"PRIu64"/%"PRIu64" KB - FPS: %2.1f fps\nCPU: %s (CPU-XBMC %4.2f%%%s)", g_settings.m_logFolder.c_str(),
-                stat.dwAvailPhys/1024, stat.dwTotalPhys/1024, g_infoManager.GetFPS(), strCores.c_str(), dCPU, profiling.c_str());
+    info.Format("LOG: %sxbmc.log\nMEM: %"PRIu64"/%"PRIu64" KB - FPS: %2.1f fps - OD: %2.2f\nCPU: %s (CPU-XBMC %4.2f%%%s)", g_settings.m_logFolder.c_str(),
+                stat.dwAvailPhys/1024, stat.dwTotalPhys/1024, g_infoManager.GetFPS(), g_graphicsContext.GetOverdraw(), strCores.c_str(), dCPU, profiling.c_str());
 #endif
   }
 

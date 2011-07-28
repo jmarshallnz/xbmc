@@ -648,6 +648,7 @@ void CGUIFontTTFBase::RenderCharacter(float posX, float posY, const Character *c
   vertex += CPoint(m_originX, m_originY);
   CRect texture(ch->left, ch->top, ch->right, ch->bottom);
   g_graphicsContext.ClipRect(vertex, texture);
+  g_graphicsContext.AddPixels(vertex);
 
   // transform our positions - note, no scaling due to GUI calibration/resolution occurs
   float x[4], y[4], z[4];

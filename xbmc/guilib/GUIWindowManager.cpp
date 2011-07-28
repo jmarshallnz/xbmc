@@ -593,8 +593,11 @@ bool CGUIWindowManager::Render()
   }
   else
   {
-    for (CDirtyRegionList::const_iterator i = dirtyRegions.begin(); i != dirtyRegions.end(); i++)
+    CRect screen(0, 0, (float)g_graphicsContext.GetWidth(), g_graphicsContext.GetHeight());
+    for (CDirtyRegionList::iterator i = dirtyRegions.begin(); i != dirtyRegions.end(); i++)
     {
+      // no point rendering outside our screen
+      i->Intersect(screen);
       if (i->IsEmpty())
         continue;
 

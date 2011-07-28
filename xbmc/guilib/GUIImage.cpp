@@ -158,7 +158,32 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
   if (m_texture.Process(currentTime))
     MarkDirtyRegion();
 
-  CGUIControl::Process(currentTime, dirtyregions);
+  // Clean up any textures that don't need to be around anymore if we have an opaque texture now
+  // first calculate our render region
+  CRect bounds = CalcRenderRegion();
+  vector<CFadingTexture *>::reverse_iterator opaque = m_fadingTextures.rend();
+  if (m_texture.IsOpaque() && m_texture.GetRenderRect().Contains(bounds))
+    opaque = m_fadingTextures.rbegin();
+  else
+  {
+    for (vector<CFadingTexture *>::reverse_iterator i = m_fadingTextures.rbegin(); i != m_fadingTextures.rend(); ++i)
+    {
+      if ((*i)->m_texture->IsOpaque() && (*i)->m_texture->GetRenderRect().Contains(bounds))
+      { // kill everything under this
+        opaque = i;
+        break;
+      }
+    }
+  }
+
+  // perform the base class implementation now that we've actually computed things above
+  m_renderRegion = g_graphicsContext.generateAABB(bounds);
+  m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && opaque != m_fadingTextures.rend();
+
+  // and remove any textures that are no longer needed
+  for (vector<CFadingTexture *>::reverse_iterator i = opaque; i != m_fadingTextures.rend(); ++i)
+    delete (*i)->m_texture;
+  m_fadingTextures.erase(m_fadingTextures.begin(), m_fadingTextures.begin() + (m_fadingTextures.rend() - opaque));
 }
 
 void CGUIImage::Render(const CRect *bounds, CGUIControl const **start)

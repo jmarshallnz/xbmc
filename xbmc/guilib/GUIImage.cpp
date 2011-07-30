@@ -207,10 +207,14 @@ void CGUIImage::Render(const CRect *bounds, CGUIControl const **start)
 {
   if (!IsVisible()) return;
 
+  bool premultiplyAlpha = m_renderRegionOpaque;
   for (vector<CFadingTexture *>::iterator itr = m_fadingTextures.begin(); itr != m_fadingTextures.end(); itr++)
-    (*itr)->m_texture->Render();
+  {
+    (*itr)->m_texture->Render(premultiplyAlpha);
+    premultiplyAlpha = false;
+  }
 
-  m_texture.Render();
+  m_texture.Render(premultiplyAlpha);
 
   CGUIControl::Render(bounds, start);
 }

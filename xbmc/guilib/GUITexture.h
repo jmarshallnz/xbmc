@@ -89,7 +89,7 @@ public:
   virtual ~CGUITextureBase(void);
 
   bool Process(unsigned int currentTime);
-  void Render();
+  void Render(bool premultiplyAlpha = false);
 
   void DynamicResourceAlloc(bool bOnOff);
   bool AllocResources();

@@ -24,6 +24,7 @@
 #include "TextureManager.h"
 #include "GUILargeTextureManager.h"
 #include "utils/MathUtils.h"
+#include "utils/log.h"
 
 using namespace std;
 
@@ -161,7 +162,7 @@ bool CGUITextureBase::Process(unsigned int currentTime)
   return changed;
 }
 
-void CGUITextureBase::Render()
+void CGUITextureBase::Render(bool premultiplyAlpha /*= false*/)
 {
   if (!m_visible || !m_texture.size())
     return;
@@ -178,6 +179,15 @@ void CGUITextureBase::Render()
   color_t color = m_diffuseColor;
   if (m_alpha != 0xFF) color = MIX_ALPHA(m_alpha, m_diffuseColor);
   color = g_graphicsContext.MergeAlpha(color);
+  if (premultiplyAlpha && (color & 0xff000000) != 0xff000000)
+  {
+    color_t a = GET_A(color);
+    color_t r = (GET_R(color) * a) / 255;
+    color_t g = (GET_G(color) * a) / 255;
+    color_t b = (GET_B(color) * a) / 255;
+    color = 0xff000000 | (r << 16) | (g << 8) | b;
+    CLog::Log(LOGDEBUG, "Rendering %s with premultiplied alpha", GetFileName().c_str());
+  }
 
   // setup our renderer
   Begin(color);

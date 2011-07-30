@@ -145,21 +145,20 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
 
     if (m_texture.ReadyToRender() || m_texture.GetFileName().IsEmpty())
     { // fade the new one in
-      static unsigned int frameCount = 0;
       if (!m_currentFadeTime || m_currentFadeTime >= m_crossFadeTime || m_texture.IsOpaque())
-        frameCount = 0;
+        m_frameCount = 0;
       else
       {
-        frameCount++;
-        CLog::Log(LOGDEBUG, "Crossfading %s, frame %d time is %d ms", m_texture.GetFileName().c_str(), frameCount, frameTime);
+        m_frameCount++;
+        CLog::Log(LOGDEBUG, "Crossfading %s, frame %d time is %d ms", m_texture.GetFileName().c_str(), m_frameCount, frameTime);
       }
       m_currentFadeTime += frameTime;
       if (m_currentFadeTime > m_crossFadeTime || frameTime == 0) // for if we allocate straight away on creation
         m_currentFadeTime = m_crossFadeTime;
-      if (GetFadeLevel(m_currentFadeTime, m_texture.IsOpaque(false)) == 0xff && frameCount)
+      if (GetFadeLevel(m_currentFadeTime, m_texture.IsOpaque(false)) == 0xff && m_frameCount)
       {
-        CLog::Log(LOGDEBUG, "Took %d frames in %d ms to fade %s", frameCount, m_currentFadeTime, m_texture.GetFileName().c_str());
-        frameCount = 0;
+        CLog::Log(LOGDEBUG, "Took %d frames in %d ms to fade %s", m_frameCount, m_currentFadeTime, m_texture.GetFileName().c_str());
+        m_frameCount = 0;
       }
     }
     if (m_texture.SetAlpha(GetFadeLevel(m_currentFadeTime, m_texture.IsOpaque(false))))

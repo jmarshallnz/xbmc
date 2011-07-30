@@ -119,5 +119,7 @@ protected:
   unsigned int m_crossFadeTime;
   unsigned int m_currentFadeTime;
   unsigned int m_lastRenderTime;
+
+  unsigned int m_frameCount; // debug
 };
 #endif

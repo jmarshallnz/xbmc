@@ -149,7 +149,10 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
       if (!m_currentFadeTime || m_currentFadeTime >= m_crossFadeTime || m_texture.IsOpaque())
         frameCount = 0;
       else
+      {
         frameCount++;
+        CLog::Log(LOGDEBUG, "Crossfading %s, frame %d time is %d ms", m_texture.GetFileName().c_str(), frameCount, frameTime);
+      }
       m_currentFadeTime += frameTime;
       if (m_currentFadeTime > m_crossFadeTime || frameTime == 0) // for if we allocate straight away on creation
         m_currentFadeTime = m_crossFadeTime;

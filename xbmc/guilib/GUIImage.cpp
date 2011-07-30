@@ -146,7 +146,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
     if (m_texture.ReadyToRender() || m_texture.GetFileName().IsEmpty())
     { // fade the new one in
       static unsigned int frameCount = 0;
-      if (!m_currentFadeTime)
+      if (!m_currentFadeTime || m_currentFadeTime >= m_crossFadeTime || m_texture.IsOpaque())
         frameCount = 0;
       else
         frameCount++;

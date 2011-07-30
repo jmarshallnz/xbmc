@@ -145,9 +145,21 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
 
     if (m_texture.ReadyToRender() || m_texture.GetFileName().IsEmpty())
     { // fade the new one in
+      static unsigned int frameCount = 0;
+      if (!m_currentFadeTime)
+        frameCount = 0;
+      else
+        frameCount++;
       m_currentFadeTime += frameTime;
       if (m_currentFadeTime > m_crossFadeTime || frameTime == 0) // for if we allocate straight away on creation
+      {
         m_currentFadeTime = m_crossFadeTime;
+        if (frameCount)
+        {
+          CLog::Log(LOGDEBUG, "Took %d frames to fade %s", frameCount, m_texture.GetFileName().c_str());
+          frameCount = 0;
+        }
+      }
     }
     if (m_texture.SetAlpha(GetFadeLevel(m_currentFadeTime, m_texture.IsOpaque(false))))
       MarkDirtyRegion();

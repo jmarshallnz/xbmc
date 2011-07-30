@@ -452,8 +452,6 @@ unsigned char CGUIImage::GetFadeLevel(unsigned int time, bool opaque) const
   // where a = alpha, and b(t):[0,1] -> [0,1] is the blend function.
   // solving, we get
   // b(t) = [1 - (1-a)^t] / a
-  if (opaque && g_advancedSettings.m_guiRenderFromOpaque > 1)
-    return (amount > 0.5f) ? 255 : (unsigned char)(510 * amount);
   const float alpha = 0.7f;
   return (unsigned char)(255.0f * (1 - pow(1-alpha, amount))/alpha);
 }

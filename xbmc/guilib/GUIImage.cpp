@@ -191,7 +191,7 @@ void CGUIImage::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions
 
   // perform the base class implementation now that we've actually computed things above
   m_renderRegion = g_graphicsContext.generateAABB(bounds);
-  m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && opaque != m_fadingTextures.rend();
+  m_renderRegionOpaque = (m_cachedTransform.alpha == 1) && IsRenderRegionOpaque(); //opaque != m_fadingTextures.rend();
   m_hasRendered = true;
 
   // and remove any textures that are no longer needed
@@ -326,17 +326,36 @@ CRect CGUIImage::CalcRenderRegion() const
 
 bool CGUIImage::IsRenderRegionOpaque() const
 {
-  // we're opaque if we have an opaque texture that covers our render region
+  // we're opaque if ALL our textures are opaque (regardless of alpha) and they ALL cover our region OR
+  // if one of the images is opaque once taking into account alpha
+
   // TODO: this could be done more efficiently in CalcRenderRegion (we only ever call them both
   //       at the same time)
-  CRect fullRect = CalcRenderRegion();
+  CRect fullRect = CGUIImage::CalcRenderRegion(); // use base class as we're only interested in our render rect
+  bool transparent = false;
   for (vector<CFadingTexture *>::const_iterator i = m_fadingTextures.begin(); i != m_fadingTextures.end(); ++i)
-    if ((*i)->m_texture->IsOpaque() && (*i)->m_texture->GetRenderRect().Contains(fullRect))
+  {
+    const CGUITexture *texture = (*i)->m_texture;
+    bool covers = texture->GetRenderRect().Contains(fullRect);
+    if (!(texture->IsOpaque(false) && covers))
+      transparent = true;
+    if (texture->IsOpaque() && covers)
+    {
+      CLog::Log(LOGDEBUG, "image %s is opaque", texture->GetFileName().c_str());
       return true;
-  bool opaque = m_texture.IsOpaque() && m_texture.GetRenderRect().Contains(fullRect);
-  if (opaque)
+    }
+  }
+  bool covers = m_texture.GetRenderRect().Contains(fullRect);
+  if (m_texture.IsOpaque() && covers)
+  {
     CLog::Log(LOGDEBUG, "image %s is opaque", m_texture.GetFileName().c_str());
-  return opaque;
+    return true;
+  }
+  if (!(m_texture.IsOpaque(false) && covers))
+    transparent = true;
+  if (!transparent)
+    CLog::Log(LOGDEBUG, "image %s is opaque", m_texture.GetFileName().c_str());
+  return !transparent;
 }
 
 const CStdString &CGUIImage::GetFileName() const

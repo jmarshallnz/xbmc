@@ -402,8 +402,6 @@ void CGUIControl::SetPosition(float posX, float posY)
 {
   if ((m_posX != posX) || (m_posY != posY))
   {
-    MarkDirtyRegion();
-
     m_hitRect += CPoint(posX - m_posX, posY - m_posY);
     m_posX = posX;
     m_posY = posY;
@@ -482,7 +480,6 @@ void CGUIControl::SetWidth(float width)
 {
   if (m_width != width)
   {
-    MarkDirtyRegion();
     m_width = width;
     m_hitRect.x2 = m_hitRect.x1 + width;
     SetInvalid();
@@ -493,7 +490,6 @@ void CGUIControl::SetHeight(float height)
 {
   if (m_height != height)
   {
-    MarkDirtyRegion();
     m_height = height;
     m_hitRect.y2 = m_hitRect.y1 + height;
     SetInvalid();
@@ -647,28 +643,24 @@ void CGUIControl::SetVisibleCondition(const CStdString &expression, const CStdSt
 void CGUIControl::SetAnimations(const vector<CAnimation> &animations)
 {
   m_animations = animations;
-  MarkDirtyRegion();
+  SetInvalid();
 }
 
 void CGUIControl::ResetAnimation(ANIMATION_TYPE type)
 {
-  MarkDirtyRegion();
-
   for (unsigned int i = 0; i < m_animations.size(); i++)
   {
     if (m_animations[i].GetType() == type)
       m_animations[i].ResetAnimation();
   }
+  SetInvalid();
 }
 
 void CGUIControl::ResetAnimations()
 {
-  MarkDirtyRegion();
-
   for (unsigned int i = 0; i < m_animations.size(); i++)
     m_animations[i].ResetAnimation();
-
-  MarkDirtyRegion();
+  SetInvalid();
 }
 
 bool CGUIControl::CheckAnimation(ANIMATION_TYPE animType)
@@ -698,7 +690,6 @@ bool CGUIControl::CheckAnimation(ANIMATION_TYPE animType)
 
 void CGUIControl::QueueAnimation(ANIMATION_TYPE animType)
 {
-  MarkDirtyRegion();
   if (!CheckAnimation(animType))
     return;
   CAnimation *reverseAnim = GetAnimation((ANIMATION_TYPE)-animType, false);
@@ -721,6 +712,7 @@ void CGUIControl::QueueAnimation(ANIMATION_TYPE animType)
     if (reverseAnim) reverseAnim->ResetAnimation();
     UpdateStates(animType, ANIM_PROCESS_NORMAL, ANIM_STATE_APPLIED);
   }
+  SetInvalid();
 }
 
 CAnimation *CGUIControl::GetAnimation(ANIMATION_TYPE type, bool checkConditions /* = true */)

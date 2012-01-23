@@ -233,7 +233,7 @@ void CGUIButtonControl::SetPosition(float posX, float posY)
 void CGUIButtonControl::SetAlpha(unsigned char alpha)
 {
   if (m_alpha != alpha)
-    MarkDirtyRegion();
+    SetInvalid();
   m_alpha = alpha;
 }
 

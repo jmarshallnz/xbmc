@@ -313,7 +313,7 @@ void CGUIImage::SetFileName(const CStdString& strFileName, bool setConstant)
     if (m_texture.ReadyToRender() || m_texture.GetFileName().IsEmpty())
     { // save the current image
       m_fadingTextures.push_back(new CFadingTexture(m_texture, m_currentFadeTime));
-      MarkDirtyRegion();
+      SetInvalid();
     }
     m_currentFadeTime = 0;
   }
@@ -322,7 +322,7 @@ void CGUIImage::SetFileName(const CStdString& strFileName, bool setConstant)
     // we'll check whether it loaded or not in Render()
     m_currentTexture = strFileName;
     if (m_texture.SetFileName(m_currentTexture))
-      MarkDirtyRegion();
+      SetInvalid();
   }
 }
 

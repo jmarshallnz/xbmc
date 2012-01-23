@@ -1196,7 +1196,7 @@ void CGUIBaseContainer::SetCursor(int cursor)
 void CGUIBaseContainer::SetOffset(int offset)
 {
   if (m_offset != offset)
-    MarkDirtyRegion();
+    SetInvalid();
   m_offset = offset;
 }
 

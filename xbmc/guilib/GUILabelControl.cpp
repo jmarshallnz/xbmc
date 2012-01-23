@@ -55,7 +55,7 @@ void CGUILabelControl::SetCursorPos(int iPos)
   if (iPos < 0) iPos = 0;
 
   if (m_iCursorPos != iPos)
-    MarkDirtyRegion();
+    SetInvalid();
 
   m_iCursorPos = iPos;
 }
@@ -106,7 +106,7 @@ void CGUILabelControl::UpdateInfo(const CGUIListItem *item)
   changed |= m_label.SetText(label);
 
   if (changed)
-    MarkDirtyRegion();
+    SetInvalid();
 }
 
 void CGUILabelControl::Process(unsigned int currentTime, CDirtyRegionList &dirtyregions)
@@ -152,7 +152,7 @@ void CGUILabelControl::SetLabel(const string &strLabel)
 void CGUILabelControl::SetWidthControl(float minWidth, bool bScroll)
 {
   if (m_label.SetScrolling(bScroll) || m_minWidth != minWidth)
-    MarkDirtyRegion();
+    SetInvalid();
 
   m_minWidth = minWidth;
 }
@@ -161,7 +161,7 @@ void CGUILabelControl::SetAlignment(uint32_t align)
 {
   if (m_label.GetLabelInfo().align != align)
   {
-    MarkDirtyRegion();
+    SetInvalid();
     m_label.GetLabelInfo().align = align;
   }
 }
@@ -220,7 +220,7 @@ CStdString CGUILabelControl::ShortenPath(const CStdString &path)
       }
 
   if (m_label.SetText(workPath))
-    MarkDirtyRegion();
+    SetInvalid();
 
   float textWidth = m_label.GetTextWidth();
 
@@ -237,7 +237,7 @@ CStdString CGUILabelControl::ShortenPath(const CStdString &path)
     workPath.replace( nPos + 1, nGreaterDelim - nPos - 1, "..." );
 
     if (m_label.SetText(workPath))
-      MarkDirtyRegion();
+      SetInvalid();
 
     textWidth = m_label.GetTextWidth();
   }

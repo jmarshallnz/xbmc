@@ -185,7 +185,7 @@ void CGUISpinControl::OnLeft()
   {
     // select the down button
     m_iSelect = SPIN_BUTTON_DOWN;
-    MarkDirtyRegion();
+    SetInvalid();
   }
   else
   { // base class
@@ -199,7 +199,7 @@ void CGUISpinControl::OnRight()
   {
     // select the up button
     m_iSelect = SPIN_BUTTON_UP;
-    MarkDirtyRegion();
+    SetInvalid();
   }
   else
   { // base class
@@ -889,7 +889,7 @@ bool CGUISpinControl::OnMouseOver(const CPoint &point)
     m_iSelect = SPIN_BUTTON_UP;
 
   if (select != m_iSelect)
-    MarkDirtyRegion();
+    SetInvalid();
 
   return CGUIControl::OnMouseOver(point);
 }

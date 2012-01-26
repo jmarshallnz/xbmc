@@ -957,6 +957,7 @@ bool CFileCurl::Exists(const CURL& url)
   CURLcode result = g_curlInterface.easy_perform(m_state->m_easyHandle);
   g_curlInterface.easy_release(&m_state->m_easyHandle, NULL);
 
+  CLog::Log(LOGDEBUG, "%s, returned %i", __FUNCTION__, result);
   if (result == CURLE_WRITE_ERROR || result == CURLE_OK)
     return true;
 

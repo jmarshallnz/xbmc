@@ -104,6 +104,8 @@ void CDirectoryCache::SetDirectory(const CStdString& strPath, const CFileItemLis
   // IDEALLY, any further processing on the item would actually create a new item
   // instead of altering it, but we can't really enforce that in an easy way, so
   // this is the best solution for now.
+  
+  CLog::Log(LOGDEBUG, "%s(%s) with cache type %s", __FUNCTION__, strPath.c_str(), cacheType == DIR_CACHE_ONCE ? "once" : "always");
   CSingleLock lock (m_cs);
 
   CStdString storedPath = URIUtils::SubstitutePath(strPath);

@@ -357,7 +357,10 @@ bool CFile::Exists(const CStdString& strFileName, bool bUseCache /* = true */)
       if (g_directoryCache.FileExists(strFileName, bPathInCache) )
         return true;
       if (bPathInCache)
+      {
+        CLog::Log(LOGDEBUG, "%s(%s) returning false as not found in the directory cache", __FUNCTION__, strFileName.c_str());
         return false;
+      }
     }
 
     url = URIUtils::SubstitutePath(strFileName);
@@ -365,7 +368,12 @@ bool CFile::Exists(const CStdString& strFileName, bool bUseCache /* = true */)
     if (!pFile.get())
       return false;
 
-    return pFile->Exists(url);
+    if (!pFile->Exists(url))
+    {
+      CLog::Log(LOGDEBUG, "%s(%s->%s) returning false", __FUNCTION__, strFileName.c_str(), url.Get().c_str());
+      return false;
+    }
+    return true;
   }
 #ifndef _LINUX
   catch (const win32_exception &e)

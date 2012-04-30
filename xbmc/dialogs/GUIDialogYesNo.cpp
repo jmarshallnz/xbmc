@@ -21,11 +21,14 @@
 
 #include "GUIDialogYesNo.h"
 #include "guilib/GUIWindowManager.h"
+#include "threads/SingleLock.h"
 
 CGUIDialogYesNo::CGUIDialogYesNo(int overrideId /* = -1 */)
     : CGUIDialogBoxBase(overrideId == -1 ? WINDOW_DIALOG_YES_NO : overrideId, "DialogYesNo.xml")
 {
   m_bConfirmed = false;
+  m_callback = NULL;
+  m_callbackOwner = NULL;
 }
 
 CGUIDialogYesNo::~CGUIDialogYesNo()
@@ -99,6 +102,50 @@ bool CGUIDialogYesNo::ShowAndGetInput(int heading, int line0, int line1, int lin
   dialog->DoModal();
   bCanceled = dialog->m_bCanceled;
   return (dialog->IsConfirmed()) ? true : false;
+}
+
+void CGUIDialogYesNo::ShowModal(DialogCallback callback, void *owner, const CVariant &data)
+{
+  m_callback = callback;
+  m_callbackOwner = owner;
+  m_callbackData = data;
+
+  // now throw up the dialog
+  CSingleLock lock(g_graphicsContext);
+
+  if (!g_windowManager.Initialized())
+    return; // don't do anything
+
+  m_closing = false;
+  m_bModal = true;
+
+  // set running before it's added to the window manager, else the auto-show code
+  // could show it as well if we are in a different thread from
+  // the main rendering thread (this should really be handled via
+  // a thread message though IMO)
+  m_active = true;
+  g_windowManager.RouteToWindow(this);
+
+  // active this window
+  int iWindow = WINDOW_INVALID; // TODO: These are from DoModal()
+  CStdString param = "";
+  CGUIMessage msg(GUI_MSG_WINDOW_INIT, 0, 0, WINDOW_INVALID, iWindow);
+  msg.SetStringParam(param);
+  OnMessage(msg);
+
+  if (!m_windowLoaded)
+    Close(true);
+}
+
+void CGUIDialogYesNo::OnDeinitWindow(int nextWindowID)
+{
+  CGUIDialog::OnDeinitWindow(nextWindowID);
+  // call the callback
+  if (m_callback)
+    m_callback(IsConfirmed(), m_callbackOwner, m_callbackData);
+  m_callback = NULL;
+  m_callbackOwner = NULL;
+  m_callbackData.clear();
 }
 
 bool CGUIDialogYesNo::ShowAndGetInput(const CStdString& heading, const CStdString& line0, const CStdString& line1, const CStdString& line2, const CStdString& noLabel, const CStdString& yesLabel)

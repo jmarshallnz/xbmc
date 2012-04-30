@@ -22,6 +22,15 @@
  */
 
 #include "GUIDialogBoxBase.h"
+#include "Utils/Variant.h"
+
+/* Callback declaration
+ This would be better done using something like boost::function() so we can bind member functions
+ (using boost::bind, though I think there's uglier stdlib tricks as well) directly instead of
+ having a hacky static that calls the class we want.  This will also allow the owner param to
+ be dropped (essentially boost::function holds the callback class + function).
+ */
+typedef void (*DialogCallback) (bool confirmed, void *owner, const CVariant &data);
 
 class CGUIDialogYesNo :
       public CGUIDialogBoxBase
@@ -32,6 +41,9 @@ public:
   virtual bool OnMessage(CGUIMessage& message);
   virtual bool OnBack(int actionID);
 
+  void ShowModal(DialogCallback callback, void *owner, const CVariant &data);
+  virtual void OnDeinitWindow(int nextWindowID);
+
   static bool ShowAndGetInput(int heading, int line0, int line1, int line2, int iNoLabel=-1, int iYesLabel=-1);
   static bool ShowAndGetInput(int heading, int line0, int line1, int line2, bool& bCanceled);
   static bool ShowAndGetInput(int heading, int line0, int line1, int line2, int iNoLabel, int iYesLabel, bool& bCanceled, unsigned int autoCloseTime = 0);
@@ -39,4 +51,7 @@ public:
   static bool ShowAndGetInput(const CStdString& heading, const CStdString& line0, const CStdString& line1, const CStdString& line2, bool &bCanceled, const CStdString& noLabel="", const CStdString& yesLabel="");
 protected:
   bool m_bCanceled;
+  DialogCallback  m_callback;
+  void *          m_callbackOwner; ///< this shouldn't be needed once something like boost::function is used
+  CVariant        m_callbackData;  ///< using a CVariant as there's almost certainly going to be callbacks that require a heap of info
 };

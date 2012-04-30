@@ -34,6 +34,13 @@ public:
   virtual bool OnAction(const CAction& action);
 
   void DoScan(const CStdString &strPath);
+
+  /* Static callback hack
+   Ideally we'd use something like boost::function() instead so we can call directly
+   into the callback function.
+   */
+  static void StaticHackOnRemoveSource(bool success, void *classptr, const CVariant &data);
+
 protected:
   virtual void OnItemLoaded(CFileItem* pItem) {};
   virtual bool GetDirectory(const CStdString &strDirectory, CFileItemList &items);
@@ -44,6 +51,12 @@ protected:
   virtual bool OnContextButton(int itemNumber, CONTEXT_BUTTON button);
   virtual void OnScan(int iItem);
   virtual void OnRemoveSource(int iItem);
+  /*! \brief Callback
+   This is the callback code. Can probably remove the OnRemoveSource() function above
+   once things are cleaned up, as all it does is throw up the Yes/No dialog while binding
+   this callback (well, actually the static hack version, but you get the idea...)
+   */
+  void OnRemoveSource(bool success, const CVariant &data);
   virtual CStdString GetStartFolder(const CStdString &dir);
 
   // new method

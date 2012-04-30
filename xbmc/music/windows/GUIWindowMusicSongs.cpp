@@ -483,16 +483,26 @@ void CGUIWindowMusicSongs::OnRemoveSource(int iItem)
   dialog->SetLine(0, 20340);
   dialog->SetLine(1, 20341);
   dialog->SetLine(2, 20022);
-  dialog->DoModal();
-  if (dialog->IsConfirmed())
+  dialog->ShowModal(StaticHackOnRemoveSource, this, m_vecItems->Get(iItem)->GetPath());
+}
+
+void CGUIWindowMusicSongs::OnRemoveSource(bool success, const CVariant &data)
+{
+  if (success)
   {
     CSongMap songs;
     CMusicDatabase database;
     database.Open();
-    database.RemoveSongsFromPath(m_vecItems->Get(iItem)->GetPath(),songs,false);
+    database.RemoveSongsFromPath(data.asString(),songs,false);
     database.CleanupOrphanedItems();
     g_infoManager.ResetLibraryBools();
   }
+}
+
+void CGUIWindowMusicSongs::StaticHackOnRemoveSource(bool success, void *classptr, const CVariant &data)
+{
+  CGUIWindowMusicSongs *cls = (CGUIWindowMusicSongs *)classptr;
+  cls->OnRemoveSource(success, data);
 }
 
 CStdString CGUIWindowMusicSongs::GetStartFolder(const CStdString &dir)

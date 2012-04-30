@@ -477,8 +477,14 @@ bool CGUIWindowMusicSongs::Update(const CStdString &strDirectory)
 
 void CGUIWindowMusicSongs::OnRemoveSource(int iItem)
 {
-  bool bCanceled;
-  if (CGUIDialogYesNo::ShowAndGetInput(522,20340,20341,20022,bCanceled))
+  CGUIDialogYesNo *dialog = (CGUIDialogYesNo *)g_windowManager.GetWindow(WINDOW_DIALOG_YES_NO);
+  if (!dialog) return;
+  dialog->SetHeading(522);
+  dialog->SetLine(0, 20340);
+  dialog->SetLine(1, 20341);
+  dialog->SetLine(2, 20022);
+  dialog->DoModal();
+  if (dialog->IsConfirmed())
   {
     CSongMap songs;
     CMusicDatabase database;

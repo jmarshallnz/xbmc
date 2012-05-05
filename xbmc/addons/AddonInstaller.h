@@ -147,7 +147,7 @@ public:
    */
   static bool DeleteAddon(const CStdString &addonFolder);
 private:
-  bool OnPreInstall();
+  bool OnPreInstall(bool &reloadAfterInstall);
   void OnPostInstall(bool reloadAddon);
   bool Install(const CStdString &installFrom);
   bool DownloadPackage(const CStdString &path, const CStdString &dest);

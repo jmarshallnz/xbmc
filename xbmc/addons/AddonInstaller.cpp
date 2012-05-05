@@ -440,7 +440,9 @@ bool CAddonInstallJob::DoWork()
   }
 
   // run any pre-install functions
-  bool reloadAddon = OnPreInstall();
+  bool reloadAddon = false;
+  if (!OnPreInstall(reloadAddon))
+    return false;
 
   // perform install
   if (!Install(installFrom))
@@ -462,13 +464,15 @@ bool CAddonInstallJob::DownloadPackage(const CStdString &path, const CStdString 
   return CFileOperationJob::DoWork();
 }
 
-bool CAddonInstallJob::OnPreInstall()
+bool CAddonInstallJob::OnPreInstall(bool &reloadAfterInstall)
 {
   // check whether this is an active skin - we need to unload it if so
   if (g_guiSettings.GetString("lookandfeel.skin") == m_addon->ID())
   {
+    if (!CGUIDialogYesNo::ShowAndGetInput("Skin has an update", "are you sure", "this might break shit", "(j/k)"))
+      return false;
     g_application.getApplicationMessenger().ExecBuiltIn("UnloadSkin", true);
-    return true;
+    reloadAfterInstall = true;
   }
 
   if (m_addon->Type() == ADDON_SERVICE)
@@ -476,9 +480,9 @@ bool CAddonInstallJob::OnPreInstall()
     boost::shared_ptr<CService> service = boost::dynamic_pointer_cast<CService>(m_addon);
     if (service)
       service->Stop();
-    return true;
+    reloadAfterInstall = true;
   }
-  return false;
+  return true;
 }
 
 bool CAddonInstallJob::DeleteAddon(const CStdString &addonFolder)

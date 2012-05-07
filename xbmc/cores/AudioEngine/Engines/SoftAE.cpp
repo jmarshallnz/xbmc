@@ -47,7 +47,6 @@ CSoftAE::CSoftAE():
   m_audiophile         (true ),
   m_running            (false),
   m_reOpen             (false),
-  m_reOpened           (false),
   m_sink               (NULL ),
   m_transcode          (false),
   m_rawPassthrough     (false),
@@ -279,9 +278,7 @@ void CSoftAE::InternalOpenSink()
     /* take the sink lock */
     CExclusiveLock sinkLock(m_sinkLock);
 
-    /* let the thread know we have re-opened the sink */
-    m_reOpened = true;
-    reInit     = true;
+    reInit = true;
 
     /* we are going to open, so close the old sink if it was open */
     if (m_sink)
@@ -841,34 +838,32 @@ void CSoftAE::Run()
 
   while (m_running)
   {
-    m_reOpened = false;
+    bool restart = false;
 
     (this->*m_outputStageFn)();
 
-    /* take some data for our use from the buffer */
-    uint8_t *out = (uint8_t*)m_buffer.Take(m_frameSize);
-    memset(out, 0, m_frameSize);
+    /* if we have enough room in the buffer */
+    if (m_buffer.Free() >= m_frameSize)
+    {
+      /* take some data for our use from the buffer */
+      uint8_t *out = (uint8_t*)m_buffer.Take(m_frameSize);
+      memset(out, 0, m_frameSize);
 
-    /* run the stream stage */
-    bool restart = false;
-    CSoftAEStream *oldMaster = m_masterStream;
-    unsigned int mixed = (this->*m_streamStageFn)(m_chLayout.Count(), out, restart);
+      /* run the stream stage */
+      CSoftAEStream *oldMaster = m_masterStream;
+      (this->*m_streamStageFn)(m_chLayout.Count(), out, restart);
 
-    /* if in audiophile mode and the master stream has changed, flag for restart */
-    if (m_audiophile && oldMaster != m_masterStream)
-      restart = true;
+      /* if in audiophile mode and the master stream has changed, flag for restart */
+      if (m_audiophile && oldMaster != m_masterStream)
+        restart = true;
+    }
 
     /* if we are told to restart */
     if (m_reOpen || restart)
     {
       CLog::Log(LOGDEBUG, "CSoftAE::Run - Sink restart flagged");
       InternalOpenSink();
-      if (m_reOpened)
-        continue;
     }
-
-    if (!m_rawPassthrough && mixed)
-      RunNormalizeStage(m_chLayout.Count(), out, mixed);
   }
 }
 
@@ -1155,25 +1150,6 @@ inline void CSoftAE::ResumeSlaveStreams(const StreamList &streams)
     m_playingStreams.push_back(stream->m_slave);
     stream->m_slave->m_paused = false;
     stream->m_slave = NULL;
-  }
-}
-
-inline void CSoftAE::RunNormalizeStage(unsigned int channelCount, void *out, unsigned int mixed)
-{
-  return;
-  if (mixed <= 0)
-    return;
-
-  float *dst = (float*)out;
-  float mul = 1.0f / mixed;
-  #ifdef __SSE__
-  if (channelCount > 1)
-    CAEUtil::SSEMulArray(dst, mul, channelCount);
-  else
-  #endif
-  {
-    for (unsigned int i = 0; i < channelCount; ++i)
-      dst[i] *= mul;
   }
 }
 

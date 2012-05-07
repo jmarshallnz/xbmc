@@ -133,7 +133,7 @@ private:
   bool m_stereoUpmix;
 
   /* internal vars */
-  bool             m_running, m_reOpen, m_reOpened;
+  bool             m_running, m_reOpen;
   CEvent           m_reOpenEvent;
 
   CCriticalSection m_runningLock;     /* released when the thread exits */

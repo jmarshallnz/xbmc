@@ -234,7 +234,7 @@ unsigned int CSoftAEStream::GetSpace()
   if (m_framesBuffered >= m_waterLevel)
     return 0;
 
-  return m_inputBuffer.Free();
+  return m_inputBuffer.Free() + (std::max(0U, (m_waterLevel - m_framesBuffered)) * m_format.m_frameSize);
 }
 
 unsigned int CSoftAEStream::AddData(void *data, unsigned int size)
@@ -253,20 +253,31 @@ unsigned int CSoftAEStream::AddData(void *data, unsigned int size)
       return 0;
   }
 
-  if (m_framesBuffered >= m_waterLevel)
+  /* dont ever take more then GetSpace advertises */
+  size = std::min(size, GetSpace());
+  if (size == 0)
     return 0;
 
-  size_t copy = std::min(m_inputBuffer.Free(), (size_t)size);
-  if (copy > 0)
-    m_inputBuffer.Push(data, copy);
-
-  if (m_inputBuffer.Free() == 0)
+  unsigned int taken = 0;
+  while(size)
   {
-    unsigned int consumed = ProcessFrameBuffer();
-    m_inputBuffer.Shift(NULL, consumed);
+    unsigned int copy = std::min((unsigned int)m_inputBuffer.Free(), size);
+    if (copy > 0)
+    {
+      m_inputBuffer.Push(data, copy);
+      size  -= copy;
+      taken += copy;
+      data   = (uint8_t*)data + copy;
+    }
+
+    if (m_inputBuffer.Free() == 0)
+    {
+      unsigned int consumed = ProcessFrameBuffer();
+      m_inputBuffer.Shift(NULL, consumed);
+    }
   }
 
-  return copy;
+  return taken;
 }
 
 unsigned int CSoftAEStream::ProcessFrameBuffer()

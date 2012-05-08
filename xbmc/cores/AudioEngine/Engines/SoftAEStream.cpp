@@ -277,6 +277,12 @@ unsigned int CSoftAEStream::AddData(void *data, unsigned int size)
     }
   }
 
+  lock.Leave();
+
+  /* if the stream is flagged to autoStart when the buffer is full, then do it */
+  if (m_autoStart && m_framesBuffered >= m_waterLevel)
+    Resume();
+
   return taken;
 }
 
@@ -390,10 +396,6 @@ unsigned int CSoftAEStream::ProcessFrameBuffer()
     m_outBuffer.push_back(pkt);
     m_newPacket->data.Empty();
   }
-
-  /* if the stream is flagged to autoStart when the buffer is full, then do it */
-  if (m_autoStart && m_framesBuffered >= m_waterLevel)
-    Resume();
 
   return consumed;
 }

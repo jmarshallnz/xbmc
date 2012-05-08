@@ -43,19 +43,21 @@
 using namespace std;
 
 CSoftAE::CSoftAE():
-  m_thread             (NULL ),
-  m_audiophile         (true ),
-  m_running            (false),
-  m_reOpen             (false),
-  m_sink               (NULL ),
-  m_transcode          (false),
-  m_rawPassthrough     (false),
-  m_encoder            (NULL ),
-  m_converted          (NULL ),
-  m_convertedSize      (0    ),
-  m_masterStream       (NULL ),
-  m_outputStageFn      (NULL ),
-  m_streamStageFn      (NULL )
+  m_thread             (NULL        ),
+  m_audiophile         (true        ),
+  m_running            (false       ),
+  m_reOpen             (false       ),
+  m_sink               (NULL        ),
+  m_transcode          (false       ),
+  m_rawPassthrough     (false       ),
+  m_soundMode          (AE_SOUND_OFF),
+  m_streamsPlaying     (false       ),
+  m_encoder            (NULL        ),
+  m_converted          (NULL        ),
+  m_convertedSize      (0           ),
+  m_masterStream       (NULL        ),
+  m_outputStageFn      (NULL        ),
+  m_streamStageFn      (NULL        )
 {
   CAESinkFactory::EnumerateEx(m_sinkInfoList);
   for (AESinkInfoList::iterator itt = m_sinkInfoList.begin(); itt != m_sinkInfoList.end(); ++itt)
@@ -416,6 +418,7 @@ void CSoftAE::InternalOpenSink()
       m_playingStreams.push_back(*itt);
   }
   m_newStreams.clear();
+  m_streamsPlaying = !m_playingStreams.empty();
 
   /* notify any event listeners that we are done */
   m_reOpen = false;
@@ -654,6 +657,7 @@ void CSoftAE::ResumeStream(CSoftAEStream *stream)
   stream->m_paused = false;
   streamLock.Leave();
 
+  m_streamsPlaying = true;
   OpenSink();
 }
 
@@ -663,6 +667,15 @@ void CSoftAE::Stop()
 
   /* wait for the thread to stop */
   CSingleLock lock(m_runningLock);
+}
+
+void CSoftAE::SetSoundMode(const int mode)
+{
+  m_soundMode = mode;
+
+  /* stop all currently playing sounds if they are being turned off */
+  if (mode == AE_SOUND_OFF || (mode == AE_SOUND_IDLE && m_streamsPlaying))
+    StopAllSounds();
 }
 
 IAEStream *CSoftAE::MakeStream(enum AEDataFormat dataFormat, unsigned int sampleRate, unsigned int encodedSampleRate, CAEChannelInfo channelLayout, unsigned int options/* = 0 */)
@@ -702,6 +715,9 @@ IAESound *CSoftAE::MakeSound(const std::string& file)
 
 void CSoftAE::PlaySound(IAESound *sound)
 {
+  if (m_soundMode == AE_SOUND_OFF || (m_soundMode == AE_SOUND_IDLE && m_streamsPlaying))
+    return;
+
    float *samples = ((CSoftAESound*)sound)->GetSamples();
    if (!samples)
      return;
@@ -903,7 +919,8 @@ void CSoftAE::MixSounds(float *buffer, unsigned int samples)
 
 void CSoftAE::FinalizeSamples(float *buffer, unsigned int samples)
 {
-  MixSounds(buffer, samples);
+  if (m_soundMode != AE_SOUND_OFF)
+    MixSounds(buffer, samples);
 
   if (m_muted)
   {
@@ -1158,5 +1175,8 @@ inline void CSoftAE::RemoveStream(StreamList &streams, CSoftAEStream *stream)
   StreamList::iterator f = std::find(streams.begin(), streams.end(), stream);
   if (f != streams.end())
     streams.erase(f);
+
+  if (streams == m_playingStreams)
+    m_streamsPlaying = !m_playingStreams.empty();
 }
 

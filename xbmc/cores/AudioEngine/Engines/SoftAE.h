@@ -69,6 +69,7 @@ public:
   virtual void  SetVolume(const float volume);
   virtual void  SetMute(const bool enabled) { m_muted = enabled; }
   virtual bool  IsMuted() { return m_muted; }
+  virtual void  SetSoundMode(const int mode);
 
   /* returns a new stream for data in the specified format */
   virtual IAEStream *MakeStream(enum AEDataFormat dataFormat, unsigned int sampleRate, unsigned int encodedSampleRate, CAEChannelInfo channelLayout, unsigned int options = 0);
@@ -177,6 +178,8 @@ private:
   StreamList     m_newStreams, m_streams, m_playingStreams;
   SoundList      m_sounds;
   SoundStateList m_playing_sounds;
+  int            m_soundMode;
+  bool           m_streamsPlaying;
 
   /* this will contain either float, or uint8_t depending on if we are in raw mode or not */
   CAEBuffer      m_buffer;

@@ -706,17 +706,10 @@ void CGUIWindowSettingsCategory::UpdateSettings()
           pControl->SetEnabled(g_guiSettings.GetInt("audiooutput.mode") == AUDIO_HDMI);
       }
     }
-#if defined(TARGET_WINDOWS)
-    else if (strSetting.Equals("audiooutput.channellayout"))
+    else if (strSetting.Equals("audiooutput.guisoundmode"))
     {
-      //Speaker setting is irrelevant when using shared audio mode.
-      if(g_sysinfo.IsVistaOrHigher())
-      {
-        CGUIControl *pControl = (CGUIControl *)GetControl(pSettingControl->GetID());
-        pControl->SetEnabled(g_guiSettings.GetBool("audiooutput.useexclusivemode"));
-      }
+      CAEFactory::AE->SetSoundMode(g_guiSettings.GetInt("audiooutput.guisoundmode"));
     }
-#endif
     else if (strSetting.Equals("musicplayer.crossfade"))
     {
       CGUIControl *pControl = (CGUIControl *)GetControl(pSettingControl->GetID());

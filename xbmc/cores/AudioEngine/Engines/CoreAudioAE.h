@@ -79,6 +79,7 @@ public:
   virtual void  SetVolume(float volume);
   virtual void  SetMute(const bool enabled);
   virtual bool  IsMuted();
+  virtual void  SetSoundMode(const int mode);
   
 
   virtual bool SupportsRaw();
@@ -158,4 +159,6 @@ private:
   float m_volume;
   float m_volumeBeforeMute;  
   bool  m_muted;
+  int   m_soundMode;
+  bool  m_streamsPlaying;  
 };

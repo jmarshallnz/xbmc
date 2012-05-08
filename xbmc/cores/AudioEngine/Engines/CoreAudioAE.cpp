@@ -42,13 +42,15 @@
 #define BUFFERSIZE        16416
 
 CCoreAudioAE::CCoreAudioAE() :
-  m_Initialized        (false  ),
-  m_rawPassthrough     (false  ),
-  m_volume             (1.0f   ),
-  m_volumeBeforeMute   (1.0f   ),
-  m_muted              (false  ),
-  m_chLayoutCount      (0      ),
-  m_callbackRunning    (false  )
+  m_Initialized        (false         ),
+  m_rawPassthrough     (false         ),
+  m_volume             (1.0f          ),
+  m_volumeBeforeMute   (1.0f          ),
+  m_muted              (false         ),
+  m_soundMode          (AE_SOUND_OFF  ),
+  m_streamsPlaying     (false         ),
+  m_chLayoutCount      (0             ),
+  m_callbackRunning    (false         )
 {
   HAL         = new CCoreAudioAEHAL;
 }
@@ -382,6 +384,14 @@ bool CCoreAudioAE::IsMuted()
   return m_muted;
 }
 
+void CCoreAudioAE::SetSoundMode(const int mode)
+{
+  m_soundMode = mode;
+  
+  /* stop all currently playing sounds if they are being turned off */
+  if (mode == AE_SOUND_OFF || (mode == AE_SOUND_IDLE && m_streamsPlaying))
+    StopAllSounds();  
+}
 
 bool CCoreAudioAE::SupportsRaw()
 {
@@ -432,6 +442,8 @@ IAEStream *CCoreAudioAE::MakeStream(enum AEDataFormat dataFormat,
 
   Start();
 
+  m_streamsPlaying = true;  
+
   return stream;
 }
 
@@ -458,6 +470,8 @@ IAEStream *CCoreAudioAE::FreeStream(IAEStream *stream)
     }
 
   }
+  m_streamsPlaying = !m_streams.empty();
+
   streamLock.Leave();
   
   // When we have been in passthrough mode, reinit the hardware to come back to anlog out
@@ -472,6 +486,9 @@ IAEStream *CCoreAudioAE::FreeStream(IAEStream *stream)
 
 void CCoreAudioAE::PlaySound(IAESound *sound)
 {
+  if (m_soundMode == AE_SOUND_OFF || (m_soundMode == AE_SOUND_IDLE && m_streamsPlaying))
+    return;
+
   float *samples = ((CCoreAudioAESound*)sound)->GetSamples();
   if (!samples && !m_Initialized)
     return;
@@ -659,7 +676,7 @@ OSStatus CCoreAudioAE::OnRender(AudioUnitRenderActionFlags *actionFlags,
   */
 
   // when not in passthrough output mix sounds
-  if (!m_rawPassthrough)
+  if (!m_rawPassthrough && m_soundMode != AE_SOUND_OFF)
   {
     MixSounds((float *)ioData->mBuffers[0].mData, rSamples);
     ioData->mBuffers[0].mDataByteSize = size;

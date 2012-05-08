@@ -291,7 +291,6 @@ bool CAESinkALSA::InitializeHW(AEAudioFormat &format)
     }
   }
 
-  unsigned int framesPerMs = sampleRate / 1000;
   unsigned int periods;
 
   snd_pcm_uframes_t periodSize, bufferSize;

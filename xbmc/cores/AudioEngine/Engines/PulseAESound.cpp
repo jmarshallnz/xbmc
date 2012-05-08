@@ -19,7 +19,6 @@
  *
  */
 
-#define __STDC_LIMIT_MACROS
 #include "system.h"
 #ifdef HAS_PULSEAUDIO
 

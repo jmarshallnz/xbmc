@@ -9,6 +9,8 @@ ifneq (0,${OSSLIBDIR})
   CXXFLAGS+=-DOSS4
 endif
 
+CXXFLAGS+=-D__STDC_LIMIT_MACROS
+
 SRCS = \
 	AEFactory.cpp \
 	AESinkFactory.cpp \

@@ -23,7 +23,7 @@
 #include "AEUtil.h"
 #include "utils/MathUtils.h"
 #include "utils/EndianSwap.h"
-#include "PlatformDefs.h"
+#include <stdint.h>
 
 #if defined(TARGET_WINDOWS)
 #include <unistd.h>

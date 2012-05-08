@@ -35,7 +35,7 @@
 #include "settings/GUISettings.h"
 
 #define ALSA_OPTIONS (SND_PCM_NONBLOCK | SND_PCM_NO_AUTO_FORMAT | SND_PCM_NO_AUTO_RESAMPLE)
-#define ALSA_PERIODS 4
+#define ALSA_PERIODS 16
 
 #define ALSA_MAX_CHANNELS 16
 static enum AEChannel ALSAChannelMap[ALSA_MAX_CHANNELS + 1] = {
@@ -291,7 +291,6 @@ bool CAESinkALSA::InitializeHW(AEAudioFormat &format)
     }
   }
 
-  unsigned int framesPerMs = sampleRate / 1000;
   unsigned int periods;
 
   snd_pcm_uframes_t periodSize, bufferSize;
@@ -353,11 +352,7 @@ bool CAESinkALSA::InitializeHW(AEAudioFormat &format)
   format.m_frameSize    = snd_pcm_frames_to_bytes(m_pcm, 1);
 
   m_bufferSize = (unsigned int)bufferSize;
-
-  if (AE_IS_RAW(m_initFormat.m_dataFormat))
-    m_timeout = 100;
-  else 
-    m_timeout = MathUtils::round_int(((float)format.m_frames / (float)framesPerMs) * (float)periods);
+  m_timeout    = std::ceil((double)(bufferSize * 1000) / (double)sampleRate);
 
   CLog::Log(LOGDEBUG, "CAESinkALSA::InitializeHW - Setting timeout to %d ms", m_timeout);
 
@@ -474,12 +469,6 @@ unsigned int CAESinkALSA::AddPackets(uint8_t *data, unsigned int frames)
     ret = snd_pcm_wait(m_pcm, m_timeout);
     if (ret < 0)
       HandleError("snd_pcm_wait", ret);
-    else
-      if (ret == 0)
-      {
-        CLog::Log(LOGERROR, "CAESinkALSA::AddPackets - Timeout waiting for space");
-        return 0;
-      }
   }
 
   ret = snd_pcm_writei(m_pcm, (void*)data, frames);

@@ -88,6 +88,9 @@ bool CAEFactory::LoadEngine(enum AEEngine engine)
 #if defined(HAS_PULSEAUDIO)
     case AE_ENGINE_PULSE    : AE = new CPulseAE(); break;
 #endif
+
+    default:
+      return false;
   }
 
   return AE != NULL;

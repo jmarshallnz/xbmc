@@ -38,6 +38,11 @@ class IAEStream;
 class IAESound;
 class IAEPacketizer;
 
+/* sound options */
+#define AE_SOUND_OFF    0 /* disable sounds */
+#define AE_SOUND_IDLE   1 /* only play sounds while no streams are running */
+#define AE_SOUND_ALWAYS 2 /* always play sounds */
+
 /**
  * IAE Interface
  */
@@ -89,6 +94,12 @@ public:
    * @return The current mute state
    */
   virtual bool IsMuted() = 0;
+
+  /**
+   * Sets the sound mode
+   * @param mode One of AE_SOUND_OFF, AE_SOUND_IDLE or AE_SOUND_ALWAYS
+   */
+  virtual void SetSoundMode(const int mode) = 0;
 
   /**
    * Creates and returns a new IAEStream in the format specified, this function should never fail

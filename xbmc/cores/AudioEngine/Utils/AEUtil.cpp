@@ -18,6 +18,9 @@
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
+#ifndef __STDC_LIMIT_MACROS
+  #define __STDC_LIMIT_MACROS
+#endif
 
 #include "utils/StdString.h"
 #include "AEUtil.h"

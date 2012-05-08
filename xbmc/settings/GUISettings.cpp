@@ -478,29 +478,26 @@ void CGUISettings::Initialize()
 #endif
 
 #if defined(TARGET_DARWIN)
-#if defined(TARGET_DARWIN_IOS)
-  CStdString defaultDeviceName = "Default";
-#else
-  CStdString defaultDeviceName;
-  CCoreAudioHardware::GetOutputDeviceName(defaultDeviceName);
-#endif
-  
+  #if defined(TARGET_DARWIN_IOS)
+    CStdString defaultDeviceName = "Default";
+  #else
+    CStdString defaultDeviceName;
+    CCoreAudioHardware::GetOutputDeviceName(defaultDeviceName);
+  #endif
   AddString(ao, "audiooutput.audiodevice", 545, defaultDeviceName.c_str(), SPIN_CONTROL_TEXT);
   AddString(NULL, "audiooutput.passthroughdevice", 546, defaultDeviceName.c_str(), SPIN_CONTROL_TEXT);
-#elif defined(TARGET_LINUX)
+#else
   AddSeparator(ao, "audiooutput.sep1");
   AddString   (ao, "audiooutput.audiodevice"      , 545, CStdString(CAEFactory::AE->GetDefaultDevice(false)), SPIN_CONTROL_TEXT);
   AddString   (ao, "audiooutput.passthroughdevice", 546, CStdString(CAEFactory::AE->GetDefaultDevice(true )), SPIN_CONTROL_TEXT);
   AddSeparator(ao, "audiooutput.sep2");
-#elif defined(TARGET_WINDOWS)
-  AddSeparator(ao, "audiooutput.sep1");
-  if(g_sysinfo.IsVistaOrHigher())
-    AddBool(ao, "audiooutput.useexclusivemode" , 347, false);
-  AddString(ao, "audiooutput.audiodevice"      , 545, CStdString(CAEFactory::AE->GetDefaultDevice(false)), SPIN_CONTROL_TEXT);
-  AddString(ao, "audiooutput.passthroughdevice", 546, CStdString(CAEFactory::AE->GetDefaultDevice(true )), SPIN_CONTROL_TEXT);
 #endif
 
-  AddBool(ao, "audiooutput.guisoundwhileplayback", 34120, true);
+  map<int,int> guimode;
+  guimode.insert(make_pair(34121, AE_SOUND_IDLE  ));
+  guimode.insert(make_pair(34122, AE_SOUND_ALWAYS));
+  guimode.insert(make_pair(34123, AE_SOUND_OFF   ));
+  AddInt(ao, "audiooutput.guisoundmode", 34120, AE_SOUND_IDLE, guimode, SPIN_CONTROL_TEXT);
 
   CSettingsCategory* in = AddCategory(4, "input", 14094);
   AddString(in, "input.peripherals", 35000, "", BUTTON_CONTROL_STANDARD);

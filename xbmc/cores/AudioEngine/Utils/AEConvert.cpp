@@ -23,7 +23,7 @@
 #include "AEUtil.h"
 #include "utils/MathUtils.h"
 #include "utils/EndianSwap.h"
-#include "PlatformDefs.h"
+#include <stdint.h>
 
 #if defined(TARGET_WINDOWS)
 #include <unistd.h>
@@ -45,6 +45,8 @@
 #ifndef INT24_MAX
 #define INT24_MAX (0x7FFFFF)
 #endif
+
+#define INT32_SCALE (-1.0f / INT_MIN)
 
 static inline int safeRound(double f)
 {
@@ -204,7 +206,7 @@ unsigned int CAEConvert::S24LE4_Float(uint8_t *data, const unsigned int samples,
   for (unsigned int i = 0; i < samples; ++i, ++dest, data += 4)
   {
     int s = (data[2] << 24) | (data[1] << 16) | (data[0] << 8);
-    *dest = (float)s / (float)(INT32_MAX - 0xFF);
+    *dest = (float)s * INT32_SCALE;
   }
   return samples;
 }
@@ -214,7 +216,7 @@ unsigned int CAEConvert::S24BE4_Float(uint8_t *data, const unsigned int samples,
   for (unsigned int i = 0; i < samples; ++i, ++dest, data += 4)
   {
     int s = (data[0] << 24) | (data[1] << 16) | (data[2] << 8);
-    *dest = (float)s / (float)(INT32_MAX - 0xFF);
+    *dest = (float)s * INT32_SCALE;
   }
   return samples;
 }
@@ -224,7 +226,7 @@ unsigned int CAEConvert::S24LE3_Float(uint8_t *data, const unsigned int samples,
   for (unsigned int i = 0; i < samples; ++i, ++dest, data += 3)
   {
     int s = (data[2] << 24) | (data[1] << 16) | (data[0] << 8);
-    *dest = (float)s / (float)(INT32_MAX - 0xFF);
+    *dest = (float)s * INT32_SCALE;
   }
   return samples;
 }
@@ -234,7 +236,7 @@ unsigned int CAEConvert::S24BE3_Float(uint8_t *data, const unsigned int samples,
   for (unsigned int i = 0; i < samples; ++i, ++dest, data += 3)
   {
     int s = (data[1] << 24) | (data[2] << 16) | (data[3] << 8);
-    *dest = (float)s / (float)(INT32_MAX - 0xFF);
+    *dest = (float)s * INT32_SCALE;
   }
   return samples;
 }

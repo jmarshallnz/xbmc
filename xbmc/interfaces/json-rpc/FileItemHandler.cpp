@@ -89,17 +89,35 @@ void CFileItemHandler::FillDetails(ISerializable* info, CFileItemPtr item, const
         continue;
       }
 
-      if (field == "fanart" && !item->HasPictureInfoTag())
+      if (field == "fanart")
       {
-        CStdString fanart;
-        if (item->HasProperty("fanart_image"))
-          fanart = CTextureCache::Get().CheckAndCacheImage(item->GetProperty("fanart_image").asString());
-        if (fanart.empty())
-          fanart = item->GetCachedFanart();
-        if (!fanart.empty())
-          result["fanart"] = fanart.c_str();
+        if (item->HasVideoInfoTag())
+        {
+          std::string fanart;
+          if (item->HasProperty("fanart_image"))
+            fanart = item->GetProperty("fanart_image").asString();
+          else
+          {
+            CVideoDatabase db;
+            if (db.Open())
+              fanart = db.GetArtForItem(item->GetVideoInfoTag()->m_iDbId, item->GetVideoInfoTag()->m_type, "fanart");
 
-        continue;
+          }
+          if (!fanart.empty())
+            result["fanart"] = CTextureCache::GetWrappedImageURL(fanart);
+          continue;
+        }
+        else if (item->HasMusicInfoTag())
+        {
+          CStdString fanart;
+          if (item->HasProperty("fanart_image"))
+            fanart = item->GetProperty("fanart_image").asString();
+          if (fanart.empty())
+            fanart = item->GetCachedFanart();
+          if (!fanart.empty())
+            result["fanart"] = fanart.c_str();
+          continue;
+        }
       }
 
       if (item->HasVideoInfoTag() && item->GetVideoContentType() == VIDEODB_CONTENT_TVSHOWS)
@@ -229,22 +247,24 @@ void CFileItemHandler::HandleFileItem(const char *ID, bool allowFile, const char
 
     if (hasThumbnailField)
     {
-      if (item->HasThumbnail())
-        object["thumbnail"] = CTextureCache::Get().CheckAndCacheImage(item->GetThumbnailImage());
-      else if (item->HasVideoInfoTag())
-      { // TODO: Should the JSON-API return actual image URLs, virtual thumb URLs, or local URLs to the cached image?
-        //       ATM we return the latter
-        CStdString thumbURL = CVideoThumbLoader::GetEmbeddedThumbURL(*item);
-        CStdString cachedThumb = CTextureCache::Get().GetCachedImage(thumbURL);
-        if (!cachedThumb.IsEmpty())
-          object["thumbnail"] = cachedThumb;
-      }
-      else if (item->HasPictureInfoTag())
+      if (!item->HasThumbnail())
       {
-        CStdString thumb = CTextureCache::Get().CheckAndCacheImage(CTextureCache::GetWrappedThumbURL(item->GetPath()));
-        if (!thumb.empty())
-          object["thumbnail"] = thumb;
+        if (item->HasVideoInfoTag() && item->GetVideoInfoTag()->m_iDbId > -1)
+        {
+          /*
+           Currently we assume that only database-level art should be retrieved.
+           This precludes both backward compatibility and any art not yet found/assigned.
+           */
+          CVideoDatabase db;
+          std::map<std::string, std::string> art;
+          if (db.Open() && db.GetArtForItem(item->GetVideoInfoTag()->m_iDbId, item->GetVideoInfoTag()->m_type, art))
+            item->SetArt(art);
+        }
+        else if (item->HasPictureInfoTag())
+          item->SetThumbnailImage(CTextureCache::GetWrappedThumbURL(item->GetPath()));
       }
+      if (item->HasThumbnail())
+        object["thumbnail"] = CTextureCache::GetWrappedImageURL(item->GetThumbnailImage());
 
       if (!object.isMember("thumbnail"))
         object["thumbnail"] = "";

@@ -2203,9 +2203,6 @@
     <ClCompile Include="..\..\xbmc\filesystem\IFile.cpp">
       <Filter>filesystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\filesystem\ImageFile.cpp">
-      <Filter>filesystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\filesystem\iso9660.cpp">
       <Filter>filesystem</Filter>
     </ClCompile>
@@ -2580,6 +2577,12 @@
     <ClCompile Include="..\..\xbmc\PlayListPlayer.cpp" />
     <ClCompile Include="..\..\xbmc\utils\RecentlyAddedJob.cpp">
       <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\ImageFile.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\network\httprequesthandler\HTTPImageHandler.cpp">
+      <Filter>network\httprequesthandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -4739,9 +4742,6 @@
     <ClInclude Include="..\..\xbmc\filesystem\ILiveTV.h">
       <Filter>filesystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\filesystem\ImageFile.h">
-      <Filter>filesystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\filesystem\iso9660.h">
       <Filter>filesystem</Filter>
     </ClInclude>
@@ -5198,6 +5198,12 @@
     <ClInclude Include="..\..\xbmc\BackgroundInfoLoader.h" />
     <ClInclude Include="..\..\xbmc\utils\RecentlyAddedJob.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\ImageFile.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\network\httprequesthandler\HTTPImageHandler.h">
+      <Filter>network\httprequesthandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

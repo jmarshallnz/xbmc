@@ -120,6 +120,6 @@ protected:
 
   // save control state on window exit
   int m_iLastControl;
-  int m_iSelectedItem;
+  CStdString m_selectedItem;
   CStdString m_startDirectory;
 };

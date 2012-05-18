@@ -80,7 +80,6 @@ CGUIMediaWindow::CGUIMediaWindow(int id, const char *xmlFile)
   m_unfilteredItems = new CFileItemList;
   m_vecItems->SetPath("?");
   m_iLastControl = -1;
-  m_iSelectedItem = -1;
 
   m_guiState.reset(CGUIViewState::GetViewState(GetID(), *m_vecItems));
 }
@@ -214,7 +213,8 @@ bool CGUIMediaWindow::OnMessage(CGUIMessage& message)
   {
   case GUI_MSG_WINDOW_DEINIT:
     {
-      m_iSelectedItem = m_viewControl.GetSelectedItem();
+      if (m_viewControl.GetSelectedItem() >= 0)
+        m_selectedItem = m_vecItems->Get(m_viewControl.GetSelectedItem())->GetPath();
       m_iLastControl = GetFocusedControlID();
       CGUIWindow::OnMessage(message);
       CGUIDialogContextMenu* pDlg = (CGUIDialogContextMenu*)g_windowManager.GetWindow(WINDOW_DIALOG_CONTEXT_MENU);
@@ -950,7 +950,8 @@ bool CGUIMediaWindow::OnClick(int iItem)
   }
   else
   {
-    m_iSelectedItem = m_viewControl.GetSelectedItem();
+    if (m_viewControl.GetSelectedItem() >= 0)
+      m_selectedItem = m_vecItems->Get(m_viewControl.GetSelectedItem())->GetPath();
 
     if (pItem->GetPath() == "newplaylist://")
     {
@@ -1349,8 +1350,7 @@ void CGUIMediaWindow::OnInitWindow()
   Update(m_vecItems->GetPath());
   m_rootDir.SetAllowThreads(true);
 
-  if (m_iSelectedItem > -1)
-    m_viewControl.SetSelectedItem(m_iSelectedItem);
+  m_viewControl.SetSelectedItem(m_selectedItem);
 
   CGUIWindow::OnInitWindow();
 }

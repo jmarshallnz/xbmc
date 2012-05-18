@@ -76,7 +76,8 @@ void CGUIWindowPictures::OnInitWindow()
     {
       if (wndw && wndw->GetCurrentSlide())
         m_viewControl.SetSelectedItem(wndw->GetCurrentSlide()->GetPath());
-      m_iSelectedItem = m_viewControl.GetSelectedItem();
+      if (m_viewControl.GetSelectedItem() >= 0)
+        m_selectedItem = m_vecItems->Get(m_viewControl.GetSelectedItem())->GetPath();
     }
     m_slideShowStarted = false;
   }

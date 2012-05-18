@@ -2581,6 +2581,12 @@
     <ClCompile Include="..\..\xbmc\network\httprequesthandler\HTTPImageHandler.cpp">
       <Filter>network\httprequesthandler</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\guilib\TextureBundleAtlas.cpp">
+      <Filter>guilib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\guilib\AtlasReader.cpp">
+      <Filter>guilib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">
@@ -5198,6 +5204,12 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\network\httprequesthandler\HTTPImageHandler.h">
       <Filter>network\httprequesthandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\guilib\AtlasReader.h">
+      <Filter>guilib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\guilib\TextureBundleAtlas.h">
+      <Filter>guilib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

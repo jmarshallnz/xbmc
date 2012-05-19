@@ -737,6 +737,14 @@
   </texture>
   <texture>
     <filename>media-2048-1.png</filename>
+    <texturename>CenterRating/rating0.png</texturename>
+    <x>1297</x>
+    <y>752</y>
+    <width>128</width>
+    <height>32</height>
+  </texture>
+  <texture>
+    <filename>media-2048-1.png</filename>
     <texturename>CenterRating/rating1.png</texturename>
     <x>1169</x>
     <y>752</y>
@@ -1010,7 +1018,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>DialogCloseButton-focus.png</texturename>
-    <x>1297</x>
+    <x>1425</x>
     <y>752</y>
     <width>64</width>
     <height>32</height>
@@ -1050,7 +1058,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>GoFullscreen.png</texturename>
-    <x>1713</x>
+    <x>1841</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -1698,7 +1706,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>OverlayWatched.png</texturename>
-    <x>1681</x>
+    <x>1809</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -1706,7 +1714,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>OverlayWatching.png</texturename>
-    <x>1649</x>
+    <x>1777</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -1778,7 +1786,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>StackFO.png</texturename>
-    <x>1617</x>
+    <x>1745</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -1786,7 +1794,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>StackNF.png</texturename>
-    <x>1585</x>
+    <x>1713</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -1794,7 +1802,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>ThumbBorder.png</texturename>
-    <x>1553</x>
+    <x>1681</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2458,7 +2466,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>icon-rss.png</texturename>
-    <x>1521</x>
+    <x>1649</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2554,7 +2562,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>icon_search.png</texturename>
-    <x>1489</x>
+    <x>1617</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2594,7 +2602,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>lastfm-hate-focus.png</texturename>
-    <x>1457</x>
+    <x>1585</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2602,7 +2610,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>lastfm-hate-nofocus.png</texturename>
-    <x>1425</x>
+    <x>1553</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2610,7 +2618,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>lastfm-love-focus.png</texturename>
-    <x>1393</x>
+    <x>1521</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2618,7 +2626,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>lastfm-love-nofocus.png</texturename>
-    <x>1361</x>
+    <x>1489</x>
     <y>752</y>
     <width>32</width>
     <height>32</height>
@@ -2642,7 +2650,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>pointer-focus-click.png</texturename>
-    <x>1835</x>
+    <x>1963</x>
     <y>752</y>
     <width>30</width>
     <height>30</height>
@@ -2650,7 +2658,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>pointer-focus-drag.png</texturename>
-    <x>1805</x>
+    <x>1933</x>
     <y>752</y>
     <width>30</width>
     <height>30</height>
@@ -2658,7 +2666,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>pointer-focus.png</texturename>
-    <x>1775</x>
+    <x>1903</x>
     <y>752</y>
     <width>30</width>
     <height>30</height>
@@ -2666,7 +2674,7 @@
   <texture>
     <filename>media-2048-1.png</filename>
     <texturename>pointer-nofocus.png</texturename>
-    <x>1745</x>
+    <x>1873</x>
     <y>752</y>
     <width>30</width>
     <height>30</height>

@@ -215,14 +215,40 @@ configure: configure.in
 	@./bootstrap
 
 # skin textures
+TEXTURETOOLS=
+
+ifeq (@USE_TEXTUREATLAS@,1)
+TEXTURETOOLS += tools/atlas
+endif
 ifeq (@USE_TEXTUREPACKER@,1)
-skins: tools/TexturePacker/TexturePacker force
-	 $(MAKE) -C $(CONFLUENCE_MEDIA)
+TEXTURETOOLS += tools/TexturePacker/TexturePacker force
+endif
+
+# skin textures
+tools/texture-atlas:
+	make -C tools/atlas
+
+TEXTURETOOLS=
+ifeq (@USE_TEXTUREATLAS@,1)
+TEXTURETOOLS += tools/texture-atlas
+endif
+ifeq (@USE_TEXTUREPACKER@,1)
+TEXTURETOOLS += tools/TexturePacker/TexturePacker
+endif
+
+skins: $(TEXTURETOOLS) force
+ifeq (@USE_TEXTUREATLAS@,1)
+	tools/atlas/texture-atlas $(CONFLUENCE_MEDIA)
 ifeq (@USE_SKIN_TOUCHED@,1)
-	 $(MAKE) -C $(TOUCHED_MEDIA)
+	tools/atlas/texture-atlas $(TOUCHED_MEDIA)
 endif
 else
-skins:
+ifeq (@USE_TEXTUREPACKER@,1)
+	$(MAKE) -C $(CONFLUENCE_MEDIA)
+ifeq (@USE_SKIN_TOUCHED@,1)
+	$(MAKE) -C $(TOUCHED_MEDIA)
+endif
+endif
 endif
 
 # Setup some dependencies for subdir makes

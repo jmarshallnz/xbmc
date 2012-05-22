@@ -398,6 +398,12 @@ AC_ARG_ENABLE([texturepacker],
   [use_texturepacker=$enableval],
   [use_texturepacker=auto])
 
+AC_ARG_ENABLE([textureatlas],
+  [AS_HELP_STRING([--enable-textureatlas],
+  [enable texture atlas support (default is yes)])],
+  [use_textureatlas=$enableval],
+  [use_textureatlas=auto])
+
 AC_ARG_WITH([lirc-device],
   [AS_HELP_STRING([--with-lirc-device=file],
   [specify the default LIRC device (default is /dev/lircd)])],
@@ -1731,6 +1737,15 @@ else
   USE_TEXTUREPACKER=0
 fi
 
+if test "x$use_textureatlas" != "xno"; then
+  final_message="$final_message\n  Texture Atlas:Yes"
+  USE_TEXTUREATLAS=1
+else
+  final_message="$final_message\n  Texture Atlas:No"
+  USE_TEXTUREATLAS=0
+fi
+
+
 if test "$use_mid" = "yes"; then
   final_message="$final_message\n  MID Support:\tYes"
   SDL_DEFINES="$SDL_DEFINES -DMID"
@@ -2045,6 +2060,7 @@ AC_SUBST(USE_ALSA)
 AC_SUBST(USE_TEXTUREPACKER)
 AC_SUBST(USE_TEXTUREPACKER_NATIVE)
 AC_SUBST(USE_TEXTUREPACKER_NATIVE_ROOT)
+AC_SUBST(USE_TEXTUREATLAS)
 AC_SUBST(USE_AIRTUNES)
 AC_SUBST(USE_LIBUDEV)
 AC_SUBST(USE_LIBUSB)

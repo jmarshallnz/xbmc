@@ -48,6 +48,8 @@ bool CAtlasReader::LoadXML(CStdString strFile)
 {
   TiXmlDocument xmlDoc;
   CStdString strFileName;
+  int atlasWidth;
+  int atlasHeight;
 
   if(!xmlDoc.LoadFile(strFile))
   {
@@ -58,48 +60,58 @@ bool CAtlasReader::LoadXML(CStdString strFile)
   TiXmlElement* pRootElement = xmlDoc.RootElement();
 
   CStdString strValue = pRootElement->Value();
-  if (strValue != CStdString("atlasmap"))
+
+  if (strValue != CStdString("TextureAtlas"))
   {
-    CLog::Log(LOGERROR, "atlasmap file doesnt start with <atlasmap>");
+    CLog::Log(LOGERROR, "atlasmap file doesn't start with <TextureAtlas>");
     return false;
   }
 
-  const TiXmlElement *pAtlas = pRootElement->FirstChildElement("atlas");
+  const TiXmlElement *pAtlas = pRootElement;
   while (pAtlas)
   {
-    pAtlas->QueryStringAttribute("filename",&strFileName);
-    const TiXmlElement *pChild = pAtlas->FirstChildElement("texture");
+    pAtlas->QueryStringAttribute("imagePath",&strFileName);
+    pAtlas->QueryIntAttribute("width",&atlasWidth);
+    pAtlas->QueryIntAttribute("height",&atlasHeight);
+    const TiXmlElement *pChild = pAtlas->FirstChildElement("sprite");
     while (pChild)
     {
 
       int x = 0, y = 0, width = 0, height = 0;
-
+      int origx = 0, origy = 0, origwidth = 0, origheight = 0;
+      CStdString rotate="n";
       CXBTFFile file;
       CXBTFFrame frame;
-
       CStdString strTextureName;
-      XMLUtils::GetString(pChild, "texturename", strTextureName);
 
-      XMLUtils::GetInt(pChild, "x", x);
-      XMLUtils::GetInt(pChild, "y", y);
-      XMLUtils::GetInt(pChild, "width", width);
-      XMLUtils::GetInt(pChild, "height", height);
+      pChild->QueryStringAttribute("n",&strTextureName);
+      pChild->QueryIntAttribute("x",&x);
+      pChild->QueryIntAttribute("y",&y);
+      pChild->QueryIntAttribute("w",&width);
+      pChild->QueryIntAttribute("h",&height);
+      pChild->QueryIntAttribute("oX",&origx);
+      pChild->QueryIntAttribute("oY",&origy);
+      pChild->QueryIntAttribute("oW",&origwidth);
+      pChild->QueryIntAttribute("oH",&origheight);
+      pChild->QueryStringAttribute("r",&rotate);
 
       file.SetPath(strTextureName.ToLower());
       file.SetAtlas(strFileName);
       // the generator puts a border of 1 around the frame
-      frame.SetWidth(width - 2);
-      frame.SetHeight(height - 2);
-      frame.SetTextureXOffset(x + 1);
-      frame.SetTextureYOffset(y + 1);
+      frame.SetWidth(width-2);
+      frame.SetHeight(height-2);
+      frame.SetTextureXOffset(x+1);
+      frame.SetTextureYOffset(y+1);
+      frame.SetAtlasWidth(atlasWidth);
+      frame.SetAtlasHeight(atlasHeight);
 
       file.GetFrames().push_back(frame);
       m_atlas.GetFiles().push_back(file);
       m_filesMap[file.GetPath()] = file;
 
-      pChild = pChild->NextSiblingElement("texture");
+      pChild = pChild->NextSiblingElement("sprite");
     }
-    pAtlas = pAtlas->NextSiblingElement("atlas");
+    pAtlas = pAtlas->NextSiblingElement("TextureAtlas");
   }
 
   return true;

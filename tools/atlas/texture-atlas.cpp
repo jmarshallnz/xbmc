@@ -228,40 +228,16 @@ void CImageTree::AddIndex(TiXmlElement *root, std::string filename)
     CImageNode *node = (*i).second;
     if(!node)
       continue;
-
     CRect rect = node->Rect();
 
-    TiXmlElement * texture = new TiXmlElement("texture");
+    TiXmlElement * texture = new TiXmlElement("sprite");
     root->LinkEndChild(texture);
 
-    msg = new TiXmlElement("texturename");
-    msg->LinkEndChild( new TiXmlText(name.substr(name.find_last_of('/') +1).c_str()));
-    texture->LinkEndChild(msg);
-
-    sprintf(elementvalue,"%i",(int)rect.x1);
-    msg = new TiXmlElement("x");
-    msg->LinkEndChild( new TiXmlText(elementvalue));
-    texture->LinkEndChild(msg);
-
-    sprintf(elementvalue,"%i",(int)(rect.y1));
-    msg = new TiXmlElement("y");
-    msg->LinkEndChild( new TiXmlText(elementvalue));
-    texture->LinkEndChild(msg);
-
-    sprintf(elementvalue,"%i",(int)(int)(rect.x2 - rect.x1));
-    msg = new TiXmlElement("width");
-    msg->LinkEndChild( new TiXmlText(elementvalue));
-    texture->LinkEndChild(msg);
-
-    sprintf(elementvalue,"%i",(int)(rect.y2 - rect.y1));
-    msg = new TiXmlElement("height");
-    msg->LinkEndChild( new TiXmlText(elementvalue));
-    texture->LinkEndChild(msg);
-
-    sprintf(elementvalue,"%i",(int)0);
-    msg = new TiXmlElement("rotated");
-    msg->LinkEndChild( new TiXmlText(elementvalue));
-    texture->LinkEndChild(msg);
+    texture->SetAttribute("n",name.substr(name.find_last_of('/') +1).c_str());
+    texture->SetAttribute("x",rect.x1);
+    texture->SetAttribute("y",rect.y1);
+    texture->SetAttribute("w",rect.x2 - rect.x1);
+    texture->SetAttribute("h",rect.y2 - rect.y1);
   }
 }
 
@@ -323,7 +299,7 @@ std::vector<std::string> GetFiles(const std::string & path, std::vector<std::str
   int n;
   struct stat st;
   std::string src_dir_name = ( path[ path.length() - 1 ] != '/' ) ? path + "/" : path;
-  std::string prefix("media-2048-");
+  std::string prefix("TextureAtlas-");
 
   n = scandir( src_dir_name.c_str(), &list, 0, alphasort );
   if ( n < 1 ) 
@@ -355,11 +331,10 @@ std::vector<std::string> GetFiles(const std::string & path, std::vector<std::str
   return files;
 }
 
-#define ATLAS_WIDTH   2048
-#define ATLAS_HEIGHT  2048
-
 int main(int argc, char *argv[])
 {
+  int atlas_width = 2048;
+  int atlas_height = 2048;
   std::vector<std::string> files;
   TiXmlDocument doc;
 
@@ -380,7 +355,7 @@ int main(int argc, char *argv[])
 
   std::list<CImageTree *> m_imageTree;
 
-  CImageTree *imageTree = new CImageTree(ATLAS_WIDTH, ATLAS_HEIGHT);
+  CImageTree *imageTree = new CImageTree(atlas_width, atlas_height);
 
   m_imageTree.push_back(imageTree);
 
@@ -422,7 +397,7 @@ int main(int argc, char *argv[])
     CImage *image = (*iimage);
 
     // image does not fit in map at all
-    if(image->GetWidth() > ATLAS_WIDTH || image->GetHeight() > ATLAS_HEIGHT)
+    if(image->GetWidth() > atlas_width || image->GetHeight() > atlas_height)
     {
       printf("Image : %s too big\n", image->GetFileName().c_str());
       continue;
@@ -442,7 +417,7 @@ int main(int argc, char *argv[])
     // start a new map if the image was not added to the existing map's
     if(image != NULL)
     {
-      CImageTree *imageTree = new CImageTree(ATLAS_WIDTH, ATLAS_HEIGHT);
+      CImageTree *imageTree = new CImageTree(atlas_width, atlas_height);
       m_imageTree.push_back(imageTree);
       if(!imageTree->Insert(image, 0))
         printf("File : %s does not fit\n", image->GetFileName().c_str());
@@ -452,20 +427,22 @@ int main(int argc, char *argv[])
   int count = 0;
   TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
   doc.LinkEndChild( decl );
-  TiXmlElement *root = new TiXmlElement("atlasmap");
-  doc.LinkEndChild(root);
   std::string filename;
   for( std::list<CImageTree *>::const_iterator itree = m_imageTree.begin(); itree != m_imageTree.end(); ++itree )
   {
     CImageTree *imageTree = (*itree);
     std::stringstream ss;
     ss << count;
-    filename = std::string(argv[1])+"/media-2048-" + ss.str() + ".png";
+    char *file = new char[1024];
+    snprintf(file,1024,"%s/TextureAtlas-%i-%s.png",argv[1],atlas_width,ss.str().c_str());
+    filename = file;
     imageTree->SaveImage(filename);
 
-    TiXmlElement *msg = new TiXmlElement("atlas");
-    root->LinkEndChild(msg);
-    msg->SetAttribute("filename",filename.substr(filename.find_last_of('/') +1).c_str());
+    TiXmlElement *msg = new TiXmlElement("TextureAtlas");
+    doc.LinkEndChild(msg);
+    msg->SetAttribute("imagePath",filename.substr(filename.find_last_of('/') +1).c_str());
+    msg->SetAttribute("width",atlas_width);
+    msg->SetAttribute("height",atlas_height);
 
     imageTree->AddIndex(msg, filename);
     imageTree->Print();

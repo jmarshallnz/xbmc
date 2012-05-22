@@ -28,9 +28,6 @@
 #include "XBTF.h"
 #include "filesystem/File.h"
 
-#define ATLAS_WIDTH  2048
-#define ATLAS_HEIGHT 2048
-
 class TiXmlDocument;
 
 class CAtlasReader

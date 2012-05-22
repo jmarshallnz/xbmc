@@ -72,33 +72,33 @@ bool CAtlasReader::LoadXML(CStdString strFile)
     while (pChild)
     {
 
-    int x = 0, y = 0, width = 0, height = 0;
+      int x = 0, y = 0, width = 0, height = 0;
 
-    CXBTFFile file;
-    CXBTFFrame frame;
+      CXBTFFile file;
+      CXBTFFrame frame;
 
-    CStdString strTextureName;
-    XMLUtils::GetString(pChild, "texturename", strTextureName);
+      CStdString strTextureName;
+      XMLUtils::GetString(pChild, "texturename", strTextureName);
 
-    XMLUtils::GetInt(pChild, "x", x);
-    XMLUtils::GetInt(pChild, "y", y);
-    XMLUtils::GetInt(pChild, "width", width);
-    XMLUtils::GetInt(pChild, "height", height);
+      XMLUtils::GetInt(pChild, "x", x);
+      XMLUtils::GetInt(pChild, "y", y);
+      XMLUtils::GetInt(pChild, "width", width);
+      XMLUtils::GetInt(pChild, "height", height);
 
-    file.SetPath(strTextureName.ToLower());
-    file.SetAtlas(strFileName);
-    // the generator puts a border of 1 around the frame
-    frame.SetWidth(width - 2);
-    frame.SetHeight(height - 2);
-    frame.SetTextureXOffset(x + 1);
-    frame.SetTextureYOffset(y + 1);
+      file.SetPath(strTextureName.ToLower());
+      file.SetAtlas(strFileName);
+      // the generator puts a border of 1 around the frame
+      frame.SetWidth(width - 2);
+      frame.SetHeight(height - 2);
+      frame.SetTextureXOffset(x + 1);
+      frame.SetTextureYOffset(y + 1);
 
-    file.GetFrames().push_back(frame);
-    m_atlas.GetFiles().push_back(file);
-    m_filesMap[file.GetPath()] = file;
+      file.GetFrames().push_back(frame);
+      m_atlas.GetFiles().push_back(file);
+      m_filesMap[file.GetPath()] = file;
 
-    pChild = pChild->NextSiblingElement("texture");
-  }
+      pChild = pChild->NextSiblingElement("texture");
+    }
     pAtlas = pAtlas->NextSiblingElement("atlas");
   }
 

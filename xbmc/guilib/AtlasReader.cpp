@@ -47,6 +47,7 @@ bool CAtlasReader::IsOpen() const
 bool CAtlasReader::LoadXML(CStdString strFile)
 {
   TiXmlDocument xmlDoc;
+  CStdString strFileName;
 
   if(!xmlDoc.LoadFile(strFile))
   {
@@ -63,16 +64,19 @@ bool CAtlasReader::LoadXML(CStdString strFile)
     return false;
   }
 
-  const TiXmlElement *pChild = pRootElement->FirstChildElement("texture");
-  while (pChild)
+  const TiXmlElement *pAtlas = pRootElement->FirstChildElement("atlas");
+  while (pAtlas)
   {
+    pAtlas->QueryStringAttribute("filename",&strFileName);
+    const TiXmlElement *pChild = pAtlas->FirstChildElement("texture");
+    while (pChild)
+    {
+
     int x = 0, y = 0, width = 0, height = 0;
 
     CXBTFFile file;
     CXBTFFrame frame;
 
-    CStdString strFileName;
-    XMLUtils::GetString(pChild, "filename", strFileName);
     CStdString strTextureName;
     XMLUtils::GetString(pChild, "texturename", strTextureName);
 
@@ -94,6 +98,8 @@ bool CAtlasReader::LoadXML(CStdString strFile)
     m_filesMap[file.GetPath()] = file;
 
     pChild = pChild->NextSiblingElement("texture");
+  }
+    pAtlas = pAtlas->NextSiblingElement("atlas");
   }
 
   return true;

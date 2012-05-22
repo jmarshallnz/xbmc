@@ -234,10 +234,6 @@ void CImageTree::AddIndex(TiXmlElement *root, std::string filename)
     TiXmlElement * texture = new TiXmlElement("texture");
     root->LinkEndChild(texture);
 
-    msg = new TiXmlElement("filename");
-    msg->LinkEndChild( new TiXmlText(filename.substr(filename.find_last_of('/') +1).c_str()));
-    texture->LinkEndChild( msg );
-
     msg = new TiXmlElement("texturename");
     msg->LinkEndChild( new TiXmlText(name.substr(name.find_last_of('/') +1).c_str()));
     texture->LinkEndChild(msg);
@@ -454,6 +450,8 @@ int main(int argc, char *argv[])
   }
 
   int count = 0;
+  TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+  doc.LinkEndChild( decl );
   TiXmlElement *root = new TiXmlElement("atlasmap");
   doc.LinkEndChild(root);
   std::string filename;
@@ -464,10 +462,15 @@ int main(int argc, char *argv[])
     ss << count;
     filename = std::string(argv[1])+"/media-2048-" + ss.str() + ".png";
     imageTree->SaveImage(filename);
-    printf("texture-atlas: created %s\n",filename.c_str());
-    imageTree->AddIndex(root, filename);
+
+    TiXmlElement *msg = new TiXmlElement("atlas");
+    root->LinkEndChild(msg);
+    msg->SetAttribute("filename",filename.substr(filename.find_last_of('/') +1).c_str());
+
+    imageTree->AddIndex(msg, filename);
     imageTree->Print();
     count++;
+    printf("texture-atlas: created %s\n",filename.c_str());
   }
   filename=std::string(argv[1])+"/Textures.xml";
   doc.SaveFile(filename);

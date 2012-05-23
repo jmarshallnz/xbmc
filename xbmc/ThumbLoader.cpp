@@ -156,6 +156,9 @@ void CVideoThumbLoader::OnLoaderStart()
 
 void CVideoThumbLoader::OnLoaderFinish()
 {
+  // save current list for later
+  if (m_pVecItems && (m_pVecItems->CacheToDiscAlways() || m_pVecItems->CacheToDiscIfSlow()))
+    m_pVecItems->Save(m_windowID);
   m_database->Close();
 }
 

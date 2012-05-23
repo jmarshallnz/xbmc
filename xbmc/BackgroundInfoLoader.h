@@ -44,7 +44,7 @@ public:
   CBackgroundInfoLoader(int nThreads=-1);
   virtual ~CBackgroundInfoLoader();
 
-  void Load(CFileItemList& items);
+  void Load(CFileItemList& items, int windowID = 0);
   bool IsLoading();
   virtual void Run();
   void SetObserver(IBackgroundLoaderObserver* pObserver);
@@ -61,6 +61,7 @@ protected:
   virtual void OnLoaderFinish() {};
 
   CFileItemList *m_pVecItems;
+  int            m_windowID;  ///< the window ID we're loading the list for - used for saving the list for fast loading next time around.
   std::vector<CFileItemPtr> m_vecItems; // FileItemList would delete the items and we only want to keep a reference.
   CCriticalSection m_lock;
 

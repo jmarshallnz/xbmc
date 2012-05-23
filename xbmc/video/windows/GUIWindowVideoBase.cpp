@@ -1716,7 +1716,7 @@ bool CGUIWindowVideoBase::Update(const CStdString &strDirectory)
   if (!CGUIMediaWindow::Update(strDirectory))
     return false;
 
-  m_thumbLoader.Load(*m_vecItems);
+  m_thumbLoader.Load(*m_vecItems, GetID());
 
   return true;
 }

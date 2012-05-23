@@ -35,6 +35,7 @@ CBackgroundInfoLoader::CBackgroundInfoLoader(int nThreads)
   m_pObserver=NULL;
   m_pProgressCallback=NULL;
   m_pVecItems = NULL;
+  m_windowID = 0;
   m_nRequestedThreads = nThreads;
   m_bStartCalled = false;
   m_nActiveThreads = 0;
@@ -109,7 +110,7 @@ void CBackgroundInfoLoader::Run()
   }
 }
 
-void CBackgroundInfoLoader::Load(CFileItemList& items)
+void CBackgroundInfoLoader::Load(CFileItemList& items, int windowID)
 {
   StopThread();
 
@@ -122,6 +123,7 @@ void CBackgroundInfoLoader::Load(CFileItemList& items)
     m_vecItems.push_back(items[nItem]);
 
   m_pVecItems = &items;
+  m_windowID = windowID;
   m_bStop = false;
   m_bStartCalled = false;
 
@@ -164,6 +166,7 @@ void CBackgroundInfoLoader::StopThread()
   m_workers.clear();
   m_vecItems.clear();
   m_pVecItems = NULL;
+  m_windowID = 0;
   m_nActiveThreads = 0;
 }
 

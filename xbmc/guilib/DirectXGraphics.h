@@ -28,15 +28,6 @@ class CBaseTexture;
 LPVOID XPhysicalAlloc(SIZE_T s, DWORD ulPhysicalAddress, DWORD ulAlignment, DWORD flProtect);
 void XPhysicalFree(LPVOID lpAddress);
 
-// XPR header
-struct XPR_HEADER
-{
-  DWORD dwMagic;
-  DWORD dwTotalSize;
-  DWORD dwHeaderSize;
-};
-#define XPR_MAGIC_VALUE (('0' << 24) | ('R' << 16) | ('P' << 8) | 'X')
-
 typedef enum _XB_D3DFORMAT
 {
   XB_D3DFMT_UNKNOWN              = 0xFFFFFFFF,

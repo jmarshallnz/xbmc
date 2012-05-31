@@ -24,7 +24,6 @@
 
 CTextureBundle::CTextureBundle(void)
 {
-  m_useXPR = false;
   m_useXBT = false;
 }
 
@@ -38,18 +37,9 @@ bool CTextureBundle::HasFile(const CStdString& Filename)
   {
     return m_tbXBT.HasFile(Filename);
   }
-  else if (m_useXPR)
-  {
-    return m_tbXPR.HasFile(Filename);
-  }
   else if (m_tbXBT.HasFile(Filename))
   {
     m_useXBT = true;
-    return true;
-  }
-  else if (m_tbXPR.HasFile(Filename))
-  {
-    m_useXPR = true;
     return true;
   }
   else
@@ -64,10 +54,6 @@ void CTextureBundle::GetTexturesFromPath(const CStdString &path, std::vector<CSt
   {
     m_tbXBT.GetTexturesFromPath(path, textures);
   }
-  else if (m_useXPR)
-  {
-    m_tbXPR.GetTexturesFromPath(path, textures);
-  }
 }
 
 bool CTextureBundle::LoadTexture(const CStdString& Filename, CBaseTexture** ppTexture,
@@ -76,10 +62,6 @@ bool CTextureBundle::LoadTexture(const CStdString& Filename, CBaseTexture** ppTe
   if (m_useXBT)
   {
     return m_tbXBT.LoadTexture(Filename, ppTexture, width, height);
-  }
-  else if (m_useXPR)
-  {
-    return m_tbXPR.LoadTexture(Filename, ppTexture, width, height);
   }
   else
   {
@@ -94,10 +76,6 @@ int CTextureBundle::LoadAnim(const CStdString& Filename, CBaseTexture*** ppTextu
   {
     return m_tbXBT.LoadAnim(Filename, ppTextures, width, height, nLoops, ppDelays);
   }
-  else if (m_useXPR)
-  {
-    return m_tbXPR.LoadAnim(Filename, ppTextures, width, height, nLoops, ppDelays);
-  }
   else
   {
     return 0;
@@ -107,13 +85,11 @@ int CTextureBundle::LoadAnim(const CStdString& Filename, CBaseTexture*** ppTextu
 void CTextureBundle::Cleanup()
 {
   m_tbXBT.Cleanup();
-  m_tbXPR.Cleanup();
-  m_useXPR = m_useXBT = false;
+  m_useXBT = false;
 }
 
 void CTextureBundle::SetThemeBundle(bool themeBundle)
 {
-  m_tbXPR.SetThemeBundle(themeBundle);
   m_tbXBT.SetThemeBundle(themeBundle);
 }
 

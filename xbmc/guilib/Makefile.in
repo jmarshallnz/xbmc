@@ -67,7 +67,6 @@ SRCS=AnimatedGif.cpp \
      LocalizeStrings.cpp \
      Shader.cpp \
      Texture.cpp \
-     TextureBundleXPR.cpp \
      TextureBundleXBT.cpp \
      TextureBundle.cpp \
      TextureManager.cpp \

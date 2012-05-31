@@ -523,7 +523,6 @@
 		F56C7A3B131EC154000AD0F6 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7549131EC152000AD0F6 /* Texture.cpp */; };
 		F56C7A3C131EC154000AD0F6 /* TextureBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C754A131EC152000AD0F6 /* TextureBundle.cpp */; };
 		F56C7A3D131EC154000AD0F6 /* TextureBundleXBT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C754B131EC152000AD0F6 /* TextureBundleXBT.cpp */; };
-		F56C7A3E131EC154000AD0F6 /* TextureBundleXPR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C754C131EC152000AD0F6 /* TextureBundleXPR.cpp */; };
 		F56C7A3F131EC154000AD0F6 /* TextureDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C754D131EC152000AD0F6 /* TextureDX.cpp */; };
 		F56C7A40131EC154000AD0F6 /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C754E131EC152000AD0F6 /* TextureGL.cpp */; };
 		F56C7A41131EC154000AD0F6 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C754F131EC152000AD0F6 /* TextureManager.cpp */; };
@@ -2055,7 +2054,6 @@
 		F56C74F2131EC152000AD0F6 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		F56C74F3131EC152000AD0F6 /* TextureBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBundle.h; sourceTree = "<group>"; };
 		F56C74F4131EC152000AD0F6 /* TextureBundleXBT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBundleXBT.h; sourceTree = "<group>"; };
-		F56C74F5131EC152000AD0F6 /* TextureBundleXPR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBundleXPR.h; sourceTree = "<group>"; };
 		F56C74F6131EC152000AD0F6 /* TextureDX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureDX.h; sourceTree = "<group>"; };
 		F56C74F7131EC152000AD0F6 /* TextureGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureGL.h; sourceTree = "<group>"; };
 		F56C74F8131EC152000AD0F6 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
@@ -2139,7 +2137,6 @@
 		F56C7549131EC152000AD0F6 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		F56C754A131EC152000AD0F6 /* TextureBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBundle.cpp; sourceTree = "<group>"; };
 		F56C754B131EC152000AD0F6 /* TextureBundleXBT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBundleXBT.cpp; sourceTree = "<group>"; };
-		F56C754C131EC152000AD0F6 /* TextureBundleXPR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBundleXPR.cpp; sourceTree = "<group>"; };
 		F56C754D131EC152000AD0F6 /* TextureDX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureDX.cpp; sourceTree = "<group>"; };
 		F56C754E131EC152000AD0F6 /* TextureGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureGL.cpp; sourceTree = "<group>"; };
 		F56C754F131EC152000AD0F6 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
@@ -4703,8 +4700,6 @@
 				F56C74F3131EC152000AD0F6 /* TextureBundle.h */,
 				F56C754B131EC152000AD0F6 /* TextureBundleXBT.cpp */,
 				F56C74F4131EC152000AD0F6 /* TextureBundleXBT.h */,
-				F56C754C131EC152000AD0F6 /* TextureBundleXPR.cpp */,
-				F56C74F5131EC152000AD0F6 /* TextureBundleXPR.h */,
 				F56C754D131EC152000AD0F6 /* TextureDX.cpp */,
 				F56C74F6131EC152000AD0F6 /* TextureDX.h */,
 				F56C754E131EC152000AD0F6 /* TextureGL.cpp */,
@@ -6651,7 +6646,6 @@
 				F56C7A3B131EC154000AD0F6 /* Texture.cpp in Sources */,
 				F56C7A3C131EC154000AD0F6 /* TextureBundle.cpp in Sources */,
 				F56C7A3D131EC154000AD0F6 /* TextureBundleXBT.cpp in Sources */,
-				F56C7A3E131EC154000AD0F6 /* TextureBundleXPR.cpp in Sources */,
 				F56C7A3F131EC154000AD0F6 /* TextureDX.cpp in Sources */,
 				F56C7A40131EC154000AD0F6 /* TextureGL.cpp in Sources */,
 				F56C7A41131EC154000AD0F6 /* TextureManager.cpp in Sources */,

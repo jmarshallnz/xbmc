@@ -157,12 +157,17 @@ bool CTextureMap::Release()
   return false;
 }
 
-const CStdString& CTextureMap::GetName() const
+const CStdString &CTextureMap::GetName() const
 {
   return m_textureName;
 }
 
-const CTextureArray& CTextureMap::GetTexture()
+bool CTextureMap::Provides(const CStdString &textureName) const
+{
+  return m_textureName == textureName;
+}
+
+const CTextureArray& CTextureMap::GetTexture(const CStdString &textureName)
 {
   m_referenceCount++;
   return m_texture;
@@ -229,10 +234,10 @@ const CTextureArray& CGUITextureManager::GetTexture(const CStdString& strTexture
   for (int i = 0; i < (int)m_vecTextures.size(); ++i)
   {
     CTextureMap *pMap = m_vecTextures[i];
-    if (pMap->GetName() == strTextureName)
+    if (pMap->Provides(strTextureName))
     {
       //CLog::Log(LOGDEBUG, "Total memusage %u", GetMemoryUsage());
-      return pMap->GetTexture();
+      return pMap->GetTexture(strTextureName);
     }
   }
   return emptyTexture;
@@ -264,17 +269,17 @@ bool CGUITextureManager::HasTexture(const CStdString &textureName, CStdString *p
     return false;
 
   // Check our loaded and bundled textures - we store in bundles using \\.
-  CStdString bundledName = CTextureBundle::Normalize(textureName);
   for (int i = 0; i < (int)m_vecTextures.size(); ++i)
   {
     CTextureMap *pMap = m_vecTextures[i];
-    if (pMap->GetName() == textureName)
+    if (pMap->Provides(textureName))
     {
       if (size) *size = 1;
       return true;
     }
   }
 
+  CStdString bundledName = CTextureBundle::Normalize(textureName);
   for (int i = 0; i < 2; i++)
   {
     if (m_TexBundle[i].HasFile(bundledName))
@@ -435,7 +440,7 @@ void CGUITextureManager::ReleaseTexture(const CStdString& strTextureName)
   while (i != m_vecTextures.end())
   {
     CTextureMap* pMap = *i;
-    if (pMap->GetName() == strTextureName)
+    if (pMap->Provides(strTextureName))
     {
       if (pMap->Release())
       {

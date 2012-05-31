@@ -80,7 +80,8 @@ public:
   bool Release();
 
   const CStdString& GetName() const;
-  const CTextureArray& GetTexture();
+  bool Provides(const CStdString &texture) const;
+  const CTextureArray& GetTexture(const CStdString &texture);
   void Dump() const;
   uint32_t GetMemoryUsage() const;
   void Flush();

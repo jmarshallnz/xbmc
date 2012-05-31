@@ -23,6 +23,7 @@
 #include "system.h"
 #include "TextureBundleXBT.h"
 #include "Texture.h"
+#include "TextureManager.h"
 #include "GraphicContext.h"
 #include "utils/log.h"
 #include "addons/Skin.h"
@@ -132,8 +133,7 @@ void CTextureBundleXBT::GetTexturesFromPath(const CStdString &path, std::vector<
   }
 }
 
-bool CTextureBundleXBT::LoadTexture(const CStdString& Filename, CBaseTexture** ppTexture,
-                                     int &width, int &height)
+bool CTextureBundleXBT::LoadTexture(const CStdString& Filename, CTextureMap** texture)
 {
   CStdString name = Normalize(Filename);
 
@@ -145,19 +145,19 @@ bool CTextureBundleXBT::LoadTexture(const CStdString& Filename, CBaseTexture** p
     return false;
 
   CXBTFFrame& frame = file->GetFrames().at(0);
-  if (!ConvertFrameToTexture(Filename, frame, ppTexture))
+  CBaseTexture *pTexture = NULL;
+  if (!ConvertFrameToTexture(Filename, frame, &pTexture))
   {
     return false;
   }
 
-  width = frame.GetWidth();
-  height = frame.GetHeight();
+  *texture = new CTextureMap(Filename, frame.GetWidth(), frame.GetHeight(), 0);
+  (*texture)->Add(pTexture, 100);
 
   return true;
 }
 
-int CTextureBundleXBT::LoadAnim(const CStdString& Filename, CBaseTexture*** ppTextures,
-                              int &width, int &height, int& nLoops, int** ppDelays)
+bool CTextureBundleXBT::LoadAnim(const CStdString& Filename, CTextureMap **texture)
 {
   CStdString name = Normalize(Filename);
 
@@ -168,27 +168,21 @@ int CTextureBundleXBT::LoadAnim(const CStdString& Filename, CBaseTexture*** ppTe
   if (file->GetFrames().size() == 0)
     return false;
 
-  size_t nTextures = file->GetFrames().size();
-  *ppTextures = new CBaseTexture*[nTextures];
-  *ppDelays = new int[nTextures];
-
-  for (size_t i = 0; i < nTextures; i++)
+  *texture = new CTextureMap(Filename, file->GetFrames().at(0).GetWidth(), file->GetFrames().at(0).GetHeight(), file->GetLoop());
+  for (size_t i = 0; i < file->GetFrames().size(); i++)
   {
     CXBTFFrame& frame = file->GetFrames().at(i);
 
-    if (!ConvertFrameToTexture(Filename, frame, &((*ppTextures)[i])))
+    CBaseTexture *pTexture = NULL;
+    if (!ConvertFrameToTexture(Filename, frame, &pTexture))
     {
+      delete texture;
       return false;
     }
-
-    (*ppDelays)[i] = frame.GetDuration();
+    (*texture)->Add(pTexture, frame.GetDuration());
   }
 
-  width = file->GetFrames().at(0).GetWidth();
-  height = file->GetFrames().at(0).GetHeight();
-  nLoops = file->GetLoop();
-
-  return nTextures;
+  return true;
 }
 
 bool CTextureBundleXBT::ConvertFrameToTexture(const CStdString& name, CXBTFFrame& frame, CBaseTexture** ppTexture)

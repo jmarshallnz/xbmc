@@ -324,24 +324,11 @@ int CGUITextureManager::Load(const CStdString& strTextureName, bool checkBundleO
 
     if (bundle >= 0)
     {
-      CBaseTexture **pTextures;
-      int nLoops = 0, width = 0, height = 0;
-      int* Delay;
-      int nImages = m_TexBundle[bundle].LoadAnim(strTextureName, &pTextures, width, height, nLoops, &Delay);
-      if (!nImages)
+      if (!m_TexBundle[bundle].LoadAnim(strTextureName, &pMap))
       {
         CLog::Log(LOGERROR, "Texture manager unable to load bundled file: %s", strTextureName.c_str());
         return 0;
       }
-
-      pMap = new CTextureMap(strTextureName, width, height, nLoops);
-      for (int iImage = 0; iImage < nImages; ++iImage)
-      {
-        pMap->Add(pTextures[iImage], Delay[iImage]);
-      }
-
-      delete [] pTextures;
-      delete [] Delay;
     }
     else
     {
@@ -393,11 +380,11 @@ int CGUITextureManager::Load(const CStdString& strTextureName, bool checkBundleO
     return 1;
   } // of if (strPath.Right(4).ToLower()==".gif")
 
-  CBaseTexture *pTexture = NULL;
+  CTextureMap *texture = NULL;
   int width = 0, height = 0;
   if (bundle >= 0)
   {
-    if (FAILED(m_TexBundle[bundle].LoadTexture(strTextureName, &pTexture, width, height)))
+    if (FAILED(m_TexBundle[bundle].LoadTexture(strTextureName, &texture)))
     {
       CLog::Log(LOGERROR, "Texture manager unable to load bundled file: %s", strTextureName.c_str());
       return 0;
@@ -405,18 +392,19 @@ int CGUITextureManager::Load(const CStdString& strTextureName, bool checkBundleO
   }
   else
   {
-    pTexture = new CTexture();
+    CTexture *pTexture = new CTexture();
     if(!pTexture->LoadFromFile(strPath))
       return 0;
     width = pTexture->GetWidth();
     height = pTexture->GetHeight();
+
+    texture = new CTextureMap(strTextureName, width, height, 0);
+    texture->Add(pTexture, 100);
   }
 
-  if (!pTexture) return 0;
+  if (!texture) return 0;
 
-  CTextureMap* pMap = new CTextureMap(strTextureName, width, height, 0);
-  pMap->Add(pTexture, 100);
-  m_vecTextures.push_back(pMap);
+  m_vecTextures.push_back(texture);
 
 #ifdef _DEBUG_TEXTURES
   int64_t end, freq;

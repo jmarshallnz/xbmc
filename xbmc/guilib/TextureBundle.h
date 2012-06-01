@@ -23,6 +23,7 @@
 
 #include "utils/StdString.h"
 #include "TextureBundleXBT.h"
+#include "TextureBundleAtlas.h"
 
 class CTextureBundle
 {
@@ -43,8 +44,10 @@ public:
 
 private:
   CTextureBundleXBT m_tbXBT;
+  CTextureBundleAtlas m_tbAtlas;
 
   bool m_useXBT;
+  bool m_useAtlas;
 };
 
 

@@ -30,6 +30,7 @@
 #include <vector>
 #include "TextureBundle.h"
 #include "threads/CriticalSection.h"
+#include <map>
 
 #pragma once
 
@@ -59,6 +60,9 @@ public:
   int m_loops;
   int m_texWidth;
   int m_texHeight;
+  int m_texXOffset;
+  int m_texYOffset;
+
   bool m_texCoordsArePixels;
 };
 
@@ -93,6 +97,8 @@ protected:
   CTextureArray m_texture;
   unsigned int m_referenceCount;
   uint32_t m_memUsage;
+  std::map<CStdString, CTextureArray> m_subTextures;
+  typedef std::map<CStdString, CTextureArray>::iterator iSubTextures;
 };
 
 /*!

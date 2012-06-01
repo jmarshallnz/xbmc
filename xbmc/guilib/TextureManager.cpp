@@ -49,6 +49,8 @@ CTextureArray::CTextureArray(int width, int height, int loops,  bool texCoordsAr
   m_orientation = 0;
   m_texWidth = 0;
   m_texHeight = 0;
+  m_texXOffset = 0;
+  m_texYOffset = 0;
   m_texCoordsArePixels = false;
 }
 
@@ -78,6 +80,8 @@ void CTextureArray::Reset()
   m_orientation = 0;
   m_texWidth = 0;
   m_texHeight = 0;
+  m_texXOffset = 0;
+  m_texYOffset = 0;
   m_texCoordsArePixels = false;
 }
 
@@ -164,11 +168,13 @@ const CStdString &CTextureMap::GetName() const
 
 bool CTextureMap::Provides(const CStdString &textureName) const
 {
+  // TODO: Add shit for looking up the atlas textures here...
   return m_textureName == textureName;
 }
 
 const CTextureArray& CTextureMap::GetTexture(const CStdString &textureName)
 {
+  // TODO: Add shit for looking up the atlas texture here...
   m_referenceCount++;
   return m_texture;
 }

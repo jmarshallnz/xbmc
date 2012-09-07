@@ -259,16 +259,6 @@ CGUIViewStateWindowVideoNav::CGUIViewStateWindowVideoNav(const CFileItemList& it
         SetSortOrder(g_settings.m_viewStateVideoNavEpisodes.m_sortOrder);
         break;
       }
-    case NODE_TYPE_RECENTLY_ADDED_EPISODES:
-      {
-        AddSortMethod(SORT_METHOD_NONE, 552, LABEL_MASKS("%Z - %H. %T", "%R"));  // TvShow - Order. Title, Rating | empty, empty
-        SetSortMethod(SORT_METHOD_NONE);
-
-        SetViewAsControl(g_settings.m_viewStateVideoNavEpisodes.m_viewMode);
-        SetSortOrder(SortOrderNone);
-
-        break;
-      }
     case NODE_TYPE_TITLE_MOVIES:
       {
         if (params.GetSetId() > -1) // Is this a listing within a set?
@@ -338,26 +328,6 @@ CGUIViewStateWindowVideoNav::CGUIViewStateWindowVideoNav(const CFileItemList& it
         SetViewAsControl(g_settings.m_viewStateVideoNavMusicVideos.m_viewMode);
 
         SetSortOrder(g_settings.m_viewStateVideoNavMusicVideos.m_sortOrder);
-      }
-      break;
-    case NODE_TYPE_RECENTLY_ADDED_MOVIES:
-      {
-        AddSortMethod(SORT_METHOD_NONE, 552, LABEL_MASKS("%T", "%R"));  // Title, Rating | empty, empty
-        SetSortMethod(SORT_METHOD_NONE);
-
-        SetViewAsControl(g_settings.m_viewStateVideoNavTitles.m_viewMode);
-
-        SetSortOrder(SortOrderNone);
-      }
-      break;
-    case NODE_TYPE_RECENTLY_ADDED_MUSICVIDEOS:
-      {
-        AddSortMethod(SORT_METHOD_NONE, 552, LABEL_MASKS("%A - %T", "%Y"));  // Artist - Title, Year | empty, empty
-        SetSortMethod(SORT_METHOD_NONE);
-
-        SetViewAsControl(g_settings.m_viewStateVideoNavMusicVideos.m_viewMode);
-
-        SetSortOrder(SortOrderNone);
       }
       break;
     default:

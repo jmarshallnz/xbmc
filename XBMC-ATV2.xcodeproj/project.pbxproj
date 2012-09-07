@@ -503,9 +503,6 @@
 		F56C79D9131EC154000AD0F6 /* DirectoryNodeMusicVideoAlbum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7470131EC152000AD0F6 /* DirectoryNodeMusicVideoAlbum.cpp */; };
 		F56C79DA131EC154000AD0F6 /* DirectoryNodeMusicVideosOverview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7472131EC152000AD0F6 /* DirectoryNodeMusicVideosOverview.cpp */; };
 		F56C79DB131EC154000AD0F6 /* DirectoryNodeOverview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7474131EC152000AD0F6 /* DirectoryNodeOverview.cpp */; };
-		F56C79DC131EC154000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7476131EC152000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.cpp */; };
-		F56C79DD131EC154000AD0F6 /* DirectoryNodeRecentlyAddedMovies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7478131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMovies.cpp */; };
-		F56C79DE131EC154000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C747A131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.cpp */; };
 		F56C79DF131EC154000AD0F6 /* DirectoryNodeRoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C747C131EC152000AD0F6 /* DirectoryNodeRoot.cpp */; };
 		F56C79E0131EC154000AD0F6 /* DirectoryNodeSeasons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C747E131EC152000AD0F6 /* DirectoryNodeSeasons.cpp */; };
 		F56C79E1131EC154000AD0F6 /* DirectoryNodeSets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C7480131EC152000AD0F6 /* DirectoryNodeSets.cpp */; };
@@ -2145,12 +2142,6 @@
 		F56C7473131EC152000AD0F6 /* DirectoryNodeMusicVideosOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryNodeMusicVideosOverview.h; sourceTree = "<group>"; };
 		F56C7474131EC152000AD0F6 /* DirectoryNodeOverview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeOverview.cpp; sourceTree = "<group>"; };
 		F56C7475131EC152000AD0F6 /* DirectoryNodeOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryNodeOverview.h; sourceTree = "<group>"; };
-		F56C7476131EC152000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeRecentlyAddedEpisodes.cpp; sourceTree = "<group>"; };
-		F56C7477131EC152000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryNodeRecentlyAddedEpisodes.h; sourceTree = "<group>"; };
-		F56C7478131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMovies.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeRecentlyAddedMovies.cpp; sourceTree = "<group>"; };
-		F56C7479131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMovies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryNodeRecentlyAddedMovies.h; sourceTree = "<group>"; };
-		F56C747A131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeRecentlyAddedMusicVideos.cpp; sourceTree = "<group>"; };
-		F56C747B131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryNodeRecentlyAddedMusicVideos.h; sourceTree = "<group>"; };
 		F56C747C131EC152000AD0F6 /* DirectoryNodeRoot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeRoot.cpp; sourceTree = "<group>"; };
 		F56C747D131EC152000AD0F6 /* DirectoryNodeRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryNodeRoot.h; sourceTree = "<group>"; };
 		F56C747E131EC152000AD0F6 /* DirectoryNodeSeasons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeSeasons.cpp; sourceTree = "<group>"; };
@@ -4867,12 +4858,6 @@
 				F56C7473131EC152000AD0F6 /* DirectoryNodeMusicVideosOverview.h */,
 				F56C7474131EC152000AD0F6 /* DirectoryNodeOverview.cpp */,
 				F56C7475131EC152000AD0F6 /* DirectoryNodeOverview.h */,
-				F56C7476131EC152000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.cpp */,
-				F56C7477131EC152000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.h */,
-				F56C7478131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMovies.cpp */,
-				F56C7479131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMovies.h */,
-				F56C747A131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.cpp */,
-				F56C747B131EC152000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.h */,
 				F56C747C131EC152000AD0F6 /* DirectoryNodeRoot.cpp */,
 				F56C747D131EC152000AD0F6 /* DirectoryNodeRoot.h */,
 				F56C747E131EC152000AD0F6 /* DirectoryNodeSeasons.cpp */,
@@ -6938,9 +6923,6 @@
 				F56C79D9131EC154000AD0F6 /* DirectoryNodeMusicVideoAlbum.cpp in Sources */,
 				F56C79DA131EC154000AD0F6 /* DirectoryNodeMusicVideosOverview.cpp in Sources */,
 				F56C79DB131EC154000AD0F6 /* DirectoryNodeOverview.cpp in Sources */,
-				F56C79DC131EC154000AD0F6 /* DirectoryNodeRecentlyAddedEpisodes.cpp in Sources */,
-				F56C79DD131EC154000AD0F6 /* DirectoryNodeRecentlyAddedMovies.cpp in Sources */,
-				F56C79DE131EC154000AD0F6 /* DirectoryNodeRecentlyAddedMusicVideos.cpp in Sources */,
 				F56C79DF131EC154000AD0F6 /* DirectoryNodeRoot.cpp in Sources */,
 				F56C79E0131EC154000AD0F6 /* DirectoryNodeSeasons.cpp in Sources */,
 				F56C79E1131EC154000AD0F6 /* DirectoryNodeSets.cpp in Sources */,

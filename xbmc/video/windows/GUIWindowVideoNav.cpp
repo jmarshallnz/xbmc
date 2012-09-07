@@ -279,8 +279,7 @@ bool CGUIWindowVideoNav::GetDirectory(const CStdString &strDirectory, CFileItemL
 
       items.SetThumbnailImage("");
       if (node == VIDEODATABASEDIRECTORY::NODE_TYPE_EPISODES ||
-          node == NODE_TYPE_SEASONS                          ||
-          node == NODE_TYPE_RECENTLY_ADDED_EPISODES)
+          node == NODE_TYPE_SEASONS)
       {
         CLog::Log(LOGDEBUG, "WindowVideoNav::GetDirectory");
         // grab the show thumb
@@ -305,7 +304,7 @@ bool CGUIWindowVideoNav::GetDirectory(const CStdString &strDirectory, CFileItemL
         items.SetProperty("showplot", details.m_strPlot);
 
         // the container folder thumb is the parent (i.e. season or show)
-        if (node == NODE_TYPE_EPISODES || node == NODE_TYPE_RECENTLY_ADDED_EPISODES)
+        if (node == NODE_TYPE_EPISODES)
         {
           items.SetContent("episodes");
           // grab the season thumb as the folder thumb
@@ -324,13 +323,11 @@ bool CGUIWindowVideoNav::GetDirectory(const CStdString &strDirectory, CFileItemL
         }
       }
       else if (node == NODE_TYPE_TITLE_MOVIES ||
-               node == NODE_TYPE_SETS ||
-               node == NODE_TYPE_RECENTLY_ADDED_MOVIES)
+               node == NODE_TYPE_SETS)
         items.SetContent("movies");
       else if (node == NODE_TYPE_TITLE_TVSHOWS)
         items.SetContent("tvshows");
-      else if (node == NODE_TYPE_TITLE_MUSICVIDEOS ||
-               node == NODE_TYPE_RECENTLY_ADDED_MUSICVIDEOS)
+      else if (node == NODE_TYPE_TITLE_MUSICVIDEOS)
         items.SetContent("musicvideos");
       else if (node == NODE_TYPE_GENRE)
         items.SetContent("genres");
@@ -1578,10 +1575,7 @@ bool CGUIWindowVideoNav::ApplyWatchedFilter(CFileItemList &items)
   ||  node == NODE_TYPE_TAGS
   ||  node == NODE_TYPE_TITLE_MOVIES
   ||  node == NODE_TYPE_TITLE_TVSHOWS
-  ||  node == NODE_TYPE_TITLE_MUSICVIDEOS
-  ||  node == NODE_TYPE_RECENTLY_ADDED_EPISODES
-  ||  node == NODE_TYPE_RECENTLY_ADDED_MOVIES
-  ||  node == NODE_TYPE_RECENTLY_ADDED_MUSICVIDEOS)
+  ||  node == NODE_TYPE_TITLE_MUSICVIDEOS)
     filterWatched = true;
   if (!items.IsVideoDb())
     filterWatched = true;

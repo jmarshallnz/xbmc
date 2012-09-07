@@ -8,9 +8,6 @@ SRCS=DirectoryNode.cpp \
      DirectoryNodeMusicVideoAlbum.cpp \
      DirectoryNodeMusicVideosOverview.cpp \
      DirectoryNodeOverview.cpp \
-     DirectoryNodeRecentlyAddedEpisodes.cpp \
-     DirectoryNodeRecentlyAddedMovies.cpp \
-     DirectoryNodeRecentlyAddedMusicVideos.cpp \
      DirectoryNodeRoot.cpp \
      DirectoryNodeSeasons.cpp \
      DirectoryNodeSets.cpp \

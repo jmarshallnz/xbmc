@@ -34,9 +34,6 @@ Node OverviewChildren[] = {
                             { NODE_TYPE_MOVIES_OVERVIEW,            1, 342 },
                             { NODE_TYPE_TVSHOWS_OVERVIEW,           2, 20343 },
                             { NODE_TYPE_MUSICVIDEOS_OVERVIEW,       3, 20389 },
-                            { NODE_TYPE_RECENTLY_ADDED_MOVIES,      4, 20386 },
-                            { NODE_TYPE_RECENTLY_ADDED_EPISODES,    5, 20387 },
-                            { NODE_TYPE_RECENTLY_ADDED_MUSICVIDEOS, 6, 20390 },
                           };
 
 CDirectoryNodeOverview::CDirectoryNodeOverview(const CStdString& strName, CDirectoryNode* pParent)

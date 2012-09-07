@@ -200,16 +200,10 @@ bool CVideoDatabaseDirectory::GetLabel(const CStdString& strDirectory, CStdStrin
       strLabel = g_localizeStrings.Get(342); break;
     case NODE_TYPE_TVSHOWS_OVERVIEW: // TV Shows
       strLabel = g_localizeStrings.Get(20343); break;
-    case NODE_TYPE_RECENTLY_ADDED_MOVIES: // Recently Added Movies
-      strLabel = g_localizeStrings.Get(20386); break;
-    case NODE_TYPE_RECENTLY_ADDED_EPISODES: // Recently Added Episodes
-      strLabel = g_localizeStrings.Get(20387); break;
     case NODE_TYPE_STUDIO: // Studios
       strLabel = g_localizeStrings.Get(20388); break;
     case NODE_TYPE_MUSICVIDEOS_OVERVIEW: // Music Videos
       strLabel = g_localizeStrings.Get(20389); break;
-    case NODE_TYPE_RECENTLY_ADDED_MUSICVIDEOS: // Recently Added Music Videos
-      strLabel = g_localizeStrings.Get(20390); break;
     case NODE_TYPE_SEASONS: // Seasons
       strLabel = g_localizeStrings.Get(33054); break;
     case NODE_TYPE_EPISODES: // Episodes
@@ -269,12 +263,6 @@ CStdString CVideoDatabaseDirectory::GetIcon(const CStdString &strDirectory)
     return "DefaultMovies.png";
   case NODE_TYPE_TVSHOWS_OVERVIEW: // TV Shows
     return "DefaultTVShows.png";
-  case NODE_TYPE_RECENTLY_ADDED_MOVIES: // Recently Added Movies
-    return "DefaultRecentlyAddedMovies.png";
-  case NODE_TYPE_RECENTLY_ADDED_EPISODES: // Recently Added Episodes
-    return "DefaultRecentlyAddedEpisodes.png";
-  case NODE_TYPE_RECENTLY_ADDED_MUSICVIDEOS: // Recently Added Episodes
-    return "DefaultRecentlyAddedMusicVideos.png";
   case NODE_TYPE_STUDIO: // Studios
     return "DefaultStudios.png";
   case NODE_TYPE_MUSICVIDEOS_OVERVIEW: // Music Videos

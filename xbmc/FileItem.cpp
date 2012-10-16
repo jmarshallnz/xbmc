@@ -170,7 +170,7 @@ CFileItem::CFileItem(const CEpgInfoTag& tag)
 
   if (!tag.Icon().IsEmpty())
   {
-    SetThumbnailImage(tag.Icon());
+    SetArt("thumb", tag.Icon());
     SetIconImage(tag.Icon());
   }
 }
@@ -218,7 +218,7 @@ CFileItem::CFileItem(const CPVRChannel& channel)
 
   if (!channel.IconPath().IsEmpty())
   {
-    SetThumbnailImage(channel.IconPath());
+    SetArt("thumb", channel.IconPath());
     SetIconImage(channel.IconPath());
   }
 
@@ -266,7 +266,7 @@ CFileItem::CFileItem(const CPVRTimerInfoTag& timer)
 
   if (!timer.ChannelIcon().IsEmpty())
   {
-    SetThumbnailImage(timer.ChannelIcon());
+    SetArt("thumb", timer.ChannelIcon());
     SetIconImage(timer.ChannelIcon());
   }
 }

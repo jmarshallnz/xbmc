@@ -169,7 +169,10 @@ CFileItem::CFileItem(const CEpgInfoTag& tag)
   m_dateTime = tag.StartAsLocalTime();
 
   if (!tag.Icon().IsEmpty())
+  {
+    SetThumbnailImage(tag.Icon());
     SetIconImage(tag.Icon());
+  }
 }
 
 CFileItem::CFileItem(const CPVRChannel& channel)
@@ -214,7 +217,10 @@ CFileItem::CFileItem(const CPVRChannel& channel)
   }
 
   if (!channel.IconPath().IsEmpty())
+  {
+    SetThumbnailImage(channel.IconPath());
     SetIconImage(channel.IconPath());
+  }
 
   SetProperty("channelid", channel.ChannelID());
   SetProperty("path", channel.Path());
@@ -259,7 +265,10 @@ CFileItem::CFileItem(const CPVRTimerInfoTag& timer)
   m_dateTime = timer.StartAsLocalTime();
 
   if (!timer.ChannelIcon().IsEmpty())
+  {
+    SetThumbnailImage(timer.ChannelIcon());
     SetIconImage(timer.ChannelIcon());
+  }
 }
 
 CFileItem::CFileItem(const CArtist& artist)

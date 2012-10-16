@@ -37,7 +37,7 @@ using namespace std;
 using namespace PVR;
 
 CGUIDialogVideoSettings::CGUIDialogVideoSettings(void)
-    : CGUIDialogSettings(WINDOW_DIALOG_VIDEO_OSD_SETTINGS, "VideoOSDSettings.xml")
+    : CGUIDialogSettings(WINDOW_DIALOG_VIDEO_SETTINGS, "VideoOSDSettings.xml")
 {
 }
 

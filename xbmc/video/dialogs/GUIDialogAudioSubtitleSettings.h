@@ -27,7 +27,7 @@ class CGUIDialogAudioSubtitleSettings :
       public CGUIDialogSettings
 {
 public:
-  CGUIDialogAudioSubtitleSettings(void);
+  CGUIDialogAudioSubtitleSettings(int windowID = 0);
   virtual ~CGUIDialogAudioSubtitleSettings(void);
   virtual void FrameMove();
 

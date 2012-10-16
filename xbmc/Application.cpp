@@ -1257,6 +1257,8 @@ bool CApplication::Initialize()
     g_windowManager.Add(new CGUIDialogVisualisationPresetList);   // window id = 122
     g_windowManager.Add(new CGUIDialogVideoSettings);             // window id = 123
     g_windowManager.Add(new CGUIDialogAudioSubtitleSettings);     // window id = 124
+    g_windowManager.Add(new CGUIDialogAudioSubtitleSettings(WINDOW_DIALOG_AUDIO_SETTINGS));
+    g_windowManager.Add(new CGUIDialogAudioSubtitleSettings(WINDOW_DIALOG_SUBTITLE_SETTINGS));
     g_windowManager.Add(new CGUIDialogVideoBookmarks);      // window id = 125
     // Don't add the filebrowser dialog - it's created and added when it's needed
     g_windowManager.Add(new CGUIDialogNetworkSetup);  // window id = 128
@@ -3338,8 +3340,10 @@ bool CApplication::Cleanup()
     g_windowManager.Delete(WINDOW_DIALOG_LOCK_SETTINGS);
     g_windowManager.Delete(WINDOW_DIALOG_NETWORK_SETUP);
     g_windowManager.Delete(WINDOW_DIALOG_MEDIA_SOURCE);
-    g_windowManager.Delete(WINDOW_DIALOG_VIDEO_OSD_SETTINGS);
-    g_windowManager.Delete(WINDOW_DIALOG_AUDIO_OSD_SETTINGS);
+    g_windowManager.Delete(WINDOW_DIALOG_VIDEO_SETTINGS);
+    g_windowManager.Delete(WINDOW_DIALOG_AUDIO_SUBTITLE_SETTINGS);
+    g_windowManager.Delete(WINDOW_DIALOG_AUDIO_SETTINGS);
+    g_windowManager.Delete(WINDOW_DIALOG_SUBTITLE_SETTINGS);
     g_windowManager.Delete(WINDOW_DIALOG_VIDEO_BOOKMARKS);
     g_windowManager.Delete(WINDOW_DIALOG_CONTENT_SETTINGS);
     g_windowManager.Delete(WINDOW_DIALOG_FAVOURITES);

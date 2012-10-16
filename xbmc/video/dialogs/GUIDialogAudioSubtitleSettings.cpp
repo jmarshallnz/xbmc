@@ -46,8 +46,8 @@ using namespace PVR;
 extern void xbox_audio_switch_channel(int iAudioStream, bool bAudioOnAllSpeakers); //lowlevel audio
 #endif
 
-CGUIDialogAudioSubtitleSettings::CGUIDialogAudioSubtitleSettings(void)
-    : CGUIDialogSettings(WINDOW_DIALOG_AUDIO_OSD_SETTINGS, "VideoOSDSettings.xml")
+CGUIDialogAudioSubtitleSettings::CGUIDialogAudioSubtitleSettings(int windowID)
+: CGUIDialogSettings(windowID ? windowID : WINDOW_DIALOG_AUDIO_SUBTITLE_SETTINGS, "VideoOSDSettings.xml")
 {
 }
 
@@ -67,7 +67,9 @@ CGUIDialogAudioSubtitleSettings::~CGUIDialogAudioSubtitleSettings(void)
 #define SUBTITLE_SETTINGS_DELAY           9
 #define SUBTITLE_SETTINGS_STREAM          10
 #define SUBTITLE_SETTINGS_BROWSER         11
-#define AUDIO_SETTINGS_MAKE_DEFAULT       12
+
+// separator 12
+#define AUDIO_SETTINGS_MAKE_DEFAULT       13
 
 void CGUIDialogAudioSubtitleSettings::CreateSettings()
 {
@@ -83,6 +85,8 @@ void CGUIDialogAudioSubtitleSettings::CreateSettings()
   m_settings.clear();
   // create our settings
   m_volume = g_settings.m_fVolumeLevel;
+  if (GetID() != WINDOW_DIALOG_SUBTITLE_SETTINGS)
+  {
   AddSlider(AUDIO_SETTINGS_VOLUME, 13376, &m_volume, VOLUME_MINIMUM, VOLUME_MAXIMUM / 100.0f, VOLUME_MAXIMUM, PercentAsDecibel, false);
   if (SupportsAudioFeature(IPC_AUD_AMP))
     AddSlider(AUDIO_SETTINGS_VOLUME_AMPLIFICATION, 660, &g_settings.m_currentVideoSettings.m_VolumeAmplification, VOLUME_DRC_MINIMUM * 0.01f, (VOLUME_DRC_MAXIMUM - VOLUME_DRC_MINIMUM) / 6000.0f, VOLUME_DRC_MAXIMUM * 0.01f, FormatDecibel, false);
@@ -104,8 +108,11 @@ void CGUIDialogAudioSubtitleSettings::CreateSettings()
   m_outputmode = g_guiSettings.GetInt("audiooutput.mode");
   if (SupportsAudioFeature(IPC_AUD_SELECT_OUTPUT))
     AddSpin(AUDIO_SETTINGS_DIGITAL_ANALOG, 337, &m_outputmode, 3, settings);
-
   AddSeparator(7);
+  }
+
+  if (GetID() != WINDOW_DIALOG_AUDIO_SETTINGS)
+  {
   m_subtitleVisible = g_application.m_pPlayer->GetSubtitleVisible();
   AddBool(SUBTITLE_SETTINGS_ENABLE, 13397, &m_subtitleVisible);
   if (SupportsSubtitleFeature(IPC_SUBS_OFFSET))
@@ -114,6 +121,8 @@ void CGUIDialogAudioSubtitleSettings::CreateSettings()
     AddSubtitleStreams(SUBTITLE_SETTINGS_STREAM);
   if (SupportsSubtitleFeature(IPC_SUBS_EXTERNAL))
     AddButton(SUBTITLE_SETTINGS_BROWSER,13250);
+  }
+  AddSeparator(12);
   AddButton(AUDIO_SETTINGS_MAKE_DEFAULT, 12376);
 }
 

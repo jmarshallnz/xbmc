@@ -85,6 +85,7 @@ const CMusicInfoTag& CMusicInfoTag::operator =(const CMusicInfoTag& tag)
 
   m_strURL = tag.m_strURL;
   m_artist = tag.m_artist;
+  m_artistIds = tag.m_artistIds;
   m_albumArtist = tag.m_albumArtist;
   m_strAlbum = tag.m_strAlbum;
   m_genre = tag.m_genre;
@@ -305,6 +306,11 @@ void CMusicInfoTag::SetArtist(const CStdString& strArtist)
 void CMusicInfoTag::SetArtist(const std::vector<std::string>& artists)
 {
   m_artist = artists;
+}
+
+void CMusicInfoTag::SetArtistIds(const std::vector<int>& artistIds)
+{
+  m_artistIds = artistIds;
 }
 
 void CMusicInfoTag::SetAlbum(const CStdString& strAlbum)
@@ -565,6 +571,8 @@ void CMusicInfoTag::Serialize(CVariant& value) const
     value["artist"] = m_artist[0];
   else
     value["artist"] = m_artist;
+  for (std::vector<int>::const_iterator i = m_artistIds.begin(); i != m_artistIds.end(); ++i)
+    value["artistids"].push_back(*i);
   value["album"] = m_strAlbum;
   value["albumartist"] = m_albumArtist;
   value["genre"] = m_genre;
@@ -611,6 +619,7 @@ void CMusicInfoTag::Archive(CArchive& ar)
     ar << m_strURL;
     ar << m_strTitle;
     ar << m_artist;
+    ar << m_artistIds;
     ar << m_strAlbum;
     ar << m_albumArtist;
     ar << m_genre;
@@ -639,6 +648,7 @@ void CMusicInfoTag::Archive(CArchive& ar)
     ar >> m_strURL;
     ar >> m_strTitle;
     ar >> m_artist;
+    ar >> m_artistIds;
     ar >> m_strAlbum;
     ar >> m_albumArtist;
     ar >> m_genre;
@@ -668,6 +678,7 @@ void CMusicInfoTag::Clear()
 {
   m_strURL.Empty();
   m_artist.clear();
+  m_artistIds.clear();
   m_strAlbum.Empty();
   m_albumArtist.clear();
   m_genre.clear();

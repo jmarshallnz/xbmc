@@ -110,6 +110,7 @@ public:
   void SetTitle(const CStdString& strTitle);
   void SetArtist(const CStdString& strArtist);
   void SetArtist(const std::vector<std::string>& artists);
+  void SetArtistIds(const std::vector<int>& artistIds);
   void SetAlbum(const CStdString& strAlbum);
   void SetAlbumId(const int iAlbumId);
   void SetAlbumArtist(const CStdString& strAlbumArtist);
@@ -178,6 +179,7 @@ protected:
   CStdString m_strURL;
   CStdString m_strTitle;
   std::vector<std::string> m_artist;
+  std::vector<int> m_artistIds;
   CStdString m_strAlbum;
   std::vector<std::string> m_albumArtist;
   std::vector<std::string> m_genre;

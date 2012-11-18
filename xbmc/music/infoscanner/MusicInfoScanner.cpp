@@ -576,11 +576,11 @@ int CMusicInfoScanner::RetrieveMusicInfo(CFileItemList& items, const CStdString&
     albumsToScan.insert(idAlbum);
     for (vector<int>::iterator j = songIDs.begin(); j != songIDs.end(); ++j)
     {
-      vector<long> songArtists;
+      vector<int> songArtists;
       m_musicDatabase.GetArtistsBySong(*j, false, songArtists);
       artistsToScan.insert(songArtists.begin(), songArtists.end());
     }
-    std::vector<long> albumArtists;
+    std::vector<int> albumArtists;
     m_musicDatabase.GetArtistsByAlbum(idAlbum, false, albumArtists);
     artistsToScan.insert(albumArtists.begin(), albumArtists.end());
   }

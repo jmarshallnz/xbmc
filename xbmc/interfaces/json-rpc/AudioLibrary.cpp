@@ -157,6 +157,28 @@ JSONRPC_STATUS CAudioLibrary::GetAlbums(const CStdString &method, ITransportLaye
   if (!musicdatabase.GetAlbumsNav(musicUrl.ToString(), items, genreID, artistID, CDatabase::Filter(), sorting))
     return InternalError;
 
+  // hacky mchacky
+  bool fetchArtists = false;
+  for (CVariant::const_iterator_array itr = parameterObject["properties"].begin_array(); itr != parameterObject["properties"].end_array(); itr++)
+  {
+    CStdString fieldValue = itr->asString();
+    if (fieldValue == "artistids")
+    {
+      fetchArtists = true;
+      break;
+    }
+  }
+  if (fetchArtists)
+  {
+    for (int i = 0; i < items.Size(); i++)
+    {
+      CFileItemPtr item = items[i];
+      std::vector<int> artistIds;
+      if (musicdatabase.GetArtistsByAlbum(item->GetMusicInfoTag()->GetDatabaseId(), true, artistIds))
+        item->GetMusicInfoTag()->SetArtistIds(artistIds);
+    }
+  }
+  // end hacky mchacky
   int size = items.Size();
   if (items.HasProperty("total") && items.GetProperty("total").asInteger() > size)
     size = (int)items.GetProperty("total").asInteger();
@@ -228,6 +250,28 @@ JSONRPC_STATUS CAudioLibrary::GetSongs(const CStdString &method, ITransportLayer
   if (!musicdatabase.GetSongsNav(musicUrl.ToString(), items, genreID, artistID, albumID, sorting))
     return InternalError;
 
+  // hacky mchacky
+  bool fetchArtists = false;
+  for (CVariant::const_iterator_array itr = parameterObject["properties"].begin_array(); itr != parameterObject["properties"].end_array(); itr++)
+  {
+    CStdString fieldValue = itr->asString();
+    if (fieldValue == "artistids")
+    {
+      fetchArtists = true;
+      break;
+    }
+  }
+  if (fetchArtists)
+  {
+    for (int i = 0; i < items.Size(); i++)
+    {
+      CFileItemPtr item = items[i];
+      std::vector<int> artistIds;
+      if (musicdatabase.GetArtistsBySong(item->GetMusicInfoTag()->GetDatabaseId(), true, artistIds))
+        item->GetMusicInfoTag()->SetArtistIds(artistIds);
+    }
+  }
+  // end hacky mchacky
   int size = items.Size();
   if (items.HasProperty("total") && items.GetProperty("total").asInteger() > size)
     size = (int)items.GetProperty("total").asInteger();

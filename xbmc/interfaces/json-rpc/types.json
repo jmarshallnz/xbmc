@@ -392,7 +392,7 @@
   "Audio.Fields.Album": {
     "extends": "Item.Fields.Base",
     "items": { "type": "string",
-      "enum": [ "title", "description", "artist", "genre",
+      "enum": [ "title", "description", "artist", "artistids", "genre",
                 "theme", "mood", "style", "type", "albumlabel",
                 "rating", "year", "musicbrainzalbumid",
                 "musicbrainzalbumartistid", "fanart", "thumbnail",
@@ -402,7 +402,7 @@
   "Audio.Fields.Song": {
     "extends": "Item.Fields.Base",
     "items": { "type": "string",
-      "enum": [ "title", "artist", "albumartist", "genre", "year",
+      "enum": [ "title", "artist", "artistids", "albumartist", "genre", "year",
                 "rating", "album", "track", "duration", "comment",
                 "lyrics", "musicbrainztrackid", "musicbrainzartistid",
                 "musicbrainzalbumid", "musicbrainzalbumartistid",
@@ -421,6 +421,7 @@
     "properties": {
       "title": { "type": "string" },
       "artist": { "$ref": "Array.String" },
+      "artistids": { "$ref" : "Array.Integer" },
       "year": { "type": "integer" },
       "rating": { "type": "integer" },
       "musicbrainzalbumid": { "type": "string" },

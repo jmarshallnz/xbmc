@@ -565,11 +565,11 @@ void CMusicInfoTag::Serialize(CVariant& value) const
   if (m_type.compare("artist") == 0 && m_artist.size() == 1)
     value["artist"] = m_artist[0];
   else
-    value["artist"] = m_artist;
+    value["artist"] = StringUtils::Join(m_artist, g_advancedSettings.m_musicItemSeparator);
   for (std::vector<int>::const_iterator i = m_artistIds.begin(); i != m_artistIds.end(); ++i)
     value["artistids"].push_back(*i);
   value["album"] = m_strAlbum;
-  value["albumartist"] = m_albumArtist;
+  value["albumartist"] = StringUtils::Join(m_albumArtist, g_advancedSettings.m_musicItemSeparator);
   value["genre"] = m_genre;
   value["duration"] = m_iDuration;
   value["track"] = GetTrackNumber();

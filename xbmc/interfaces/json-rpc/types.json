@@ -420,7 +420,7 @@
     "extends": "Audio.Details.Base",
     "properties": {
       "title": { "type": "string" },
-      "artist": { "$ref": "Array.String" },
+      "artist": { "type": "string" },
       "artistids": { "$ref" : "Array.Integer" },
       "year": { "type": "integer" },
       "rating": { "type": "integer" },
@@ -463,7 +463,7 @@
     "properties": {
       "songid": { "$ref": "Library.Id", "required": true },
       "file": { "type": "string" },
-      "albumartist": { "$ref": "Array.String" },
+      "albumartist": { "type": "string" },
       "album": { "type": "string" },
       "track": { "type": "integer" },
       "duration": { "type": "integer" },
@@ -1000,7 +1000,7 @@
     "properties": {
       "id": { "$ref": "Library.Id" },
       "type": { "type": "string", "enum": [ "unknown", "movie", "episode", "musicvideo", "song", "picture", "channel" ] },
-      "albumartist": { "$ref": "Array.String" },
+      "albumartist": { "type": "string" },
       "album": { "type": "string" },
       "track": { "type": "integer" },
       "duration": { "type": "integer" },

@@ -23,6 +23,7 @@
 #include "windowing/WindowingFactory.h"
 #include "utils/log.h"
 #include "utils/GLUtils.h"
+#include "settings/AdvancedSettings.h"
 
 #if defined(HAS_GL) || defined(HAS_GLES)
 
@@ -91,7 +92,7 @@ void CGLTexture::LoadToGPU()
   }
 
   GLenum format = GL_BGRA;
-  GLint numcomponents = GL_RGBA;
+  GLint numcomponents = (g_advancedSettings.m_srgbTest & 1) ? GL_SRGB8_ALPHA8_EXT : GL_RGBA;
 
   switch (m_format)
   {

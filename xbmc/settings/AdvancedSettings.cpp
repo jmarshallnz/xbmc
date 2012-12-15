@@ -322,6 +322,8 @@ void CAdvancedSettings::Initialize()
   m_databaseVideo.Reset();
 
   m_logLevelHint = m_logLevel = LOG_LEVEL_NORMAL;
+
+  m_srgbTest = 0;
 }
 
 bool CAdvancedSettings::Load()
@@ -420,6 +422,8 @@ void CAdvancedSettings::ParseSettingsFile(const CStdString &file)
     XMLUtils::GetBoolean(pElement, "omxhwaudiodecode", m_omxHWAudioDecode);
     XMLUtils::GetBoolean(pElement, "omxdecodestartwithvalidframe", m_omxDecodeStartWithValidFrame);
   }
+
+  XMLUtils::GetUInt(pRootElement, "srgbtest", m_srgbTest, 0, 3);
 
   pElement = pRootElement->FirstChildElement("karaoke");
   if (pElement)

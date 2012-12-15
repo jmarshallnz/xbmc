@@ -230,6 +230,8 @@ bool CRenderSystemGL::ResetRenderSystem(int width, int height, bool fullScreen, 
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   glEnable(GL_BLEND);          // Turn Blending On
+  if (g_advancedSettings.m_srgbTest & 2)
+    glEnable(GL_FRAMEBUFFER_SRGB);
   glDisable(GL_DEPTH_TEST);
 
   return true;

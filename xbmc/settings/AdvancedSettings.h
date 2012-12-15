@@ -232,6 +232,8 @@ class CAdvancedSettings
     CStdString m_musicThumbs;
     CStdString m_fanartImages;
 
+    unsigned int m_srgbTest;
+  
     bool m_bMusicLibraryHideAllItems;
     int m_iMusicLibraryRecentlyAddedItems;
     bool m_bMusicLibraryAllItemsOnBottom;

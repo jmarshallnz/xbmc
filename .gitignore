@@ -366,7 +366,6 @@ lib/cpluff/stamp-h1
 /project/VS2008Express/libPlatinum
 /project/VS2008Express/libs
 /project/VS2008Express/objs
-/project/VS2008Express/UnrarXLib
 
 # /project/VS2010Express
 /project/VS2010Express/Debug
@@ -375,7 +374,6 @@ lib/cpluff/stamp-h1
 /project/VS2010Express/glib
 /project/VS2010Express/guilib
 /project/VS2010Express/libPlatinum
-/project/VS2010Express/UnrarXLib
 /project/VS2010Express/test-XbmcThreads
 /project/VS2010Express/libs
 /project/VS2010Express/objs

@@ -21,9 +21,7 @@
 
 #include "system.h"
 
-#include "cores/AudioEngine/Interfaces/AESink.h"
-
-class AERingBuffer;
+#include "Interfaces/AESink.h"
 
 class CAESinkNULL : public CThread, public IAESink
 {
@@ -51,8 +49,8 @@ private:
   CEvent               m_inited;
   volatile bool        m_draining;
   AEAudioFormat        m_format;
-  AERingBuffer         *m_sinkbuffer;
   unsigned int         m_sink_frameSize;
-  double               m_sinkbuffer_sec;
+  unsigned int         m_sinkbuffer_size;  ///< total size of the buffer in bytes
+  unsigned int         m_sinkbuffer_level; ///< current level in the buffer in bytes
   double               m_sinkbuffer_sec_per_byte;
 };

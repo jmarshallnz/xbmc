@@ -303,6 +303,46 @@ void CGUIInfoLabel::Parse(const CStdString &label, int context)
   }
 }
 
+/* TODO: things to do are:
+ 1. Generalize built-in parser so that it works on <junk><whitespace><function>(param, param, param)<junk> ... and return vector<function>
+    where function(string name, vector<string> params)
+ 2. Generalize built-in parser so that it can be used for $INFO[] parsing (no quoting, different functions)
+ 3. Run built-in parser with $INFO[] stuff (or run stuff we already have with it if 2 isn't done).
+ 4. Convert result to Info() stuff.
+ 5. Run built-in parser with Info() stuff.
+ 6. If more than one function is returned, quit.
+ 7. For each returned parameter, run built-in parser, and replace string functions with their output.
+ 
+ Alternative would be that the initial built-in parser allows construction of a vector function trees (though I guess recursive application would give us that)
+
+   function(string name, vector<function> params)
+
+ Then in step 7 we'd have the ability to execute a (string) function - function could be CStringFunction or CString. They have an Evaluate() routine where for
+ the former it does the infomanager stuff (or any string functions we want), and for the latter it just drops the string in unchanged.  Later on we could
+ introduce different parameter types (CVariant).
+
+CStdString CGUIInfoLabel::SanitizeForBuiltInParsing(const CStdString &label)
+{
+  vector< pair<EINFOFORMAT, CStdString> > &blocks;
+  SplitBlocks(label, blocks);
+  CStdString output;
+  for (vector< pair<EINFOFORMAT, CStdString> >::iterator i = blocks.begin(); i != blocks.end(); ++i)
+  {
+    if (i->first == NONE)
+      output += i->second;
+    else if (i->first == FORMATVAR)
+      output += "VarLabel(\"" + i->second + "\")";
+    else if (i->first == FORMATESCINFO) // TODO: Depreciate
+      output += "EscInfoLabel(\"" + i->second + "\")";
+    else //if (i->first == FORMAINFO)
+      output += "InfoLabel(\"" + i->second + "\")";
+  }
+  return output;
+
+  // deparsing it afterwards could be a royal pain in the arse, but we could use builtin parser perhaps?
+}
+*/
+
 void CGUIInfoLabel::SplitBlocks(const CStdString &label, vector< pair<EINFOFORMAT, CStdString> > &blocks)
 {
   // Step 1: Replace all $LOCALIZE[number] with the real string

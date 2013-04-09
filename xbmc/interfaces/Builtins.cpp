@@ -68,6 +68,8 @@
 
 #include "guilib/GUIWindowManager.h"
 #include "guilib/LocalizeStrings.h"
+#include "interfaces/info/Parser.h"
+#include "interfaces/info/Tokeniser.h"
 
 #ifdef HAS_LIRC
 #include "input/linux/LIRC.h"
@@ -224,11 +226,13 @@ bool CBuiltins::HasCommand(const CStdString& execString)
 {
   CStdString function;
   vector<CStdString> parameters;
-  CUtil::SplitExecFunction(execString, function, parameters);
-  for (unsigned int i = 0; i < sizeof(commands)/sizeof(BUILT_IN); i++)
+  if (Parse(execString, function, parameters))
   {
-    if (function.CompareNoCase(commands[i].command) == 0 && (!commands[i].needsParameters || parameters.size()))
-      return true;
+    for (unsigned int i = 0; i < sizeof(commands)/sizeof(BUILT_IN); i++)
+    {
+      if (function.CompareNoCase(commands[i].command) == 0 && (!commands[i].needsParameters || parameters.size()))
+        return true;
+    }
   }
   return false;
 }
@@ -245,12 +249,75 @@ void CBuiltins::GetHelp(CStdString &help)
   }
 }
 
+bool CBuiltins::Parse(const CStdString &exec, CStdString &funcName, vector<CStdString> &funcParams)
+{
+  PARSER::CTokenStream stream(exec);
+  PARSER::Parser parser(NULL /* TODO: pass in function factory */);
+  PARSER::Atom *expression = parser.Parse(stream);
+  if (expression)
+  { // how to evaluate the expression - we kinda want to evaluate all but the builtin functions via
+    // the infomanager, and then whatever is left we punch through to the builtin executer
+    // for this the "Evaluate" routine must return a string type, and we must then parse that a second time.
+    std::string function = expression->Evaluate().asString();
+    PARSER::CTokenStream stream(function);
+    if (stream.Peek().type == PARSER::Token::LABEL)
+    {
+      funcName = stream.Get().sval;
+      if (stream.Peek().type == PARSER::Token::OPERATOR && stream.Peek().op == '(')
+      {
+        stream.Next(); // skip '('
+        while (stream.Peek().type != PARSER::Token::OPERATOR || stream.Peek().op != ')')
+        {
+          // grab the parameter
+          CStdString param;
+          if (stream.Peek().type == PARSER::Token::LABEL)
+            param = stream.Get().sval;
+          else if (stream.Peek().type == PARSER::Token::NUMBER)
+            param.Format("%f", stream.Get().dval);
+          else if (stream.Peek().type == PARSER::Token::STRING)
+          {
+            param = stream.Get().sval; // TODO: unquote and unescape the string
+          }
+          else // damnit, could be a function - probably better to know what to do with the damn thing to begin with
+          {
+//            expression->GetBuiltIn(); // any function the infomanager knows is Evaluate()'d, anything else is l
+          }
+        }
+      }
+    }
+    // Function([Param,Param,Param...])
+  }
+/*
+  if (exec.Find('(') > -1)
+  {
+    if (PARSER::parse_function(exec.c_str(), exec.size(), func) != string::npos)
+    {
+      funcName = func.name;
+      if (funcName.Left(5).CompareNoCase("xbmc.") == 0)
+        funcName = funcName.Mid(5);
+      funcParams.clear();
+      for (unsigned int i = 0; i < func.num_params(); i++)
+        funcParams.push_back(func.param[i].as_string());
+      return true;
+    }
+  }
+  else*/
+  { // no parantheses, so assume a string without params
+    funcName = exec;
+    funcName.Trim();
+    if (funcName.Left(5).CompareNoCase("xbmc.") == 0)
+      funcName = funcName.Mid(5);
+    return true;
+  }
+  return false;
+}
+
 int CBuiltins::Execute(const CStdString& execString)
 {
-  // Get the text after the "XBMC."
   CStdString execute;
   vector<CStdString> params;
-  CUtil::SplitExecFunction(execString, execute, params);
+  if (Parse(execString, execute, params))
+    return -1;
   execute.ToLower();
   CStdString parameter = params.size() ? params[0] : "";
   CStdString strParameterCaseIntact = parameter;

@@ -1250,6 +1250,43 @@ void CUtil::SplitExecFunction(const CStdString &execString, CStdString &function
   SplitParams(paramString, parameters);
 }
 
+/*
+   when we're in a function, we are interested in splitting parameters.
+   when we're not in a function we're interested in splitting strings into functions.
+   perhaps these are two separate behaviours?
+   
+   go along until we find (
+   
+   when we find ( find the function name, back to prev whitespace.  Add any junk on as well.
+
+   while we're in a function, we throw support only
+   
+   Should we support "blah blah function(param, param, function(blah blah)) blah function()"
+   
+   Let's say no.  Instead, let's assume we have a function parser instead primarily, so we support
+   
+   function(param, param, function(params)) type stuff.
+   
+   so:
+   
+   1. find ( and get function name.
+   2. now we know we're in a function (with a given name) we have CFunction::name filled in.
+   3. skip whitespace (unless we're in a quote).
+   4. add to parameter string until
+   5a. we have a ) so finish our function, pop the function stack and add the param to CFunction::params and go to 3.
+   5b. we have a , so we finish the parameter, adding the param to CFunction::params and go to 3.
+   5c. we have a ( so push our current function to the stack and create a new CFunction with name filled in and go to 3.
+   
+   an expression is then of the form <junk><whitespace>function<junk><whitespace>function ...
+   
+   and returns vector<Function> where the <junk><whitespace> gets dropped into an "empty" function
+
+   $INFO[] shit does, but is it actually used in any major way where we couldn't also handle something like
+   
+   foo + " - " + bar
+   */
+
+
 void CUtil::SplitParams(const CStdString &paramString, std::vector<CStdString> &parameters)
 {
   bool inQuotes = false;

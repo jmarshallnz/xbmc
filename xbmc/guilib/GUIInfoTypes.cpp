@@ -256,26 +256,60 @@ CStdString CGUIInfoLabel::ReplaceAddonStrings(const CStdString &label)
   return work;
 }
 
-enum EINFOFORMAT { NONE = 0, FORMATINFO, FORMATESCINFO, FORMATVAR };
-
 typedef struct
 {
   const char *str;
-  EINFOFORMAT  val;
+  CGUIInfoLabel::EINFOFORMAT  val;
 } infoformat;
 
-const static infoformat infoformatmap[] = {{ "$INFO[",    FORMATINFO },
-                                           { "$ESCINFO[", FORMATESCINFO},
-                                           { "$VAR[",     FORMATVAR}};
+const static infoformat infoformatmap[] = {{ "$INFO[",    CGUIInfoLabel::FORMATINFO },
+                                           { "$ESCINFO[", CGUIInfoLabel::FORMATESCINFO},
+                                           { "$VAR[",     CGUIInfoLabel::FORMATVAR}};
 
 void CGUIInfoLabel::Parse(const CStdString &label, int context)
 {
   m_info.clear();
+
+  vector< pair<EINFOFORMAT, CStdString> > blocks;
+  SplitBlocks(label, blocks);
+
+  for (vector< pair<EINFOFORMAT, CStdString> >::iterator i = blocks.begin(); i != blocks.end(); ++i)
+  {
+    // decipher the block
+    if (i->first == NONE)
+      m_info.push_back(CInfoPortion(0, i->second, ""));
+    else
+    {
+      CStdStringArray params;
+      StringUtils::SplitString(i->second, ",", params);
+      int info;
+      if (i->first == FORMATVAR)
+      {
+        info = g_infoManager.TranslateSkinVariableString(params[0], context);
+        if (info == 0)
+          info = g_infoManager.RegisterSkinVariableString(g_SkinInfo->CreateSkinVariable(params[0], context));
+        if (info == 0) // skinner didn't define this conditional label!
+          CLog::Log(LOGWARNING, "Label Formating: $VAR[%s] is not defined", params[0].c_str());
+      }
+      else
+        info = g_infoManager.TranslateString(params[0]);
+      CStdString prefix, postfix;
+      if (params.size() > 1)
+        prefix = params[1];
+      if (params.size() > 2)
+        postfix = params[2];
+      m_info.push_back(CInfoPortion(info, prefix, postfix, i->first == FORMATESCINFO));
+    }
+  }
+}
+
+void CGUIInfoLabel::SplitBlocks(const CStdString &label, vector< pair<EINFOFORMAT, CStdString> > &blocks)
+{
   // Step 1: Replace all $LOCALIZE[number] with the real string
   CStdString work = ReplaceLocalize(label);
   // Step 2: Replace all $ADDON[id number] with the real string
   work = ReplaceAddonStrings(work);
-  // Step 3: Find all $INFO[info,prefix,postfix] blocks
+  // Step 3: Break on $INFO[] blocks
   EINFOFORMAT format;
   do
   {
@@ -297,33 +331,12 @@ void CGUIInfoLabel::Parse(const CStdString &label, int context)
     if (format != NONE)
     {
       if (pos1 > 0)
-        m_info.push_back(CInfoPortion(0, work.Left(pos1), ""));
+        blocks.push_back(make_pair(NONE, work.Left(pos1)));
 
       pos2 = StringUtils::FindEndBracket(work, '[', ']', pos1 + len);
       if (pos2 > pos1)
       {
-        // decipher the block
-        CStdString block = work.Mid(pos1 + len, pos2 - pos1 - len);
-        CStdStringArray params;
-        StringUtils::SplitString(block, ",", params);
-        int info;
-        if (format == FORMATVAR)
-        {
-          info = g_infoManager.TranslateSkinVariableString(params[0], context);
-          if (info == 0)
-            info = g_infoManager.RegisterSkinVariableString(g_SkinInfo->CreateSkinVariable(params[0], context));
-          if (info == 0) // skinner didn't define this conditional label!
-            CLog::Log(LOGWARNING, "Label Formating: $VAR[%s] is not defined", params[0].c_str());
-        }
-        else
-          info = g_infoManager.TranslateString(params[0]);
-        CStdString prefix, postfix;
-        if (params.size() > 1)
-          prefix = params[1];
-        if (params.size() > 2)
-          postfix = params[2];
-        m_info.push_back(CInfoPortion(info, prefix, postfix, format == FORMATESCINFO));
-        // and delete it from our work string
+        blocks.push_back(make_pair(format, work.Mid(pos1 + len, pos2 - pos1 - len)));
         work = work.Mid(pos2 + 1);
       }
       else
@@ -336,7 +349,7 @@ void CGUIInfoLabel::Parse(const CStdString &label, int context)
   while (format != NONE);
 
   if (!work.IsEmpty())
-    m_info.push_back(CInfoPortion(0, work, ""));
+    blocks.push_back(make_pair(NONE, work));
 }
 
 CGUIInfoLabel::CInfoPortion::CInfoPortion(int info, const CStdString &prefix, const CStdString &postfix, bool escaped /*= false */)

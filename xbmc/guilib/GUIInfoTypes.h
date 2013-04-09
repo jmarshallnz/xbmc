@@ -70,6 +70,8 @@ private:
 class CGUIInfoLabel
 {
 public:
+  enum EINFOFORMAT { NONE = 0, FORMATINFO, FORMATESCINFO, FORMATVAR };
+
   CGUIInfoLabel();
   CGUIInfoLabel(const CStdString &label, const CStdString &fallback = "", int context = 0);
 
@@ -116,6 +118,12 @@ public:
 
 private:
   void Parse(const CStdString &label, int context);
+
+  /*! \brief Split a string into $INFO[] etc. blocks
+   \param label string to parse
+   \param blocks outputted blocks
+   */
+  void SplitBlocks(const CStdString &label, std::vector< std::pair<EINFOFORMAT, CStdString> > &blocks);
 
   class CInfoPortion
   {

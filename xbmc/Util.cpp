@@ -1054,6 +1054,180 @@ bool CUtil::TestSplitExec()
 }
 #endif
 
+#include "interfaces/info/Parser.h"
+#include "interfaces/info/Tokeniser.h"
+
+/*
+ 
+ We support a whole heap of different syntaxes:
+ 
+ InfoManager:   foo(foo).bar.do(param).foo(func(param, param).bar, param)
+ 
+ foo(foo).bar.do + !(bar(foo).sub | foo)
+ 
+ blah + blah could mean "blah AND blah" or could mean "add blah to blah" or concatenate blah to blah.
+ 
+ the grammar doesn't have to care though I think?
+ 
+ If we have subtraction, then we need to know the difference between
+ 
+ -foo
+ 
+ and
+ 
+ bar - foo
+ 
+ numbers, strings, functions, parantheses, math ops, 
+ 
+ <string>      \"....\"
+ <number>      [0-9].[0-9]*(eE)(-)[0-9]
+ <function>    [a-z][a-z0-9_]
+ <func_sep>    .
+ <parantheses> ()
+ <math ops>    + - * / ^
+ <binary ops>  not! and+ or|
+ 
+ <term>     <string> | <number> | <func>
+ <params>   <term> <term_opt> | lambda
+ <param_opt> ,<term> | lambda
+ <func>     <function> <func_opt>          <- start
+ <func_opt> ( <params> ) | lambda
+ 
+ Builtins:      foo(param, bar(param, param)) and foo
+ 
+ Info string:   blah$INFO[blah,prefix,postfix]
+ Could convert: <junk> + info(blah,"prefix","postfix") + <junk> etc.
+ 
+ */
+
+void CUtil::TestGrammar()
+{
+  // our grammer rules
+  typedef struct
+  {
+    int num;
+    char *choice[3];
+  } token;
+
+  /*
+   
+   This grammar handles foo(foo, bar(param1, gee())).bar.do
+   
+   on top of this we need to add ways to combine TERM's through:
+   
+   binary operations:
+   
+   and/or
+   
+   addition/subtraction/multiplication/division
+   
+   concat
+   
+   unary operations:
+   
+   not/negation
+   
+   expr: xor_expr ('|' xor_expr)*
+   xor_expr: and_expr ('^' and_expr)*
+   and_expr: shift_expr ('&' shift_expr)*
+   shift_expr: arith_expr (('<<'|'>>') arith_expr)*
+   arith_expr: term (('+'|'-') term)*
+   term: factor (('*'|'/'|'%'|'//') factor)*
+   factor: ('+'|'-'|'~') factor   
+   
+   */                                                                 // RULE   FIRST                     FOLLOW
+  token tok[17] ={{ 1, "FUNCCOMB_OPT", NULL, NULL },        // COMB_FUN
+                  { 2, ".FUNC", "", NULL},                  // COMB_OPT   2       .                       (,-+|,*/!
+                  { 1, "LABELFUN_OPT", NULL, NULL },        // FUNC
+                  { 2, "(PARAMS)", "", NULL },              // FUN_OPT    2       (                        ,.
+                  { 2, "EXPRSPARAM_OPT", "", NULL },        // PARAMS     2       -!{,String,Number,Label  )
+                  { 2, ", EXPRS", "", NULL },               // PARAM_OPT  2       ,                        )
+                  { 1, "AND_EXPROR_OPT", NULL, NULL },      // EXPRS
+                  { 2, " | AND_EXPR", "", NULL },           // OR_OPT     2       |                        
+                  { 1, "ARITH_EXPRAND_OPT", NULL, NULL },   // AND_EXPR
+                  { 2, " & ARITH_EXPR", "", NULL },         // AND_OPT    2       &
+                  { 1, "TERMARITH_OPT", NULL, NULL },       // ARITH_EXPR
+                  { 3, " + ARITH_EXPR", " - ARITH_EXPR", "" },          // ARITH_OPT  2       +-
+                  { 1, "FACTORTER_OPT", NULL, NULL },       // TERM
+                  { 3, " * FACTOR", " / FACTOR", "" },      // TER_OPT    2       */
+                  { 3, "-ATOM","!ATOM","ATOM" },            // FACTOR     1       -!{,String,Number,Label
+                  { 2, "{EXPRS}","VAR", NULL },             // ATOM       1       {,String,Number,Label
+                  { 3, "STRING", "NUMBER", "COMB_FUN" }};   // VAR        1       String,Number,Label
+
+  // parsing table
+
+  PARSER::CTokenStream str("Test.Parameter(Sub(foo,bar,fred),bah,bah, \"black(sheep)\" | Foo.bar + !George(Fred)) ");
+  PARSER::Parser t;
+  PARSER::Atom *test = t.Parse(str);
+//  CVariant ans = test->Evaluate();
+  CLog::Log(LOGERROR, "'%s'=''", test->ToString().c_str());//, ans.asString().c_str());
+  delete test;
+
+  // Step 0: Prove that this is LL(1) by investigating First/Follow for each of the above.
+  // Step 1: Tokenize everything into terminal tokens: strings, numbers, labels, '.(),|&+-*/!'
+  // Step 2: Parse into an parse tree.
+  // Step 3: Check functions, binary ops are doable.
+  // Step 4: Figure out how to execute the tree.
+
+  // TODO: parantheses
+  char *nt[] = { "COMB_FUN", "COMB_OPT", "FUNC", "FUN_OPT", "PARAMS", "PARAM_OPT", "EXPRS", "OR_OPT", "AND_EXPR", "AND_OPT", "ARITH_EXPR", "ARITH_OPT", "TERM", "TER_OPT", "FACTOR", "ATOM", "VAR", "STRING", "NUMBER", "LABEL" };
+  int num_nt = 20;
+
+  // run a loop N times
+  for (int loop = 0; loop < 10000; loop++)
+  {
+    // start with a term;
+    CStdString expression = "EXPRS";
+    for (int i = 0; i < 1000; i++)
+    {
+      // count how many non-terminals we have
+      int count = 0;
+      for (int j = 0; j < num_nt; j++)
+        count += StringUtils::FindNumber(expression, nt[j]);
+      if (!count)
+        break;
+      // now choose a random one
+      int num = rand() % count;
+      count = 0;
+      for (int j = 0; j < num_nt; j++)
+      {
+        int find_count = StringUtils::FindNumber(expression, nt[j]);
+        if (count + find_count > num) // num is at most count + find_count - 1;
+        { // replace a random one
+          int pos = expression.Find(nt[j]);
+          while (count < num)
+          {
+            pos = expression.Find(nt[j], pos+1);
+            count++;
+          }
+          if (pos < 0)
+          {
+            int breakhere = 1;
+          }
+          if (j < 17)
+          { // choose a random thing to replace things
+            int random = rand() % tok[j].num;
+            expression = expression.Left(pos) + tok[j].choice[random] + expression.Mid(pos + strlen(nt[j]));
+          }
+          else
+          {
+            if (j == 17) // string
+              expression = expression.Left(pos) + "\"string\"" + expression.Mid(pos + strlen(nt[j]));
+            else if (j == 18) // number
+              expression = expression.Left(pos) + "42" + expression.Mid(pos + strlen(nt[j]));
+            else
+              expression = expression.Left(pos) + "foo" + expression.Mid(pos + strlen(nt[j]));
+          }
+          break;
+        }
+        count += find_count;
+      }
+    }
+    // output the expression
+    CLog::Log(LOGERROR, "'%s'", expression.c_str());
+  }
+}
+
 void CUtil::SplitExecFunction(const CStdString &execString, CStdString &function, vector<CStdString> &parameters)
 {
   CStdString paramString;

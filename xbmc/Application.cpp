@@ -664,6 +664,8 @@ bool CApplication::Create()
 
   CProfilesManager::Get().Load();
 
+  CUtil::TestGrammar();
+  
   CLog::Log(LOGNOTICE, "-----------------------------------------------------------------------");
 #if defined(TARGET_DARWIN_OSX)
   CLog::Log(LOGNOTICE, "Starting XBMC (%s), Platform: Darwin OSX (%s). Built on %s", g_infoManager.GetVersion().c_str(), g_sysinfo.GetUnameVersion().c_str(), __DATE__);

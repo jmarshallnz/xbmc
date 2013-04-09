@@ -165,6 +165,8 @@ public:
   static bool TestGetQualifiedFilename();
   static bool TestMakeLegalPath();
 #endif
+  
+  static void TestGrammar();
 
   static void InitRandomSeed();
 

@@ -55,6 +55,8 @@
 		7CEE2E7F13D6B7D4000ABF2A /* TimeSmoother.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CEE2E7D13D6B7D4000ABF2A /* TimeSmoother.cpp */; };
 		8253940516B25C2C00A85509 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8253940416B25C2C00A85509 /* AVFoundation.framework */; };
 		8253940716B25C2C00A85509 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8253940616B25C2C00A85509 /* MediaPlayer.framework */; };
+		7CCFD667150B0F3B00211D82 /* Tokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CCFD665150B0F3B00211D82 /* Tokeniser.cpp */; };
+		7CFAB3BE1502070A0060D11B /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CFAB3BC1502070A0060D11B /* Parser.cpp */; };
 		C80711AD135DB85F002F601B /* InputOperations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C80711AB135DB85F002F601B /* InputOperations.cpp */; };
 		C8B929D01573557B00284190 /* Epg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8B929C31573557B00284190 /* Epg.cpp */; };
 		C8B929D11573557B00284190 /* EpgContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8B929C51573557B00284190 /* EpgContainer.cpp */; };
@@ -1145,6 +1147,10 @@
 		8253940616B25C2C00A85509 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		82F6F0EA16F269BB0081CC3C /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		83D619BB13C0D25300418A0F /* README.ios */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.ios; path = docs/README.ios; sourceTree = "<group>"; };
+		7CCFD665150B0F3B00211D82 /* Tokeniser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tokeniser.cpp; sourceTree = "<group>"; };
+		7CCFD666150B0F3B00211D82 /* Tokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokeniser.h; sourceTree = "<group>"; };
+		7CFAB3BC1502070A0060D11B /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		7CFAB3BD1502070A0060D11B /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		8D576316048677EA00EA77CD /* XBMC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XBMC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80711AB135DB85F002F601B /* InputOperations.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputOperations.cpp; sourceTree = "<group>"; };
 		C80711AC135DB85F002F601B /* InputOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputOperations.h; sourceTree = "<group>"; };
@@ -6644,6 +6650,10 @@
 			children = (
 				F5E6209413E907E200D5F2CD /* InfoBool.cpp */,
 				F5E6209513E907E200D5F2CD /* InfoBool.h */,
+				7CFAB3BC1502070A0060D11B /* Parser.cpp */,
+				7CFAB3BD1502070A0060D11B /* Parser.h */,
+				7CCFD665150B0F3B00211D82 /* Tokeniser.cpp */,
+				7CCFD666150B0F3B00211D82 /* Tokeniser.h */,
 				DF98D9971434F49500A6EBE1 /* SkinVariable.cpp */,
 				DF98D9981434F49500A6EBE1 /* SkinVariable.h */,
 			);
@@ -7810,6 +7820,8 @@
 				DF28EDC9170E1A92005FA9D2 /* GUIWindowSettingsProfile.cpp in Sources */,
 				DF28EE0C170E1E78005FA9D2 /* DisplaySettings.cpp in Sources */,
 				7C87B2DA162CE3C300EF897D /* PlayerController.cpp in Sources */,
+				7CFAB3BE1502070A0060D11B /* Parser.cpp in Sources */,
+				7CCFD667150B0F3B00211D82 /* Tokeniser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

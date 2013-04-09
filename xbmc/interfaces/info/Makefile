@@ -1,4 +1,6 @@
 SRCS=InfoBool.cpp \
+     Parser.cpp \
+     Tokeniser.cpp \
      SkinVariable.cpp \
      
 LIB=info.a

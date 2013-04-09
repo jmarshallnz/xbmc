@@ -48,7 +48,9 @@
 		7CC30E1A16292627003E7579 /* VideoThumbLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC30E1816292627003E7579 /* VideoThumbLoader.cpp */; };
 		7CC3105D162AAF9B003E7579 /* EdenVideoArtUpdater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3105B162AAF9B003E7579 /* EdenVideoArtUpdater.cpp */; };
 		7CCFD9AA1514952700211D82 /* PCMCodec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CCFD9A81514952700211D82 /* PCMCodec.cpp */; };
+		7CCFD655150B0F1F00211D82 /* Tokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CCFD653150B0F1F00211D82 /* Tokeniser.cpp */; };
 		7CEE2E6D13D6B7A8000ABF2A /* TimeSmoother.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CEE2E6B13D6B7A8000ABF2A /* TimeSmoother.cpp */; };
+		7CFAB3AF150206EF0060D11B /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CFAB3AD150206EF0060D11B /* Parser.cpp */; };
 		C807119F135DB842002F601B /* InputOperations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C807119D135DB842002F601B /* InputOperations.cpp */; };
 		C8B92A8215735D0300284190 /* Epg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8B92A7515735D0300284190 /* Epg.cpp */; };
 		C8B92A8315735D0300284190 /* EpgContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8B92A7715735D0300284190 /* EpgContainer.cpp */; };
@@ -1126,6 +1128,10 @@
 		7CEE2E6C13D6B7A8000ABF2A /* TimeSmoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSmoother.h; sourceTree = "<group>"; };
 		82F6F0EA16F269BB0081CC3C /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		8316267613B670FF004AED87 /* README.ios */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.ios; path = docs/README.ios; sourceTree = SOURCE_ROOT; };
+		7CCFD653150B0F1F00211D82 /* Tokeniser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tokeniser.cpp; sourceTree = "<group>"; };
+		7CCFD654150B0F1F00211D82 /* Tokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokeniser.h; sourceTree = "<group>"; };
+		7CFAB3AD150206EF0060D11B /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		7CFAB3AE150206EF0060D11B /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		8D576316048677EA00EA77CD /* XBMC.frappliance */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XBMC.frappliance; sourceTree = BUILT_PRODUCTS_DIR; };
 		C807119D135DB842002F601B /* InputOperations.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputOperations.cpp; sourceTree = "<group>"; };
 		C807119E135DB842002F601B /* InputOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputOperations.h; sourceTree = "<group>"; };
@@ -6593,6 +6599,10 @@
 			children = (
 				F5E6209D13E9081400D5F2CD /* InfoBool.cpp */,
 				F5E6209E13E9081400D5F2CD /* InfoBool.h */,
+				7CFAB3AD150206EF0060D11B /* Parser.cpp */,
+				7CFAB3AE150206EF0060D11B /* Parser.h */,
+				7CCFD653150B0F1F00211D82 /* Tokeniser.cpp */,
+				7CCFD654150B0F1F00211D82 /* Tokeniser.h */,
 				DF98D9A61434F4B400A6EBE1 /* SkinVariable.cpp */,
 				DF98D9A71434F4B400A6EBE1 /* SkinVariable.h */,
 			);
@@ -7739,6 +7749,8 @@
 				DF28EDEC170E1ACF005FA9D2 /* GUIWindowSettingsProfile.cpp in Sources */,
 				DF28EE16170E1E8D005FA9D2 /* DisplaySettings.cpp in Sources */,
 				7C87B2EE162CE3F400EF897D /* PlayerController.cpp in Sources */,
+				7CFAB3AF150206EF0060D11B /* Parser.cpp in Sources */,
+				7CCFD655150B0F1F00211D82 /* Tokeniser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

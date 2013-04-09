@@ -1939,6 +1939,9 @@
     <ClCompile Include="..\..\xbmc\interfaces\info\InfoBool.cpp">
       <Filter>interfaces\info</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\interfaces\info\Parser.cpp">
+      <Filter>interfaces\info</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\xbmc\guilib\GUIAction.cpp">
       <Filter>guilib</Filter>
     </ClCompile>
@@ -5812,6 +5815,9 @@
     <ClInclude Include="..\..\xbmc\AppParamParser.h" />
     <ClInclude Include="..\..\xbmc\settings\dialogs\GUIDialogContentSettings.h">
       <Filter>settings\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\interfaces\info\Parser.h">
+      <Filter>interfaces\info</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\settings\dialogs\GUIDialogSettings.h">
       <Filter>settings\dialogs</Filter>

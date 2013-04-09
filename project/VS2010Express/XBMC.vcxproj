@@ -711,6 +711,7 @@
     <ClCompile Include="..\..\xbmc\interfaces\AnnouncementManager.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\Builtins.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\info\InfoBool.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\info\Parser.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\info\SkinVariable.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\AddonsOperations.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\ApplicationOperations.cpp" />
@@ -2204,6 +2205,7 @@
     <ClInclude Include="..\..\xbmc\interfaces\Builtins.h" />
     <ClInclude Include="..\..\xbmc\interfaces\IAnnouncer.h" />
     <ClInclude Include="..\..\xbmc\interfaces\info\InfoBool.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\info\Parser.h" />
     <ClInclude Include="..\..\xbmc\interfaces\info\SkinVariable.h" />
     <ClInclude Include="..\..\xbmc\interfaces\json-rpc\ApplicationOperations.h" />
     <ClInclude Include="..\..\xbmc\interfaces\json-rpc\AudioLibrary.h" />

@@ -293,6 +293,7 @@
 		7CEBD8A80F33A0D800CAF6AD /* SpecialProtocolDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CEBD8A60F33A0D800CAF6AD /* SpecialProtocolDirectory.cpp */; };
 		7CEE2E5B13D6B71E000ABF2A /* TimeSmoother.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CEE2E5913D6B71E000ABF2A /* TimeSmoother.cpp */; };
 		7CF1FB0C123B1AF000B2CBCB /* Variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1FB09123B1AF000B2CBCB /* Variant.cpp */; };
+		7CFAB3A2150206CC0060D11B /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CFAB3A0150206CC0060D11B /* Parser.cpp */; };
 		810C9F630D67BD2F0095F5DD /* PltMediaConnect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9F600D67BD2F0095F5DD /* PltMediaConnect.cpp */; settings = {COMPILER_FLAGS = "-I$SRCROOT/lib/libUPnP/Platinum/Source/Core -I$SRCROOT/lib/libUPnP/Platinum/Source/Platinum -I$SRCROOT/lib/libUPnP/Platinum/Source/Devices/MediaConnect -I$SRCROOT/lib/libUPnP/Platinum/Source/Devices/MediaRenderer -I$SRCROOT/lib/libUPnP/Platinum/Source/Devices/MediaServer -I$SRCROOT/lib/libUPnP/Platinum/Source/Extras -I$SRCROOT/lib/libUPnP/Neptune/Source/System/Posix -I$SRCROOT/lib/libUPnP/Neptune/Source/Core"; }; };
 		810C9FA90D67D1FB0095F5DD /* MythDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9FA50D67D1FB0095F5DD /* MythDirectory.cpp */; };
 		810C9FAA0D67D1FB0095F5DD /* MythFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9FA70D67D1FB0095F5DD /* MythFile.cpp */; };
@@ -1643,6 +1644,8 @@
 		7CCF7F1C1069F3AE00992676 /* Builtins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Builtins.h; sourceTree = "<group>"; };
 		7CCF7FC7106A0DF500992676 /* TimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeUtils.cpp; sourceTree = "<group>"; };
 		7CCF7FC8106A0DF500992676 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeUtils.h; sourceTree = "<group>"; };
+		7CCFD6D4150B1DC000211D82 /* Tokeniser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tokeniser.cpp; sourceTree = "<group>"; };
+		7CCFD6D5150B1DC000211D82 /* Tokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokeniser.h; sourceTree = "<group>"; };
 		7CCFD98A151494E100211D82 /* PCMCodec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PCMCodec.cpp; sourceTree = "<group>"; };
 		7CCFD98B151494E100211D82 /* PCMCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMCodec.h; sourceTree = "<group>"; };
 		7CD2C3A811940B270009EFC1 /* DirectoryNodeCountry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryNodeCountry.cpp; sourceTree = "<group>"; };
@@ -1660,6 +1663,8 @@
 		7CEE2E5A13D6B71E000ABF2A /* TimeSmoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSmoother.h; sourceTree = "<group>"; };
 		7CF1FB09123B1AF000B2CBCB /* Variant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variant.cpp; sourceTree = "<group>"; };
 		7CF1FB0A123B1AF000B2CBCB /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
+		7CFAB3A0150206CC0060D11B /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		7CFAB3A1150206CC0060D11B /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		810C9F600D67BD2F0095F5DD /* PltMediaConnect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PltMediaConnect.cpp; path = MediaConnect/PltMediaConnect.cpp; sourceTree = "<group>"; };
 		810C9F610D67BD2F0095F5DD /* PltMediaConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PltMediaConnect.h; path = MediaConnect/PltMediaConnect.h; sourceTree = "<group>"; };
 		810C9FA50D67D1FB0095F5DD /* MythDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MythDirectory.cpp; sourceTree = "<group>"; };
@@ -4310,6 +4315,10 @@
 			children = (
 				7C89674313C03B22003631FE /* InfoBool.cpp */,
 				7C89674413C03B22003631FE /* InfoBool.h */,
+				7CFAB3A0150206CC0060D11B /* Parser.cpp */,
+				7CFAB3A1150206CC0060D11B /* Parser.h */,
+				7CCFD6D4150B1DC000211D82 /* Tokeniser.cpp */,
+				7CCFD6D5150B1DC000211D82 /* Tokeniser.h */,
 				DF98D98A1434F47D00A6EBE1 /* SkinVariable.cpp */,
 				DF98D98B1434F47D00A6EBE1 /* SkinVariable.h */,
 			);
@@ -7810,6 +7819,7 @@
 				DF28EDA8170E1A11005FA9D2 /* GUIWindowSettingsProfile.cpp in Sources */,
 				DF28EE03170E1E51005FA9D2 /* DisplaySettings.cpp in Sources */,
 				7C87B2CE162CE39600EF897D /* PlayerController.cpp in Sources */,
+				7CFAB3A2150206CC0060D11B /* Parser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

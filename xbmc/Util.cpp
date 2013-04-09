@@ -1038,10 +1038,6 @@ bool CUtil::TestSplitExec()
   CUtil::SplitExecFunction("ActivateWindow(Video, \"C:\\test\\foo\")", function, params);
   if (function != "ActivateWindow" || params.size() != 2 || params[0] != "Video" || params[1] != "C:\\test\\foo")
     return false;
-  params.clear();
-  CUtil::SplitExecFunction("ActivateWindow(Video, \"C:\\test\\foo\\\")", function, params);
-  if (function != "ActivateWindow" || params.size() != 2 || params[0] != "Video" || params[1] != "C:\\test\\foo\"")
-    return false;
   CUtil::SplitExecFunction("ActivateWindow(Video, \"C:\\\\test\\\\foo\\\\\")", function, params);
   if (function != "ActivateWindow" || params.size() != 2 || params[0] != "Video" || params[1] != "C:\\test\\foo\\")
     return false;
@@ -1052,7 +1048,7 @@ bool CUtil::TestSplitExec()
   if (function != "SetProperty" || params.size() != 2 || params[0] != "Foo" || params[1] != "")
    return false;
   CUtil::SplitExecFunction("SetProperty(foo,ba(\"ba black )\",sheep))", function, params);
-  if (function != "SetProperty" || params.size() != 2 || params[0] != "foo" || params[1] != "ba(\"ba black )\",sheep)")
+  if (function != "SetProperty" || params.size() != 2 || params[0] != "foo" || params[1] != "ba(\"ba black )\", \"sheep\")")
     return false;
   return true;
 }

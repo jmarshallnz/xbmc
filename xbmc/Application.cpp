@@ -5880,26 +5880,17 @@ void CApplication::SaveCurrentFileSettings()
 
 bool CApplication::AlwaysProcess(const CAction& action)
 {
-  // check if this button is mapped to a built-in function
-  if (!action.GetName().IsEmpty())
+  // should this button be handled normally or just cancel the screensaver?
+  if (   action.GetName().CompareNoCase("powerdown") == 0
+      || action.GetName().CompareNoCase("reboot") == 0
+      || action.GetName().CompareNoCase("restart") == 0
+      || action.GetName().CompareNoCase("restartapp") == 0
+      || action.GetName().CompareNoCase("suspend") == 0
+      || action.GetName().CompareNoCase("hibernate") == 0
+      || action.GetName().CompareNoCase("quit") == 0
+      || action.GetName().CompareNoCase("shutdown") == 0)
   {
-    CStdString builtInFunction;
-    vector<CStdString> params;
-    CUtil::SplitExecFunction(action.GetName(), builtInFunction, params);
-    builtInFunction.ToLower();
-
-    // should this button be handled normally or just cancel the screensaver?
-    if (   builtInFunction.Equals("powerdown")
-        || builtInFunction.Equals("reboot")
-        || builtInFunction.Equals("restart")
-        || builtInFunction.Equals("restartapp")
-        || builtInFunction.Equals("suspend")
-        || builtInFunction.Equals("hibernate")
-        || builtInFunction.Equals("quit")
-        || builtInFunction.Equals("shutdown"))
-    {
-      return true;
-    }
+    return true;
   }
 
   return false;

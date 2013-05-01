@@ -44,10 +44,14 @@ CBaseTexture::CBaseTexture(unsigned int width, unsigned int height, unsigned int
   m_pixels = NULL;
   m_loadedToGPU = false;
   Allocate(width, height, format);
+  m_texture = NULL;
 }
 
 CBaseTexture::~CBaseTexture()
 {
+  //TODO: Should be handled off-thread via render-manager
+  if(m_texture)
+    g_Windowing.DestroyTextureObject(m_texture);
   delete[] m_pixels;
 }
 
@@ -140,8 +144,9 @@ void CBaseTexture::Update(unsigned int width, unsigned int height, unsigned int 
   }
   ClampToEdge();
 
+  // Copy on the gpu is stale. Flag it so that render-manager will re-upload it.
   if (loadToGPU)
-    LoadToGPU();
+    m_loadedToGPU = false;
 }
 
 void CBaseTexture::ClampToEdge()
@@ -192,7 +197,7 @@ CBaseTexture *CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned
         delete [] inputBuff;
         return NULL;
       }
-      CTexture *texture = new CTexture();
+      CBaseTexture *texture = new CBaseTexture();
       unsigned int width = file.GetIconWidth();
       unsigned int height = file.GetIconHeight();
       texture->LoadFromMemory(width, height, width*4, XB_FMT_RGBA8, true, inputBuff);
@@ -201,7 +206,7 @@ CBaseTexture *CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned
     }
   }
 #endif
-  CTexture *texture = new CTexture();
+  CBaseTexture *texture = new CBaseTexture();
   if (texture->LoadFromFileInternal(texturePath, idealWidth, idealHeight, autoRotate, requirePixels, strMimeType))
     return texture;
   delete texture;
@@ -210,7 +215,7 @@ CBaseTexture *CBaseTexture::LoadFromFile(const CStdString& texturePath, unsigned
 
 CBaseTexture *CBaseTexture::LoadFromFileInMemory(unsigned char *buffer, size_t bufferSize, const std::string &mimeType, unsigned int idealWidth, unsigned int idealHeight)
 {
-  CTexture *texture = new CTexture();
+  CBaseTexture *texture = new CBaseTexture();
   if (texture->LoadFromFileInMem(buffer, bufferSize, mimeType, idealWidth, idealHeight))
     return texture;
   delete texture;

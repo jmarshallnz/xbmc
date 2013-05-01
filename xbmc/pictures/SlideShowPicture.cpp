@@ -745,134 +745,8 @@ void CSlideShowPic::Render()
 
 void CSlideShowPic::Render(float *x, float *y, CBaseTexture* pTexture, color_t color)
 {
-#ifdef HAS_DX
-  struct VERTEX
-  {
-    D3DXVECTOR3 p;
-    D3DCOLOR col;
-    FLOAT tu, tv;
-  };
-  static const DWORD FVF_VERTEX = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
-
-  VERTEX vertex[5];
-
-  for (int i = 0; i < 4; i++)
-  {
-    vertex[i].p = D3DXVECTOR3( x[i], y[i], 0);
-    vertex[i].tu = 0;
-    vertex[i].tv = 0;
-    vertex[i].col = color;
-  }
-
-  vertex[1].tu = 1.0f;
-  vertex[2].tu = 1.0f;
-  vertex[2].tv = 1.0f;
-  vertex[3].tv = 1.0f;
-  
-  vertex[4] = vertex[0]; // Not used when pTexture != NULL
-
-  // Set state to render the image
-  if (pTexture)
-  {
-    pTexture->LoadToGPU();
-    pTexture->BindToUnit(0);
-  }
-
-  g_Windowing.Get3DDevice()->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_DISABLE );
-  g_Windowing.Get3DDevice()->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_ZENABLE, FALSE );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_FOGENABLE, FALSE );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_FOGTABLEMODE, D3DFOG_NONE );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_CULLMODE, D3DCULL_CCW );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
-  g_Windowing.Get3DDevice()->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
-  g_Windowing.Get3DDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
-  g_Windowing.Get3DDevice()->SetFVF( FVF_VERTEX );
-  // Render the image
-  if (pTexture)
-  {
-    g_Windowing.Get3DDevice()->DrawPrimitiveUP( D3DPT_TRIANGLEFAN, 2, vertex, sizeof(VERTEX) );
-    g_Windowing.Get3DDevice()->SetTexture(0, NULL);
-  } else
-    g_Windowing.Get3DDevice()->DrawPrimitiveUP( D3DPT_LINESTRIP, 4, vertex, sizeof(VERTEX) );
-
-#elif defined(HAS_GL)
-  g_graphicsContext.BeginPaint();
-  if (pTexture)
-  {
-    pTexture->LoadToGPU();
-    pTexture->BindToUnit(0);
-
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);          // Turn Blending On
-
-    // diffuse coloring
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
-    glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);
-    glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_TEXTURE0);
-    glTexEnvf(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
-    glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_PRIMARY_COLOR);
-    glTexEnvf(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
-  }
-  else
-    glDisable(GL_TEXTURE_2D);
-  glPolygonMode(GL_FRONT_AND_BACK, pTexture ? GL_FILL : GL_LINE);
-
-  glBegin(GL_QUADS);
-  float u1 = 0, u2 = 1, v1 = 0, v2 = 1;
-  if (pTexture)
-  {
-    u2 = (float)pTexture->GetWidth() / pTexture->GetTextureWidth();
-    v2 = (float)pTexture->GetHeight() / pTexture->GetTextureHeight();
-  }
-
-  glColor4ub((GLubyte)GET_R(color), (GLubyte)GET_G(color), (GLubyte)GET_B(color), (GLubyte)GET_A(color));
-  glTexCoord2f(u1, v1);
-  glVertex3f(x[0], y[0], 0);
-
-  // Bottom-left vertex (corner)
-  glColor4ub((GLubyte)GET_R(color), (GLubyte)GET_G(color), (GLubyte)GET_B(color), (GLubyte)GET_A(color));
-  glTexCoord2f(u2, v1);
-  glVertex3f(x[1], y[1], 0);
-
-  // Bottom-right vertex (corner)
-  glColor4ub((GLubyte)GET_R(color), (GLubyte)GET_G(color), (GLubyte)GET_B(color), (GLubyte)GET_A(color));
-  glTexCoord2f(u2, v2);
-  glVertex3f(x[2], y[2], 0);
-
-  // Top-right vertex (corner)
-  glColor4ub((GLubyte)GET_R(color), (GLubyte)GET_G(color), (GLubyte)GET_B(color), (GLubyte)GET_A(color));
-  glTexCoord2f(u1, v2);
-  glVertex3f(x[3], y[3], 0);
-
-  glEnd();
-  g_graphicsContext.EndPaint();
-#elif defined(HAS_GLES)
-  g_graphicsContext.BeginPaint();
-  if (pTexture)
-  {
-    pTexture->LoadToGPU();
-    pTexture->BindToUnit(0);
-
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);          // Turn Blending On
-
-    g_Windowing.EnableGUIShader(SM_TEXTURE);
-  }
-  else
-  {
-    glDisable(GL_TEXTURE_2D);
-
-    g_Windowing.EnableGUIShader(SM_DEFAULT);
-  }
+  BatchDraw draw;
+  draw.vertices.resize(4);
 
   float u1 = 0, u2 = 1, v1 = 0, v2 = 1;
   if (pTexture)
@@ -881,51 +755,34 @@ void CSlideShowPic::Render(float *x, float *y, CBaseTexture* pTexture, color_t c
     v2 = (float)pTexture->GetHeight() / pTexture->GetTextureHeight();
   }
 
-  GLubyte col[4];
-  GLfloat ver[4][3];
-  GLfloat tex[4][2];
-  GLubyte idx[4] = {0, 1, 3, 2};        //determines order of triangle strip
+  draw.vertices[0].x  = x[0];
+  draw.vertices[0].y  = y[0];
+  draw.vertices[0].z  = 0;
+  draw.vertices[0].u1 = u1;
+  draw.vertices[0].v1 = v1;
 
-  GLint posLoc  = g_Windowing.GUIShaderGetPos();
-  GLint tex0Loc = g_Windowing.GUIShaderGetCoord0();
-  GLint uniColLoc= g_Windowing.GUIShaderGetUniCol();
+  draw.vertices[3].x  = x[1];
+  draw.vertices[3].y  = y[1];
+  draw.vertices[3].z  = 0;
+  draw.vertices[3].u1 = u2;
+  draw.vertices[3].v1 = v1;
 
-  glVertexAttribPointer(posLoc,  3, GL_FLOAT, 0, 0, ver);
-  glVertexAttribPointer(tex0Loc, 2, GL_FLOAT, 0, 0, tex);
+  draw.vertices[2].x  = x[2];
+  draw.vertices[2].y  = y[2];
+  draw.vertices[2].z  = 0;
+  draw.vertices[2].u1 = u2;
+  draw.vertices[2].v1 = v2;
 
-  glEnableVertexAttribArray(posLoc);
-  glEnableVertexAttribArray(tex0Loc);
+  draw.vertices[1].x  = x[3];
+  draw.vertices[1].y  = y[3];
+  draw.vertices[1].z  = 0;
+  draw.vertices[1].u1 = u1;
+  draw.vertices[1].v1 = v2;
 
-  // Setup Colour values
-  col[0] = (GLubyte)GET_R(color);
-  col[1] = (GLubyte)GET_G(color);
-  col[2] = (GLubyte)GET_B(color);
-  col[3] = (GLubyte)GET_A(color);
+  draw.texture = pTexture;
+  draw.color = color;
+  draw.dirty = true;
+  draw.diffuseTexture=NULL;
 
-  for (int i=0; i<4; i++)
-  {
-    // Setup vertex position values
-    ver[i][0] = x[i];
-    ver[i][1] = y[i];
-    ver[i][2] = 0.0f;
-  }
-  // Setup texture coordinates
-  tex[0][0] = tex[3][0] = u1;
-  tex[0][1] = tex[1][1] = v1;
-  tex[1][0] = tex[2][0] = u2;
-  tex[2][1] = tex[3][1] = v2;
-
-  glUniform4f(uniColLoc,(col[0] / 255.0f), (col[1] / 255.0f), (col[2] / 255.0f), (col[3] / 255.0f));
-  glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, idx);
-
-  glDisableVertexAttribArray(posLoc);
-  glDisableVertexAttribArray(tex0Loc);
-
-  g_Windowing.DisableGUIShader();
-
-  g_graphicsContext.EndPaint();
-#else
-// SDL render
-  g_Windowing.BlitToScreen(m_pImage, NULL, NULL);
-#endif
+  g_Windowing.GetSceneGraph()->Add(draw);
 }

@@ -88,6 +88,7 @@ bool CGUIShader::OnEnabled()
 
   glUniformMatrix4fv(m_hProj,  1, GL_FALSE, g_matrices.GetMatrix(MM_PROJECTION));
   glUniformMatrix4fv(m_hModel, 1, GL_FALSE, g_matrices.GetMatrix(MM_MODELVIEW));
+  glUniform4f(m_hUniCol, 1.0, 1.0, 1.0, 1.0);
 
   return true;
 }

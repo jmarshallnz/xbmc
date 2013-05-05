@@ -532,6 +532,7 @@ void CGUIWindowManager::RenderPass() const
   CGUIWindow* pWindow = GetWindow(GetActiveWindow());
   if (pWindow)
   {
+    pWindow->ClearBackground();
     pWindow->DoRender();
   }
 

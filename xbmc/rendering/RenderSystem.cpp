@@ -138,7 +138,7 @@ void CRenderSystemBase::DrawSceneGraph(const CDirtyRegionList *regions)
   CSceneGraph *sceneGraph = m_sceneGraph;
   m_sceneGraph = new CSceneGraph;
 
-  sceneGraph->MergeSimilar();
+  sceneGraph->PreProcess();
   DrawSceneGraphImpl(sceneGraph, regions);
   delete sceneGraph;
 }

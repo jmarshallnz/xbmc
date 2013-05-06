@@ -49,7 +49,7 @@ typedef uint32_t character_t;
 typedef uint32_t color_t;
 typedef std::vector<character_t> vecText;
 typedef std::vector<color_t> vecColors;
-typedef std::map<color_t, CBatchDraw> mapDraws;
+typedef std::map<color_t, PackedVerticesPtr> mapVertices;
 
 /*!
  \ingroup textures
@@ -162,6 +162,6 @@ private:
   CGUIFontTTFBase& operator=(const CGUIFontTTFBase&);
   int m_referenceCount;
   unsigned char *m_cachePixels;
-  mapDraws m_batchDraws;
+  mapVertices m_vertices;
 };
 #endif

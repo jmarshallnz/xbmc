@@ -127,7 +127,7 @@ protected:
   void LoadDiffuseImage();
   bool AllocateOnDemand();
   bool UpdateAnimFrame();
-  void Render(float left, float top, float bottom, float right, float u1, float v1, float u2, float v2, float u3, float v3);
+  void Render(PackedVerticesPtr vertices, float left, float top, float bottom, float right, float u1, float v1, float u2, float v2, float u3, float v3);
   static void OrientateTexture(CRect &rect, float width, float height, int orientation);
 
   bool m_visible;
@@ -164,7 +164,7 @@ protected:
 
   CTextureArray m_diffuse;
   CTextureArray m_texture;
-  CBatchDrawPtr m_batchDraw;
+  unsigned int m_vertexIndex;
 };
 
 #define CGUITexture CGUITextureBase

@@ -729,7 +729,7 @@ bool CRenderSystemGL::SupportsStereo(RENDER_STEREO_MODE mode)
 
 void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const CDirtyRegionList *dirtyRegions)
 {
-  unsigned int unit, alpha, range = 0;
+  unsigned int alpha, range = 0;
 
   if(g_Windowing.UseLimitedColor())
     range = 235 - 16;
@@ -747,14 +747,14 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
   glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_PRIMARY_COLOR);
   glTexEnvf(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
   
-  for(CSceneGraph::const_iterator i = sceneGraph->begin(); i != sceneGraph->end(); i++)
+  for(CSceneGraph::const_iterator i = sceneGraph->begin(); i != sceneGraph->end(); ++i)
   {
-    if (i->vertices.size() < 4)
-      continue;
-    if(i->texture)
-      LoadToGPU(i->texture);
-    if (i->diffuseTexture)
-      LoadToGPU(i->diffuseTexture);
+    CBaseTexture *texture = (CBaseTexture*)(*i)->GetTexture();
+    CBaseTexture *diffuseTexture = (CBaseTexture*)(*i)->GetDiffuseTexture();
+    if (texture)
+      LoadToGPU(texture);
+    if (diffuseTexture)
+      LoadToGPU(diffuseTexture);
   }
 
   // Clear directly before the first draw in each frame
@@ -762,7 +762,7 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
   {
     if (dirtyRegions)
     {
-      for (CDirtyRegionList::const_iterator region = dirtyRegions->begin(); region != dirtyRegions->end(); region++)
+      for (CDirtyRegionList::const_iterator region = dirtyRegions->begin(); region != dirtyRegions->end(); ++region)
       {
         SetScissors(*region);
         ClearBuffers(0);
@@ -774,18 +774,19 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
     m_needsClear = false;
   }
 
-  for(CSceneGraph::const_iterator i = sceneGraph->begin(); i != sceneGraph->end(); i++)
+  for(CSceneGraph::const_iterator i = sceneGraph->begin(); i != sceneGraph->end(); ++i)
   {
-    if (i->vertices.size() < 4)
-    continue;
-
-    bool enableAlpha = false;    
-    unsigned int triangleVerts = 6 * (i->vertices.size() / 4);
+    bool enableAlpha = false;
+    const PackedVerticesPtr vertices = (*i)->GetVertices();
+    CBaseTexture *texture = (CBaseTexture*)(*i)->GetTexture();
+    CBaseTexture *diffuseTexture = (CBaseTexture*)(*i)->GetDiffuseTexture();
+    int32_t color = (*i)->GetColor();
+    unsigned int triangleVerts = 6 * (vertices->size() / 4);
     unsigned char r,g,b,a = 0;
     GLushort idx[triangleVerts];
     GLushort *itr = idx;
-    bool useSingleDiffuseColor = i->color != 0;
-    for(unsigned int j=0; j < i->vertices.size(); j+=4)
+    bool useSingleDiffuseColor = color != 0;
+    for(unsigned int j=0; j < vertices->size(); j+=4)
     {
       *itr++ = j + 0;
       *itr++ = j + 1;
@@ -795,19 +796,18 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
       *itr++ = j + 3;
      }
   
-    unit=0;
 
-    r = GET_R(i->color) * range / 255;
-    g = GET_G(i->color) * range / 255;
-    b = GET_B(i->color) * range / 255;
-    a = GET_A(i->color);
+    r = GET_R(color) * range / 255;
+    g = GET_G(color) * range / 255;
+    b = GET_B(color) * range / 255;
+    a = GET_A(color);
 
-    if (i->texture)
-      BindToUnit(i->texture, unit++);
+    if (texture)
+      BindToUnit(texture, 0);
 
     // alpha blending
-    alpha=GET_A(i->color);
-    enableAlpha = alpha < 255 || ( i->texture && i->texture->HasAlpha());
+    alpha=GET_A(color);
+    enableAlpha = alpha < 255 || ( texture && texture->HasAlpha());
 
 
     // diffuse color
@@ -816,20 +816,20 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
     else
     {
       glEnableClientState(GL_COLOR_ARRAY);
-      glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(PackedVertex), (char*)&i->vertices[0] + offsetof(PackedVertex, r));
+      glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(PackedVertex), (char*)&vertices->at(0) + offsetof(PackedVertex, r));
     }
 
     // optional diffuse texture
-    if (i->diffuseTexture)
+    if (diffuseTexture)
     {
-      enableAlpha |= i->diffuseTexture->HasAlpha();
-      BindToUnit(i->diffuseTexture, unit++);
+      enableAlpha |= diffuseTexture->HasAlpha();
+      BindToUnit(diffuseTexture, 1);
       glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_PREVIOUS);
       glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_PREVIOUS);
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
       // diffuse texture coords
-      glTexCoordPointer(2, GL_FLOAT        , sizeof(PackedVertex), (char*)&i->vertices[0] + offsetof(PackedVertex, u2));
+      glTexCoordPointer(2, GL_FLOAT        , sizeof(PackedVertex), (char*)&vertices->at(0) + offsetof(PackedVertex, u2));
     }
     
     if (enableAlpha)
@@ -839,19 +839,19 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
 
     // screen coords
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer  (3, GL_FLOAT        , sizeof(PackedVertex), (char*)&i->vertices[0] + offsetof(PackedVertex, x));
+    glVertexPointer  (3, GL_FLOAT        , sizeof(PackedVertex), (char*)&vertices->at(0) + offsetof(PackedVertex, x));
 
-    if (i->texture)
+    if (texture)
     {
       // texture coords
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glTexCoordPointer(2, GL_FLOAT        , sizeof(PackedVertex), (char*)&i->vertices[0] + offsetof(PackedVertex, u1));
+      glTexCoordPointer(2, GL_FLOAT        , sizeof(PackedVertex), (char*)&vertices->at(0) + offsetof(PackedVertex, u1));
     }
 
     // draw
     if (dirtyRegions)
     {
-      for (CDirtyRegionList::const_iterator region = dirtyRegions->begin(); region != dirtyRegions->end(); region++)
+      for (CDirtyRegionList::const_iterator region = dirtyRegions->begin(); region != dirtyRegions->end(); ++region)
       {
         SetScissors(*region);
         glDrawElements(GL_TRIANGLES, triangleVerts, GL_UNSIGNED_SHORT, idx);
@@ -867,19 +867,19 @@ void CRenderSystemGL::DrawSceneGraphImpl( const CSceneGraph *sceneGraph, const C
       glDisableClientState(GL_COLOR_ARRAY);
 
     // unbind diffuse texture
-    if (i->diffuseTexture)
+    if (diffuseTexture)
     {
       glActiveTexture(1);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    if (i->texture)
+    if (texture)
     {
       glActiveTexture(0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
     
-    if (i->texture || i->diffuseTexture)
+    if (texture || diffuseTexture)
       glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   }
@@ -990,7 +990,7 @@ bool CRenderSystemGL::LoadToGPU(CBaseTexture *baseTexture)
 {
   if (!baseTexture)
     return false;
-  if (baseTexture->m_loadedToGPU)
+  if (baseTexture->IsLoadedToGPU())
     return true;
   unsigned int width, height, pitch, rows, format;
   width = baseTexture->GetTextureWidth();
@@ -1004,7 +1004,8 @@ bool CRenderSystemGL::LoadToGPU(CBaseTexture *baseTexture)
     object = CreateTextureObject();
     baseTexture->SetTextureObject(object);
   }
-  baseTexture->m_loadedToGPU = LoadToGPU(object, width, height, pitch, rows, format, (const unsigned char*)baseTexture->GetPixels());
+  if (LoadToGPU(object, width, height, pitch, rows, format, (const unsigned char*)baseTexture->GetPixels()))
+    baseTexture->SetLoadedToGPU();
   VerifyGLState();
   return true;
 }

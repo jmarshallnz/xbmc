@@ -30,7 +30,6 @@
 
 #include "TextureManager.h"
 #include "Geometry.h"
-#include "system.h" // HAS_GL, HAS_DX, etc
 #include "GUIInfoTypes.h"
 #include "rendering/SceneGraph.h"
 

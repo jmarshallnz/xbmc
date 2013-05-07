@@ -34,6 +34,7 @@
 #include "utils/MathUtils.h"
 #include "utils/StringUtils.h"
 #include "guilib/Texture.h"
+#include "rendering/SceneGraph.h"
 
 CRenderSystemGL::CRenderSystemGL() : CRenderSystemBase()
 {

@@ -37,6 +37,7 @@ extern "C" {
 #include "libavutil/avutil.h"
 #include "libswscale/swscale.h"
 }
+#include "rendering/SceneGraph.h"
 
 KaraokeVideoBackground::KaraokeVideoBackground()
 {

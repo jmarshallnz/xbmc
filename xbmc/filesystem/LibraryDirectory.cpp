@@ -60,7 +60,7 @@ bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &i
       if (type == "filter")
       {
         CSmartPlaylist playlist;
-        CStdString type, label;
+        CStdString type, label, target;
         XMLUtils::GetString(node, "content", type);
         if (type.empty())
         {
@@ -109,17 +109,19 @@ bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &i
     {
       node = LoadXML(xml);
       if (node && URIUtils::GetFileName(xml).Equals("index.xml"))
-      { // set the label on our items
-        CStdString label;
+      { // set the label and node.target on our items
+        CStdString label, target;
         if (XMLUtils::GetString(node, "label", label))
           label = CGUIControlFactory::FilterLabel(label);
         items.SetLabel(label);
+        if (XMLUtils::GetString(node, "target", target))
+          items.SetProperty("node.target", target);
         continue;
       }
     }
     if (node)
     {
-      CStdString label, icon;
+      CStdString label, icon, target;
       if (XMLUtils::GetString(node, "label", label))
         label = CGUIControlFactory::FilterLabel(label);
       XMLUtils::GetString(node, "icon", icon);
@@ -132,6 +134,9 @@ bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &i
       CFileItemPtr item(new CFileItem(URIUtils::AddFileToFolder(strPath, folder), true));
 
       item->SetLabel(label);
+      if (XMLUtils::GetString(node, "target", target))
+        item->SetProperty("node.target", target);
+
       if (!icon.empty() && g_TextureManager.HasTexture(icon))
         item->SetIconImage(icon);
       item->m_iprogramCount = order;

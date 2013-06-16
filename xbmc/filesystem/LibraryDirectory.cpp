@@ -133,6 +133,9 @@ bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &i
       CStdString folder = URIUtils::GetFileName(xml);
       CFileItemPtr item(new CFileItem(URIUtils::AddFileToFolder(strPath, folder), true));
 
+      const char *visible = node->Attribute("visible");
+      if (visible)
+        item->SetProperty("node.visible", visible);
       item->SetLabel(label);
       if (XMLUtils::GetString(node, "target", target))
         item->SetProperty("node.target", target);
@@ -160,9 +163,8 @@ TiXmlElement *CLibraryDirectory::LoadXML(const std::string &xmlFile)
     return NULL;
 
   // check the condition
-  std::string condition;
-  xml->QueryStringAttribute("visible", &condition);
-  if (condition.empty() || g_infoManager.EvaluateBool(condition))
+  const char *condition = xml->Attribute("visible");
+  if ((m_flags & DIR_FLAG_GET_HIDDEN) || !condition || g_infoManager.EvaluateBool(condition))
     return xml;
 
   return NULL;

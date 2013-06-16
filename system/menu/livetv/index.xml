@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="3" visible="System.GetBool(pvrmanager.enabled)">
+  <label>Live TV</label>
+  <icon>DefaultVideos.png</icon>
+  <target>pvr</target>
+</node>

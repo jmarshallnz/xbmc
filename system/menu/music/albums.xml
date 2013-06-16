@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="2" type="folder" visible="Library.HasContent(Music)">
+  <label>132</label>
+  <icon>DefaultAlbum.png</icon>
+  <target>musiclibrary</target>
+  <path>musicdb://3/</path>
+</node>

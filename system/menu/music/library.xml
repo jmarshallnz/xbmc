@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="4" type="folder" visible="Library.HasContent(Music)">
+  <label>14022</label>
+  <icon>DefaultMusic.png</icon>
+  <target>musiclibrary</target>
+  <path>root</path>
+</node>

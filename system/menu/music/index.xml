@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="5">
+  <label>2</label>
+  <icon>DefaultAudio.png</icon>
+  <target>music</target>
+</node>

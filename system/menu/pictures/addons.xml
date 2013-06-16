@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="1" type="folder">
+  <label>1039</label>
+  <icon>DefaultAddonPicture.png</icon>
+  <target>pictures</target>
+  <path>addons://sources/pictures/</path>
+</node>

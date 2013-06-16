@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="5" type="folder">
+  <label>1214</label>
+  <icon>DefaultMusic.png</icon>
+  <target>musicfiles</target>
+  <path>sources://music/</path>
+</node>

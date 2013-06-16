@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="6">
+  <label>0</label>
+  <icon>DefaultProgram.png</icon>
+  <target>programs</target>
+</node>

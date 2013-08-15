@@ -820,7 +820,7 @@ bool CGUIMediaWindow::Update(const CStdString &strDirectory, bool updateFilterPa
 
   int iWindow = GetID();
   int showLabel = 0;
-  if (strDirectory.IsEmpty())
+  if (m_vecItems->GetPath().IsEmpty())
   {
     if (iWindow == WINDOW_PICTURES)
       showLabel = 997;
@@ -829,7 +829,7 @@ bool CGUIMediaWindow::Update(const CStdString &strDirectory, bool updateFilterPa
     else if (iWindow == WINDOW_FILES || iWindow == WINDOW_PROGRAMS)
       showLabel = 1026;
   }
-  if (strDirectory.Equals("sources://video/"))
+  if (m_vecItems->GetPath().Equals("sources://video/"))
     showLabel = 999;
   if (showLabel && (m_vecItems->Size() == 0 || !m_guiState->DisableAddSourceButtons())) // add 'add source button'
   {

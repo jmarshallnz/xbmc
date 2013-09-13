@@ -657,7 +657,7 @@ public:
   bool GetMusicVideosByWhere(const CStdString &baseDir, const Filter &filter, CFileItemList& items, bool checkLocks = true, const SortDescription &sortDescription = SortDescription());
   
   // retrieve sorted and limited items
-  bool GetSortedVideos(MediaType mediaType, const CStdString& strBaseDir, const SortDescription &sortDescription, CFileItemList& items, const Filter &filter = Filter());
+  bool GetSortedVideos(const MediaType &mediaType, const CStdString& strBaseDir, const SortDescription &sortDescription, CFileItemList& items, const Filter &filter = Filter());
 
   // retrieve a list of items
   bool GetItems(const CStdString &strBaseDir, CFileItemList &items, const Filter &filter = Filter(), const SortDescription &sortDescription = SortDescription());
@@ -675,16 +675,16 @@ public:
     switch (type)
     {
     case VIDEODB_CONTENT_MOVIES:
-      out = "movie";
+      out = MediaTypeMovie;
       break;
     case VIDEODB_CONTENT_TVSHOWS:
-      out = "tvshow";
+      out = MediaTypeTvShow;
       break;
     case VIDEODB_CONTENT_EPISODES:
-      out = "episode";
+      out = MediaTypeEpisode;
       break;
     case VIDEODB_CONTENT_MUSICVIDEOS:
-      out = "musicvideo";
+      out = MediaTypeMusicVideo;
       break;
     default:
       break;

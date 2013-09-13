@@ -313,6 +313,9 @@
     <Filter Include="settings\lib">
       <UniqueIdentifier>{4de9ae04-448d-4ebe-bde5-5ec2a61270c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="media">
+      <UniqueIdentifier>{fe89da97-8cd1-4ba3-8ef2-ae4ae5498d59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\xbmc\win32\pch.cpp">
@@ -3106,6 +3109,9 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\cores\FFmpeg.cpp">
       <Filter>cores</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\media\MediaType.cpp">
+      <Filter>media</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6099,6 +6105,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\cores\FFmpeg.h">
       <Filter>cores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\media\MediaType.h">
+      <Filter>media</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

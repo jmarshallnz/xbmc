@@ -169,7 +169,7 @@ public:
   std::string GetThumbnailsFolder() const;
   std::string GetVideoThumbFolder() const;
   std::string GetBookmarksThumbFolder() const;
-  std::string GetLibraryFolder() const;
+  std::string GetLibraryFolder(const std::string &subdir) const;
   std::string GetSettingsFile() const;
 
   // uses HasSlashAtEnd to determine if a directory or file was meant

@@ -124,6 +124,8 @@ bool CFileUtils::RemoteAccessAllowed(const CStdString &strPath)
     return true;
   else if (StringUtils::StartsWithNoCase(realPath, "library://video"))
     return true;
+  else if (StringUtils::StartsWithNoCase(realPath, "menu://"))
+    return true;
   else if (StringUtils::StartsWithNoCase(realPath, "sources://video"))
     return true;
   else if (StringUtils::StartsWithNoCase(realPath, "special://musicplaylists"))

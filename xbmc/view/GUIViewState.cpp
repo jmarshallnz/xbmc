@@ -98,7 +98,7 @@ CGUIViewState* CGUIViewState::GetViewState(int windowId, const CFileItemList& it
       return new CGUIViewStateVideoMovies(items);
   }
 
-  if (url.GetProtocol() == "library")
+  if (url.GetProtocol() == "library" || url.GetProtocol() == "menu")
     return new CGUIViewStateLibrary(items);
 
   if (items.IsPlayList())

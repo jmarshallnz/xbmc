@@ -348,7 +348,6 @@ void CProfilesManager::CreateProfileFolders()
 {
   CDirectory::Create(GetDatabaseFolder());
   CDirectory::Create(GetCDDBFolder());
-  CDirectory::Create(GetLibraryFolder());
 
   // create Thumbnails/*
   CDirectory::Create(GetThumbnailsFolder());
@@ -492,12 +491,12 @@ std::string CProfilesManager::GetBookmarksThumbFolder() const
   return URIUtils::AddFileToFolder(GetVideoThumbFolder(), "Bookmarks");
 }
 
-std::string CProfilesManager::GetLibraryFolder() const
+std::string CProfilesManager::GetLibraryFolder(const std::string &subdir) const
 {
   if (GetCurrentProfile().hasDatabases())
-    return URIUtils::AddFileToFolder(GetProfileUserDataFolder(), "library");
+    return URIUtils::AddFileToFolder(GetProfileUserDataFolder(), subdir);
 
-  return URIUtils::AddFileToFolder(GetUserDataFolder(), "library");
+  return URIUtils::AddFileToFolder(GetUserDataFolder(), subdir);
 }
 
 std::string CProfilesManager::GetSettingsFile() const

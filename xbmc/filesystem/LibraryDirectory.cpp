@@ -180,9 +180,9 @@ bool CLibraryDirectory::Exists(const char* strPath)
 std::string CLibraryDirectory::GetNode(const std::string &path)
 {
   CURL url(path);
-  CStdString libDir = URIUtils::AddFileToFolder(CProfilesManager::Get().GetLibraryFolder(), url.GetHostName() + "/");
+  CStdString libDir = URIUtils::AddFileToFolder(CProfilesManager::Get().GetLibraryFolder(url.GetProtocol()), url.GetHostName() + "/");
   if (!CDirectory::Exists(libDir))
-    libDir = URIUtils::AddFileToFolder("special://xbmc/system/library/", url.GetHostName() + "/");
+    libDir = URIUtils::AddFileToFolder("special://xbmc/system/" + url.GetProtocol(), url.GetHostName() + "/");
 
   libDir = URIUtils::AddFileToFolder(libDir, url.GetFileName());
 

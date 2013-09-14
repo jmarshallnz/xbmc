@@ -166,7 +166,7 @@ IDirectory* CDirectoryFactory::Create(const CStdString& strPath)
   if (strProtocol == "musicdb") return new CMusicDatabaseDirectory();
   if (strProtocol == "musicsearch") return new CMusicSearchDirectory();
   if (strProtocol == "videodb") return new CVideoDatabaseDirectory();
-  if (strProtocol == "library") return new CLibraryDirectory();
+  if (strProtocol == "library" || strProtocol == "menu") return new CLibraryDirectory();
   if (strProtocol == "favourites") return new CFavouritesDirectory();
   if (strProtocol == "filereader")
     return CDirectoryFactory::Create(url.GetFileName());

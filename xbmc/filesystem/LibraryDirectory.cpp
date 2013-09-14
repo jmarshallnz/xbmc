@@ -45,6 +45,43 @@ CLibraryDirectory::~CLibraryDirectory(void)
 {
 }
 
+bool CLibraryDirectory::GetTarget(const std::string &path, std::string &target, std::string &url)
+{
+  std::string libNode = GetNode(path);
+  if (libNode.empty())
+    return false;
+
+  bool folderNode(!URIUtils::HasExtension(libNode, ".xml"));
+  if (folderNode)
+    libNode = URIUtils::AddFileToFolder(libNode, "index.xml");
+
+  TiXmlElement *node = LoadXML(libNode);
+  if (node)
+  {
+    XMLUtils::GetString(node, "target", target);
+    url = path;
+    if (folderNode && IsFolderOrFilter(node))
+      url = URIUtils::AddFileToFolder(path, "index.xml");
+    return true;
+  }
+  return false;
+}
+
+bool CLibraryDirectory::IsFolderOrFilter(const TiXmlElement *node)
+{
+  if (node)
+  {
+    const char *attr = node->Attribute("type");
+    if (attr)
+    {
+      std::string type = attr;
+      if (type == "folder" || type == "filter")
+        return true;
+    }
+  }
+  return false;
+}
+
 bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &items)
 {
   std::string libNode = GetNode(strPath);

@@ -25,6 +25,7 @@
 #include "PlayListPlayer.h"
 #include "addons/AddonManager.h"
 #include "addons/PluginSource.h"
+#include "filesystem/LibraryDirectory.h"
 #include "filesystem/PluginDirectory.h"
 #include "filesystem/MultiPathDirectory.h"
 #include "GUIPassword.h"
@@ -63,6 +64,7 @@
 #include "guilib/GUIKeyboardFactory.h"
 #include "interfaces/Builtins.h"
 #include "interfaces/generic/ScriptInvocationManager.h"
+#include "input/ButtonTranslator.h"
 #include "dialogs/GUIDialogKaiToast.h"
 #include "dialogs/GUIDialogMediaFilter.h"
 #include "filesystem/SmartPlaylistDirectory.h"
@@ -934,6 +936,24 @@ bool CGUIMediaWindow::OnClick(int iItem)
   {
     OnContextButton(iItem, CONTEXT_BUTTON_ADD_SOURCE);
     return true;
+  }
+
+  if (StringUtils::StartsWith(pItem->GetPath(), "menu://"))
+  {
+    int windowID = WINDOW_INVALID;
+    XFILE::CLibraryDirectory dir;
+    CStdString target, url;
+    dir.GetTarget(pItem->GetPath(), target, url);
+    if (!target.empty())
+      windowID = CButtonTranslator::TranslateWindow(target);
+    if (windowID != WINDOW_INVALID && windowID != GetID())
+    {
+      vector<CStdString> params;
+      params.push_back(url);
+      params.push_back("return");
+      g_windowManager.ActivateWindow(windowID, params);
+      return true;
+    }
   }
 
   if (!pItem->m_bIsFolder && pItem->IsFileFolder(EFILEFOLDER_MASK_ONCLICK))

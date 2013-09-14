@@ -32,6 +32,15 @@ namespace XFILE
     virtual bool GetDirectory(const CStdString& strPath, CFileItemList &items);
     virtual bool Exists(const char* strPath);
     virtual bool IsAllowed(const CStdString& strFile) const { return true; };
+
+    /*! \brief parse the given path for the <target> subnode and type attribute
+     \param path the library:// or menu:// path to parse
+     \param target [out] the <target> subnode.
+     \param url [out] the target url of the node.
+     \return true if the node is found, false otherwise.
+     */
+    bool GetTarget(const std::string &path, std::string &target, std::string &url);
+
   private:
     /*! \brief parse the given path and return the node corresponding to this path
      \param path the library:// path to parse
@@ -46,6 +55,12 @@ namespace XFILE
      \return the TiXmlElement pointer to the node, if it should be visible.
      */
     TiXmlElement *LoadXML(const std::string &xmlFile);
+
+    /* \brief Check the type attribute of the given node.
+     \param node the XML element for the node.
+     \return true if this is a folder or filter, false otherwise.
+     */
+    static bool IsFolderOrFilter(const TiXmlElement *node);
 
     CXBMCTinyXML m_doc;
   };

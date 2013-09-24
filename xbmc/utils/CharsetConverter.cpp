@@ -25,6 +25,7 @@
 #include "LangInfo.h"
 #include "guilib/LocalizeStrings.h"
 #include "settings/Setting.h"
+#include "settings/Settings.h"
 #include "threads/SingleLock.h"
 #include "log.h"
 
@@ -76,6 +77,218 @@
     #endif
   #endif
 #endif
+
+enum SpecialCharset
+{
+  NotSpecialCharset = 0,
+  SystemCharset,
+  UserCharset /* locale.charset */, 
+  SubtitleCharset /* subtitles.charset */,
+  KaraokeCharset /* karaoke.charset */
+};
+
+
+class CConverterType
+{
+public:
+  CConverterType(const std::string&  sourceCharset,        const std::string&  targetCharset,        unsigned int targetSingleCharMaxLen = 1);
+  CConverterType(enum SpecialCharset sourceSpecialCharset, const std::string&  targetCharset,        unsigned int targetSingleCharMaxLen = 1);
+  CConverterType(const std::string&  sourceCharset,        enum SpecialCharset targetSpecialCharset, unsigned int targetSingleCharMaxLen = 1);
+  CConverterType(enum SpecialCharset sourceSpecialCharset, enum SpecialCharset targetSpecialCharset, unsigned int targetSingleCharMaxLen = 1);
+  CConverterType(const CConverterType& other);
+  ~CConverterType();
+
+  iconv_t GetAndLockConverter(void);
+  void UnlockConverter(void);
+
+  void Reset(void);
+  void ReinitTo(const std::string& sourceCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen = 1);
+  std::string GetSourceCharset(void) const  { return m_sourceCharset; }
+  std::string GetTargetCharset(void) const  { return m_targetCharset; }
+  unsigned int GetTargetSingleCharMaxLen(void) const  { return m_targetSingleCharMaxLen; }
+
+private:
+  static std::string ResolveSpecialCharset(enum SpecialCharset charset);
+
+  /* Do not resort member variables! */
+  /* It's important as variables are initialized in order of declarations */
+  CCriticalSection    m_critSection;
+  CSingleLock         m_converterLock;
+  enum SpecialCharset m_sourceSpecialCharset;
+  std::string         m_sourceCharset;
+  enum SpecialCharset m_targetSpecialCharset;
+  std::string         m_targetCharset;
+  iconv_t             m_iconv;
+  unsigned int        m_targetSingleCharMaxLen;
+};
+
+CConverterType::CConverterType(const std::string& sourceCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
+  m_critSection(),
+  m_converterLock(m_critSection),
+  m_sourceSpecialCharset(NotSpecialCharset),
+  m_sourceCharset(sourceCharset),
+  m_targetSpecialCharset(NotSpecialCharset),
+  m_targetCharset(targetCharset),
+  m_iconv(NULL),
+  m_targetSingleCharMaxLen(targetSingleCharMaxLen)
+{
+  m_converterLock.Leave();
+}
+
+CConverterType::CConverterType(enum SpecialCharset sourceSpecialCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
+  m_critSection(),
+  m_converterLock(m_critSection),
+  m_sourceSpecialCharset(sourceSpecialCharset),
+  m_sourceCharset(),
+  m_targetSpecialCharset(NotSpecialCharset),
+  m_targetCharset(targetCharset),
+  m_iconv(NULL),
+  m_targetSingleCharMaxLen(targetSingleCharMaxLen)
+{
+  m_converterLock.Leave();
+}
+
+CConverterType::CConverterType(const std::string& sourceCharset, enum SpecialCharset targetSpecialCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
+  m_critSection(),
+  m_converterLock(m_critSection),
+  m_sourceSpecialCharset(NotSpecialCharset),
+  m_sourceCharset(sourceCharset),
+  m_targetSpecialCharset(targetSpecialCharset),
+  m_targetCharset(),
+  m_iconv(NULL),
+  m_targetSingleCharMaxLen(targetSingleCharMaxLen)
+{
+  m_converterLock.Leave();
+}
+
+CConverterType::CConverterType(enum SpecialCharset sourceSpecialCharset, enum SpecialCharset targetSpecialCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
+  m_critSection(),
+  m_converterLock(m_critSection),
+  m_sourceSpecialCharset(sourceSpecialCharset),
+  m_sourceCharset(),
+  m_targetSpecialCharset(targetSpecialCharset),
+  m_targetCharset(),
+  m_iconv(NULL),
+  m_targetSingleCharMaxLen(targetSingleCharMaxLen)
+{
+  m_converterLock.Leave();
+}
+
+CConverterType::CConverterType(const CConverterType& other):
+  m_critSection(),
+  m_converterLock(m_critSection),
+  m_sourceSpecialCharset(other.m_sourceSpecialCharset),
+  m_sourceCharset(other.m_sourceCharset),
+  m_targetSpecialCharset(other.m_targetSpecialCharset),
+  m_targetCharset(other.m_targetCharset),
+  m_iconv(NULL),
+  m_targetSingleCharMaxLen(other.m_targetSingleCharMaxLen)
+{
+  m_converterLock.Leave();
+}
+
+
+CConverterType::~CConverterType()
+{
+  m_converterLock.Enter();
+  if (m_iconv != NULL)
+    iconv_close(m_iconv);
+}
+
+
+iconv_t CConverterType::GetAndLockConverter(void)
+{
+  m_converterLock.Enter();
+  if (m_iconv == NULL)
+  {
+    if (m_sourceSpecialCharset)
+      m_sourceCharset = ResolveSpecialCharset(m_sourceSpecialCharset);
+    if (m_targetSpecialCharset)
+      m_targetCharset = ResolveSpecialCharset(m_targetSpecialCharset);
+
+    m_iconv = iconv_open(m_targetCharset.c_str(), m_sourceCharset.c_str());
+    if (m_iconv == (iconv_t)-1)
+    {
+      CLog::Log(LOGERROR, "%s: iconv_open() for \"%s\" -> \"%s\" failed, errno = %d (%s)",
+                __FUNCTION__, m_sourceCharset.c_str(), m_targetCharset.c_str(), errno, strerror(errno));
+      m_iconv = NULL;
+
+      m_converterLock.Leave(); // don't lock if still unset
+    }
+  }
+
+  // note: converter remains locked! 
+  // note: Call UnlockConverter when current task with iconv_t is finished.
+  return m_iconv;
+}
+
+void CConverterType::UnlockConverter(void)
+{
+  m_converterLock.Leave();
+}
+
+
+void CConverterType::Reset(void)
+{
+  m_converterLock.Enter();
+  if (m_iconv != NULL)
+  {
+    iconv_close(m_iconv);
+    m_iconv = NULL;
+  }
+
+  if (m_sourceSpecialCharset)
+    m_sourceCharset.clear();
+  if (m_targetSpecialCharset)
+    m_targetCharset.clear();
+
+  m_converterLock.Leave();
+}
+
+void CConverterType::ReinitTo(const std::string& sourceCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen /*= 1*/)
+{
+  m_converterLock.Enter();
+  if (sourceCharset != m_sourceCharset || targetCharset != m_targetCharset)
+  {
+    if (m_iconv != NULL)
+    {
+      iconv_close(m_iconv);
+      m_iconv = NULL;
+    }
+
+    m_sourceSpecialCharset = NotSpecialCharset;
+    m_sourceCharset = sourceCharset;
+    m_targetSpecialCharset = NotSpecialCharset;
+    m_targetCharset = targetCharset;
+    m_targetSingleCharMaxLen = targetSingleCharMaxLen;
+  }
+  m_converterLock.Leave();
+}
+
+std::string CConverterType::ResolveSpecialCharset(enum SpecialCharset charset)
+{
+  switch (charset)
+  {
+  case SystemCharset:
+    return "";
+  case UserCharset:
+    return g_langInfo.GetGuiCharSet();
+  case SubtitleCharset:
+    return g_langInfo.GetSubtitleCharSet();
+  case KaraokeCharset:
+    {
+      CSetting* karaokeSetting = CSettings::Get().GetSetting("karaoke.charset");
+      if (karaokeSetting == NULL || ((CSettingString*)karaokeSetting)->GetValue() == "DEFAULT")
+        return g_langInfo.GetGuiCharSet();
+
+      return ((CSettingString*)karaokeSetting)->GetValue();
+    }
+  case NotSpecialCharset:
+  default:
+    return "UTF-8"; /* dummy value */
+  }
+}
+
 
 
 /* We don't want to pollute header file with many additional includes and definitions, so put 

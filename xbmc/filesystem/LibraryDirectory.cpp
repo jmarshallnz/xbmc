@@ -177,6 +177,11 @@ bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &i
       if (XMLUtils::GetString(node, "target", target))
         item->SetProperty("node.target", target);
 
+      // folder nodes whose click action links to a filter or folder require
+      // special treatment on click
+      if (nodes[i]->m_bIsFolder && IsFolderOrFilter(node))
+        item->SetProperty("node.target_url", URIUtils::AddFileToFolder(item->GetPath(), "index.xml"));
+
       if (!icon.empty() && g_TextureManager.HasTexture(icon))
         item->SetIconImage(icon);
       item->m_iprogramCount = order;

@@ -113,17 +113,22 @@ bool CLibraryDirectory::GetDirectory(const CStdString& strPath, CFileItemList &i
         {
           items.SetProperty("library.filter", "true");
           items.SetPath(items.GetProperty("path.db").asString());
-          return true;
+          if (XMLUtils::GetString(node, "target", target))
+            items.SetProperty("node.target", target);
+         return true;
         }
       }
       else if (type == "folder")
       {
         CStdString path;
         XMLUtils::GetPath(node, "path", path);
-        if (!path.empty())
+        URIUtils::AddSlashAtEnd(path);
+        if (!path.empty() && CDirectory::GetDirectory(path, items, m_strFileMask, m_flags))
         {
-          URIUtils::AddSlashAtEnd(path);
-          return CDirectory::GetDirectory(path, items, m_strFileMask, m_flags);
+          CStdString target;
+          if (XMLUtils::GetString(node, "target", target))
+            items.SetProperty("node.target", target);
+          return true;
         }
       }
     }

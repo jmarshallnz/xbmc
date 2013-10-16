@@ -88,7 +88,7 @@ enum SpecialCharset
 };
 
 
-class CConverterType
+class CConverterType : public CCriticalSection
 {
 public:
   CConverterType(const std::string&  sourceCharset,        const std::string&  targetCharset,        unsigned int targetSingleCharMaxLen = 1);
@@ -98,22 +98,20 @@ public:
   CConverterType(const CConverterType& other);
   ~CConverterType();
 
-  iconv_t GetAndLockConverter(void);
-  void UnlockConverter(void);
-
   void Reset(void);
   void ReinitTo(const std::string& sourceCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen = 1);
   std::string GetSourceCharset(void) const  { return m_sourceCharset; }
   std::string GetTargetCharset(void) const  { return m_targetCharset; }
   unsigned int GetTargetSingleCharMaxLen(void) const  { return m_targetSingleCharMaxLen; }
 
+  /* Ensure you lock this class before calling this function */
+  iconv_t GetIConv(void);
+
 private:
   static std::string ResolveSpecialCharset(enum SpecialCharset charset);
 
   /* Do not resort member variables! */
   /* It's important as variables are initialized in order of declarations */
-  CCriticalSection    m_critSection;
-  CSingleLock         m_converterLock;
   enum SpecialCharset m_sourceSpecialCharset;
   std::string         m_sourceCharset;
   enum SpecialCharset m_targetSpecialCharset;
@@ -123,8 +121,6 @@ private:
 };
 
 CConverterType::CConverterType(const std::string& sourceCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
-  m_critSection(),
-  m_converterLock(m_critSection),
   m_sourceSpecialCharset(NotSpecialCharset),
   m_sourceCharset(sourceCharset),
   m_targetSpecialCharset(NotSpecialCharset),
@@ -132,12 +128,9 @@ CConverterType::CConverterType(const std::string& sourceCharset, const std::stri
   m_iconv(NULL),
   m_targetSingleCharMaxLen(targetSingleCharMaxLen)
 {
-  m_converterLock.Leave();
 }
 
 CConverterType::CConverterType(enum SpecialCharset sourceSpecialCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
-  m_critSection(),
-  m_converterLock(m_critSection),
   m_sourceSpecialCharset(sourceSpecialCharset),
   m_sourceCharset(),
   m_targetSpecialCharset(NotSpecialCharset),
@@ -145,12 +138,9 @@ CConverterType::CConverterType(enum SpecialCharset sourceSpecialCharset, const s
   m_iconv(NULL),
   m_targetSingleCharMaxLen(targetSingleCharMaxLen)
 {
-  m_converterLock.Leave();
 }
 
 CConverterType::CConverterType(const std::string& sourceCharset, enum SpecialCharset targetSpecialCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
-  m_critSection(),
-  m_converterLock(m_critSection),
   m_sourceSpecialCharset(NotSpecialCharset),
   m_sourceCharset(sourceCharset),
   m_targetSpecialCharset(targetSpecialCharset),
@@ -158,12 +148,9 @@ CConverterType::CConverterType(const std::string& sourceCharset, enum SpecialCha
   m_iconv(NULL),
   m_targetSingleCharMaxLen(targetSingleCharMaxLen)
 {
-  m_converterLock.Leave();
 }
 
 CConverterType::CConverterType(enum SpecialCharset sourceSpecialCharset, enum SpecialCharset targetSpecialCharset, unsigned int targetSingleCharMaxLen /*= 1*/):
-  m_critSection(),
-  m_converterLock(m_critSection),
   m_sourceSpecialCharset(sourceSpecialCharset),
   m_sourceCharset(),
   m_targetSpecialCharset(targetSpecialCharset),
@@ -171,12 +158,9 @@ CConverterType::CConverterType(enum SpecialCharset sourceSpecialCharset, enum Sp
   m_iconv(NULL),
   m_targetSingleCharMaxLen(targetSingleCharMaxLen)
 {
-  m_converterLock.Leave();
 }
 
 CConverterType::CConverterType(const CConverterType& other):
-  m_critSection(),
-  m_converterLock(m_critSection),
   m_sourceSpecialCharset(other.m_sourceSpecialCharset),
   m_sourceCharset(other.m_sourceCharset),
   m_targetSpecialCharset(other.m_targetSpecialCharset),
@@ -184,21 +168,20 @@ CConverterType::CConverterType(const CConverterType& other):
   m_iconv(NULL),
   m_targetSingleCharMaxLen(other.m_targetSingleCharMaxLen)
 {
-  m_converterLock.Leave();
 }
 
 
 CConverterType::~CConverterType()
 {
-  m_converterLock.Enter();
+  CSingleLock lock(*this);
   if (m_iconv != NULL)
     iconv_close(m_iconv);
 }
 
-
-iconv_t CConverterType::GetAndLockConverter(void)
+/* Ensure you hold a lock around CConverterType when calling this function */
+iconv_t CConverterType::GetIConv(void)
 {
-  m_converterLock.Enter();
+  CSingleLock lock(*this);
   if (m_iconv == NULL)
   {
     if (m_sourceSpecialCharset)
@@ -212,25 +195,14 @@ iconv_t CConverterType::GetAndLockConverter(void)
       CLog::Log(LOGERROR, "%s: iconv_open() for \"%s\" -> \"%s\" failed, errno = %d (%s)",
                 __FUNCTION__, m_sourceCharset.c_str(), m_targetCharset.c_str(), errno, strerror(errno));
       m_iconv = NULL;
-
-      m_converterLock.Leave(); // don't lock if still unset
     }
   }
-
-  // note: converter remains locked! 
-  // note: Call UnlockConverter when current task with iconv_t is finished.
   return m_iconv;
 }
 
-void CConverterType::UnlockConverter(void)
-{
-  m_converterLock.Leave();
-}
-
-
 void CConverterType::Reset(void)
 {
-  m_converterLock.Enter();
+  CSingleLock lock(*this);
   if (m_iconv != NULL)
   {
     iconv_close(m_iconv);
@@ -241,13 +213,11 @@ void CConverterType::Reset(void)
     m_sourceCharset.clear();
   if (m_targetSpecialCharset)
     m_targetCharset.clear();
-
-  m_converterLock.Leave();
 }
 
 void CConverterType::ReinitTo(const std::string& sourceCharset, const std::string& targetCharset, unsigned int targetSingleCharMaxLen /*= 1*/)
 {
-  m_converterLock.Enter();
+  CSingleLock lock(*this);
   if (sourceCharset != m_sourceCharset || targetCharset != m_targetCharset)
   {
     if (m_iconv != NULL)
@@ -262,7 +232,6 @@ void CConverterType::ReinitTo(const std::string& sourceCharset, const std::strin
     m_targetCharset = targetCharset;
     m_targetSingleCharMaxLen = targetSingleCharMaxLen;
   }
-  m_converterLock.Leave();
 }
 
 std::string CConverterType::ResolveSpecialCharset(enum SpecialCharset charset)
@@ -366,10 +335,8 @@ bool CCharsetConverter::CInnerConverter::stdConvert(StdConversionType convertTyp
     return false;
 
   CConverterType& convType = m_stdConversion[convertType];
-  const bool result = convert(convType.GetAndLockConverter(), convType.GetTargetSingleCharMaxLen(), strSource, strDest, failOnInvalidChar);
-  convType.UnlockConverter();
-
-  return result;
+  CSingleLock lock(convType);
+  return convert(convType.GetIConv(), convType.GetTargetSingleCharMaxLen(), strSource, strDest, failOnInvalidChar);
 }
 
 template<class INPUT,class OUTPUT>

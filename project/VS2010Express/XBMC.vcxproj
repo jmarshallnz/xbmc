@@ -980,6 +980,7 @@
     <ClCompile Include="..\..\xbmc\settings\dialogs\GUIDialogSettings.cpp" />
     <ClCompile Include="..\..\xbmc\settings\DisplaySettings.cpp" />
     <ClCompile Include="..\..\xbmc\settings\ISetting.cpp" />
+    <ClCompile Include="..\..\xbmc\settings\ISettingControl.cpp" />
     <ClCompile Include="..\..\xbmc\settings\MediaSettings.cpp" />
     <ClCompile Include="..\..\xbmc\settings\MediaSourceSettings.cpp" />
     <ClCompile Include="..\..\xbmc\settings\Setting.cpp" />
@@ -1181,6 +1182,8 @@
     <ClInclude Include="..\..\xbmc\settings\DisplaySettings.h" />
     <ClInclude Include="..\..\xbmc\settings\ISetting.h" />
     <ClInclude Include="..\..\xbmc\settings\ISettingCallback.h" />
+    <ClInclude Include="..\..\xbmc\settings\ISettingControl.h" />
+    <ClInclude Include="..\..\xbmc\settings\ISettingControlCreator.h" />
     <ClInclude Include="..\..\xbmc\settings\ISettingCreator.h" />
     <ClInclude Include="..\..\xbmc\settings\ISettingsHandler.h" />
     <ClInclude Include="..\..\xbmc\settings\ISubSettings.h" />
@@ -1191,6 +1194,7 @@
     <ClInclude Include="..\..\xbmc\settings\SettingCategoryAccess.h" />
     <ClInclude Include="..\..\xbmc\settings\SettingConditions.h" />
     <ClInclude Include="..\..\xbmc\settings\SettingControl.h" />
+    <ClInclude Include="..\..\xbmc\settings\SettingDefinitions.h" />
     <ClInclude Include="..\..\xbmc\settings\SettingDependency.h" />
     <ClInclude Include="..\..\xbmc\settings\SettingPath.h" />
     <ClInclude Include="..\..\xbmc\settings\SettingSection.h" />

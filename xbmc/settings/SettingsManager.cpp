@@ -19,15 +19,13 @@
  */
 
 #include "SettingsManager.h"
+#include "SettingDefinitions.h"
 #include "SettingSection.h"
 #include "Setting.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"
 #include "utils/StringUtils.h"
 #include "utils/XBMCTinyXML.h"
-
-#define XML_ROOT        "settings"
-#define XML_SECTION     "section"
 
 
 CSettingsManager::CSettingsManager()
@@ -41,6 +39,7 @@ CSettingsManager::~CSettingsManager()
   m_settingsHandlers.clear();
   m_subSettings.clear();
   m_settingCreators.clear();
+  m_settingControlCreators.clear();
 
   Clear();
 }
@@ -51,13 +50,13 @@ bool CSettingsManager::Initialize(const TiXmlElement *root)
   if (m_initialized || root == NULL)
     return false;
 
-  if (!StringUtils::EqualsNoCase(root->ValueStr(), XML_ROOT))
+  if (!StringUtils::EqualsNoCase(root->ValueStr(), SETTING_XML_ROOT))
   {
     CLog::Log(LOGERROR, "CSettingsManager: error reading settings definition: doesn't contain <settings> tag");
     return false;
   }
 
-  const TiXmlNode *sectionNode = root->FirstChild(XML_SECTION);
+  const TiXmlNode *sectionNode = root->FirstChild(SETTING_XML_ELM_SECTION);
   while (sectionNode != NULL)
   {
     std::string sectionId;
@@ -114,7 +113,7 @@ bool CSettingsManager::Initialize(const TiXmlElement *root)
       }
     }
       
-    sectionNode = sectionNode->NextSibling(XML_SECTION);
+    sectionNode = sectionNode->NextSibling(SETTING_XML_ELM_SECTION);
   }
 
   for (SettingMap::iterator itSettingDep = m_settings.begin(); itSettingDep != m_settings.end(); ++itSettingDep)
@@ -308,6 +307,17 @@ void CSettingsManager::RegisterSettingType(const std::string &settingType, ISett
   SettingCreatorMap::const_iterator creatorIt = m_settingCreators.find(settingType);
   if (creatorIt == m_settingCreators.end())
     m_settingCreators.insert(make_pair(settingType, settingCreator));
+}
+
+void CSettingsManager::RegisterSettingControl(const std::string &controlType, ISettingControlCreator *settingControlCreator)
+{
+  if (controlType.empty() || settingControlCreator == NULL)
+    return;
+
+  CSingleLock lock(m_criticalSettingControlCreators);
+  SettingControlCreatorMap::const_iterator creatorIt = m_settingControlCreators.find(controlType);
+  if (creatorIt == m_settingControlCreators.end())
+    m_settingControlCreators.insert(make_pair(controlType, settingControlCreator));
 }
 
 void CSettingsManager::RegisterSettingsHandler(ISettingsHandler *settingsHandler)
@@ -775,6 +785,19 @@ CSetting* CSettingsManager::CreateSetting(const std::string &settingType, const 
   SettingCreatorMap::const_iterator creator = m_settingCreators.find(settingType);
   if (creator != m_settingCreators.end())
     return creator->second->CreateSetting(settingType, settingId, (CSettingsManager*)this);
+
+  return NULL;
+}
+
+ISettingControl* CSettingsManager::CreateControl(const std::string &controlType) const
+{
+  if (controlType.empty())
+    return NULL;
+
+  CSingleLock lock(m_criticalSettingControlCreators);
+  SettingControlCreatorMap::const_iterator creator = m_settingControlCreators.find(controlType);
+  if (creator != m_settingControlCreators.end() && creator->second != NULL)
+    return creator->second->CreateControl(controlType);
 
   return NULL;
 }

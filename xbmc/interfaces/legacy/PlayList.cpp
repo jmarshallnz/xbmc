@@ -30,10 +30,12 @@ namespace XBMCAddon
 {
   namespace xbmc
   {
+    DEF_CLASS_INFO(PlayList);
+
     // TODO: need a means to check for a valid construction
     //  either by throwing an exception or by an "isValid" check
     PlayList::PlayList(int playList) throw (PlayListException) : 
-      AddonClass("PlayList"),
+      AddonClass(CINFO_NAME(PlayList)),
       refs(1), iPlayList(playList), pPlayList(NULL)
     {
       // we do not create our own playlist, just using the ones from playlistplayer

@@ -35,11 +35,13 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
+    DEF_CLASS_INFO(ListItem);
+
     ListItem::ListItem(const String& label, 
                        const String& label2,
                        const String& iconImage,
                        const String& thumbnailImage,
-                       const String& path) : AddonClass("ListItem")
+                       const String& path) : AddonClass(CINFO_NAME(ListItem))
     {
       item.reset();
 

@@ -47,6 +47,8 @@ namespace XBMCAddon
 
       SWIGHIDDENVIRTUAL inline void show() { TRACE; WindowDialogMixin::show(); }
       SWIGHIDDENVIRTUAL inline void close() { TRACE; WindowDialogMixin::close(); }
+
+      DECL_CLASS_INFO(WindowDialog)
     };
   }
 }

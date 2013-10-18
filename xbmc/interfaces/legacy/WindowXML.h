@@ -57,7 +57,7 @@ namespace XBMCAddon
 
       WindowXMLInterceptor* interceptor;
 
-      WindowXML(const char* classname, const String& xmlFilename, const String& scriptPath,
+      WindowXML(const ClassInfo& ci, const String& xmlFilename, const String& scriptPath,
                 const String& defaultSkin,
                 const String& defaultRes) throw(WindowException);
 #endif
@@ -110,6 +110,8 @@ namespace XBMCAddon
       String       m_mediaDir;
 
       friend class WindowXMLInterceptor;
+
+      DECL_CLASS_INFO(WindowXML)
 #endif
     };
 
@@ -150,6 +152,8 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL inline void close() { TRACE; WindowDialogMixin::close(); }
 
       friend class DialogJumper;
+
+      DECL_CLASS_INFO(WindowXMLDialog)
     };
   }
 }

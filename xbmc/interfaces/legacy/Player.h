@@ -355,6 +355,8 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL void    OnPlayBackSpeedChanged(int iSpeed);
       SWIGHIDDENVIRTUAL void    OnPlayBackSeek(int iTime, int seekOffset);
       SWIGHIDDENVIRTUAL void    OnPlayBackSeekChapter(int iChapter);
+
+      DECL_CLASS_INFO(Player)
 #endif
 
     protected:

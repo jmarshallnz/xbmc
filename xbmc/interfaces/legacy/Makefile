@@ -6,6 +6,7 @@ SRCS=	\
 	AddonUtils.cpp \
 	CallbackFunction.cpp \
 	CallbackHandler.cpp \
+	ClassMetadata.cpp \
 	Control.cpp \
 	Dialog.cpp \
 	File.cpp \

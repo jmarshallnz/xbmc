@@ -108,6 +108,8 @@ namespace XBMCAddon
       virtual ~Monitor();
 
       inline const String& GetId() { return Id; }
+
+      DECL_CLASS_INFO(Monitor)
     };
   }
 };

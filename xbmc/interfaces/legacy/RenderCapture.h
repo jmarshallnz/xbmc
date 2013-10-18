@@ -23,6 +23,7 @@
 #include "cores/VideoRenderers/RenderManager.h"
 #include "cores/VideoRenderers/RenderCapture.h"
 #include "AddonClass.h"
+#include "LanguageHook.h"
 #include "Exception.h"
 #include "commons/Buffer.h"
 
@@ -36,7 +37,7 @@ namespace XBMCAddon
     {
       CRenderCapture* m_capture;
     public:
-      inline RenderCapture() : AddonClass("RenderCapture"), m_capture(g_renderManager.AllocRenderCapture()) {}
+      inline RenderCapture() : AddonClass(CINFO_NAME(RenderCapture)), m_capture(g_renderManager.AllocRenderCapture()) {}
       inline virtual ~RenderCapture() { g_renderManager.ReleaseRenderCapture(m_capture); }
 
       /**
@@ -120,6 +121,8 @@ namespace XBMCAddon
 #ifndef SWIG
       inline uint8_t*     GetPixels() { return m_capture->GetPixels();   }
       inline ECAPTURESTATE GetUserState() { return m_capture->GetUserState();  }
+
+      DECL_CLASS_INFO(RenderCapture)
 #endif
 
     };

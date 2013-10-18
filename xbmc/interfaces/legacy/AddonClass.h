@@ -48,9 +48,34 @@
 
 #include "AddonUtils.h"
 
+/**
+ * Some language constructs need rudimentary reflection cabablity. This should
+ *  provide it for Addon classes.
+ */
+#ifndef SWIG
+  #define CINFO_NAME(classname) classname##_classInfo
+
+  #define DECL_CLASS_INFO(classname) \
+    private: \
+      static ::XBMCAddon::ClassInfo CINFO_NAME(classname);  \
+    public: \
+      static inline const ::XBMCAddon::ClassInfo& getClassInfo() { return CINFO_NAME(classname); }  
+
+  #define DEF_CLASS_INFO(classname) \
+    ::XBMCAddon::ClassInfo classname :: CINFO_NAME(classname) (#classname,AddonClass::getNextClassIndex())
+#endif
+
 namespace XBMCAddon
 {
   class LanguageHook;
+
+  struct ClassInfo
+  {
+    String classname;
+    short classIndex;
+
+    inline ClassInfo(const char* pclassname, short pclassindex) : classname(pclassname), classIndex(pclassindex) {}
+  };
 
   /**
    * This class is the superclass for all reference counted classes in the api.
@@ -66,11 +91,11 @@ namespace XBMCAddon
   {
   private:
     long   refs;
-    String classname;
+    const ClassInfo& classinfo;
     bool m_isDeallocating;
+
     // no copying
     inline AddonClass(const AddonClass&);
-
 
 #ifdef XBMC_ADDON_DEBUG_MEMORY
     bool isDeleted;
@@ -94,12 +119,19 @@ namespace XBMCAddon
       m_isDeallocating = true;
     }
 
+    /**
+     * This is meant to be called during static initialization and so isn't
+     * synchronized.
+     */
+    static short getNextClassIndex();
+
   public:
-    AddonClass(const char* classname);
+    AddonClass(const ClassInfo& classinfo);
     virtual ~AddonClass();
 
-    inline const String& GetClassname() const { return classname; }
+    inline const String& GetClassname() const { return classinfo.classname; }
     inline LanguageHook* GetLanguageHook() { return languageHook; }
+    inline const ClassInfo& GetClassInfo() const { return classinfo; }
 
     /**
      * This method should be called while holding a Synchronize
@@ -107,6 +139,8 @@ namespace XBMCAddon
      *  the time it's held.
      */
     bool isDeallocating() { TRACE; return m_isDeallocating; }
+
+    static short getNumAddonClasses();
 
 #ifdef XBMC_ADDON_DEBUG_MEMORY
     virtual 

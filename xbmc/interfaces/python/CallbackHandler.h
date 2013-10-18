@@ -45,6 +45,8 @@ namespace XBMCAddon
       PythonCallbackHandler();
       virtual bool isStateOk(AddonClass* obj);
       virtual bool shouldRemoveCallback(AddonClass* obj, void* threadState);
+
+      DECL_CLASS_INFO(PythonCallbackHandler)
     };
   }
 }

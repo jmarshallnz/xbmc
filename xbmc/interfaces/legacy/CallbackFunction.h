@@ -38,13 +38,15 @@ namespace XBMCAddon
   { 
   protected:
     AddonClass* addonClassObject;
-    Callback(AddonClass* _object, const char* classname) : AddonClass(classname), addonClassObject(_object) {}
+    Callback(AddonClass* _object, const char* classname) : AddonClass(CINFO_NAME(Callback)), addonClassObject(_object) {}
 
   public:
     virtual void executeCallback() = 0;
     virtual ~Callback();
 
     AddonClass* getObject() { return addonClassObject; }
+
+    DECL_CLASS_INFO(Callback);
   };
 
   struct cb_null_type {};

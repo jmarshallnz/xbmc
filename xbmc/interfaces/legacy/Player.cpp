@@ -35,7 +35,9 @@ namespace XBMCAddon
 {
   namespace xbmc
   {
-    Player::Player(int _playerCore): AddonCallback("Player")
+    DEF_CLASS_INFO(Player);
+
+    Player::Player(int _playerCore): AddonCallback(CINFO_NAME(Player))
     {
       iPlayList = PLAYLIST_MUSIC;
 

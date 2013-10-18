@@ -103,6 +103,8 @@ namespace XBMCAddon
        */
       String getLyrics();
 
+      DECL_CLASS_INFO(InfoTagMusic)
+
     };
   }
 }

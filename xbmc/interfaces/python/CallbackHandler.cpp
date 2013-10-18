@@ -25,6 +25,7 @@ namespace XBMCAddon
 {
   namespace Python
   {
+    DEF_CLASS_INFO(PythonCallbackHandler);
 
     /**
      * We are ASS-U-MEing that this construction is happening
@@ -32,7 +33,7 @@ namespace XBMCAddon
      *  store off the PyThreadState to later verify that we're
      *  handling callbacks in the appropriate thread.
      */
-    PythonCallbackHandler::PythonCallbackHandler() : RetardedAsynchCallbackHandler("PythonCallbackHandler")
+    PythonCallbackHandler::PythonCallbackHandler() : RetardedAsynchCallbackHandler(CINFO_NAME(PythonCallbackHandler))
     {
       TRACE;
       objectThreadState = PyThreadState_Get();
@@ -49,7 +50,7 @@ namespace XBMCAddon
       if (objectThreadState == state)
       {
         // make sure the interpreter is still active.
-        AddonClass::Ref<XBMCAddon::Python::LanguageHook> lh(XBMCAddon::Python::LanguageHook::GetIfExists(state->interp));
+        AddonClass::Ref<XBMCAddon::Python::PythonLanguageHook> lh(XBMCAddon::Python::PythonLanguageHook::GetIfExists(state->interp));
         if (lh.isNotNull() && lh->HasRegisteredAddonClassInstance(obj) && lh.get() == obj->GetLanguageHook())
           return true;
       }
@@ -71,7 +72,7 @@ namespace XBMCAddon
 
       // we also want to remove the callback if the language hook no longer exists.
       //   this is a belt-and-suspenders cleanup mechanism
-      return ! XBMCAddon::Python::LanguageHook::IsAddonClassInstanceRegistered(obj);
+      return ! XBMCAddon::Python::PythonLanguageHook::IsAddonClassInstanceRegistered(obj);
     }
   }
 }

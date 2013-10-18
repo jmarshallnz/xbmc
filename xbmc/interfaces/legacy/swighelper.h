@@ -98,3 +98,12 @@
 #define SWIG_CONSTANT2(type,var,val)
 #endif
 
+/**
+ * Block class meta data from scripting languages.
+ */
+#ifdef SWIG
+  #define CINFO_NAME(classname)
+  #define DECL_CLASS_INFO(classname)
+  #define DEF_CLASS_INFO(classname)
+#endif
+

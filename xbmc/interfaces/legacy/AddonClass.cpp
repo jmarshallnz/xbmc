@@ -39,7 +39,7 @@ namespace XBMCAddon
 
 #ifdef ENABLE_TRACE_API
     TraceGuard tg_;
-    CLog::Log(LOGDEBUG, "%sNEWADDON destroying %s 0x%lx", tg_.getSpaces(), classname.c_str(), (long)(((void*)this)));
+    CLog::Log(LOGDEBUG, "%sNEWADDON destroying %s 0x%lx", tg_.getSpaces(), classinfo.classname.c_str(), (long)(((void*)this)));
 #endif
 
 #ifdef XBMC_ADDON_DEBUG_MEMORY
@@ -47,12 +47,12 @@ namespace XBMCAddon
 #endif
   }
 
-  AddonClass::AddonClass(const char* cname) : refs(0L), classname(cname), m_isDeallocating(false), 
+  AddonClass::AddonClass(const ClassInfo& cname) : refs(0L), classinfo(cname), m_isDeallocating(false), 
                                               languageHook(NULL)
   {
 #ifdef ENABLE_TRACE_API
     TraceGuard tg_;
-    CLog::Log(LOGDEBUG, "%sNEWADDON constructing %s 0x%lx", tg_.getSpaces(), classname.c_str(), (long)(((void*)this)));
+    CLog::Log(LOGDEBUG, "%sNEWADDON constructing %s 0x%lx", tg_.getSpaces(), classinfo.classname.c_str(), (long)(((void*)this)));
 #endif
 
 #ifdef XBMC_ADDON_DEBUG_MEMORY
@@ -78,11 +78,11 @@ namespace XBMCAddon
   {
     if (isDeleted)
       CLog::Log(LOGERROR,"NEWADDON REFCNT Releasing dead class %s 0x%lx", 
-                classname.c_str(), (long)(((void*)this)));
+                classinfo.classname.c_str(), (long)(((void*)this)));
 
     long ct = AtomicDecrement((long*)&refs);
 #ifdef LOG_LIFECYCLE_EVENTS
-    CLog::Log(LOGDEBUG,"NEWADDON REFCNT decrementing to %ld on %s 0x%lx", ct,classname.c_str(), (long)(((void*)this)));
+    CLog::Log(LOGDEBUG,"NEWADDON REFCNT decrementing to %ld on %s 0x%lx", ct,classinfo.classname.c_str(), (long)(((void*)this)));
 #endif
     if(ct == 0)
     {
@@ -96,17 +96,27 @@ namespace XBMCAddon
   {
     if (isDeleted)
       CLog::Log(LOGERROR,"NEWADDON REFCNT Acquiring dead class %s 0x%lx", 
-                classname.c_str(), (long)(((void*)this)));
+                classinfo.classname.c_str(), (long)(((void*)this)));
 
 #ifdef LOG_LIFECYCLE_EVENTS
     CLog::Log(LOGDEBUG,"NEWADDON REFCNT incrementing to %ld on %s 0x%lx", 
-              AtomicIncrement((long*)&refs),classname.c_str(), (long)(((void*)this)));
+              AtomicIncrement((long*)&refs),classinfo.classname.c_str(), (long)(((void*)this)));
 #else
     AtomicIncrement((long*)&refs);
 #endif
   }
 
 #endif
+
+  /**
+   * This is meant to be called during static initialization and so isn't
+   * synchronized.
+   */
+  static short curIndex = 0;
+
+  short AddonClass::getNextClassIndex() { return curIndex++; }
+
+  short AddonClass::getNumAddonClasses() { return curIndex; }
 }
 
               

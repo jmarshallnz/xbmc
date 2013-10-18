@@ -51,7 +51,7 @@ namespace XBMCAddon
     {
     public:
 
-      Dialog() : AddonClass("Dialog") {}
+      Dialog() : AddonClass(CINFO_NAME(Dialog)) {}
       virtual ~Dialog();
 
       /**
@@ -283,6 +283,8 @@ namespace XBMCAddon
                    int type = INPUT_ALPHANUM,
                    int option = 0,
                    int autoclose = 0) throw (WindowException);
+
+      DECL_CLASS_INFO(Dialog)
     };
 
     /**
@@ -297,7 +299,7 @@ namespace XBMCAddon
 
     public:
 
-      DialogProgress() : AddonClass("DialogProgress"), dlg(NULL) {}
+      DialogProgress() : AddonClass(CINFO_NAME(DialogProgress)), dlg(NULL) {}
       virtual ~DialogProgress();
 
 
@@ -351,6 +353,8 @@ namespace XBMCAddon
        *   - if (pDialog.iscanceled()): return
        */
       bool iscanceled();
+
+      DECL_CLASS_INFO(DialogProgress)
     };
 
     /**
@@ -366,7 +370,7 @@ namespace XBMCAddon
 
     public:
 
-      DialogProgressBG() : AddonClass("DialogProgressBG"), dlg(NULL), handle(NULL) {}
+      DialogProgressBG() : AddonClass(CINFO_NAME(DialogProgressBG)), dlg(NULL), handle(NULL) {}
       virtual ~DialogProgressBG();
 
 
@@ -414,6 +418,8 @@ namespace XBMCAddon
        * - if (pDialog.isFinished()): return
        */
       bool isFinished();
+
+      DECL_CLASS_INFO(DialogProgressBG)
     };
 
   }

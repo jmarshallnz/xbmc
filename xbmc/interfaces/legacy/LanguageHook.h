@@ -42,7 +42,7 @@ namespace XBMCAddon
   class LanguageHook : public AddonClass
   {
   protected:
-    LanguageHook(const char* subclassName) : AddonClass(subclassName) {}
+    LanguageHook(const ClassInfo& ci) : AddonClass(ci) {}
 
   public:
     virtual ~LanguageHook();

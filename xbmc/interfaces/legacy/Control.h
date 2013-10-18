@@ -75,12 +75,12 @@ namespace XBMCAddon
     class Control : public AddonClass
     {
     protected:
-    public:
-      Control(const char* classname) : AddonClass(classname),
+      Control(const ClassInfo& ci) : AddonClass(ci),
                                        iControlId(0), iParentId(0), dwPosX(0), dwPosY(0), dwWidth(0),
                                        dwHeight(0), iControlUp(0), iControlDown(0), iControlLeft(0),
                                        iControlRight(0), pGUIControl(NULL) {}
 
+    public:
       virtual ~Control();
 
 #ifndef SWIG
@@ -549,6 +549,8 @@ namespace XBMCAddon
       std::string strTextureDownFocus;
 #endif
 
+      DECL_CLASS_INFO(ControlSpin)
+
     private:
       ControlSpin();
 
@@ -614,7 +616,7 @@ namespace XBMCAddon
                             const String& label2 = emptyString) throw(UnimplementedException);
 #ifndef SWIG
       ControlLabel() : 
-        Control ("ControlLabel"),
+        Control (CINFO_NAME(ControlLabel)),
         bHasPath(false),
         iAngle  (0)
       {}
@@ -628,6 +630,8 @@ namespace XBMCAddon
       int iAngle;
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
+
+      DECL_CLASS_INFO(ControlLabel)
 #endif
     };
 
@@ -716,7 +720,7 @@ namespace XBMCAddon
 
 #ifndef SWIG
       ControlEdit() :
-        Control     ("ControlEdit"),
+        Control     (CINFO_NAME(ControlEdit)),
         bIsPassword (false)
       {}
 
@@ -730,6 +734,7 @@ namespace XBMCAddon
       bool bIsPassword;
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
+      DECL_CLASS_INFO(ControlEdit)
 #endif
     };
 
@@ -961,7 +966,7 @@ namespace XBMCAddon
       // This is called from AddonWindow.cpp but shouldn't be available
       //  to the scripting languages.
       ControlList() :
-        Control("ControlList"),
+        Control(CINFO_NAME(ControlList)),
         imageHeight     (0),
         imageWidth      (0),
         itemHeight      (0),
@@ -989,6 +994,8 @@ namespace XBMCAddon
       uint32_t alignmentY;
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
+
+      DECL_CLASS_INFO(ControlList)
 #endif
     };
 
@@ -1049,7 +1056,9 @@ namespace XBMCAddon
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
-      ControlFadeLabel() : Control("ControlFadeLabel") {}
+      ControlFadeLabel() : Control(CINFO_NAME(ControlFadeLabel)) {}
+
+      DECL_CLASS_INFO(ControlFadeLabel)
 #endif
     };
 
@@ -1116,7 +1125,8 @@ namespace XBMCAddon
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
-      ControlTextBox() : Control("ControlTextBox") {}
+      ControlTextBox() : Control(CINFO_NAME(ControlTextBox)) {}
+      DECL_CLASS_INFO(ControlTextBox)
 #endif
     };
 
@@ -1170,7 +1180,7 @@ namespace XBMCAddon
 
 #ifndef SWIG
       ControlImage() :
-        Control     ("ControlImage"),
+        Control     (CINFO_NAME(ControlImage)),
         aspectRatio (0)
       {}
 
@@ -1179,6 +1189,7 @@ namespace XBMCAddon
       color_t colorDiffuse;
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
+      DECL_CLASS_INFO(ControlImage)
 #endif
     };
 
@@ -1223,9 +1234,11 @@ namespace XBMCAddon
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
       ControlProgress() :
-        Control     ("ControlProgress"),
+        Control     (CINFO_NAME(ControlProgress)),
         aspectRatio (0)
       {}
+
+      DECL_CLASS_INFO(ControlProgress)
 #endif
     };
 
@@ -1346,13 +1359,15 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
       ControlButton() :
-        Control     ("ControlButton"),
+        Control     (CINFO_NAME(ControlButton)),
         textOffsetX (0),
         textOffsetY (0),
         iAngle      (0),
         shadowColor (0),
         focusedColor(0)
       {}
+
+      DECL_CLASS_INFO(ControlButton)
 #endif
     };
 
@@ -1461,10 +1476,12 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
       ControlCheckMark() :
-        Control     ("ControlCheckMark"),
+        Control     (CINFO_NAME(ControlCheckMark)),
         checkWidth  (0),
         checkHeight (0)
       {}
+
+      DECL_CLASS_INFO(ControlCheckMark)
 #endif
     };
 
@@ -1489,7 +1506,9 @@ namespace XBMCAddon
 #ifndef SWIG
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
-      ControlGroup() : Control("ControlGroup") {}
+      ControlGroup() : Control(CINFO_NAME(ControlGroup)) {}
+
+      DECL_CLASS_INFO(ControlGroup)
 #endif
     };
 
@@ -1630,11 +1649,13 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
       ControlRadioButton() :
-        Control     ("ControlRadioButton"),
+        Control     (CINFO_NAME(ControlRadioButton)),
         textOffsetX (0),
         textOffsetY (0),
         iAngle      (0)
       {}
+
+      DECL_CLASS_INFO(ControlRadioButton)
 #endif
     };
 	
@@ -1689,7 +1710,9 @@ namespace XBMCAddon
 
       SWIGHIDDENVIRTUAL CGUIControl* Create() throw (WindowException);
 
-      ControlSlider() : Control("ControlSlider") {}
+      ControlSlider() : Control(CINFO_NAME(ControlSlider)) {}
+
+      DECL_CLASS_INFO(ControlSlider)
 #endif
     };
   }

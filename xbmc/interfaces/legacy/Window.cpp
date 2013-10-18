@@ -35,6 +35,9 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
+    DEF_CLASS_INFO(Action);
+    DEF_CLASS_INFO(Window);
+
     XbmcThreads::ThreadLocal<ref> InterceptorBase::upcallTls;
 
     /**
@@ -83,8 +86,8 @@ namespace XBMCAddon
 
     CGUIWindow* ProxyExistingWindowInterceptor::get() { TRACE; return cguiwindow; }
 
-    Window::Window(const char* classname) throw (WindowException): 
-      AddonCallback(classname), isDisposed(false), window(NULL), iWindowId(-1),
+    Window::Window(const ClassInfo& ci) throw (WindowException): 
+      AddonCallback(ci), isDisposed(false), window(NULL), iWindowId(-1),
       iOldWindowId(0), iCurrentControlId(3000), bModal(false), m_actionEvent(true),
       canPulse(true), existingWindow(false), destroyAfterDeInit(false)
     {
@@ -95,7 +98,7 @@ namespace XBMCAddon
      * This just creates a default window.
      */
     Window::Window(int existingWindowId) throw (WindowException) : 
-      AddonCallback("Window"), isDisposed(false), window(NULL), iWindowId(-1),
+      AddonCallback(CINFO_NAME(Window)), isDisposed(false), window(NULL), iWindowId(-1),
       iOldWindowId(0), iCurrentControlId(3000), bModal(false), m_actionEvent(true),
       canPulse(false), existingWindow(true), destroyAfterDeInit(false)
     {

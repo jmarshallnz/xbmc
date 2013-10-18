@@ -32,11 +32,13 @@ namespace XBMCAddon
 {
   namespace xbmcaddon
   {
+    DEF_CLASS_INFO(Addon);
+
     String Addon::getDefaultId() { return languageHook == NULL ? emptyString : languageHook->GetAddonId(); }
 
     String Addon::getAddonVersion() { return languageHook == NULL ? emptyString : languageHook->GetAddonVersion(); }
 
-    Addon::Addon(const char* cid) throw (AddonException) : AddonClass("Addon") 
+    Addon::Addon(const char* cid) throw (AddonException) : AddonClass(CINFO_NAME(Addon)) 
     {
       String id(cid ? cid : emptyString);
 

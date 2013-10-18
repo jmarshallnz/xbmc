@@ -42,7 +42,7 @@ namespace XBMCAddon
       struct __stat64 st;
       
     public:
-      Stat(const String& path) : AddonClass("Stat")
+      Stat(const String& path) : AddonClass(CINFO_NAME(Stat))
       {
         DelayedCallGuard dg;
         XFILE::CFile::Stat(path, &st);
@@ -58,6 +58,8 @@ namespace XBMCAddon
       inline long long atime() { return st.st_atime; }; //names st_atime/st_mtime/st_ctime are used by sys/stat.h
       inline long long mtime() { return st.st_mtime; };
       inline long long ctime() { return st.st_ctime; };
+
+      DECL_CLASS_INFO(Stat)
     };
   }
 }

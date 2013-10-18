@@ -70,7 +70,7 @@ using namespace xbmc;
 
     try
     {
-      Player* player = ((Player*)retrieveApiInstance((PyObject*)self,&PyXBMCAddon_xbmc_Player_Type,"play","XBMCAddon::xbmc::Player"));
+      Player* player = ((Player*)retrieveApiInstance((PyObject*)self,&TyXBMCAddon_xbmc_Player_Type,"play","XBMCAddon::xbmc::Player"));
 
       // set fullscreen or windowed
       bool windowed = (0 != bWindowed);

@@ -54,7 +54,7 @@ namespace XBMCAddon
     ControlFadeLabel::ControlFadeLabel(long x, long y, long width, long height, 
                                        const char* font, const char* _textColor, 
                                        long _alignment) : 
-      Control("ControlFadeLabel"),
+      Control(CINFO_NAME(ControlFadeLabel)),
       strFont("font13"), textColor(0xffffffff), align(_alignment)
     {
       dwPosX = x;
@@ -70,6 +70,8 @@ namespace XBMCAddon
 
       pGUIControl = NULL;
     }
+
+    DEF_CLASS_INFO(ControlFadeLabel);
 
     void ControlFadeLabel::addLabel(const String& label) throw (UnimplementedException)
     {
@@ -115,9 +117,11 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlTextBox);
+
     ControlTextBox::ControlTextBox(long x, long y, long width, long height, 
                                    const char* font, const char* _textColor) : 
-      Control("ControlTextBox"),
+      Control(CINFO_NAME(ControlTextBox)),
       strFont("font13"), textColor(0xffffffff)
     {
       dwPosX = x;
@@ -176,13 +180,15 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlButton);
+
     ControlButton::ControlButton(long x, long y, long width, long height, const String& label,
                                  const char* focusTexture, const char* noFocusTexture, 
                                  long _textOffsetX, long _textOffsetY, 
                                  long alignment, const char* font, const char* _textColor,
                                  const char* _disabledColor, long angle,
                                  const char* _shadowColor, const char* _focusedColor) :
-      Control("ControlButton"), textOffsetX(_textOffsetX), textOffsetY(_textOffsetY),
+      Control(CINFO_NAME(ControlButton)), textOffsetX(_textOffsetX), textOffsetY(_textOffsetY),
       align(alignment), strFont("font13"), textColor(0xffffffff), disabledColor(0x60ffffff),
       iAngle(angle), shadowColor(0), focusedColor(0xffffffff)
     {
@@ -294,12 +300,14 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlCheckMark);
+
     ControlCheckMark::ControlCheckMark(long x, long y, long width, long height, const String& label,
                                        const char* focusTexture, const char* noFocusTexture, 
                                        long _checkWidth, long _checkHeight,
                                        long _alignment, const char* font, 
                                        const char* _textColor, const char* _disabledColor) :
-      Control("ControlCheckMark"), strFont("font13"), checkWidth(_checkWidth), checkHeight(_checkHeight),
+      Control(CINFO_NAME(ControlCheckMark)), strFont("font13"), checkWidth(_checkWidth), checkHeight(_checkHeight),
       align(_alignment), textColor(0xffffffff), disabledColor(0x60ffffff)
     {
       dwPosX = x;
@@ -403,10 +411,12 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlImage);
+
     ControlImage::ControlImage(long x, long y, long width, long height, 
                                const char* filename, long aspectRatio,
                                const char* _colorDiffuse):
-      Control("ControlImage"), colorDiffuse(0)
+      Control(CINFO_NAME(ControlImage)), colorDiffuse(0)
     {
       dwPosX = x;
       dwPosY = y;
@@ -457,13 +467,15 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlProgress);
+
     ControlProgress::ControlProgress(long x, long y, long width, long height, 
                                      const char* texturebg,
                                      const char* textureleft,
                                      const char* texturemid,
                                      const char* textureright,
                                      const char* textureoverlay):
-      Control("ControlProgress")
+      Control(CINFO_NAME(ControlProgress))
     {
       dwPosX = x;
       dwPosY = y;
@@ -513,11 +525,13 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlSlider);
+
     ControlSlider::ControlSlider(long x, long y, long width, long height, 
                                  const char* textureback, 
                                  const char* texture,
                                  const char* texturefocus) :
-      Control("ControlSlider")
+      Control(CINFO_NAME(ControlSlider))
     {
       dwPosX = x;
       dwPosY = y;
@@ -558,8 +572,10 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlGroup);
+
     ControlGroup::ControlGroup(long x, long y, long width, long height):
-      Control("ControlCheckMark")
+      Control(CINFO_NAME(ControlGroup))
     {
       dwPosX = x;
       dwPosY = y;
@@ -582,6 +598,8 @@ namespace XBMCAddon
 
     // ============================================================
     // ============================================================
+    DEF_CLASS_INFO(ControlRadioButton);
+
     ControlRadioButton::ControlRadioButton(long x, long y, long width, long height, const String& label,
                                            const char* focusOnTexture,  const char* noFocusOnTexture,
                                            const char* focusOffTexture, const char* noFocusOffTexture,
@@ -591,7 +609,7 @@ namespace XBMCAddon
                                            const char* _disabledColor, long angle,
                                            const char* _shadowColor, const char* _focusedColor,
                                            const char* TextureRadioFocus, const char* TextureRadioNoFocus) :
-      Control("ControlRadioButton"), strFont("font13"), textColor(0xffffffff), disabledColor(0x60ffffff), 
+      Control(CINFO_NAME(ControlRadioButton)), strFont("font13"), textColor(0xffffffff), disabledColor(0x60ffffff), 
       textOffsetX(_textOffsetX), textOffsetY(_textOffsetY), align(alignment), iAngle(angle), 
       shadowColor(0), focusedColor(0xffffffff)
     {
@@ -929,7 +947,9 @@ namespace XBMCAddon
     // ============================================================
     //  ControlSpin
     // ============================================================
-    ControlSpin::ControlSpin() : Control("ControlSpin")
+    DEF_CLASS_INFO(ControlSpin);
+
+    ControlSpin::ControlSpin() : Control(CINFO_NAME(ControlSpin))
     {
       // default values for spin control
       color = 0xffffffff;
@@ -969,13 +989,15 @@ namespace XBMCAddon
     // ============================================================
     //  ControlLabel
     // ============================================================
+    DEF_CLASS_INFO(ControlLabel);
+
     ControlLabel::ControlLabel(long x, long y, long width, long height, 
                                const String& label,
                                const char* font, const char* p_textColor, 
                                const char* p_disabledColor,
                                long p_alignment, 
                                bool hasPath, long angle) :
-      Control("ControlLabel"), strFont("font13"), 
+      Control(CINFO_NAME(ControlLabel)), strFont("font13"), 
       textColor(0xffffffff), disabledColor(0x60ffffff),
       align(p_alignment), bHasPath(hasPath), iAngle(angle)
     {
@@ -1041,12 +1063,14 @@ namespace XBMCAddon
     // ============================================================
     //  ControlEdit
     // ============================================================
+    DEF_CLASS_INFO(ControlEdit);
+
     ControlEdit::ControlEdit(long x, long y, long width, long height, const String& label,
                              const char* font, const char* _textColor, 
                              const char* _disabledColor,
                              long _alignment, const char* focusTexture,
                              const char* noFocusTexture, bool isPassword) :
-      Control("ControlEdit"), strFont("font13"), textColor(0xffffffff), disabledColor(0x60ffffff),
+      Control(CINFO_NAME(ControlEdit)), strFont("font13"), textColor(0xffffffff), disabledColor(0x60ffffff),
       align(_alignment), bIsPassword(isPassword)
 
     {
@@ -1124,13 +1148,15 @@ namespace XBMCAddon
     // ============================================================
     //  ControlList
     // ============================================================
+    DEF_CLASS_INFO(ControlList);
+
     ControlList::ControlList(long x, long y, long width, long height, const char* font,
                              const char* ctextColor, const char* cbuttonTexture,
                              const char* cbuttonFocusTexture,
                              const char* cselectedColor,
                              long _imageWidth, long _imageHeight, long _itemTextXOffset,
                              long _itemTextYOffset, long _itemHeight, long _space, long _alignmentY) :
-      Control("ControlList"),
+      Control(CINFO_NAME(ControlList)),
       strFont("font13"), 
       textColor(0xe0f0f0f0), selectedColor(0xffffffff),
       imageHeight(_imageHeight), imageWidth(_imageWidth),

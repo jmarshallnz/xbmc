@@ -26,12 +26,14 @@ namespace XBMCAddon
 {
   namespace xbmc
   {
-    InfoTagVideo::InfoTagVideo() : AddonClass("InfoTagVideo")
+    DEF_CLASS_INFO(InfoTagVideo);
+
+    InfoTagVideo::InfoTagVideo() : AddonClass(CINFO_NAME(InfoTagVideo))
     {
       infoTag = new CVideoInfoTag();
     }
 
-    InfoTagVideo::InfoTagVideo(const CVideoInfoTag& tag) : AddonClass("InfoTagVideo")
+    InfoTagVideo::InfoTagVideo(const CVideoInfoTag& tag) : AddonClass(CINFO_NAME(InfoTagVideo))
     {
       infoTag = new CVideoInfoTag();
       *infoTag = tag;

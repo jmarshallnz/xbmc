@@ -40,7 +40,7 @@ namespace XBMCAddon
     bool hasHandler() { return handler.isNotNull(); }
 
   public:
-    inline AddonCallback(const char* classname) : AddonClass(classname), handler(NULL)
+    inline AddonCallback(const ClassInfo& ci) : AddonClass(ci), handler(NULL)
     {
       // if there is a LanguageHook, it should be set already.
       if (languageHook != NULL)

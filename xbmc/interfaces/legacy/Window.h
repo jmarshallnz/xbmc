@@ -43,12 +43,12 @@ namespace XBMCAddon
     class Action : public AddonClass
     {
     public:
-      Action() : AddonClass("Action"), id(-1), fAmount1(0.0f), fAmount2(0.0f), 
+      Action() : AddonClass(CINFO_NAME(Action)), id(-1), fAmount1(0.0f), fAmount2(0.0f), 
                  fRepeat(0.0f), buttonCode(0), strAction("")
       { }
 
 #ifndef SWIG
-      Action(const CAction& caction) : AddonClass("Action") { setFromCAction(caction); }
+      Action(const CAction& caction) : AddonClass(CINFO_NAME(Action)) { setFromCAction(caction); }
 
       void setFromCAction(const CAction& caction);
 
@@ -82,6 +82,8 @@ namespace XBMCAddon
      * getAmount2() -- Returns the second amount of force applied to the thumbstick n.
      */
       float getAmount2() { TRACE; return fAmount2; }
+
+      DECL_CLASS_INFO(Action)
     };
 
     /**
@@ -113,7 +115,7 @@ namespace XBMCAddon
       bool existingWindow;
       bool destroyAfterDeInit;
 
-      Window(const char* classname) throw (WindowException);
+      Window(const ClassInfo& ci) throw (WindowException);
 
       virtual void deallocating();
 
@@ -418,6 +420,8 @@ namespace XBMCAddon
        * You can only use the Control functions
        */
       SWIGHIDDENVIRTUAL Control* getControl(int iControlId) throw (WindowException);
+
+      DECL_CLASS_INFO(Window)
     };
   }
 }

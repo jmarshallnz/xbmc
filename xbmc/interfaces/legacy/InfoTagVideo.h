@@ -121,6 +121,8 @@ namespace XBMCAddon
        * getFirstAired() - returns a string.
        */
       String getFirstAired();
+
+      DECL_CLASS_INFO(InfoTagVideo)
     };
   }
 }

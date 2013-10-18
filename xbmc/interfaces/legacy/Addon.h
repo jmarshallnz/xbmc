@@ -130,6 +130,7 @@ namespace XBMCAddon
        */
       String getAddonInfo(const char* id) throw (AddonException);
 
+      DECL_CLASS_INFO(Addon)
     };
   }
 }

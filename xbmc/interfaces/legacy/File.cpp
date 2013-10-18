@@ -22,9 +22,10 @@
 
 namespace XBMCAddon
 {
-
   namespace xbmcvfs
   {
+    DEF_CLASS_INFO(File);
+
     XbmcCommons::Buffer File::readBytes(unsigned long numBytes)
     {
       DelayedCallGuard dg(languageHook);

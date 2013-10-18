@@ -27,9 +27,10 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
+    DEF_CLASS_INFO(WindowDialog);
 
     WindowDialog::WindowDialog() throw(WindowException) :
-      Window("WindowDialog"), WindowDialogMixin(this)
+      Window(CINFO_NAME(WindowDialog)), WindowDialogMixin(this)
     {
       CSingleLock lock(g_graphicsContext);
       setWindow(new Interceptor<CGUIWindow>("CGUIWindow",this,getNextAvailalbeWindowId()));

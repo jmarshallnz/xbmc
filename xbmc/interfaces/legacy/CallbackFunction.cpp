@@ -22,6 +22,9 @@
 
 namespace XBMCAddon
 {
+
+  DEF_CLASS_INFO(Callback);
+
   Callback::~Callback()
   {
     deallocating();

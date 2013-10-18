@@ -46,7 +46,7 @@
   try
   {
     XBMCAddon::xbmcgui::Control* tmp = ((XBMCAddon::xbmcgui::Control*)retrieveApiInstance((PyObject*)self,
-                                        &PyXBMCAddon_xbmcgui_Control_Type,"addItem","XBMCAddon::xbmcgui::Control"));
+                                        &TyXBMCAddon_xbmcgui_Control_Type,"addItem","XBMCAddon::xbmcgui::Control"));
 
     XBMCAddon::xbmcgui::ControlList* apiobj = dynamic_cast<XBMCAddon::xbmcgui::ControlList*>(tmp);
 
@@ -65,7 +65,7 @@
       callName = "addListItem";
       // assume it's a ListItem. retrieveApiInstance will throw an exception if it's not
       XBMCAddon::xbmcgui::ListItem* listItem = ((XBMCAddon::xbmcgui::ListItem*)retrieveApiInstance((PyObject*)pyitem,
-                                              &PyXBMCAddon_xbmcgui_ListItem_Type,"addItem","XBMCAddon::xbmcgui::ListItem"));
+                                              &TyXBMCAddon_xbmcgui_ListItem_Type,"addItem","XBMCAddon::xbmcgui::ListItem"));
       apiobj->addListItem(listItem);
     }
   }
@@ -114,7 +114,7 @@
   try
   {
     XBMCAddon::xbmcgui::Control* tmp = ((XBMCAddon::xbmcgui::Control*)retrieveApiInstance((PyObject*)self,
-                                        &PyXBMCAddon_xbmcgui_Control_Type,"addItem","XBMCAddon::xbmcgui::Control"));
+                                        &TyXBMCAddon_xbmcgui_Control_Type,"addItem","XBMCAddon::xbmcgui::Control"));
 
     XBMCAddon::xbmcgui::ControlList* apiobj = dynamic_cast<XBMCAddon::xbmcgui::ControlList*>(tmp);
 
@@ -139,7 +139,7 @@
         callName = "addListItem";
         // assume it's a ListItem. retrieveApiInstance will throw an exception if it's not
         XBMCAddon::xbmcgui::ListItem* listItem = ((XBMCAddon::xbmcgui::ListItem*)retrieveApiInstance((PyObject*)pyitem,
-                                                &PyXBMCAddon_xbmcgui_ListItem_Type,"addItem","XBMCAddon::xbmcgui::ListItem"));
+                                                &TyXBMCAddon_xbmcgui_ListItem_Type,"addItem","XBMCAddon::xbmcgui::ListItem"));
         apiobj->addListItem(listItem,false);
       }
     }

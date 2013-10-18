@@ -25,13 +25,12 @@
 
 namespace PythonBindings
 {
-  void PyXBMCInitializeTypeObject(PyTypeObject* type_object, TypeInfo* typeInfo)
+  void PyXBMCInitializeTypeObject(TypeInfo* typeInfo)
   {
     static PyTypeObject py_type_object_header = { PyObject_HEAD_INIT(NULL) 0};
-    int size = (long*)&(py_type_object_header.tp_name) - (long*)&py_type_object_header;
-    memset(type_object, 0, sizeof(PyTypeObject));
-    memcpy(type_object, &py_type_object_header, size);
+    static int size = (long*)&(py_type_object_header.tp_name) - (long*)&py_type_object_header;
     memset(typeInfo, 0, sizeof(TypeInfo));
+    memcpy(&(typeInfo->pythonType), &py_type_object_header, size);
   }
 
   class PyObjectDecrementor
@@ -199,7 +198,7 @@ namespace PythonBindings
     SetMessage("%s",msg.c_str());
   }
 
-  void* doretrieveApiInstance(const PyHolder* pythonType, const TypeInfo* typeInfo, const char* expectedType, 
+  XBMCAddon::AddonClass* doretrieveApiInstance(const PyHolder* pythonType, const TypeInfo* typeInfo, const char* expectedType, 
                               const char* methodNamespacePrefix, const char* methodNameForErrorString) throw (XBMCAddon::WrongTypeException)
   {
     if (pythonType == NULL || pythonType->magicNumber != XBMC_PYTHON_TYPE_MAGIC_NUMBER)
@@ -228,7 +227,7 @@ namespace PythonBindings
     if(c) { 
       c->Acquire(); 
       PyThreadState* state = PyThreadState_Get();
-      XBMCAddon::Python::LanguageHook::GetIfExists(state->interp)->RegisterAddonClassInstance(c);
+      XBMCAddon::Python::PythonLanguageHook::GetIfExists(state->interp)->RegisterAddonClassInstance(c);
     }
   }
 
@@ -236,7 +235,7 @@ namespace PythonBindings
   {
     TRACE;
     if(c){
-      XBMCAddon::AddonClass::Ref<XBMCAddon::Python::LanguageHook> lh = 
+      XBMCAddon::AddonClass::Ref<XBMCAddon::Python::PythonLanguageHook> lh = 
         XBMCAddon::AddonClass::Ref<XBMCAddon::AddonClass>(c->GetLanguageHook());
 
       if (lh.isNotNull())
@@ -247,7 +246,7 @@ namespace PythonBindings
       else
       {
         PyThreadState* state = PyThreadState_Get();
-        lh = XBMCAddon::Python::LanguageHook::GetIfExists(state->interp);
+        lh = XBMCAddon::Python::PythonLanguageHook::GetIfExists(state->interp);
         if (lh.isNotNull()) lh->UnregisterAddonClassInstance(c);
         return true;
       }
@@ -285,12 +284,18 @@ namespace PythonBindings
   }
 
   /**
-   * This method allows for conversion of the native api Type to the Python type
+   * This method allows for conversion of the native api Type to the Python type.
    *
-   * NOTE: swigTypeString must be in the data segment. That is, it should be an explicit string since
-   * the const char* is stored in a PyHolder struct and never deleted.
+   * When this form of the call is used (and pytype isn't NULL) then the
+   * passed type is used in the instance. This is for classes that extend API
+   * classes in python. The type passed may not be the same type that's stored
+   * in the class metadata of the AddonClass of which 'api' is an instance, 
+   * it can be a subclass in python.
+   *
+   * if pytype is NULL then the type is inferred using the class metadata 
+   * stored in the AddonClass instance 'api'.
    */
-  PyObject* makePythonInstance(void* api, PyTypeObject* typeObj, TypeInfo* typeInfo, bool incrementRefCount)
+  PyObject* makePythonInstance(XBMCAddon::AddonClass* api, PyTypeObject* pytype, bool incrementRefCount)
   {
     // null api types result in Py_None
     if (!api)
@@ -298,6 +303,13 @@ namespace PythonBindings
       Py_INCREF(Py_None);
       return Py_None;
     }
+
+    // retrieve the TypeInfo from the api class
+    const XBMCAddon::ClassInfo& classInfo = api->GetClassInfo();
+    short index = classInfo.classIndex;
+
+    const TypeInfo* typeInfo = getTypeInfoForClassIndex(index);
+    PyTypeObject* typeObj = pytype == NULL ? (PyTypeObject*)(&(typeInfo->pythonType)) : pytype;
 
     PyHolder* self = (PyHolder*)typeObj->tp_alloc(typeObj,0);
     if (!self) return NULL;
@@ -307,6 +319,31 @@ namespace PythonBindings
     if (incrementRefCount)
       Py_INCREF((PyObject*)self);
     return (PyObject*)self;
+  }
+
+  // This is a total leack
+  static const TypeInfo * * typeInfos = NULL;
+
+  inline void checkTypeInfos()
+  {
+    if (typeInfos == NULL)
+    {
+      int numTypes = XBMCAddon::AddonClass::getNumAddonClasses();
+      typeInfos = new const TypeInfo*[numTypes];
+      memset((void*)typeInfos,0,sizeof(const TypeInfo*) * numTypes);
+    }
+  }
+
+  void setTypeInfoForClassIndex(short classIndex, const TypeInfo* classInfo)
+  {
+    checkTypeInfos();
+    typeInfos[classIndex] = classInfo;
+  }
+
+  const TypeInfo* getTypeInfoForClassIndex(short classIndex)
+  {
+    checkTypeInfos();
+    return typeInfos[classIndex];
   }
 
 }

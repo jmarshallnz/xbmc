@@ -110,6 +110,8 @@ namespace XBMCAddon
        * rather than from the start.
        */
       XBMCAddon::xbmcgui::ListItem* operator[](long i) throw (PlayListException);
+
+      DECL_CLASS_INFO(PlayList)
     };
   }
 }

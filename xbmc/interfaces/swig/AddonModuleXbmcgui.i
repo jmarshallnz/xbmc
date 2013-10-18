@@ -74,11 +74,11 @@ using namespace xbmcgui;
   { TRACE;
     if (method == Py_EQ)
     {
-      XBMCAddon::xbmcgui::Action* a1 = (Action*)retrieveApiInstance(obj1,&PyXBMCAddon_xbmcgui_Action_Type,"rcmp","XBMCAddon::xbmcgui::Action");
-      if (PyObject_TypeCheck(obj2, &PyXBMCAddon_xbmcgui_Action_Type))
+      XBMCAddon::xbmcgui::Action* a1 = (Action*)retrieveApiInstance(obj1,&TyXBMCAddon_xbmcgui_Action_Type,"rcmp","XBMCAddon::xbmcgui::Action");
+      if (PyObject_TypeCheck(obj2, &(TyXBMCAddon_xbmcgui_Action_Type.pythonType)))
       {
         // both are Action objects
-        XBMCAddon::xbmcgui::Action* a2 = (Action*)retrieveApiInstance(obj2,&PyXBMCAddon_xbmcgui_Action_Type,"rcmp","XBMCAddon::xbmcgui::Action");
+        XBMCAddon::xbmcgui::Action* a2 = (Action*)retrieveApiInstance(obj2,&TyXBMCAddon_xbmcgui_Action_Type,"rcmp","XBMCAddon::xbmcgui::Action");
 
         if (a1->id == a2->id &&
             a1->buttonCode == a2->buttonCode &&
@@ -134,7 +134,7 @@ using namespace xbmcgui;
   try
   {
     XBMCAddon::xbmcgui::WindowXML* apiobj = ((XBMCAddon::xbmcgui::WindowXML*)retrieveApiInstance((PyObject*)self,
-                                        &PyXBMCAddon_xbmcgui_WindowXML_Type,"addItem","XBMCAddon::xbmcgui::WindowXML"));
+                                        &TyXBMCAddon_xbmcgui_WindowXML_Type,"addItem","XBMCAddon::xbmcgui::WindowXML"));
 
     if (PyUnicode_Check(pyitem) || PyString_Check(pyitem))
     {
@@ -147,7 +147,7 @@ using namespace xbmcgui;
       callName = "addListItem";
       // assume it's a ListItem. retrieveApiInstance will throw an exception if it's not
       XBMCAddon::xbmcgui::ListItem* listItem = ((XBMCAddon::xbmcgui::ListItem*)retrieveApiInstance((PyObject*)pyitem,
-                                              &PyXBMCAddon_xbmcgui_ListItem_Type,"addItem","XBMCAddon::xbmcgui::ListItem"));
+                                              &TyXBMCAddon_xbmcgui_ListItem_Type,"addItem","XBMCAddon::xbmcgui::ListItem"));
       apiobj->addListItem(listItem);
     }
   }

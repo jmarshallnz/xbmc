@@ -32,8 +32,12 @@ namespace XBMCAddon
     AddonClass::Ref<Callback> cb;
     RetardedAsynchCallbackHandler* handler;
     AsynchCallbackMessage(Callback* _cb, RetardedAsynchCallbackHandler* _handler) :
-      AddonClass("AsynchCallbackMessage"), cb(_cb), handler(_handler) { TRACE; }
+      AddonClass(CINFO_NAME(AsynchCallbackMessage)), cb(_cb), handler(_handler) { TRACE; }
+
+    DECL_CLASS_INFO(AsynchCallbackMessage)
   };
+
+  DEF_CLASS_INFO(AsynchCallbackMessage);
 
   //********************************************************************
   // This holds the callback messages which will be executed. It doesn't

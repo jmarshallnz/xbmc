@@ -18,34 +18,22 @@
  *
  */
 
-#include "Monitor.h"
+// This file contains some instantiations of class meta data for 
+// API objects (AddonClasses) that otherwise only have header files.
+
+#include "RenderCapture.h"
+#include "Stat.h"
 
 namespace XBMCAddon
 {
   namespace xbmc
   {
-    DEF_CLASS_INFO(Monitor);
-
-    Monitor::Monitor() : AddonCallback(CINFO_NAME(Monitor)) 
-    {
-      if (languageHook)
-      {
-        Id = languageHook->GetAddonId();
-        languageHook->RegisterMonitorCallback(this);
-      }
-    }
-
-    Monitor::~Monitor()
-    { 
-      deallocating();
-      DelayedCallGuard dg(languageHook);
-      // we're shutting down so unregister me.
-      if (languageHook)
-      {
-        DelayedCallGuard dc;
-        languageHook->UnregisterMonitorCallback(this);
-      }
-    }
+    DEF_CLASS_INFO(RenderCapture);
   }
-}
 
+  namespace xbmcvfs
+  {
+    DEF_CLASS_INFO(Stat);
+  }
+
+}

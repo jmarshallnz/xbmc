@@ -36,6 +36,9 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
+    DEF_CLASS_INFO(Dialog);
+    DEF_CLASS_INFO(DialogProgress);
+    DEF_CLASS_INFO(DialogProgressBG);
 
     static void XBMCWaitForThreadMessage(int message, int param1, int param2)
     {

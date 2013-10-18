@@ -127,6 +127,7 @@ namespace XBMCAddon
        */
       bool isConfirmed();
 
+      DECL_CLASS_INFO(Keyboard)
     };
   }
 }

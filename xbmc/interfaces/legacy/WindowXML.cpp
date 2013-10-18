@@ -41,6 +41,9 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
+    DEF_CLASS_INFO(WindowXML);
+    DEF_CLASS_INFO(WindowXMLDialog);
+    
     template class Interceptor<CGUIMediaWindow>;
 
     /**
@@ -95,17 +98,17 @@ namespace XBMCAddon
                          const String& scriptPath,
                          const String& defaultSkin,
                          const String& defaultRes) throw(WindowException) :
-      Window("WindowXML")
+      Window(CINFO_NAME(WindowXML))
     {
       initialize(xmlFilename,scriptPath,defaultSkin,defaultRes);
     }
 
-    WindowXML::WindowXML(const char* classname, 
+    WindowXML::WindowXML(const ClassInfo& ci, 
                          const String& xmlFilename,
                          const String& scriptPath,
                          const String& defaultSkin,
                          const String& defaultRes) throw(WindowException) :
-      Window(classname)
+      Window(ci)
     {
       TRACE;
       initialize(xmlFilename,scriptPath,defaultSkin,defaultRes);
@@ -502,7 +505,7 @@ namespace XBMCAddon
     WindowXMLDialog::WindowXMLDialog(const String& xmlFilename, const String& scriptPath,
                                      const String& defaultSkin,
                                      const String& defaultRes) throw(WindowException) :
-      WindowXML("WindowXMLDialog",xmlFilename, scriptPath, defaultSkin, defaultRes),
+      WindowXML(CINFO_NAME(WindowXMLDialog),xmlFilename, scriptPath, defaultSkin, defaultRes),
       WindowDialogMixin(this)
     { TRACE; }
 

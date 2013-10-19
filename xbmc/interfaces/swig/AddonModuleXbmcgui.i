@@ -110,7 +110,6 @@ using namespace xbmcgui;
 %include "interfaces/legacy/WindowDialog.h"
 %include "interfaces/legacy/Dialog.h"
 
-%rename ("addItemString") XBMCAddon::xbmcgui::WindowXML::addItem;
 %feature("python:method:addItem") XBMCAddon::xbmcgui::WindowXML
 {
   TRACE;

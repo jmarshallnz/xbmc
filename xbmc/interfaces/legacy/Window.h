@@ -86,10 +86,24 @@ namespace XBMCAddon
       DECL_CLASS_INFO(Action)
     };
 
+    //============================================================================
+    // This is the main class for the xbmcgui.Window functionality. It is tied
+    //  into the main XBMC windowing system via the Interceptor\n
+    //============================================================================
     /**
-     * This is the main class for the xbmcgui.Window functionality. It is tied\n
-     *  into the main XBMC windowing system via the Interceptor\n
-     */
+     * Window class.
+     * 
+     * Window(self[, int windowId):
+     *   - Create a new Window to draw on.
+     *   - Specify an id to use an existing window.
+     * 
+     * Throws:
+     *   - ValueError, if supplied window Id does not exist.
+     *   - Exception, if more then 200 windows are created.
+     * 
+     * Deleting this window will activate the old window that was active\n
+     * and resets (not delete) all controls that are associated with this window.
+    */
     class Window : public AddonCallback
     {
       friend class WindowDialogMixin;
@@ -184,12 +198,46 @@ namespace XBMCAddon
        * - Don't forget to capture ACTION_PREVIOUS_MENU or ACTION_NAV_BACK, else the user can't close this window.
        */
       virtual void onAction(Action* action);
+
       // on control is not actually on Window in the api but is called
-      //  into Python anyway. This must result in a problem when 
+      //  into Python anyway.
+      /**
+       * onControl(self, Control control) -- onClick method.
+       * 
+       * This method will recieve all click events on owned and selected controls when\n
+       * the control itself doesn't handle the message.
+       */
       virtual void onControl(Control* control);
+
+      /**
+       * onClick(self, int controlId) -- onClick method.
+       * 
+       * This method will recieve all click events that the main program will send\n
+       * to this window.
+       */
       virtual void onClick(int controlId);
+
+      /**
+       * onDoubleClick(self, int controlId) -- onClick method.
+       * 
+       * This method will recieve all double click events that the main program will send\n
+       * to this window.
+       */
       virtual void onDoubleClick(int controlId);
+
+      /**
+       * onFocus(self, int controlId) -- onFocus method.
+       * 
+       * This method will recieve all focus events that the main program will send\n
+       * to this window.
+       */
       virtual void onFocus(int controlId);
+
+      /**
+       * onInit(self) -- onInit method.
+       * 
+       * This method will be called to initialize the window
+       */
       virtual void onInit();
 
       /**

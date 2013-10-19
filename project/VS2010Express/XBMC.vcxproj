@@ -757,6 +757,7 @@
     <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonUtils.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\legacy\CallbackFunction.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\legacy\CallbackHandler.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ClassMetadata.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\legacy\Control.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\legacy\Dialog.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\legacy\File.cpp" />

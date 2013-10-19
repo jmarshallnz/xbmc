@@ -3076,6 +3076,9 @@
     <ClCompile Include="..\..\xbmc\windowing\WinEvents.cpp">
       <Filter>windowing</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ClassMetadata.cpp">
+      <Filter>interfaces\legacy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">

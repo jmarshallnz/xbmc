@@ -278,6 +278,9 @@
 		7C89674613C03B22003631FE /* InfoBool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C89674313C03B22003631FE /* InfoBool.cpp */; };
 		7C8A14571154CB2600E5FCFA /* TextureCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C8A14541154CB2600E5FCFA /* TextureCache.cpp */; };
 		7C8A187D115B2A8200E5FCFA /* TextureDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C8A187A115B2A8200E5FCFA /* TextureDatabase.cpp */; };
+		7C920CF41813620300DA1477 /* ClassMetadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C920CF31813620300DA1477 /* ClassMetadata.cpp */; };
+		7C920CF51813620300DA1477 /* ClassMetadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C920CF31813620300DA1477 /* ClassMetadata.cpp */; };
+		7C920CF61813620300DA1477 /* ClassMetadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C920CF31813620300DA1477 /* ClassMetadata.cpp */; };
 		7C99B6A4133D342100FC2B16 /* CircularCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C99B6A2133D342100FC2B16 /* CircularCache.cpp */; };
 		7C99B7951340723F00FC2B16 /* GUIDialogPlayEject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C99B7931340723F00FC2B16 /* GUIDialogPlayEject.cpp */; };
 		7CAA20511079C8160096DE39 /* BaseRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CAA204F1079C8160096DE39 /* BaseRenderer.cpp */; };
@@ -3738,6 +3741,7 @@
 		7C8A14551154CB2600E5FCFA /* TextureCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureCache.h; sourceTree = "<group>"; };
 		7C8A187A115B2A8200E5FCFA /* TextureDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureDatabase.cpp; sourceTree = "<group>"; };
 		7C8A187B115B2A8200E5FCFA /* TextureDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureDatabase.h; sourceTree = "<group>"; };
+		7C920CF31813620300DA1477 /* ClassMetadata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClassMetadata.cpp; sourceTree = "<group>"; };
 		7C99B6A2133D342100FC2B16 /* CircularCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CircularCache.cpp; sourceTree = "<group>"; };
 		7C99B6A3133D342100FC2B16 /* CircularCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularCache.h; sourceTree = "<group>"; };
 		7C99B7931340723F00FC2B16 /* GUIDialogPlayEject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIDialogPlayEject.cpp; sourceTree = "<group>"; };
@@ -6851,6 +6855,7 @@
 				DF1AD19015FCE77900E10810 /* CallbackFunction.h */,
 				DF1AD19315FCE77900E10810 /* CallbackHandler.cpp */,
 				DF1AD19415FCE77900E10810 /* CallbackHandler.h */,
+				7C920CF31813620300DA1477 /* ClassMetadata.cpp */,
 				DF1AD19715FCE77900E10810 /* Control.cpp */,
 				DF1AD19815FCE77900E10810 /* Control.h */,
 				DF1AD19B15FCE77900E10810 /* Dialog.cpp */,
@@ -10624,6 +10629,7 @@
 				DFD882F817DD1A5B001516FE /* AddonPythonInvoker.cpp in Sources */,
 				DFD882E917DD189E001516FE /* StringValidation.cpp in Sources */,
 				F500E35617F3412C004FC217 /* WinEvents.cpp in Sources */,
+				7C920CF41813620300DA1477 /* ClassMetadata.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11654,6 +11660,7 @@
 				DFD882F617DD1A5B001516FE /* AddonPythonInvoker.cpp in Sources */,
 				DFD882E717DD189E001516FE /* StringValidation.cpp in Sources */,
 				F500E35817F3412C004FC217 /* WinEvents.cpp in Sources */,
+				7C920CF61813620300DA1477 /* ClassMetadata.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12686,6 +12693,7 @@
 				DFD882F717DD1A5B001516FE /* AddonPythonInvoker.cpp in Sources */,
 				DFD882E817DD189E001516FE /* StringValidation.cpp in Sources */,
 				F500E35717F3412C004FC217 /* WinEvents.cpp in Sources */,
+				7C920CF51813620300DA1477 /* ClassMetadata.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

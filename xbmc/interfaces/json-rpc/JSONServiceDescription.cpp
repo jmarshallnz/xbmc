@@ -38,6 +38,7 @@
 #include "PVROperations.h"
 #include "ProfilesOperations.h"
 #include "FavouritesOperations.h"
+#include "SettingsOperations.h"
 
 using namespace std;
 using namespace JSONRPC;
@@ -201,6 +202,14 @@ JsonRpcMethodMap CJSONServiceDescription::m_methodMaps[] = {
 // Favourites operations
   { "Favourites.GetFavourites",                     CFavouritesOperations::GetFavourites },
   { "Favourites.AddFavourite",                      CFavouritesOperations::AddFavourite },
+
+// Settings operations
+  { "Settings.GetSections",                         CSettingsOperations::GetSections },
+  { "Settings.GetCategories",                       CSettingsOperations::GetCategories },
+  { "Settings.GetSettings",                         CSettingsOperations::GetSettings },
+  { "Settings.GetSettingValue",                     CSettingsOperations::GetSettingValue },
+  { "Settings.SetSettingValue",                     CSettingsOperations::SetSettingValue },
+  { "Settings.ResetSettingValue",                   CSettingsOperations::ResetSettingValue },
 
 // XBMC operations
   { "XBMC.GetInfoLabels",                           CXBMCOperations::GetInfoLabels },

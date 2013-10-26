@@ -748,6 +748,7 @@
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\PlaylistOperations.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\ProfilesOperations.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\PVROperations.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\json-rpc\SettingsOperations.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\SystemOperations.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\VideoLibrary.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\XBMCOperations.cpp" />
@@ -1125,6 +1126,7 @@
     <ClInclude Include="..\..\xbmc\interfaces\json-rpc\FavouritesOperations.h" />
     <ClInclude Include="..\..\xbmc\interfaces\json-rpc\ProfilesOperations.h" />
     <ClInclude Include="..\..\xbmc\interfaces\json-rpc\PVROperations.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\json-rpc\SettingsOperations.h" />
     <ClInclude Include="..\..\xbmc\interfaces\legacy\Addon.h" />
     <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonCallback.h" />
     <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonClass.h" />

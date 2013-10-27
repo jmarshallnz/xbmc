@@ -263,7 +263,7 @@ CFileItemPtr CAddonsDirectory::FileItemFromAddon(const AddonPtr &addon, const CS
 
   item->SetLabel(strLabel);
 
-  if (!(basePath.Equals("addons://") && addon->Type() == ADDON_REPOSITORY))
+  if (!(basePath == "addons://" && addon->Type() == ADDON_REPOSITORY))
     item->SetLabel2(addon->Version().asString());
   item->SetArt("thumb", addon->Icon());
   item->SetLabelPreformated(true);

@@ -250,8 +250,7 @@ bool CNFSDirectory::GetDirectory(const CStdString& strPath, CFileItemList &items
     bIsDir = nfsdirent->type == NF3DIR;
     lTimeDate = nfsdirent->mtime.tv_sec;
 
-    if (!StringUtils::EqualsNoCase(strName,".") && !StringUtils::EqualsNoCase(strName,"..")
-        && !StringUtils::EqualsNoCase(strName,"lost+found"))
+    if (strName != "." && strName != ".." && strName != "lost+found")
     {
       if(lTimeDate == 0) // if modification date is missing, use create date
       {

@@ -254,7 +254,7 @@ void CGUIDialogProfileSettings::OnSettingAction(const CSetting *setting)
 
     CStdString thumb;
     if (CGUIDialogFileBrowser::ShowAndGetImage(items, shares, g_localizeStrings.Get(1030), thumb) &&
-        !thumb.Equals("thumb://Current"))
+        thumb != "thumb://Current")
     {
       m_needsSaving = true;
       m_thumb = thumb.Equals("thumb://None") ? "" : thumb;

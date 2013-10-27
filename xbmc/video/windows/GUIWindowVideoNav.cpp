@@ -690,10 +690,10 @@ void CGUIWindowVideoNav::OnDeleteItem(CFileItemPtr pItem)
 
   if (!m_vecItems->IsVideoDb() && !pItem->IsVideoDb())
   {
-    if (!pItem->GetPath().Equals("newsmartplaylist://video") &&
-        !pItem->GetPath().Equals("special://videoplaylists/") &&
-        !pItem->GetPath().Equals("sources://video/") &&
-        !StringUtils::StartsWithNoCase(pItem->GetPath(), "newtag://"))
+    if (pItem->GetPath() != "newsmartplaylist://video" &&
+        pItem->GetPath() != "special://videoplaylists/" &&
+        pItem->GetPath() != "sources://video/" &&
+        !StringUtils::StartsWith(pItem->GetPath(), "newtag://"))
       CGUIWindowVideoBase::OnDeleteItem(pItem);
   }
   else if (StringUtils::StartsWithNoCase(pItem->GetPath(), "videodb://movies/sets/") &&
@@ -900,7 +900,7 @@ void CGUIWindowVideoNav::GetContextButtons(int itemNumber, CContextButtons &butt
       { // non-video db items, file operations are allowed
         if ((CSettings::Get().GetBool("filelists.allowfiledeletion") &&
             CUtil::SupportsWriteFileOperations(item->GetPath())) ||
-            (inPlaylists && !URIUtils::GetFileName(item->GetPath()).Equals("PartyMode-Video.xsp")
+            (inPlaylists && URIUtils::GetFileName(item->GetPath()) != "PartyMode-Video.xsp"
                          && (item->IsPlayList() || item->IsSmartPlayList())))
         {
           buttons.Add(CONTEXT_BUTTON_DELETE, 117);

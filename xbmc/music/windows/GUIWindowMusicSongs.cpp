@@ -118,7 +118,7 @@ bool CGUIWindowMusicSongs::OnMessage(CGUIMessage& message)
 
       if (iControl == CONTROL_BTNPLAYLISTS)
       {
-        if (!m_vecItems->GetPath().Equals("special://musicplaylists/"))
+        if (m_vecItems->GetPath() != "special://musicplaylists/")
           Update("special://musicplaylists/");
       }
       else if (iControl == CONTROL_BTNSCAN)
@@ -367,7 +367,7 @@ void CGUIWindowMusicSongs::GetContextButtons(int itemNumber, CContextButtons &bu
     if (g_application.IsMusicScanning())
       buttons.Add(CONTEXT_BUTTON_STOP_SCANNING, 13353); // Stop Scanning
     else if (!inPlaylists && !m_vecItems->IsInternetStream()           &&
-             !item->GetPath().Equals("add") && !item->IsParentFolder() &&
+              item->GetPath() != "add" && !item->IsParentFolder()      &&
              !item->IsPlugin()                                         &&
              !StringUtils::StartsWithNoCase(item->GetPath(), "addons://")              &&
             (CProfilesManager::Get().GetCurrentProfile().canWriteDatabases() || g_passwordManager.bMasterUser))

@@ -113,7 +113,7 @@ void CTuxBoxService::Process()
       if(!strCurrentServiceName.empty()&&
         !strCurrentServiceName.Equals("NULL") &&
         !g_tuxbox.sCurSrvData.service_name.empty() &&
-        !g_tuxbox.sCurSrvData.service_name.Equals("-") &&
+         g_tuxbox.sCurSrvData.service_name != "-" &&
         !g_tuxbox.vVideoSubChannel.mode)
       {
         //Detect Channel Change
@@ -148,7 +148,7 @@ bool CTuxBoxUtil::CreateNewItem(const CFileItem& item, CFileItem& item_new)
   }
   else
   {
-    if(!sBoxStatus.recording.Equals("1")) //Don't Show this Dialog, if the Box is in Recording mode! A previos YN Dialog was send to user!
+    if (sBoxStatus.recording != "1") //Don't Show this Dialog, if the Box is in Recording mode! A previos YN Dialog was send to user!
     {
       CLog::Log(LOGDEBUG, "%s ---------------------------------------------------------", __FUNCTION__);
       CLog::Log(LOGDEBUG, "%s - WARNING: Zaping Failed no Zap Point found!", __FUNCTION__);

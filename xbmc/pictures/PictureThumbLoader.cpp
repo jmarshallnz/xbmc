@@ -150,7 +150,7 @@ void CPictureThumbLoader::ProcessFoldersAndArchives(CFileItem *pItem)
     }
   }
   if ((pItem->m_bIsFolder || pItem->IsCBR() || pItem->IsCBZ()) && !pItem->m_bIsShareOrDrive
-      && !pItem->IsParentFolder() && !pItem->GetPath().Equals("add"))
+      && !pItem->IsParentFolder() && pItem->GetPath() != "add")
   {
     // first check for a folder.jpg
     CStdString thumb = "folder.jpg";

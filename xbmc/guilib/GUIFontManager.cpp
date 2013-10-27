@@ -286,7 +286,7 @@ CGUIFont* GUIFontManager::GetFont(const CStdString& strFontName, bool fallback /
       return pFont;
   }
   // fall back to "font13" if we have none
-  if (fallback && !strFontName.empty() && !strFontName.Equals("-") && !strFontName.Equals("font13"))
+  if (fallback && !strFontName.empty() && strFontName != "-" && strFontName != "font13")
     return GetFont("font13");
   return NULL;
 }

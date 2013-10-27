@@ -214,7 +214,7 @@ void CURL::Parse(const CStdString& strURL1)
   if(iSlash >= iEnd)
     iSlash = std::string::npos; // was an invalid slash as it was contained in options
 
-  if( !m_strProtocol.Equals("iso9660") )
+  if( m_strProtocol != "iso9660" )
   {
     size_t iAlphaSign = strURL.find("@", iPos);
     if (iAlphaSign != std::string::npos && iAlphaSign < iEnd && (iAlphaSign < iSlash || iSlash == std::string::npos))

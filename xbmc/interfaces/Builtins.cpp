@@ -392,7 +392,7 @@ int CBuiltins::Execute(const CStdString& execString)
     {
       // disable the screensaver
       g_application.WakeUpScreenSaverAndDPMS();
-      g_windowManager.ActivateWindow(iWindow, params, !execute.Equals("activatewindow"));
+      g_windowManager.ActivateWindow(iWindow, params, execute != "activatewindow");
     }
     else
     {
@@ -418,7 +418,7 @@ int CBuiltins::Execute(const CStdString& execString)
       // disable the screensaver
       g_application.WakeUpScreenSaverAndDPMS();
       vector<CStdString> dummy;
-      g_windowManager.ActivateWindow(iWindow, dummy, !execute.Equals("activatewindowandfocus"));
+      g_windowManager.ActivateWindow(iWindow, dummy, execute != "activatewindowandfocus");
 
       unsigned int iPtr = 1;
       while (params.size() > iPtr + 1)

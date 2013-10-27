@@ -1552,9 +1552,9 @@ void CGUIMediaWindow::GetContextButtons(int itemNumber, CContextButtons &buttons
     return;
 
   // TODO: FAVOURITES Conditions on masterlock and localisation
-  if (!item->IsParentFolder() && !item->GetPath().Equals("add") && !item->GetPath().Equals("newplaylist://") &&
-      !StringUtils::StartsWithNoCase(item->GetPath(), "newsmartplaylist://") && !StringUtils::StartsWithNoCase(item->GetPath(), "newtag://") &&
-      !StringUtils::StartsWithNoCase(item->GetPath(), "addons://more/") && !StringUtils::StartsWithNoCase(item->GetPath(), "musicsearch://"))
+  if (!item->IsParentFolder() && item->GetPath() != "add" && item->GetPath() != "newplaylist://" &&
+      !StringUtils::StartsWith(item->GetPath(), "newsmartplaylist://") && !StringUtils::StartsWith(item->GetPath(), "newtag://") &&
+      !StringUtils::StartsWith(item->GetPath(), "addons://more/") && !StringUtils::StartsWith(item->GetPath(), "musicsearch://"))
   {
     if (XFILE::CFavouritesDirectory::IsFavourite(item.get(), GetID()))
       buttons.Add(CONTEXT_BUTTON_ADD_FAVOURITE, 14077);     // Remove Favourite

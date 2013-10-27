@@ -2096,8 +2096,8 @@ bool CApplication::LoadUserWindows()
 
           // Root element should be <window>
           TiXmlElement* pRootElement = xmlDoc.RootElement();
-          CStdString strValue = pRootElement->Value();
-          if (!strValue.Equals("window"))
+          CStdString strValue = pRootElement->ValueStr();
+          if (strValue != "window")
           {
             CLog::Log(LOGERROR, "file: %s doesnt contain <window>", skinFile.c_str());
             continue;
@@ -5780,14 +5780,14 @@ bool CApplication::AlwaysProcess(const CAction& action)
     StringUtils::ToLower(builtInFunction);
 
     // should this button be handled normally or just cancel the screensaver?
-    if (   builtInFunction.Equals("powerdown")
-        || builtInFunction.Equals("reboot")
-        || builtInFunction.Equals("restart")
-        || builtInFunction.Equals("restartapp")
-        || builtInFunction.Equals("suspend")
-        || builtInFunction.Equals("hibernate")
-        || builtInFunction.Equals("quit")
-        || builtInFunction.Equals("shutdown"))
+    if (   builtInFunction == "powerdown"
+        || builtInFunction == "reboot"
+        || builtInFunction == "restart"
+        || builtInFunction == "restartapp"
+        || builtInFunction == "suspend"
+        || builtInFunction == "hibernate"
+        || builtInFunction == "quit"
+        || builtInFunction == "shutdown")
     {
       return true;
     }

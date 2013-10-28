@@ -922,7 +922,7 @@ int CBuiltins::Execute(const CStdString& execString)
 
       // reverse the current setting
       bool shuffled = g_playlistPlayer.IsShuffled(iPlaylist);
-      if ((shuffled && parameter.Equals("randomon")) || (!shuffled && parameter.Equals("randomoff")))
+      if ((shuffled && StringUtils::EqualsNoCase(parameter, "randomon")) || (!shuffled && StringUtils::EqualsNoCase(parameter, "randomoff")))
         return 0;
 
       // check to see if we should notify the user
@@ -1415,7 +1415,7 @@ int CBuiltins::Execute(const CStdString& execString)
   }
   else if (execute.Equals("cleanlibrary"))
   {
-    if (!params.size() || params[0].Equals("video"))
+    if (params.empty() || StringUtils::EqualsNoCase(params[0], "video"))
     {
       if (!g_application.IsVideoScanning())
          g_application.StartVideoCleanup();

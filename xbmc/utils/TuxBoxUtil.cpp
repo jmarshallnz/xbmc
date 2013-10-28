@@ -111,7 +111,7 @@ void CTuxBoxService::Process()
     {
       CLog::Log(LOGDEBUG, "%s - receive current service data was successful", __FUNCTION__);
       if(!strCurrentServiceName.empty()&&
-        !strCurrentServiceName.Equals("NULL") &&
+        !StringUtils::EqualsNoCase(strCurrentServiceName, "NULL") &&
         !g_tuxbox.sCurSrvData.service_name.empty() &&
          g_tuxbox.sCurSrvData.service_name != "-" &&
         !g_tuxbox.vVideoSubChannel.mode)

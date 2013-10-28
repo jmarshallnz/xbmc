@@ -544,7 +544,7 @@ AVDictionary *CDVDDemuxFFmpeg::GetFFMpegOptionsFromURL(const CURL &url)
         av_dict_set(&options, "user-agent", value.c_str(), 0);
         hasUserAgent = true;
       }
-      else if (!name.Equals("auth") && !name.Equals("Encoding"))
+      else if (!StringUtils::EqualsNoCase(name, "auth") && !StringUtils::EqualsNoCase(name, "Encoding"))
         // all other protocol options can be added as http header.
         headers.append(name).append(": ").append(value).append("\r\n");
     }

@@ -443,6 +443,16 @@ CSetting* CSettingsManager::GetSetting(const std::string &id) const
   return NULL;
 }
 
+std::vector<CSettingSection*> CSettingsManager::GetSections() const
+{
+  CSingleLock lock(m_critical);
+  std::vector<CSettingSection*> sections;
+  for (SettingSectionMap::const_iterator sectionIt = m_sections.begin(); sectionIt != m_sections.end(); ++sectionIt)
+    sections.push_back(sectionIt->second);
+
+  return sections;
+}
+
 CSettingSection* CSettingsManager::GetSection(const std::string &section) const
 {
   CSingleLock lock(m_critical);

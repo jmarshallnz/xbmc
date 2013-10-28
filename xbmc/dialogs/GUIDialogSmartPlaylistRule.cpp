@@ -189,7 +189,7 @@ void CGUIDialogSmartPlaylistRule::OnBrowse()
   {
     if (CSmartPlaylist::IsMusicType(m_type))
       database.GetYearsNav("musicdb://years/", items);
-    if (!m_type.Equals("songs") && !m_type.Equals("albums") && !m_type.Equals("artists"))
+    if (!StringUtils::EqualsNoCase(m_type, "songs") && !StringUtils::EqualsNoCase(m_type, "albums") && !StringUtils::EqualsNoCase(m_type, "artists"))
     {
       CFileItemList items2;
       videodatabase.GetYearsNav(basePath + "years/", items2, type);

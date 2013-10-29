@@ -21,6 +21,7 @@
 #include <sstream>
 
 #include "Setting.h"
+#include "SettingDefinitions.h"
 #include "SettingsManager.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"
@@ -28,27 +29,12 @@
 #include "utils/XBMCTinyXML.h"
 #include "utils/XMLUtils.h"
 
-#define XML_ELM_LEVEL       "level"
-#define XML_ELM_DEFAULT     "default"
-#define XML_ELM_VALUE       "value"
-
-#define XML_ELM_CONTROL       "control"
-#define XML_ELM_CONSTRAINTS   "constraints"
-#define XML_ELM_OPTIONS       "options"
-#define XML_ELM_OPTION        "option"
-#define XML_ELM_MINIMUM       "minimum"
-#define XML_ELM_STEP          "step"
-#define XML_ELM_MAXIMUM       "maximum"
-#define XML_ELM_DEPENDENCIES  "dependencies"
-#define XML_ELM_DEPENDENCY    "dependency"
-#define XML_ELM_UPDATES       "updates"
-#define XML_ELM_UPDATE        "update"
-
 CSetting::CSetting(const std::string &id, CSettingsManager *settingsManager /* = NULL */)
   : ISetting(id, settingsManager),
     m_callback(NULL),
     m_label(-1), m_help(-1),
     m_level(SettingLevelStandard),
+    m_control(NULL),
     m_changed(false)
 { }
   
@@ -57,10 +43,16 @@ CSetting::CSetting(const std::string &id, const CSetting &setting)
     m_callback(NULL),
     m_label(-1), m_help(-1),
     m_level(SettingLevelStandard),
+    m_control(NULL),
     m_changed(false)
 {
   m_id = id;
   Copy(setting);
+}
+
+CSetting::~CSetting()
+{
+  delete m_control;
 }
 
 bool CSetting::Deserialize(const TiXmlNode *node, bool update /* = false */)
@@ -75,28 +67,28 @@ bool CSetting::Deserialize(const TiXmlNode *node, bool update /* = false */)
 
   // get the attributes label and help
   int tmp = -1;
-  if (element->QueryIntAttribute(XML_ATTR_LABEL, &tmp) == TIXML_SUCCESS && tmp > 0)
+  if (element->QueryIntAttribute(SETTING_XML_ATTR_LABEL, &tmp) == TIXML_SUCCESS && tmp > 0)
     m_label = tmp;
   
   tmp = -1;
-  if (element->QueryIntAttribute(XML_ATTR_HELP, &tmp) == TIXML_SUCCESS && tmp > 0)
+  if (element->QueryIntAttribute(SETTING_XML_ATTR_HELP, &tmp) == TIXML_SUCCESS && tmp > 0)
     m_help = tmp;
-  const char *parentSetting = element->Attribute("parent");
+  const char *parentSetting = element->Attribute(SETTING_XML_ATTR_PARENT);
   if (parentSetting != NULL)
     m_parentSetting = parentSetting;
 
   // get the <level>
   int level = -1;
-  if (XMLUtils::GetInt(node, XML_ELM_LEVEL, level))
+  if (XMLUtils::GetInt(node, SETTING_XML_ELM_LEVEL, level))
     m_level = (SettingLevel)level;
     
   if (m_level < (int)SettingLevelBasic || m_level > (int)SettingLevelInternal)
     m_level = SettingLevelStandard;
 
-  const TiXmlNode *dependencies = node->FirstChild(XML_ELM_DEPENDENCIES);
+  const TiXmlNode *dependencies = node->FirstChild(SETTING_XML_ELM_DEPENDENCIES);
   if (dependencies != NULL)
   {
-    const TiXmlNode *dependencyNode = dependencies->FirstChild(XML_ELM_DEPENDENCY);
+    const TiXmlNode *dependencyNode = dependencies->FirstChild(SETTING_XML_ELM_DEPENDENCY);
     while (dependencyNode != NULL)
     {
       CSettingDependency dependency(m_settingsManager);
@@ -105,25 +97,37 @@ bool CSetting::Deserialize(const TiXmlNode *node, bool update /* = false */)
       else
         CLog::Log(LOGWARNING, "CSetting: error reading <dependency> tag of \"%s\"", m_id.c_str());
 
-      dependencyNode = dependencyNode->NextSibling(XML_ELM_DEPENDENCY);
+      dependencyNode = dependencyNode->NextSibling(SETTING_XML_ELM_DEPENDENCY);
     }
   }
 
-  const TiXmlElement *control = node->FirstChildElement(XML_ELM_CONTROL);
+  const TiXmlElement *control = node->FirstChildElement(SETTING_XML_ELM_CONTROL);
   if (control != NULL)
   {
-    if (!m_control.Deserialize(control, update) ||
-        m_control.GetType() == SettingControlTypeNone)
+    const char *controlType = control->Attribute(SETTING_XML_ATTR_TYPE);
+    if (controlType == NULL)
+    {
+      CLog::Log(LOGERROR, "CSetting: error reading \"type\" attribute of <control> tag of \"%s\"", m_id.c_str());
+      return false;
+    }
+
+    m_control = m_settingsManager->CreateControl(controlType);
+    if (m_control == NULL || !m_control->Deserialize(control, update))
     {
       CLog::Log(LOGERROR, "CSetting: error reading <control> tag of \"%s\"", m_id.c_str());
       return false;
     }
   }
+  else if (!update && m_level < SettingLevelInternal)
+  {
+    CLog::Log(LOGERROR, "CSetting: missing <control> tag of \"%s\"", m_id.c_str());
+    return false;
+  }
 
-  const TiXmlNode *updates = node->FirstChild(XML_ELM_UPDATES);
+  const TiXmlNode *updates = node->FirstChild(SETTING_XML_ELM_UPDATES);
   if (updates != NULL)
   {
-    const TiXmlElement *updateElem = updates->FirstChildElement(XML_ELM_UPDATE);
+    const TiXmlElement *updateElem = updates->FirstChildElement(SETTING_XML_ELM_UPDATE);
     while (updateElem != NULL)
     {
       CSettingUpdate update;
@@ -135,15 +139,8 @@ bool CSetting::Deserialize(const TiXmlNode *node, bool update /* = false */)
       else
         CLog::Log(LOGWARNING, "CSetting: error reading <update> tag of \"%s\"", m_id.c_str());
 
-      updateElem = updateElem->NextSiblingElement(XML_ELM_UPDATE);
+      updateElem = updateElem->NextSiblingElement(SETTING_XML_ELM_UPDATE);
     }
-  }
-
-  if ((m_control.GetType() == SettingControlTypeSpinner || m_control.GetType() == SettingControlTypeEdit) &&
-        m_control.GetFormat() == SettingControlFormatNone)
-  {
-    CLog::Log(LOGERROR, "CSetting: invalid <control> tag of \"%s\"", m_id.c_str());
-    return false;
   }
     
   return true;
@@ -236,7 +233,16 @@ void CSetting::Copy(const CSetting &setting)
   m_label = setting.m_label;
   m_help = setting.m_help;
   m_level = setting.m_level;
-  m_control = setting.m_control;
+  
+  delete m_control;
+  if (setting.m_control != NULL)
+  {
+    m_control = m_settingsManager->CreateControl(setting.m_control->GetType());
+    *m_control = *setting.m_control;
+  }
+  else
+    m_control = NULL;
+
   m_dependencies = setting.m_dependencies;
   m_updates = setting.m_updates;
   m_changed = setting.m_changed;
@@ -245,11 +251,7 @@ void CSetting::Copy(const CSetting &setting)
 CSettingBool::CSettingBool(const std::string &id, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager),
     m_value(false), m_default(false)
-{
-  m_control.SetType(SettingControlTypeCheckmark);
-  m_control.SetFormat(SettingControlFormatBoolean);
-  m_control.SetAttributes(SettingControlAttributeNone);
-}
+{ }
   
 CSettingBool::CSettingBool(const std::string &id, const CSettingBool &setting)
   : CSetting(id, setting)
@@ -262,10 +264,6 @@ CSettingBool::CSettingBool(const std::string &id, int label, bool value, CSettin
     m_value(value), m_default(value)
 {
   m_label = label;
-
-  m_control.SetType(SettingControlTypeCheckmark);
-  m_control.SetFormat(SettingControlFormatBoolean);
-  m_control.SetAttributes(SettingControlAttributeNone);
 }
 
 bool CSettingBool::Deserialize(const TiXmlNode *node, bool update /* = false */)
@@ -274,18 +272,10 @@ bool CSettingBool::Deserialize(const TiXmlNode *node, bool update /* = false */)
 
   if (!CSetting::Deserialize(node, update))
     return false;
-
-  if (m_control.GetType() != SettingControlTypeCheckmark ||
-      m_control.GetFormat() != SettingControlFormatBoolean ||
-      m_control.GetAttributes() != SettingControlAttributeNone)
-  {
-    CLog::Log(LOGERROR, "CSettingBool: invalid <control> of \"%s\"", m_id.c_str());
-    return false;
-  }
     
   // get the default value
   bool value;
-  if (XMLUtils::GetBoolean(node, XML_ELM_DEFAULT, value))
+  if (XMLUtils::GetBoolean(node, SETTING_XML_ELM_DEFAULT, value))
     m_value = m_default = value;
   else if (!update)
   {
@@ -387,8 +377,7 @@ bool CSettingBool::fromString(const std::string &strValue, bool &value) const
 CSettingInt::CSettingInt(const std::string &id, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager),
     m_value(0), m_default(0),
-    m_min(0), m_step(1), m_max(0),
-    m_format(-1), m_labelMin(-1), m_strFormat("%i")
+    m_min(0), m_step(1), m_max(0)
 { }
   
 CSettingInt::CSettingInt(const std::string &id, const CSettingInt &setting)
@@ -397,53 +386,21 @@ CSettingInt::CSettingInt(const std::string &id, const CSettingInt &setting)
   copy(setting);
 }
 
-CSettingInt::CSettingInt(const std::string &id, int label, int value, int minimum, int step, int maximum, int format, int minimumLabel, CSettingsManager *settingsManager /* = NULL */)
+CSettingInt::CSettingInt(const std::string &id, int label, int value, int minimum, int step, int maximum, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager),
     m_value(value), m_default(value),
-    m_min(minimum), m_step(step), m_max(maximum),
-    m_format(format), m_labelMin(minimumLabel), m_strFormat("%i")
+    m_min(minimum), m_step(step), m_max(maximum)
 {
   m_label = label;
-
-  m_control.SetType(SettingControlTypeSpinner);
-  if (format < 0)
-    m_control.SetFormat(SettingControlFormatInteger);
-  else
-    m_control.SetFormat(SettingControlFormatString);
-  m_control.SetAttributes(SettingControlAttributeNone);
-}
-
-CSettingInt::CSettingInt(const std::string &id, int label, int value, int minimum, int step, int maximum, const std::string &format, CSettingsManager *settingsManager /* = NULL */)
-  : CSetting(id, settingsManager),
-    m_value(value), m_default(value),
-    m_min(minimum), m_step(step), m_max(maximum),
-    m_format(-1), m_labelMin(-1), m_strFormat(format)
-{
-  m_label = label;
-
-  m_control.SetType(SettingControlTypeSpinner);
-  if (format.empty())
-  {
-      m_strFormat = "%i";
-      m_control.SetFormat(SettingControlFormatInteger);
-  }
-  else
-    m_control.SetFormat(SettingControlFormatString);
-  m_control.SetAttributes(SettingControlAttributeNone);
 }
 
 CSettingInt::CSettingInt(const std::string &id, int label, int value, const StaticIntegerSettingOptions &options, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager),
     m_value(value), m_default(value),
     m_min(0), m_step(1), m_max(0),
-    m_format(-1), m_labelMin(-1), m_strFormat("%i"),
     m_options(options)
 {
   m_label = label;
-
-  m_control.SetType(SettingControlTypeSpinner);
-  m_control.SetFormat(SettingControlFormatString);
-  m_control.SetAttributes(SettingControlAttributeNone);
 }
 
 bool CSettingInt::Deserialize(const TiXmlNode *node, bool update /* = false */)
@@ -453,15 +410,9 @@ bool CSettingInt::Deserialize(const TiXmlNode *node, bool update /* = false */)
   if (!CSetting::Deserialize(node, update))
     return false;
 
-  if (m_control.GetType() == SettingControlTypeCheckmark)
-  {
-    CLog::Log(LOGERROR, "CSettingInt: invalid <control> of \"%s\"", m_id.c_str());
-    return false;
-  }
-
   // get the default value
   int value;
-  if (XMLUtils::GetInt(node, XML_ELM_DEFAULT, value))
+  if (XMLUtils::GetInt(node, SETTING_XML_ELM_DEFAULT, value))
     m_value = m_default = value;
   else if (!update)
   {
@@ -469,18 +420,11 @@ bool CSettingInt::Deserialize(const TiXmlNode *node, bool update /* = false */)
     return false;
   }
 
-  if (m_control.GetFormat() == SettingControlFormatString)
-  {
-    const TiXmlNode *control = node->FirstChild(XML_ELM_CONTROL);
-    if (control != NULL)
-      XMLUtils::GetInt(control, "formatlabel", m_format);
-  }
-
-  const TiXmlNode *constraints = node->FirstChild(XML_ELM_CONSTRAINTS);
+  const TiXmlNode *constraints = node->FirstChild(SETTING_XML_ELM_CONSTRAINTS);
   if (constraints != NULL)
   {
     // get the entries
-    const TiXmlNode *options = constraints->FirstChild(XML_ELM_OPTIONS);
+    const TiXmlNode *options = constraints->FirstChild(SETTING_XML_ELM_OPTIONS);
     if (options != NULL && options->FirstChild() != NULL)
     {
       if (options->FirstChild()->Type() == TiXmlNode::TINYXML_TEXT)
@@ -488,40 +432,27 @@ bool CSettingInt::Deserialize(const TiXmlNode *node, bool update /* = false */)
       else
       {
         m_options.clear();
-        const TiXmlElement *optionElement = options->FirstChildElement(XML_ELM_OPTION);
+        const TiXmlElement *optionElement = options->FirstChildElement(SETTING_XML_ELM_OPTION);
         while (optionElement != NULL)
         {
           std::pair<int, int> entry;
-          if (optionElement->QueryIntAttribute("label", &entry.first) == TIXML_SUCCESS && entry.first > 0)
+          if (optionElement->QueryIntAttribute(SETTING_XML_ATTR_LABEL, &entry.first) == TIXML_SUCCESS && entry.first > 0)
           {
             entry.second = strtol(optionElement->FirstChild()->Value(), NULL, 10);
             m_options.push_back(entry);
           }
 
-          optionElement = optionElement->NextSiblingElement(XML_ELM_OPTION);
+          optionElement = optionElement->NextSiblingElement(SETTING_XML_ELM_OPTION);
         }
       }
     }
 
     // get minimum
-    if (XMLUtils::GetInt(constraints, XML_ELM_MINIMUM, m_min) &&
-        m_control.GetFormat() == SettingControlFormatString)
-    {
-      const TiXmlElement *minimumElement = constraints->FirstChildElement(XML_ELM_MINIMUM);
-      if (minimumElement->QueryIntAttribute(XML_ATTR_LABEL, &m_labelMin) != TIXML_SUCCESS)
-        m_labelMin = -1;
-    }
+    XMLUtils::GetInt(constraints, SETTING_XML_ELM_MINIMUM, m_min);
     // get step
-    XMLUtils::GetInt(constraints, XML_ELM_STEP, m_step);
+    XMLUtils::GetInt(constraints, SETTING_XML_ELM_STEP, m_step);
     // get maximum
-    XMLUtils::GetInt(constraints, XML_ELM_MAXIMUM, m_max);
-
-    if (m_control.GetFormat() == SettingControlFormatString && m_labelMin < 0)
-    {
-      CStdString strFormat;
-      if (XMLUtils::GetString(constraints, "format", strFormat) && !strFormat.empty())
-        m_strFormat = strFormat;
-    }
+    XMLUtils::GetInt(constraints, SETTING_XML_ELM_MAXIMUM, m_max);
   }
 
   return true;
@@ -681,9 +612,6 @@ void CSettingInt::copy(const CSettingInt &setting)
   m_min = setting.m_min;
   m_step = setting.m_step;
   m_max = setting.m_max;
-  m_format = setting.m_format;
-  m_labelMin = setting.m_labelMin;
-  m_strFormat = setting.m_strFormat;
   m_options = setting.m_options;
   m_optionsFiller = setting.m_optionsFiller;
 }
@@ -719,10 +647,6 @@ CSettingNumber::CSettingNumber(const std::string &id, int label, float value, fl
     m_min(minimum), m_step(step), m_max(maximum)
 {
   m_label = label;
-
-  m_control.SetType(SettingControlTypeSpinner);
-  m_control.SetFormat(SettingControlFormatNumber);
-  m_control.SetAttributes(SettingControlAttributeNone);
 }
 
 bool CSettingNumber::Deserialize(const TiXmlNode *node, bool update /* = false */)
@@ -732,16 +656,9 @@ bool CSettingNumber::Deserialize(const TiXmlNode *node, bool update /* = false *
   if (!CSetting::Deserialize(node, update))
     return false;
     
-  if (m_control.GetType() == SettingControlTypeCheckmark ||
-      m_control.GetType() == SettingControlTypeList)
-  {
-    CLog::Log(LOGERROR, "CSettingInt: invalid <control> of \"%s\"", m_id.c_str());
-    return false;
-  }
-    
   // get the default value
   double value;
-  if (XMLUtils::GetDouble(node, XML_ELM_DEFAULT, value))
+  if (XMLUtils::GetDouble(node, SETTING_XML_ELM_DEFAULT, value))
     m_value = m_default = value;
   else if (!update)
   {
@@ -749,15 +666,15 @@ bool CSettingNumber::Deserialize(const TiXmlNode *node, bool update /* = false *
     return false;
   }
     
-  const TiXmlNode *constraints = node->FirstChild(XML_ELM_CONSTRAINTS);
+  const TiXmlNode *constraints = node->FirstChild(SETTING_XML_ELM_CONSTRAINTS);
   if (constraints != NULL)
   {
     // get the minimum value
-    XMLUtils::GetDouble(constraints, XML_ELM_MINIMUM, m_min);
+    XMLUtils::GetDouble(constraints, SETTING_XML_ELM_MINIMUM, m_min);
     // get the step value
-    XMLUtils::GetDouble(constraints, XML_ELM_STEP, m_step);
+    XMLUtils::GetDouble(constraints, SETTING_XML_ELM_STEP, m_step);
     // get the maximum value
-    XMLUtils::GetDouble(constraints, XML_ELM_MAXIMUM, m_max);
+    XMLUtils::GetDouble(constraints, SETTING_XML_ELM_MAXIMUM, m_max);
   }
 
   return true;
@@ -869,7 +786,7 @@ bool CSettingNumber::fromString(const std::string &strValue, double &value)
 
 CSettingString::CSettingString(const std::string &id, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager),
-    m_allowEmpty(false), m_heading(-1)
+    m_allowEmpty(false)
 { }
   
 CSettingString::CSettingString(const std::string &id, const CSettingString &setting)
@@ -881,13 +798,9 @@ CSettingString::CSettingString(const std::string &id, const CSettingString &sett
 CSettingString::CSettingString(const std::string &id, int label, const std::string &value, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager),
     m_value(value), m_default(value),
-    m_allowEmpty(false), m_heading(-1)
+    m_allowEmpty(false)
 {
   m_label = label;
-
-  m_control.SetType(SettingControlTypeEdit);
-  m_control.SetFormat(SettingControlFormatString);
-  m_control.SetAttributes(SettingControlAttributeNone);
 }
 
 bool CSettingString::Deserialize(const TiXmlNode *node, bool update /* = false */)
@@ -897,29 +810,14 @@ bool CSettingString::Deserialize(const TiXmlNode *node, bool update /* = false *
   if (!CSetting::Deserialize(node, update))
     return false;
 
-  if (m_control.GetType() == SettingControlTypeCheckmark ||
-      (m_control.GetType() == SettingControlTypeSpinner && (m_control.GetFormat() == SettingControlFormatInteger || m_control.GetFormat() == SettingControlFormatNumber)) ||
-      (m_control.GetType() == SettingControlTypeEdit && m_control.GetFormat() == SettingControlFormatNumber))
-  {
-    CLog::Log(LOGERROR, "CSettingString: invalid <control> of \"%s\"", m_id.c_str());
-    return false;
-  }
-
-  const TiXmlNode *control = node->FirstChild(XML_ELM_CONTROL);
-  if (control != NULL)
-  {
-    // get heading
-    XMLUtils::GetInt(control, "heading", m_heading);
-  }
-
-  const TiXmlNode *constraints = node->FirstChild(XML_ELM_CONSTRAINTS);
+  const TiXmlNode *constraints = node->FirstChild(SETTING_XML_ELM_CONSTRAINTS);
   if (constraints != NULL)
   {
     // get allowempty (needs to be parsed before parsing the default value)
-    XMLUtils::GetBoolean(constraints, "allowempty", m_allowEmpty);
+    XMLUtils::GetBoolean(constraints, SETTING_XML_ELM_ALLOWEMPTY, m_allowEmpty);
 
     // get the entries
-    const TiXmlNode *options = constraints->FirstChild(XML_ELM_OPTIONS);
+    const TiXmlNode *options = constraints->FirstChild(SETTING_XML_ELM_OPTIONS);
     if (options != NULL && options->FirstChild() != NULL &&
         options->FirstChild()->Type() == TiXmlNode::TINYXML_TEXT)
       m_optionsFiller = options->FirstChild()->ValueStr();
@@ -927,7 +825,7 @@ bool CSettingString::Deserialize(const TiXmlNode *node, bool update /* = false *
 
   // get the default value
   CStdString value;
-  if (XMLUtils::GetString(node, XML_ELM_DEFAULT, value) && !value.empty())
+  if (XMLUtils::GetString(node, SETTING_XML_ELM_DEFAULT, value) && !value.empty())
     m_value = m_default = value;
   else if (!update && !m_allowEmpty)
   {
@@ -1040,24 +938,15 @@ void CSettingString::copy(const CSettingString &setting)
   m_value = setting.m_value;
   m_default = setting.m_default;
   m_allowEmpty = setting.m_allowEmpty;
-  m_heading = setting.m_heading;
 }
   
 CSettingAction::CSettingAction(const std::string &id, CSettingsManager *settingsManager /* = NULL */)
   : CSetting(id, settingsManager)
-{
-  m_control.SetType(SettingControlTypeButton);
-  m_control.SetFormat(SettingControlFormatAction);
-  m_control.SetAttributes(SettingControlAttributeNone);
-}
+{ }
   
 CSettingAction::CSettingAction(const std::string &id, const CSettingAction &setting)
   : CSetting(id, setting)
-{
-  m_control.SetType(SettingControlTypeButton);
-  m_control.SetFormat(SettingControlFormatAction);
-  m_control.SetAttributes(SettingControlAttributeNone);
-}
+{ }
 
 bool CSettingAction::Deserialize(const TiXmlNode *node, bool update /* = false */)
 {
@@ -1065,14 +954,6 @@ bool CSettingAction::Deserialize(const TiXmlNode *node, bool update /* = false *
 
   if (!CSetting::Deserialize(node, update))
     return false;
-    
-  if (m_control.GetType() != SettingControlTypeButton ||
-      m_control.GetFormat() != SettingControlFormatAction ||
-      m_control.GetAttributes() != SettingControlAttributeNone)
-  {
-    CLog::Log(LOGERROR, "CSettingAction: invalid <control> of \"%s\"", m_id.c_str());
-    return false;
-  }
     
   return true;
 }

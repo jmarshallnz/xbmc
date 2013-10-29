@@ -21,6 +21,7 @@
 
 #include <set>
 #include <string>
+#include <vector>
 
 #include "settings/ISettingCallback.h"
 #include "settings/ISettingControlCreator.h"

@@ -957,6 +957,9 @@
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogSubMenu.cpp">
       <Filter>dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\dialogs\GUIDialogSubtitles.cpp">
+      <Filter>dialogs</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogTextViewer.cpp">
       <Filter>dialogs</Filter>
     </ClCompile>
@@ -3880,6 +3883,9 @@
       <Filter>dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogSubMenu.h">
+      <Filter>dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dialogs\GUIDialogSubtitles.h">
       <Filter>dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogTextViewer.h">

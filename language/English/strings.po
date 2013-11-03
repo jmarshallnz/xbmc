@@ -11940,7 +11940,51 @@ msgctxt "#24103"
 msgid "Skin is missing some files"
 msgstr ""
 
-#empty strings from id 24104 to 24999
+msgctxt "#24104"
+msgid "Save subtitles to movie folder"
+msgstr ""
+
+msgctxt "#24105"
+msgid "Pause when searching for subtitles"
+msgstr ""
+
+msgctxt "#24106"
+msgid "If not saved to movie folder subtitles will be downloaded to custom subtitle folder"
+msgstr ""
+
+msgctxt "#24107"
+msgid "Searching for subtitles ..."
+msgstr ""
+
+msgctxt "#24108"
+msgid "%d subtitles found"
+msgstr ""
+
+msgctxt "#24109"
+msgid "No subtitles found"
+msgstr ""
+
+msgctxt "#24110"
+msgid "Downloading subtitles ..."
+msgstr ""
+
+msgctxt "#24111"
+msgid "Languages to download subtitles for"
+msgstr ""
+
+msgctxt "#24112"
+msgid "Set languages to use when searching for subtitles. Not all subtitle services will use all languages."
+msgstr ""
+
+msgctxt "#24113"
+msgid "Failed to download subtitle"
+msgstr ""
+
+msgctxt "#24114"
+msgid "No subtitle services installed"
+msgstr ""
+
+#empty strings from id 24115 to 24999
 
 msgctxt "#25000"
 msgid "Notifications"

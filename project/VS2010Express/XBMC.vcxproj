@@ -449,6 +449,7 @@
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogSmartPlaylistEditor.cpp" />
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogSmartPlaylistRule.cpp" />
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogSubMenu.cpp" />
+    <ClCompile Include="..\..\xbmc\dialogs\GUIDialogSubtitles.cpp" />
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogTextViewer.cpp" />
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogVolumeBar.cpp" />
     <ClCompile Include="..\..\xbmc\dialogs\GUIDialogYesNo.cpp" />
@@ -2081,6 +2082,7 @@
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogSmartPlaylistEditor.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogSmartPlaylistRule.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogSubMenu.h" />
+    <ClInclude Include="..\..\xbmc\dialogs\GUIDialogSubtitles.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogTextViewer.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogVolumeBar.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogYesNo.h" />

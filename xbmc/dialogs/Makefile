@@ -23,6 +23,7 @@ SRCS=GUIDialogBoxBase.cpp \
      GUIDialogSmartPlaylistEditor.cpp \
      GUIDialogSmartPlaylistRule.cpp \
      GUIDialogSubMenu.cpp \
+     GUIDialogSubtitles.cpp \
      GUIDialogTextViewer.cpp \
      GUIDialogVolumeBar.cpp \
      GUIDialogYesNo.cpp \

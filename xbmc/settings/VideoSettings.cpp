@@ -57,6 +57,8 @@ CVideoSettings::CVideoSettings()
   m_CropBottom = 0;
   m_CropLeft = 0;
   m_CropRight = 0;
+  m_StereoMode = 0;
+  m_StereoInvert = false;
 }
 
 bool CVideoSettings::operator!=(const CVideoSettings &right) const

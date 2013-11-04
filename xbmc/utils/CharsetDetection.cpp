@@ -29,7 +29,7 @@
 const size_t CCharsetDetection::m_XmlDeclarationMaxLength = 250;
 
 
-std::string GetBomEncoding(const char* const content, const size_t contentLength)
+std::string CCharsetDetection::GetBomEncoding(const char* const content, const size_t contentLength)
 {
   if (contentLength < 2)
     return "";

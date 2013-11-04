@@ -1073,7 +1073,7 @@ int CGUIInfoManager::TranslateSingleString(const CStdString &strCondition)
     {
       int offset = atoi(cat.param().c_str());
       int ret = TranslateListItem(prop);
-      if (offset || ret == LISTITEM_ISSELECTED || ret == LISTITEM_ISPLAYING || ret == LISTITEM_IS_FOLDER)
+      if (offset)
         return AddMultiInfo(GUIInfo(ret, 0, offset, INFOFLAG_LISTITEM_WRAP));
       return ret;
     }
@@ -1081,7 +1081,7 @@ int CGUIInfoManager::TranslateSingleString(const CStdString &strCondition)
     {
       int offset = atoi(cat.param().c_str());
       int ret = TranslateListItem(prop);
-      if (offset || ret == LISTITEM_ISSELECTED || ret == LISTITEM_ISPLAYING || ret == LISTITEM_IS_FOLDER)
+      if (offset)
         return AddMultiInfo(GUIInfo(ret, 0, offset, INFOFLAG_LISTITEM_POSITION));
       return ret;
     }
@@ -1089,7 +1089,7 @@ int CGUIInfoManager::TranslateSingleString(const CStdString &strCondition)
     {
       int offset = atoi(cat.param().c_str());
       int ret = TranslateListItem(prop);
-      if (offset || ret == LISTITEM_ISSELECTED || ret == LISTITEM_ISPLAYING || ret == LISTITEM_IS_FOLDER)
+      if (offset)
         return AddMultiInfo(GUIInfo(ret, 0, offset));
       return ret;
     }

@@ -732,7 +732,6 @@ void CCurlFile::ParseAndCorrectUrl(CURL &url2)
         m_proxyuserpass += ":" + CSettings::Get().GetString("network.httpproxypassword");
       }
       m_proxytype = (ProxyType)CSettings::Get().GetInt("network.httpproxytype");
-      CLog::Log(LOGDEBUG, "Using proxy %s, type %d", m_proxy.c_str(), proxyType2CUrlProxyType[m_proxytype]);
     }
 
     // get username and password
@@ -772,11 +771,22 @@ void CCurlFile::ParseAndCorrectUrl(CURL &url2)
           m_seekable = false;
         else if (name.Equals("Accept-Charset"))
           SetAcceptCharset(value);
+        else if (name.Equals("Proxy"))
+        {
+          CURL url(value);
+          m_proxy = url.GetWithoutUserDetails();
+          m_proxyuserpass = url.GetUserName();
+          if (!url.GetPassWord().empty())
+            m_proxyuserpass += ":" + url.GetPassWord();
+          m_proxytype = PROXY_HTTP; // TODO: Hardcoded values are never good.  Is it reasonable to expect a SOCKS proxy from the URL?
+        }
         else
           SetRequestHeader(name, value);
       }
     }
-  }
+    if (!m_proxy.empty())
+      CLog::Log(LOGDEBUG, "Using proxy %s, type %d", m_proxy.c_str(), proxyType2CUrlProxyType[m_proxytype]);
+ }
 
   if (m_username.length() > 0 && m_password.length() > 0)
     m_url = url2.GetWithoutUserDetails();

@@ -635,6 +635,10 @@ bool CAddonInstallJob::DeleteAddon(const CStdString &addonFolder)
 
 bool CAddonInstallJob::Install(const CStdString &installFrom, const AddonPtr& repo)
 {
+  // update our add-on list to ensure that GetDeps() returns local add-ons where
+  // available
+  CAddonMgr::Get().FindAddons();
+
   // The first thing we do is install dependencies
   ADDONDEPS deps = m_addon->GetDeps();
   CStdString referer = StringUtils::Format("Referer=%s-%s.zip",m_addon->ID().c_str(),m_addon->Version().c_str());

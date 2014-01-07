@@ -3,9 +3,6 @@
   <section id="videos">
     <category id="videoplayer">
       <group id="2">
-        <setting id="videoplayer.hqscalers">
-          <visible>false</visible>
-        </setting>
         <setting id="videoplayer.adjustrefreshrate">
           <visible>false</visible>
         </setting>

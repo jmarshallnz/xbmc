@@ -5992,12 +5992,14 @@ msgctxt "#13438"
 msgid "Allow hardware acceleration (amcodec)"
 msgstr ""
 
+#: system/settings/settings.xml
 msgctxt "#13439"
 msgid "Allow hardware acceleration (MediaCodec)"
 msgstr ""
 
+#: system/settings/settings.xml
 msgctxt "#13440"
-msgid "Allow frame-multi-threaded decoding"
+msgid "Allow multi threaded software decoding"
 msgstr ""
 
 #. Description of Mpeg-2 Codec for VDPAU
@@ -6072,7 +6074,25 @@ msgctxt "#13452"
 msgid "Enable this option to use hardware acceleration for VC-1 based codecs. If disabled the CPU will be used instead. Especially VC-1 Interlaced fails hard on Intel hardware."
 msgstr ""
 
-#empty strings from id 13453 to 13499
+#. Label for a setting to configure the video decoding method
+#: system/settings/settings.xml
+msgctxt "#13454"
+msgid "Decoding method"
+msgstr ""
+
+#. Option for video related setting #13454: Decoding method
+#: system/settings/settings.xml
+msgctxt "#13455"
+msgid "Software"
+msgstr ""
+
+#. Option for video related setting #13454: Decoding method
+#: system/settings/settings.xml
+msgctxt "#13456"
+msgid "Hardware accelerated"
+msgstr ""
+
+#empty strings from id 13457 to 13499
 
 #: system/settings/settings.xml
 msgctxt "#13500"
@@ -6667,7 +6687,13 @@ msgctxt "#14100"
 msgid "Stop ripping CD"
 msgstr ""
 
-#empty strings from id 14101 to 15011
+#. Name of a settings category related to video playback
+#: system/settings/settings.xml
+msgctxt "#14101"
+msgid "Processing"
+msgstr ""
+
+#empty strings from id 14102 to 15011
 
 #: xbmc/video/VideoDatabase.cpp
 msgctxt "#15012"
@@ -14837,7 +14863,7 @@ msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#36423"
-msgid "Use frame-multi-threaded decoding instead of hardware accelerated decoding (less reliable than default single thread mode)."
+msgid "Enables frame-multi-threaded software decoding (less reliable than the default single threaded mode)."
 msgstr ""
 
 #: system/settings/settings.xml
@@ -14870,7 +14896,19 @@ msgctxt "#36429"
 msgid "Select this if the audio out connection only supports multichannel audio as Dolby Digital 5.1, this allows multichannel audio such as AAC5.1 or FLAC5.1 to be listened to in 5.1 surround sound. Note - transcoding can lead to a reduction in sound quality"
 msgstr ""
 
-#empty strings from id 36430 to 36499
+#. Description for setting category #14101: Video Processing
+#: system/settings/settings.xml
+msgctxt "#36430"
+msgid "Configure how videos will be processed. This includes things like decoding and scaling."
+msgstr ""
+
+#. Description for video related setting #13454: Decoding mode 
+#: system/settings/settings.xml
+msgctxt "#36431"
+msgid "Defines whether video decoding should be performed in software (requires more CPU) or with hardware acceleration where possible."
+msgstr ""
+
+#empty strings from id 36432 to 36499
 #end reservation
 
 #: system/settings/settings.xml

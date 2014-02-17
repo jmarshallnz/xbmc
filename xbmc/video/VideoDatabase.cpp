@@ -2362,11 +2362,94 @@ int CVideoDatabase::SetDetailsForMovie(const CStdString& strFilenameAndPath, con
   return -1;
 }
 
+// Value of MAX means that it's a complex update
+// Value of MIN means that the item will be handled elsewhere
+struct MovieUpdateDetails {
+  static map<std::string,VIDEODB_IDS> create_map()
+    {
+      map<std::string,VIDEODB_IDS> m;
+      m["title"] = VIDEODB_ID_TITLE;
+      m["playcount"] = VIDEODB_ID_MAX;
+      m["runtime"] = VIDEODB_ID_RUNTIME;
+      m["director"] = VIDEODB_ID_DIRECTOR;
+      m["studio"] = VIDEODB_ID_STUDIOS;
+      m["year"] = VIDEODB_ID_YEAR;
+      m["plot"] = VIDEODB_ID_PLOT;
+      m["genre"] = VIDEODB_ID_GENRE;
+      m["rating"] = VIDEODB_ID_RATING;
+      m["mpaa"] = VIDEODB_ID_MPAA;
+      m["imdbnumber"] = VIDEODB_ID_IDENT;
+      m["votes"] = VIDEODB_ID_VOTES;
+      m["originaltitle"] = VIDEODB_ID_ORIGINALTITLE;
+      m["trailer"] = VIDEODB_ID_TRAILER;
+      m["tagline"] = VIDEODB_ID_TAGLINE;
+      m["plotoutline"] = VIDEODB_ID_PLOTOUTLINE;
+      m["writer"] = VIDEODB_ID_CREDITS;
+      m["country"] = VIDEODB_ID_COUNTRY;
+      m["top250"] = VIDEODB_ID_TOP250;
+      m["sorttitle"] = VIDEODB_ID_SORTTITLE;
+      m["set"] = VIDEODB_ID_MAX;
+      m["showlink"] = VIDEODB_ID_MAX;
+      m["fanart"] = VIDEODB_ID_FANART;
+      m["tag"] = VIDEODB_ID_MAX;
+      m["art.altered"] = VIDEODB_ID_MAX;
+      m["art.removed"] = VIDEODB_ID_MAX;
+
+      // just ignore this
+      m["lastplayed"] = VIDEODB_ID_MIN;
+      return m;
+    }
+  static const map<std::string,VIDEODB_IDS> updateDetails;
+};
+
+const map<std::string,VIDEODB_IDS> MovieUpdateDetails::updateDetails = MovieUpdateDetails::create_map();
+
+bool PendingUpdates(const std::set<std::string> &updatedDetails, std::vector<VIDEODB_IDS> &simpleUpdates, std::vector<std::string> &complexUpdates)
+{
+  for (std::set<std::string>::const_iterator it = updatedDetails.begin(); it != updatedDetails.end(); ++it)
+  {
+    std::string updatedDetail = *it;
+
+    // look up in the map.
+    std::map<std::string,VIDEODB_IDS>::const_iterator mapIt = MovieUpdateDetails::updateDetails.find(updatedDetail);
+
+    if (mapIt == MovieUpdateDetails::updateDetails.end())
+    {
+      CLog::Log(LOGWARNING, "%s: called with tag it can't optimise: %s", __FUNCTION__, updatedDetail.c_str());
+      return false;
+    }
+    else if (mapIt->second != VIDEODB_ID_MAX)
+    {
+      simpleUpdates.push_back(mapIt->second);
+    }
+    else
+    {
+      complexUpdates.push_back(mapIt->first);
+    }
+  }
+  return true;
+}
+
 int CVideoDatabase::UpdateDetailsForMovie(int idMovie, const CVideoInfoTag& details, const std::map<std::string, std::string> &artwork, const std::set<std::string> &updatedDetails)
 {
   if (idMovie < 0)
     return idMovie;
 
+  if (updatedDetails.size() == 0)
+    return idMovie;
+
+  CLog::Log(LOGDEBUG, "%s: Parsing pending updates for movie %i", __FUNCTION__, idMovie);
+  vector<VIDEODB_IDS> simpleUpdates;
+  vector<std::string> complexUpdates;
+  if (idMovie < 0 || !PendingUpdates(updatedDetails, simpleUpdates, complexUpdates))
+  {
+    // this is a new file, or part of the update isn't known.
+    // fall back to the set code
+    RemoveTagsFromItem(idMovie, "movie");
+    return SetDetailsForMovie(strFilenameAndPath, details, artwork, idMovie);
+  }
+
+  CLog::Log(LOGDEBUG, "%s: starting updates", __FUNCTION__);
   try
   {
     CLog::Log(LOGDEBUG, "%s: Starting updates for movie %i", __FUNCTION__, idMovie);

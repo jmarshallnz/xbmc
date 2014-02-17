@@ -985,6 +985,7 @@ void CVideoLibrary::UpdateResumePoint(const CVariant &parameterObject, CVideoInf
   }
 }
 
+// Can these be made generic?  or does the CVariant block that?
 void CVideoLibrary::UpdateVideoTagField(const CVariant& parameterObject, const std::string& fieldName, std::vector<std::string>& fieldValue, std::set<std::string>& updatedDetails)
 {
   if (ParameterNotNull(parameterObject, fieldName))
@@ -994,69 +995,90 @@ void CVideoLibrary::UpdateVideoTagField(const CVariant& parameterObject, const s
   }
 }
 
+void CVideoLibrary::UpdateVideoTagField(const CVariant& parameterObject, const std::string& fieldName, std::string& fieldValue, std::set<std::string>& updatedDetails)
+{
+  if (ParameterNotNull(parameterObject, fieldName))
+  {
+    std::string NewValue = parameterObject[fieldName].asString();
+    if (fieldValue.compare(NewValue))
+    {
+      fieldValue = NewValue;
+      updatedDetails.insert(fieldName);
+    }
+  }
+}
+
+void CVideoLibrary::UpdateVideoTagField(const CVariant& parameterObject, const std::string& fieldName, int& fieldValue, std::set<std::string>& updatedDetails)
+{
+  if (ParameterNotNull(parameterObject, fieldName))
+  {
+    int NewValue = (int)parameterObject[fieldName].asInteger();
+    if (fieldValue != NewValue)
+    {
+      fieldValue = NewValue;
+      updatedDetails.insert(fieldName);
+    }
+  }
+}
+
+void CVideoLibrary::UpdateVideoTagField(const CVariant& parameterObject, const std::string& fieldName, float& fieldValue, std::set<std::string>& updatedDetails)
+{
+  if (ParameterNotNull(parameterObject, fieldName))
+  {
+    float NewValue = parameterObject[fieldName].asFloat();
+    if (fieldValue != NewValue)
+    {
+      fieldValue = NewValue;
+      updatedDetails.insert(fieldName);
+    }
+  }
+}
+
+void CVideoLibrary::UpdateVideoTagField(const CVariant& parameterObject, const std::string& fieldName, CDateTime& fieldValue, std::set<std::string>& updatedDetails)
+{
+  if (ParameterNotNull(parameterObject, fieldName))
+  {
+    fieldValue.SetFromDBDate(parameterObject[fieldName].asString());
+    updatedDetails.insert(fieldName);
+  }
+}
+
 void CVideoLibrary::UpdateVideoTag(const CVariant &parameterObject, CVideoInfoTag& details, std::map<std::string, std::string> &artwork, std::set<std::string> &removedArtwork, std::set<std::string> &updatedDetails)
 {
-  if (ParameterNotNull(parameterObject, "title"))
-    details.m_strTitle = parameterObject["title"].asString();
-  if (ParameterNotNull(parameterObject, "playcount"))
-    details.m_playCount = (int)parameterObject["playcount"].asInteger();
-  if (ParameterNotNull(parameterObject, "runtime"))
-    details.m_duration = (int)parameterObject["runtime"].asInteger();
+  UpdateVideoTagField(parameterObject, "title", details.m_strTitle, updatedDetails);
+  UpdateVideoTagField(parameterObject, "playcount", details.m_playCount, updatedDetails);
+  UpdateVideoTagField(parameterObject, "runtime", details.m_duration, updatedDetails);
   UpdateVideoTagField(parameterObject, "director", details.m_director, updatedDetails);
   UpdateVideoTagField(parameterObject, "studio", details.m_studio, updatedDetails);
-  if (ParameterNotNull(parameterObject, "year"))
-    details.m_iYear = (int)parameterObject["year"].asInteger();
-  if (ParameterNotNull(parameterObject, "plot"))
-    details.m_strPlot = parameterObject["plot"].asString();
-  if (ParameterNotNull(parameterObject, "album"))
-    details.m_strAlbum = parameterObject["album"].asString();
+  UpdateVideoTagField(parameterObject, "year", details.m_iYear, updatedDetails);
+  UpdateVideoTagField(parameterObject, "plot", details.m_strPlot, updatedDetails);
+  UpdateVideoTagField(parameterObject, "album", details.m_strAlbum, updatedDetails);
   UpdateVideoTagField(parameterObject, "artist", details.m_artist, updatedDetails);
   UpdateVideoTagField(parameterObject, "genre", details.m_genre, updatedDetails);
-  if (ParameterNotNull(parameterObject, "track"))
-    details.m_iTrack = (int)parameterObject["track"].asInteger();
-  if (ParameterNotNull(parameterObject, "rating"))
-    details.m_fRating = parameterObject["rating"].asFloat();
-  if (ParameterNotNull(parameterObject, "mpaa"))
-    details.m_strMPAARating = parameterObject["mpaa"].asString();
-  if (ParameterNotNull(parameterObject, "imdbnumber"))
-    details.m_strIMDBNumber = parameterObject["imdbnumber"].asString();
-  if (ParameterNotNull(parameterObject, "premiered"))
-    SetFromDBDate(parameterObject["premiered"], details.m_premiered);
-  if (ParameterNotNull(parameterObject, "votes"))
-    details.m_strVotes = parameterObject["votes"].asString();
-  if (ParameterNotNull(parameterObject, "lastplayed"))
-    SetFromDBDateTime(parameterObject["lastplayed"], details.m_lastPlayed);
-  if (ParameterNotNull(parameterObject, "firstaired"))
-    SetFromDBDateTime(parameterObject["firstaired"], details.m_firstAired);
-  if (ParameterNotNull(parameterObject, "productioncode"))
-    details.m_strProductionCode = parameterObject["productioncode"].asString();
-  if (ParameterNotNull(parameterObject, "season"))
-    details.m_iSeason = (int)parameterObject["season"].asInteger();
-  if (ParameterNotNull(parameterObject, "episode"))
-    details.m_iEpisode = (int)parameterObject["episode"].asInteger();
-  if (ParameterNotNull(parameterObject, "originaltitle"))
-    details.m_strOriginalTitle = parameterObject["originaltitle"].asString();
-  if (ParameterNotNull(parameterObject, "trailer"))
-    details.m_strTrailer = parameterObject["trailer"].asString();
-  if (ParameterNotNull(parameterObject, "tagline"))
-    details.m_strTagLine = parameterObject["tagline"].asString();
-  if (ParameterNotNull(parameterObject, "plotoutline"))
-    details.m_strPlotOutline = parameterObject["plotoutline"].asString();
+  UpdateVideoTagField(parameterObject, "track", details.m_iTrack, updatedDetails);
+  UpdateVideoTagField(parameterObject, "rating", details.m_fRating, updatedDetails);
+  UpdateVideoTagField(parameterObject, "mpaa", details.m_strMPAARating, updatedDetails);
+  UpdateVideoTagField(parameterObject, "imdbnumber", details.m_strIMDBNumber, updatedDetails);
+  UpdateVideoTagField(parameterObject, "premiered", details.m_premiered, updatedDetails);
+  UpdateVideoTagField(parameterObject, "votes", details.m_strVotes, updatedDetails);
+  UpdateVideoTagField(parameterObject, "lastplayed", details.m_lastPlayed, updatedDetails);
+  UpdateVideoTagField(parameterObject, "firstaired", details.m_firstAired, updatedDetails);
+  UpdateVideoTagField(parameterObject, "productioncode", details.m_strProductionCode, updatedDetails);
+  UpdateVideoTagField(parameterObject, "season", details.m_iSeason, updatedDetails);
+  UpdateVideoTagField(parameterObject, "episode", details.m_iEpisode, updatedDetails);
+  UpdateVideoTagField(parameterObject, "originaltitle", details.m_strOriginalTitle, updatedDetails);
+  UpdateVideoTagField(parameterObject, "trailer", details.m_strTrailer, updatedDetails);
+  UpdateVideoTagField(parameterObject, "tagline", details.m_strTagLine, updatedDetails);
+  UpdateVideoTagField(parameterObject, "plotoutline", details.m_strPlotOutline, updatedDetails);
   UpdateVideoTagField(parameterObject, "writer", details.m_writingCredits, updatedDetails);
   UpdateVideoTagField(parameterObject, "country", details.m_country, updatedDetails);
-  if (ParameterNotNull(parameterObject, "top250"))
-    details.m_iTop250 = (int)parameterObject["top250"].asInteger();
-  if (ParameterNotNull(parameterObject, "sorttitle"))
-    details.m_strSortTitle = parameterObject["sorttitle"].asString();
-  if (ParameterNotNull(parameterObject, "episodeguide"))
-    details.m_strEpisodeGuide = parameterObject["episodeguide"].asString();
-  if (ParameterNotNull(parameterObject, "set"))
-  {
-    details.m_strSet = parameterObject["set"].asString();
-    updatedDetails.insert("set");
-  }
+  UpdateVideoTagField(parameterObject, "top250", details.m_iTop250, updatedDetails);
+  UpdateVideoTagField(parameterObject, "sorttitle", details.m_strSortTitle, updatedDetails);
+  UpdateVideoTagField(parameterObject, "episodeguide", details.m_strEpisodeGuide, updatedDetails);
+  UpdateVideoTagField(parameterObject, "set", details.m_strSet, updatedDetails);
   UpdateVideoTagField(parameterObject, "showlink", details.m_showLink, updatedDetails);
   UpdateVideoTagField(parameterObject, "tag", details.m_tags, updatedDetails);
+
   if (ParameterNotNull(parameterObject, "thumbnail"))
   {
     artwork["thumb"] = parameterObject["thumbnail"].asString();
@@ -1082,6 +1104,7 @@ void CVideoLibrary::UpdateVideoTag(const CVariant &parameterObject, CVideoInfoTa
       {
         artwork.erase(artIt->first);
         removedArtwork.insert(artIt->first);
+        updatedDetails.insert("art.removed");
       }
     }
   }

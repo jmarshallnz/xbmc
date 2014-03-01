@@ -2157,13 +2157,10 @@ void CVideoDatabase::AddGenreAndDirectorsAndStudios(const CVideoInfoTag& details
     vecStudios.push_back(AddStudio(details.m_studio[i]));
 }
 
-CStdString CVideoDatabase::GetValueString(const CVideoInfoTag &details, int min, int max, const SDbTableOffsets *offsets) const
+void CVideoDatabase::ProcessValueString(const CVideoInfoTag &details, const SDbTableOffsets *offsets, std::vector<std::string> &conditions, int i) const
 {
-  std::vector<std::string> conditions;
-  for (int i = min + 1; i < max; ++i)
+  switch (offsets[i].type)
   {
-    switch (offsets[i].type)
-    {
     case VIDEODB_TYPE_STRING:
       conditions.push_back(PrepareSQL("c%02d='%s'", i, ((CStdString*)(((char*)&details)+offsets[i].offset))->c_str()));
       break;
@@ -2195,8 +2192,14 @@ CStdString CVideoDatabase::GetValueString(const CVideoInfoTag &details, int min,
     case VIDEODB_TYPE_DATETIME:
       conditions.push_back(PrepareSQL("c%02d='%s'", i, ((CDateTime*)(((char*)&details)+offsets[i].offset))->GetAsDBDateTime().c_str()));
       break;
-    }
   }
+}
+
+CStdString CVideoDatabase::GetValueString(const CVideoInfoTag &details, int min, int max, const SDbTableOffsets *offsets) const
+{
+  std::vector<std::string> conditions;
+  for (int i = min + 1; i < max; ++i)
+    ProcessValueString(details, offsets, conditions, i);
   return StringUtils::Join(conditions, ",");
 }
 

@@ -106,6 +106,8 @@ std::string CDirectoryNodeGrouped::GetContentType(const CQueryParams &params) co
         return "actors";
     case NODE_TYPE_DIRECTOR:
       return "directors";
+    case NODE_TYPE_WRITER:
+      return "writers";
     case NODE_TYPE_STUDIO:
       return "studios";
     case NODE_TYPE_MUSICVIDEOS_ALBUM:

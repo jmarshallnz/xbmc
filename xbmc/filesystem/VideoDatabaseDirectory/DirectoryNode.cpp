@@ -119,6 +119,7 @@ CDirectoryNode* CDirectoryNode::CreateNode(NODE_TYPE Type, const CStdString& str
   case NODE_TYPE_YEAR:
   case NODE_TYPE_ACTOR:
   case NODE_TYPE_DIRECTOR:
+  case NODE_TYPE_WRITER:
   case NODE_TYPE_STUDIO:
   case NODE_TYPE_MUSICVIDEOS_ALBUM:
     return new CDirectoryNodeGrouped(Type, strName, pParent);

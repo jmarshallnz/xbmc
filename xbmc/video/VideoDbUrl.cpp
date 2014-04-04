@@ -121,6 +121,10 @@ bool CVideoDbUrl::parse()
       m_itemType = "directors";
       break;
 
+    case VIDEODATABASEDIRECTORY::NODE_TYPE_WRITER:
+      m_itemType = "writers";
+      break;
+      
     case VIDEODATABASEDIRECTORY::NODE_TYPE_STUDIO:
       m_itemType = "studios";
       break;
@@ -174,6 +178,8 @@ bool CVideoDbUrl::parse()
     AddOption("countryid", (int)queryParams.GetCountryId());
   if (queryParams.GetDirectorId() != -1)
     AddOption("directorid", (int)queryParams.GetDirectorId());
+  if (queryParams.GetWriterId() != -1)
+    AddOption("writerid", (int)queryParams.GetWriterId());
   if (queryParams.GetEpisodeId() != -1)
     AddOption("episodeid", (int)queryParams.GetEpisodeId());
   if (queryParams.GetGenreId() != -1)

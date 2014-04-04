@@ -34,6 +34,7 @@ Node MovieChildren[] = {
                         { NODE_TYPE_YEAR,         "years",      562 },
                         { NODE_TYPE_ACTOR,        "actors",     344 },
                         { NODE_TYPE_DIRECTOR,     "directors",  20348 },
+                        { NODE_TYPE_WRITER,       "writers",    20418 },
                         { NODE_TYPE_STUDIO,       "studios",    20388 },
                         { NODE_TYPE_SETS,         "sets",       20434 },
                         { NODE_TYPE_COUNTRY,      "countries",  20451 },

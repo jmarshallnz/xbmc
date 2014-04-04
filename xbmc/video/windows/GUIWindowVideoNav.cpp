@@ -395,6 +395,8 @@ bool CGUIWindowVideoNav::GetDirectory(const CStdString &strDirectory, CFileItemL
       }
       else if (node == NODE_TYPE_DIRECTOR)
         items.SetContent("directors");
+      else if (node == NODE_TYPE_WRITER)
+        items.SetContent("writers");
       else if (node == NODE_TYPE_STUDIO)
         items.SetContent("studios");
       else if (node == NODE_TYPE_YEAR)

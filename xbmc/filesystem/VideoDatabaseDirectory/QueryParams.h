@@ -37,6 +37,7 @@ namespace XFILE
       long GetActorId() const { return m_idActor; }
       long GetAlbumId() const { return m_idAlbum; }
       long GetDirectorId() const { return m_idDirector; }
+      long GetWriterId() const { return m_idWriter; }
       long GetTvShowId() const { return m_idShow; }
       long GetSeason() const { return m_idSeason; }
       long GetEpisodeId() const { return m_idEpisode; }
@@ -57,6 +58,7 @@ namespace XFILE
       long m_idYear;
       long m_idActor;
       long m_idDirector;
+      long m_idWriter;
       long m_idShow;
       long m_idSeason;
       long m_idEpisode;

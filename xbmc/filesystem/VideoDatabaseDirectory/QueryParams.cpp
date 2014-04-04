@@ -31,6 +31,7 @@ CQueryParams::CQueryParams()
   m_idYear = -1;
   m_idActor = -1;
   m_idDirector = -1;
+  m_idWriter = -1;
   m_idContent = -1;
   m_idShow = -1;
   m_idSeason = -1;
@@ -70,6 +71,9 @@ void CQueryParams::SetQueryParam(NODE_TYPE NodeType, const CStdString& strNodeNa
     break;
   case NODE_TYPE_DIRECTOR:
     m_idDirector = idDb;
+    break;
+  case NODE_TYPE_WRITER:
+    m_idWriter = idDb;
     break;
   case NODE_TYPE_TITLE_MOVIES:
   case NODE_TYPE_RECENTLY_ADDED_MOVIES:

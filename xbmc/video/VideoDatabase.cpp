@@ -9297,6 +9297,20 @@ bool CVideoDatabase::GetFilter(CDbUrl &videoUrl, Filter &filter, SortDescription
       filter.AppendWhere(PrepareSQL("actors.strActor like '%s'", option->second.asString().c_str()));
     }
 
+    option = options.find("writerid");
+    if (option != options.end())
+    {
+      filter.AppendJoin(PrepareSQL("join writerlinkmovie on writerlinkmovie.idMovie = movieview.idMovie"));
+      filter.AppendWhere(PrepareSQL("writerlinkmovie.idWriter = %i", (int)option->second.asInteger()));
+    }
+
+    option = options.find("writer");
+    if (option != options.end())
+    {
+      filter.AppendJoin(PrepareSQL("join writerlinkmovie on writerlinkmovie.idMovie = movieview.idMovie join actors on actors.idActor = writerlinkmovie.idDirector"));
+      filter.AppendWhere(PrepareSQL("actors.strActor like '%s'", option->second.asString().c_str()));
+    }
+
     option = options.find("year");
     if (option != options.end())
       filter.AppendWhere(PrepareSQL("movieview.c%02d = '%i'", VIDEODB_ID_YEAR, (int)option->second.asInteger()));

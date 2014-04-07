@@ -40,7 +40,6 @@
 #include "threads/Thread.h"
 
 using namespace XFILE;
-using namespace std;
 
 class COMXImageFile;
 

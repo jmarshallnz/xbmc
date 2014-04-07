@@ -25,10 +25,6 @@
 #include "IStorageProvider.h"
 #include "threads/CriticalSection.h"
 
-#ifdef HAS_DVD_DRIVE
-using namespace MEDIA_DETECT;
-#endif
-
 #define TRAY_OPEN     16
 #define TRAY_CLOSED_NO_MEDIA  64
 #define TRAY_CLOSED_MEDIA_PRESENT 96

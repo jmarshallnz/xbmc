@@ -64,9 +64,6 @@ extern "C" {
 #include "libavcodec/vdpau.h"
 }
 
-using namespace Actor;
-
-
 #define FULLHD_WIDTH                       1920
 #define MAX_PIC_Q_LENGTH                   20 //for non-interop_yuv this controls the max length of the decoded pic to render completion Q
 

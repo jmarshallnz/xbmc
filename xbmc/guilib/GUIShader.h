@@ -25,8 +25,6 @@
 
 #include "Shader.h"
 
-using namespace Shaders;
-
 class CGUIShader : public CGLSLShaderProgram
 {
 public:

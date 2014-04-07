@@ -55,6 +55,7 @@
 #define CLASSNAME "COMXImage"
 
 using namespace std;
+using namespace XFILE;
 
 COMXImage::COMXImage()
 : CThread("CRBPWorker")

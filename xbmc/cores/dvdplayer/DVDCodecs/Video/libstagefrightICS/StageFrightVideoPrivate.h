@@ -59,8 +59,6 @@ class CAdvancedSettings;
 class CApplication;
 class CApplicationMessenger;
 
-using namespace android;
-
 struct stSlot
 {
   GLuint texid;

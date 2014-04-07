@@ -39,8 +39,6 @@
 #include <EGL/eglext.h>
 #include "threads/Thread.h"
 
-using namespace XFILE;
-
 class COMXImageFile;
 
 class COMXImage : public CThread

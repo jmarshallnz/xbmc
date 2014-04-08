@@ -25,7 +25,7 @@
 
 #include "Shader.h"
 
-class CGUIShader : public CGLSLShaderProgram
+class CGUIShader : public Shaders::CGLSLShaderProgram
 {
 public:
   CGUIShader( const char *shader = 0 );

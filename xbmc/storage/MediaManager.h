@@ -72,7 +72,7 @@ public:
   CStdString TranslateDevicePath(const CStdString& devicePath, bool bReturnAsDevice=false);
   DWORD GetDriveStatus(const CStdString& devicePath="");
 #ifdef HAS_DVD_DRIVE
-  CCdInfo* GetCdInfo(const CStdString& devicePath="");
+  MEDIA_DETECT::CCdInfo* GetCdInfo(const CStdString& devicePath="");
   bool RemoveCdInfo(const CStdString& devicePath="");
   CStdString GetDiskLabel(const CStdString& devicePath="");
   CStdString GetDiskUniqueId(const CStdString& devicePath="");
@@ -99,7 +99,7 @@ protected:
 
   CCriticalSection m_muAutoSource, m_CritSecStorageProvider;
 #ifdef HAS_DVD_DRIVE
-  std::map<CStdString,CCdInfo*> m_mapCdInfo;
+  std::map<CStdString,MEDIA_DETECT::CCdInfo*> m_mapCdInfo;
 #endif
   bool m_bhasoptical;
   CStdString m_strFirstAvailDrive;

@@ -68,12 +68,12 @@ struct stSlot
 
 struct Frame
 {
-  status_t status;
+  android::status_t status;
   int32_t width, height;
   int64_t pts;
   ERenderFormat format;
   EGLImageKHR eglimg;
-  MediaBuffer* medbuf;
+  android::MediaBuffer* medbuf;
 };
 
 enum StageFrightQuirks
@@ -82,14 +82,14 @@ enum StageFrightQuirks
   QuirkSWRender = 0x01,
 };
 
-class CStageFrightVideoPrivate : public MediaBufferObserver
+class CStageFrightVideoPrivate : public android::MediaBufferObserver
 {
 public:
   CStageFrightVideoPrivate();
 
-  virtual void signalBufferReturned(MediaBuffer *buffer);
+  virtual void signalBufferReturned(android::MediaBuffer *buffer);
 
-  MediaBuffer* getBuffer(size_t size);
+  android::MediaBuffer* getBuffer(size_t size);
   bool inputBufferAvailable();
 
   stSlot* getSlot(EGLImageKHR eglimg);
@@ -106,7 +106,7 @@ public:
 
   sp<MediaSource> source;
 
-  MediaBuffer* inbuf[INBUFCOUNT];
+  android::MediaBuffer* inbuf[INBUFCOUNT];
 
   GLuint mPgm;
   GLint mPositionHandle;

@@ -104,7 +104,7 @@ public:
 public:
   CStageFrightDecodeThread* decode_thread;
 
-  sp<MediaSource> source;
+  android::sp<MediaSource> source;
 
   android::MediaBuffer* inbuf[INBUFCOUNT];
 
@@ -126,7 +126,7 @@ public:
 
   stSlot texslots[NUMFBOTEX];
 
-  sp<MetaData> meta;
+  android::sp<MetaData> meta;
   int64_t framecount;
   std::list<Frame*> in_queue;
   std::map<int64_t, Frame*> out_queue;
@@ -144,8 +144,8 @@ public:
   int width, height;
   int texwidth, texheight;
 
-  OMXClient *client;
-  sp<MediaSource> decoder;
+  android::OMXClient *client;
+  android::sp<MediaSource> decoder;
   const char *decoder_component;
   int videoColorFormat;
   int videoStride;
@@ -160,7 +160,7 @@ public:
   unsigned int mVideoTextureId;
   CJNISurfaceTexture* mSurfTexture;
   CJNISurface* mSurface;
-  sp<ANativeWindow> mVideoNativeWindow;
+  android::sp<ANativeWindow> mVideoNativeWindow;
 
   static void  CallbackInitSurfaceTexture(void*);
   bool InitSurfaceTexture();

@@ -32,10 +32,12 @@
 #include "RSSDirectory.h"
 #include "cores/paplayer/ASAPCodec.h"
 #endif
+#ifdef HAVE_LIBARCHIVE
+#include "ArchiveDirectory.h"
+#endif
 #if defined(TARGET_ANDROID)
 #include "APKDirectory.h"
 #endif
-#include "ArchiveDirectory.h"
 #include "ZipDirectory.h"
 #include "SmartPlaylistDirectory.h"
 #include "playlists/SmartPlayList.h"
@@ -47,7 +49,6 @@
 #include "settings/AdvancedSettings.h"
 #include "FileItem.h"
 #include "utils/StringUtils.h"
-#include "utils/RegExp.h"
 
 using namespace XFILE;
 using namespace PLAYLIST;
@@ -167,98 +168,56 @@ IFileDirectory* CFileDirectoryFactory::Create(const CStdString& strPath, CFileIt
   }
   if (strExtension.Equals(".rar") || strExtension.Equals(".001"))
   {
-#ifdef HAVE_LIBARCHIVE
-    CFileItemList itemlist;
-    CRegExp regex(true);
-    std::vector<CStdString> filePaths;
-    CStdString strUrl, pattern, strPathNoExt;
+    CStdString strUrl;
     URIUtils::CreateArchivePath(strUrl, "rar", strPath, "");
 
-    /*
-     * Get any multivolume RAR files that may be associated with this archive
-     */
-    if (strExtension.Equals(".rar"))
+    vector<std::string> tokens;
+    StringUtils::Tokenize(strPath,tokens,".");
+    if (tokens.size() > 2)
     {
-      /*
-       * In this case, multivolume RAR are those with the
-       * glob pattern .part*.rar
-       */
-      pattern = "^(.*)(\\.part\\d+\\.rar)$";
-      if (!regex.RegComp(pattern))
-        return NULL;
-      if (regex.RegFind(strPath) >= 0)
+      if (strExtension.Equals(".001"))
       {
-        if (!CDirectory::GetDirectory(URIUtils::GetDirectory(strPath), itemlist,
-          strExtension, DIR_FLAG_NO_FILE_DIRS))
+        if (StringUtils::EqualsNoCase(tokens[tokens.size()-2], "ts")) // .ts.001 - treat as a movie file to scratch some users itch
           return NULL;
-
-        strPathNoExt = regex.GetMatch(1);
-
-        /* Remove files that may not be part of the multivolume RAR */
-        pattern = "^\\Q" + strPathNoExt + "\\E\\.part\\d+\\.rar$";
-        if (!regex.RegComp(pattern))
-          return NULL;
-        for (int i = 0; i < itemlist.Size(); i++)
+      }
+      CStdString token = tokens[tokens.size()-2];
+      if (StringUtils::StartsWithNoCase(token, "part")) // only list '.part01.rar'
+      {
+        // need this crap to avoid making mistakes - yeyh for the new rar naming scheme :/
+        struct __stat64 stat;
+        int digits = token.size()-4;
+        CStdString strFormat = StringUtils::Format("part%%0%ii", digits);
+        CStdString strNumber = StringUtils::Format(strFormat.c_str(), 1);
+        CStdString strPath2 = strPath;
+        StringUtils::Replace(strPath2,token,strNumber);
+        if (atoi(token.substr(4).c_str()) > 1 && CFile::Stat(strPath2,&stat) == 0)
         {
-          if (regex.RegFind(itemlist[i]->GetPath()) < 0)
-          {
-            itemlist.Remove(i);
-          }
+          pItem->m_bIsFolder = true;
+          return NULL;
         }
       }
     }
-    else
+
+    CFileItemList items;
+    CDirectory::GetDirectory(strUrl, items, strMask);
+    if (items.Size() == 0) // no files - hide this
+      pItem->m_bIsFolder = true;
+    else if (items.Size() == 1 && items[0]->m_idepth == 0x30 && !items[0]->m_bIsFolder)
     {
-      /* Treat these *.ts.001 files as movie files */
-      pattern = ".*\\.ts\\.001$";
-      if (!regex.RegComp(pattern) || regex.RegFind(strPath) >= 0)
-        return NULL;
-
-      if (!CDirectory::GetDirectory(URIUtils::GetDirectory(strPath), itemlist,
-        "", DIR_FLAG_NO_FILE_DIRS))
-        return NULL;
-
-      /* Get a sub string of the file path excluding the .<number> part */
-      pattern = "^(.*)(\\.\\d{3})$";
-      if (!regex.RegComp(pattern) || regex.RegFind(strPath) < 0)
-        return NULL;
-      strPathNoExt = regex.GetMatch(1);
-
-      /* Remove files that may not be part of the multivolume RAR */
-      pattern = "^\\Q" + strPathNoExt + "\\E\\.\\d{3}$";
-      if (!regex.RegComp(pattern))
-        return NULL;
-      for (int i = 0; i < itemlist.Size(); i++)
-      {
-        if (regex.RegFind(itemlist[i]->GetPath()) < 0)
-        {
-          itemlist.Remove(i);
-        }
-      }
-    }
-    if (itemlist.IsEmpty())
-    {
-      /* Not a multivolume archive */
-      filePaths.push_back(strPath);
+      // one STORED file - collapse it down
+      *pItem = *items[0];
     }
     else
     {
-      /*
-      * Sort the list, add the entries to a vector, and return
-      * a CArchiveDirectory object with this vector.
-      */
-      itemlist.Sort(SortByPath, SortOrderAscending);
-      for (int i = 0; i < itemlist.Size(); i++)
-      {
-        filePaths.push_back(itemlist[i]->GetPath());
-      }
-    }
-    pItem->SetPath(strUrl);
-    return new CArchiveDirectory(ARCHIVE_FORMAT_RAR, ARCHIVE_FILTER_NONE,
-      filePaths);
+#ifdef HAVE_LIBARCHIVE
+      // compressed or more than one file -> create a rar dir
+      pItem->SetPath(strUrl);
+      return new CArchiveDirectory(ARCHIVE_FORMAT_RAR, ARCHIVE_FILTER_NONE);
 #else
-    return NULL;
+      return NULL;
 #endif
+    }
+    return NULL;
   }
   if (strExtension.Equals(".xsp"))
   { // XBMC Smart playlist - just XML renamed to XSP

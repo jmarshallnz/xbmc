@@ -152,7 +152,7 @@ IDirectory* CDirectoryFactory::Create(const CStdString& strPath)
   if (strProtocol == "rar") 
   {
 #ifdef HAVE_LIBARCHIVE
-    CRegExp regex(true);
+/*    CRegExp regex(true);
     CStdString pattern = "^(rar://)(.*\\.(rar|\\d{3}))/$";
     if (!regex.RegComp(pattern))
     {
@@ -165,7 +165,7 @@ IDirectory* CDirectoryFactory::Create(const CStdString& strPath)
        * This is an actual archive file, return as a file directory.
        * NOTE: rar:// protocol and slash at end are removed.
        */
-      return Create(CURL::Decode(regex.GetMatch(2)));
+     /* return Create(CURL::Decode(regex.GetMatch(2)));
     }
     /* This is a directory in an archive */
     return new CArchiveDirectory(ARCHIVE_FORMAT_RAR, ARCHIVE_FILTER_NONE);

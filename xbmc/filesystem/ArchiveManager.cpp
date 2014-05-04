@@ -254,6 +254,7 @@ __xbmc_file_read(struct archive *a, void *client_data, const void **buff)
   struct xbmc_client_data *data = (struct xbmc_client_data*)client_data;
   (void)a;
   *buff = data->buffer;
+  CLog::Log(LOGDEBUG, "CArchiveManager::Read(%i)", (int)LIBARCHIVE_BLOCK_SIZE);
   return data->file->Read(data->buffer, LIBARCHIVE_BLOCK_SIZE);
 }
 
@@ -262,9 +263,10 @@ __xbmc_file_skip(struct archive *a, void *client_data, int64_t request)
 {
   struct xbmc_client_data *data = (struct xbmc_client_data*)client_data;
   (void)a;
+  CLog::Log(LOGDEBUG, "CArchiveManager::Skip(%i)", (int)request);
   int64_t result = data->file->Seek(request, SEEK_CUR);
   if (result >= 0)
-    return result;
+    return request;
 
   /* Let libarchive recover with read+discard. */
   if (errno == ESPIPE)
@@ -280,6 +282,7 @@ __xbmc_file_seek(struct archive *a, void *client_data, int64_t offset,
 {
   struct xbmc_client_data *data = (struct xbmc_client_data*)client_data;
   (void)a;
+  CLog::Log(LOGDEBUG, "CArchiveManager::Seek(%i, %i)", (int)offset, whence);
   int64_t result = data->file->Seek(offset, whence);
   if (result >= 0)
     return result;

@@ -2062,9 +2062,9 @@ int CUtil::ScanArchiveForSubtitles( const CStdString& strArchivePath, const CStd
   }
   else
   {
-   CStdString strRarPath;
+/*   CStdString strRarPath;
    URIUtils::CreateArchivePath(strRarPath,"rar",strArchivePath,"");
-   if (!CDirectory::GetDirectory(strRarPath,ItemList,"",DIR_FLAG_NO_FILE_DIRS))
+   if (!CDirectory::GetDirectory(strRarPath,ItemList,"",DIR_FLAG_NO_FILE_DIRS)) */
     return false;
   }
   for (int it= 0 ; it <ItemList.Size();++it)

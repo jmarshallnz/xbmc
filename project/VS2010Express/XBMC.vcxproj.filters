@@ -2020,6 +2020,15 @@
     <ClCompile Include="..\..\xbmc\filesystem\AFPFile.cpp">
       <Filter>filesystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\ArchiveDirectory.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\ArchiveFile.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\ArchiveManager.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\xbmc\filesystem\ASAPFileDirectory.cpp">
       <Filter>filesystem</Filter>
     </ClCompile>
@@ -2171,15 +2180,6 @@
       <Filter>filesystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\filesystem\PluginDirectory.cpp">
-      <Filter>filesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\filesystem\RarDirectory.cpp">
-      <Filter>filesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\filesystem\RarFile.cpp">
-      <Filter>filesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\filesystem\RarManager.cpp">
       <Filter>filesystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\filesystem\RSSDirectory.cpp">
@@ -5032,6 +5032,15 @@
     <ClInclude Include="..\..\xbmc\filesystem\AFPFile.h">
       <Filter>filesystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\ArchiveDirectory.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\ArchiveFile.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\ArchiveManager.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\xbmc\filesystem\ASAPFileDirectory.h">
       <Filter>filesystem</Filter>
     </ClInclude>
@@ -5192,15 +5201,6 @@
       <Filter>filesystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\filesystem\PluginDirectory.h">
-      <Filter>filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\filesystem\RarDirectory.h">
-      <Filter>filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\filesystem\RarFile.h">
-      <Filter>filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\filesystem\RarManager.h">
       <Filter>filesystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\filesystem\RSSDirectory.h">

@@ -378,6 +378,9 @@
     <ClCompile Include="..\..\xbmc\filesystem\AddonsDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\AFPDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\AFPFile.cpp" />
+    <ClCompile Include="..\..\xbmc\filesystem\ArchiveDirectory.cpp" />
+    <ClCompile Include="..\..\xbmc\filesystem\ArchiveFile.cpp" />
+    <ClCompile Include="..\..\xbmc\filesystem\ArchiveManager.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\ASAPFileDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\BlurayDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\CacheStrategy.cpp" />
@@ -441,9 +444,6 @@
     <ClCompile Include="..\..\xbmc\filesystem\PlaylistDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\PlaylistFileDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\PluginDirectory.cpp" />
-    <ClCompile Include="..\..\xbmc\filesystem\RarDirectory.cpp" />
-    <ClCompile Include="..\..\xbmc\filesystem\RarFile.cpp" />
-    <ClCompile Include="..\..\xbmc\filesystem\RarManager.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\RSSDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\RTVDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\RTVFile.cpp" />
@@ -1176,6 +1176,9 @@
     <ClInclude Include="..\..\xbmc\filesystem\AddonsDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\AFPDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\AFPFile.h" />
+    <ClInclude Include="..\..\xbmc\filesystem\ArchiveDirectory.h" />
+    <ClInclude Include="..\..\xbmc\filesystem\ArchiveFile.h" />
+    <ClInclude Include="..\..\xbmc\filesystem\ArchiveManager.h" />
     <ClInclude Include="..\..\xbmc\filesystem\ASAPFileDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\BlurayDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\CacheStrategy.h" />
@@ -1231,9 +1234,6 @@
     <ClInclude Include="..\..\xbmc\filesystem\PlaylistDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\PlaylistFileDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\PluginDirectory.h" />
-    <ClInclude Include="..\..\xbmc\filesystem\RarDirectory.h" />
-    <ClInclude Include="..\..\xbmc\filesystem\RarFile.h" />
-    <ClInclude Include="..\..\xbmc\filesystem\RarManager.h" />
     <ClInclude Include="..\..\xbmc\filesystem\RSSDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\RTVDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\RTVFile.h" />
@@ -2780,10 +2780,6 @@
     </ProjectReference>
     <ProjectReference Include="libPlatinum.vcxproj">
       <Project>{b2975495-fbe4-4f94-aac5-b21a9842bf50}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="UnrarXLib.vcxproj">
-      <Project>{fe0a91c0-e30a-47cd-8a92-a508c9292452}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="XbmcCommons.vcxproj">

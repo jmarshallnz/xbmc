@@ -15,7 +15,7 @@ DEPENDS = \
 	python26 afpfs-ng libshairplay \
 	libplist libcec libbluray boost tinyxml dummy-libxbmc \
 	libamplayer libssh taglib xbmc-pvr-addons libusb libnfs libmp3lame \
-	pythonmodule-pil libxslt ffmpeg
+	pythonmodule-pil libxslt ffmpeg libarchive
 
 ifeq ($(ENABLE_GPLV3),1)
   DEPENDS+=samba-gplv3 libcdio-gplv3
@@ -98,6 +98,7 @@ pythonmodule-pil: $(ZLIB) libjpeg-turbo libpng freetype2 python26
 libsdl: $(LINUX_SYSTEM_LIBS)
 libxslt: libgcrypt
 ffmpeg: $(ICONV) $(ZLIB) bzip2 libvorbis $(FFMPEG_DEPENDS)
+libarchive: $(ZLIB) bzip2 liblzo2 nettle libxml2
 
 .installed-$(PLATFORM): $(DEPENDS)
 	touch $@

@@ -104,7 +104,7 @@ public:
 public:
   CStageFrightDecodeThread* decode_thread;
 
-  android::sp<MediaSource> source;
+  android::sp<android::MediaSource> source;
 
   android::MediaBuffer* inbuf[INBUFCOUNT];
 
@@ -145,7 +145,7 @@ public:
   int texwidth, texheight;
 
   android::OMXClient *client;
-  android::sp<MediaSource> decoder;
+  android::sp<android::MediaSource> decoder;
   const char *decoder_component;
   int videoColorFormat;
   int videoStride;

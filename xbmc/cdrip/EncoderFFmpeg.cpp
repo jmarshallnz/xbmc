@@ -256,7 +256,7 @@ bool CEncoderFFmpeg::Init(const char* strFile, int iInChannels, int iInRate, int
   return true;
 }
 
-void CEncoderFFmpeg::SetTag(const CStdString tag, const CStdString value)
+void CEncoderFFmpeg::SetTag(const std::string &tag, const std::string &value)
 {
   av_dict_set(&m_Format->metadata, tag.c_str(), value.c_str(), 0);
 }

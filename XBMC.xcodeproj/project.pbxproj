@@ -813,9 +813,6 @@
 		DFF0F12F17528350002DA3A4 /* CDDARipper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14820D25F9F900618676 /* CDDARipper.cpp */; };
 		DFF0F13017528350002DA3A4 /* Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14880D25F9F900618676 /* Encoder.cpp */; };
 		DFF0F13117528350002DA3A4 /* EncoderFFmpeg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FE04D11A3411A00C8B8CD /* EncoderFFmpeg.cpp */; };
-		DFF0F13217528350002DA3A4 /* EncoderFlac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FE04811A3410300C8B8CD /* EncoderFlac.cpp */; };
-		DFF0F13317528350002DA3A4 /* EncoderLame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148A0D25F9F900618676 /* EncoderLame.cpp */; };
-		DFF0F13417528350002DA3A4 /* EncoderVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148C0D25F9F900618676 /* EncoderVorbis.cpp */; };
 		DFF0F13517528350002DA3A4 /* EncoderWav.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148E0D25F9F900618676 /* EncoderWav.cpp */; };
 		DFF0F13617528350002DA3A4 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DE0443315828F4B005DDB4D /* Exception.cpp */; };
 		DFF0F13717528350002DA3A4 /* ilog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC720A8D155091BB00FFD782 /* ilog.cpp */; };
@@ -1679,8 +1676,6 @@
 		E38E1F3E0D25F9FD00618676 /* BackgroundInfoLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14720D25F9F900618676 /* BackgroundInfoLoader.cpp */; };
 		E38E1F450D25F9FD00618676 /* CDDARipper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14820D25F9F900618676 /* CDDARipper.cpp */; };
 		E38E1F460D25F9FD00618676 /* Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14880D25F9F900618676 /* Encoder.cpp */; };
-		E38E1F470D25F9FD00618676 /* EncoderLame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148A0D25F9F900618676 /* EncoderLame.cpp */; };
-		E38E1F480D25F9FD00618676 /* EncoderVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148C0D25F9F900618676 /* EncoderVorbis.cpp */; };
 		E38E1F490D25F9FD00618676 /* EncoderWav.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148E0D25F9F900618676 /* EncoderWav.cpp */; };
 		E38E1F4C0D25F9FD00618676 /* coff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E149E0D25F9F900618676 /* coff.cpp */; };
 		E38E1F4D0D25F9FD00618676 /* dll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14A30D25F9F900618676 /* dll.cpp */; };
@@ -2221,9 +2216,6 @@
 		E499118F174E5CE400741B6D /* CDDARipper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14820D25F9F900618676 /* CDDARipper.cpp */; };
 		E4991190174E5CE400741B6D /* Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E14880D25F9F900618676 /* Encoder.cpp */; };
 		E4991191174E5CE400741B6D /* EncoderFFmpeg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FE04D11A3411A00C8B8CD /* EncoderFFmpeg.cpp */; };
-		E4991192174E5CE400741B6D /* EncoderFlac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FE04811A3410300C8B8CD /* EncoderFlac.cpp */; };
-		E4991193174E5CE400741B6D /* EncoderLame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148A0D25F9F900618676 /* EncoderLame.cpp */; };
-		E4991194174E5CE400741B6D /* EncoderVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148C0D25F9F900618676 /* EncoderVorbis.cpp */; };
 		E4991195174E5CE400741B6D /* EncoderWav.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E38E148E0D25F9F900618676 /* EncoderWav.cpp */; };
 		E4991196174E5CEB00741B6D /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DE0443315828F4B005DDB4D /* Exception.cpp */; };
 		E4991197174E5CEB00741B6D /* ilog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC720A8D155091BB00FFD782 /* ilog.cpp */; };
@@ -3068,7 +3060,6 @@
 		F506297A0E57B9680066625A /* MultiPathFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50629780E57B9680066625A /* MultiPathFile.cpp */; };
 		F5071906175A26AD004C87D1 /* VideoDecodeAcceleration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5071905175A26AD004C87D1 /* VideoDecodeAcceleration.framework */; };
 		F50FDC5A119B4B2C00C8B8CD /* GUIDialogTextViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FDC59119B4B2C00C8B8CD /* GUIDialogTextViewer.cpp */; };
-		F50FE04A11A3410300C8B8CD /* EncoderFlac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FE04811A3410300C8B8CD /* EncoderFlac.cpp */; };
 		F50FE04E11A3411A00C8B8CD /* EncoderFFmpeg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FE04D11A3411A00C8B8CD /* EncoderFFmpeg.cpp */; };
 		F51CEEEF0F5C5D20004F4602 /* OSXGNUReplacements.c in Sources */ = {isa = PBXBuildFile; fileRef = F51CEEEE0F5C5D20004F4602 /* OSXGNUReplacements.c */; };
 		F51CEF880F5C64A5004F4602 /* DVDInputStreamHTSP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51CEF860F5C64A5004F4602 /* DVDInputStreamHTSP.cpp */; };
@@ -4484,16 +4475,8 @@
 		E38E14730D25F9F900618676 /* BackgroundInfoLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundInfoLoader.h; sourceTree = "<group>"; };
 		E38E14820D25F9F900618676 /* CDDARipper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CDDARipper.cpp; sourceTree = "<group>"; };
 		E38E14830D25F9F900618676 /* CDDARipper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDARipper.h; sourceTree = "<group>"; };
-		E38E14840D25F9F900618676 /* DllLameenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DllLameenc.h; sourceTree = "<group>"; };
-		E38E14850D25F9F900618676 /* DllOgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DllOgg.h; sourceTree = "<group>"; };
-		E38E14860D25F9F900618676 /* DllVorbis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DllVorbis.h; sourceTree = "<group>"; };
-		E38E14870D25F9F900618676 /* DllVorbisEnc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DllVorbisEnc.h; sourceTree = "<group>"; };
 		E38E14880D25F9F900618676 /* Encoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Encoder.cpp; sourceTree = "<group>"; };
 		E38E14890D25F9F900618676 /* Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encoder.h; sourceTree = "<group>"; };
-		E38E148A0D25F9F900618676 /* EncoderLame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EncoderLame.cpp; sourceTree = "<group>"; };
-		E38E148B0D25F9F900618676 /* EncoderLame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncoderLame.h; sourceTree = "<group>"; };
-		E38E148C0D25F9F900618676 /* EncoderVorbis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EncoderVorbis.cpp; sourceTree = "<group>"; };
-		E38E148D0D25F9F900618676 /* EncoderVorbis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncoderVorbis.h; sourceTree = "<group>"; };
 		E38E148E0D25F9F900618676 /* EncoderWav.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EncoderWav.cpp; sourceTree = "<group>"; };
 		E38E148F0D25F9F900618676 /* EncoderWav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncoderWav.h; sourceTree = "<group>"; };
 		E38E149E0D25F9F900618676 /* coff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coff.cpp; sourceTree = "<group>"; };
@@ -5424,8 +5407,6 @@
 		F5071905175A26AD004C87D1 /* VideoDecodeAcceleration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoDecodeAcceleration.framework; path = System/Library/Frameworks/VideoDecodeAcceleration.framework; sourceTree = SDKROOT; };
 		F50FDC58119B4B2C00C8B8CD /* GUIDialogTextViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIDialogTextViewer.h; sourceTree = "<group>"; };
 		F50FDC59119B4B2C00C8B8CD /* GUIDialogTextViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIDialogTextViewer.cpp; sourceTree = "<group>"; };
-		F50FE04811A3410300C8B8CD /* EncoderFlac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EncoderFlac.cpp; sourceTree = "<group>"; };
-		F50FE04911A3410300C8B8CD /* EncoderFlac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncoderFlac.h; sourceTree = "<group>"; };
 		F50FE04C11A3411A00C8B8CD /* EncoderFFmpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncoderFFmpeg.h; sourceTree = "<group>"; };
 		F50FE04D11A3411A00C8B8CD /* EncoderFFmpeg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EncoderFFmpeg.cpp; sourceTree = "<group>"; };
 		F51CEEEE0F5C5D20004F4602 /* OSXGNUReplacements.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = OSXGNUReplacements.c; sourceTree = "<group>"; };
@@ -7603,20 +7584,10 @@
 				18E7CACA1578C26D001D4554 /* CDDARipJob.h */,
 				E38E14820D25F9F900618676 /* CDDARipper.cpp */,
 				E38E14830D25F9F900618676 /* CDDARipper.h */,
-				E38E14840D25F9F900618676 /* DllLameenc.h */,
-				E38E14850D25F9F900618676 /* DllOgg.h */,
-				E38E14860D25F9F900618676 /* DllVorbis.h */,
-				E38E14870D25F9F900618676 /* DllVorbisEnc.h */,
 				E38E14880D25F9F900618676 /* Encoder.cpp */,
 				E38E14890D25F9F900618676 /* Encoder.h */,
 				F50FE04D11A3411A00C8B8CD /* EncoderFFmpeg.cpp */,
 				F50FE04C11A3411A00C8B8CD /* EncoderFFmpeg.h */,
-				F50FE04811A3410300C8B8CD /* EncoderFlac.cpp */,
-				F50FE04911A3410300C8B8CD /* EncoderFlac.h */,
-				E38E148A0D25F9F900618676 /* EncoderLame.cpp */,
-				E38E148B0D25F9F900618676 /* EncoderLame.h */,
-				E38E148C0D25F9F900618676 /* EncoderVorbis.cpp */,
-				E38E148D0D25F9F900618676 /* EncoderVorbis.h */,
 				E38E148E0D25F9F900618676 /* EncoderWav.cpp */,
 				E38E148F0D25F9F900618676 /* EncoderWav.h */,
 			);
@@ -9918,8 +9889,6 @@
 				E38E1F3E0D25F9FD00618676 /* BackgroundInfoLoader.cpp in Sources */,
 				E38E1F450D25F9FD00618676 /* CDDARipper.cpp in Sources */,
 				E38E1F460D25F9FD00618676 /* Encoder.cpp in Sources */,
-				E38E1F470D25F9FD00618676 /* EncoderLame.cpp in Sources */,
-				E38E1F480D25F9FD00618676 /* EncoderVorbis.cpp in Sources */,
 				E38E1F490D25F9FD00618676 /* EncoderWav.cpp in Sources */,
 				E38E1F4C0D25F9FD00618676 /* coff.cpp in Sources */,
 				E38E1F4D0D25F9FD00618676 /* dll.cpp in Sources */,
@@ -10462,7 +10431,6 @@
 				F52B063B11869862004B1D66 /* Skin.cpp in Sources */,
 				F52B06BA1187CE18004B1D66 /* DVDVideoCodecVDA.cpp in Sources */,
 				F50FDC5A119B4B2C00C8B8CD /* GUIDialogTextViewer.cpp in Sources */,
-				F50FE04A11A3410300C8B8CD /* EncoderFlac.cpp in Sources */,
 				F50FE04E11A3411A00C8B8CD /* EncoderFFmpeg.cpp in Sources */,
 				183FDF8A11AF0B0500B81E9C /* PluginSource.cpp in Sources */,
 				F58E293911FFC103006F4D46 /* DVDInputStreamBluray.cpp in Sources */,
@@ -11117,9 +11085,6 @@
 				DFF0F12F17528350002DA3A4 /* CDDARipper.cpp in Sources */,
 				DFF0F13017528350002DA3A4 /* Encoder.cpp in Sources */,
 				DFF0F13117528350002DA3A4 /* EncoderFFmpeg.cpp in Sources */,
-				DFF0F13217528350002DA3A4 /* EncoderFlac.cpp in Sources */,
-				DFF0F13317528350002DA3A4 /* EncoderLame.cpp in Sources */,
-				DFF0F13417528350002DA3A4 /* EncoderVorbis.cpp in Sources */,
 				DFF0F13517528350002DA3A4 /* EncoderWav.cpp in Sources */,
 				DFF0F13617528350002DA3A4 /* Exception.cpp in Sources */,
 				DFF0F13717528350002DA3A4 /* ilog.cpp in Sources */,
@@ -12176,9 +12141,6 @@
 				E499118F174E5CE400741B6D /* CDDARipper.cpp in Sources */,
 				E4991190174E5CE400741B6D /* Encoder.cpp in Sources */,
 				E4991191174E5CE400741B6D /* EncoderFFmpeg.cpp in Sources */,
-				E4991192174E5CE400741B6D /* EncoderFlac.cpp in Sources */,
-				E4991193174E5CE400741B6D /* EncoderLame.cpp in Sources */,
-				E4991194174E5CE400741B6D /* EncoderVorbis.cpp in Sources */,
 				E4991195174E5CE400741B6D /* EncoderWav.cpp in Sources */,
 				E4991196174E5CEB00741B6D /* Exception.cpp in Sources */,
 				E4991197174E5CEB00741B6D /* ilog.cpp in Sources */,

@@ -22,7 +22,8 @@ $(PLATFORM): $(TARBALLS_LOCATION)/.$(ADDONS) $(DEPS)
           mkdir $(PLATFORM)/$$addon ;\
 	  ARCHIVE=$$(cat .$$addon) ;\
           cd $(PLATFORM)/$$addon; $(ARCHIVE_TOOL) $(ARCHIVE_TOOL_FLAGS) $(TARBALLS_LOCATION)/$$ARCHIVE ;\
-          $(CMAKE) -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=1 . && make install || exit 1;\
+          $(CMAKE) -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=1 . && make install || exit 1 ;\
+          [ $$(echo $(HOST) | grep darwin) ] && cp -rf $$addon $(XBMCROOT)/addons && cp -fL $${addon}.dylib $(XBMCROOT)/addons/$$addon ;\
           cd - ;\
         done
 

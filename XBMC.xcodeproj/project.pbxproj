@@ -387,6 +387,9 @@
 		7CF34D9F1930264A00D543C5 /* AudioEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */; };
 		7CF34DA01930264A00D543C5 /* AudioEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */; };
 		7CF34DA11930264A00D543C5 /* AudioEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */; };
+		7CF34DA41930290300D543C5 /* TranscodeJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34DA31930290300D543C5 /* TranscodeJob.cpp */; };
+		7CF34DA51930290300D543C5 /* TranscodeJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34DA31930290300D543C5 /* TranscodeJob.cpp */; };
+		7CF34DA61930290300D543C5 /* TranscodeJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34DA31930290300D543C5 /* TranscodeJob.cpp */; };
 		810C9F630D67BD2F0095F5DD /* PltMediaConnect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9F600D67BD2F0095F5DD /* PltMediaConnect.cpp */; settings = {COMPILER_FLAGS = "-I$SRCROOT/lib/libUPnP -I$SRCROOT/lib/libUPnP/Platinum/Source/Core  -I$SRCROOT/lib/libUPnP/Platinum/Source/Platinum -I$SRCROOT/lib/libUPnP/Platinum/Source/Devices/MediaConnect -I$SRCROOT/lib/libUPnP/Platinum/Source/Devices/MediaRenderer -I$SRCROOT/lib/libUPnP/Platinum/Source/Devices/MediaServer -I$SRCROOT/lib/libUPnP/Platinum/Source/Extras -I$SRCROOT/lib/libUPnP/Neptune/Source/System/Posix -I$SRCROOT/lib/libUPnP/Neptune/Source/Core"; }; };
 		810C9FA90D67D1FB0095F5DD /* MythDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9FA50D67D1FB0095F5DD /* MythDirectory.cpp */; };
 		810C9FAA0D67D1FB0095F5DD /* MythFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9FA70D67D1FB0095F5DD /* MythFile.cpp */; };
@@ -3914,6 +3917,8 @@
 		7CF1FB0A123B1AF000B2CBCB /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
 		7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioEncoder.cpp; sourceTree = "<group>"; };
 		7CF34D9E1930264A00D543C5 /* AudioEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEncoder.h; sourceTree = "<group>"; };
+		7CF34DA21930290200D543C5 /* TranscodeJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranscodeJob.h; sourceTree = "<group>"; };
+		7CF34DA31930290300D543C5 /* TranscodeJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TranscodeJob.cpp; sourceTree = "<group>"; };
 		810C9F600D67BD2F0095F5DD /* PltMediaConnect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PltMediaConnect.cpp; path = MediaConnect/PltMediaConnect.cpp; sourceTree = "<group>"; };
 		810C9F610D67BD2F0095F5DD /* PltMediaConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PltMediaConnect.h; path = MediaConnect/PltMediaConnect.h; sourceTree = "<group>"; };
 		810C9FA50D67D1FB0095F5DD /* MythDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MythDirectory.cpp; sourceTree = "<group>"; };
@@ -7597,6 +7602,8 @@
 				F50FE04C11A3411A00C8B8CD /* EncoderFFmpeg.h */,
 				E38E148E0D25F9F900618676 /* EncoderWav.cpp */,
 				E38E148F0D25F9F900618676 /* EncoderWav.h */,
+				7CF34DA31930290300D543C5 /* TranscodeJob.cpp */,
+				7CF34DA21930290200D543C5 /* TranscodeJob.h */,
 			);
 			path = cdrip;
 			sourceTree = "<group>";
@@ -10934,6 +10941,7 @@
 				7CC7B6C3191869EA00DDB120 /* SettingUtils.cpp in Sources */,
 				7CC7B6C819186A8800DDB120 /* SettingConditions.cpp in Sources */,
 				7CF34D9F1930264A00D543C5 /* AudioEncoder.cpp in Sources */,
+				7CF34DA41930290300D543C5 /* TranscodeJob.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11984,6 +11992,7 @@
 				7CC7B6C5191869EA00DDB120 /* SettingUtils.cpp in Sources */,
 				7CC7B6CA19186A8800DDB120 /* SettingConditions.cpp in Sources */,
 				7CF34DA11930264A00D543C5 /* AudioEncoder.cpp in Sources */,
+				7CF34DA61930290300D543C5 /* TranscodeJob.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13036,6 +13045,7 @@
 				7CC7B6C4191869EA00DDB120 /* SettingUtils.cpp in Sources */,
 				7CC7B6C919186A8800DDB120 /* SettingConditions.cpp in Sources */,
 				7CF34DA01930264A00D543C5 /* AudioEncoder.cpp in Sources */,
+				7CF34DA51930290300D543C5 /* TranscodeJob.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,29 +28,33 @@
 
 extern "C"
 {
-  //! \copydoc AudioEncoder::Init
-  bool Init(int iInChannels, int iInRate, int iInBits,
-            const char* title, const char* artist,
-            const char* albumartist, const char* album,
-            const char* year, const char* track,
-            const char* genre, const char* comment, int iTrackLength);
+  //! \copydoc AudioEncoder::Create
+  bool Create(void* opaque, int (*write)(void*,uint8_t*,int), int64_t (*seek)(void*,int64_t,int));
+
+  //! \copydoc AudioEncoder::Start
+  bool Start(int iInChannels, int iInRate, int iInBits,
+             const char* title, const char* artist,
+             const char* albumartist, const char* album,
+             const char* year, const char* track,
+             const char* genre, const char* comment, int iTrackLength);
 
   //! \copydoc AudioEncoder::Encode
-  int Encode(int nNumBytesRead, uint8_t* pbtStream, uint8_t* buffer);
+  int Encode(int nNumBytesRead, uint8_t* pbtStream);
 
-  //! \copydoc AudioEncoder::Flush
-  int Flush(uint8_t* buffer);
+  //! \copydoc AudioEncoder::Finish
+  bool Finish();
 
-  //! \copydoc AudioEncoder::Close
-  bool Close(const char* File);
+  //! \copydoc AudioEncoder::Free
+  void Free(void *context);
 
   // function to export the above structure to XBMC
   void __declspec(dllexport) get_addon(struct AudioEncoder* pScr)
   {
-    pScr->Init = Init;
+    pScr->Create = Create;
+    pScr->Start  = Start;
     pScr->Encode = Encode;
-    pScr->Flush = Flush;
-    pScr->Close = Close;
+    pScr->Finish = Finish;
+    pScr->Free   = Free;
   };
 };
 

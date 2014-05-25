@@ -38,7 +38,18 @@ extern "C"
 
   struct AudioEncoder
   {
-    //! \brief Initialize encoder
+    /*! \brief Create encoder context
+     \param opaque Pointer passed to write and seek callbacks
+     \param write The write callback.
+     \param seek The seek callback.
+     \return True if a context is created, false on failure.
+     \sa IEncoder::Init
+     */
+    bool (__cdecl* Create) (void *opaque,
+                            int (*write)(void* opaque, uint8_t* data, int len),
+                            int64_t (*seek)(void* opaque, int64_t pos, int whence));
+
+    //! \brief Start encoder
     //! \param iInChannels Number of channels
     //! \param iInRate Sample rate of input data
     //! \param iInBits Bits per sample in input data
@@ -51,30 +62,27 @@ extern "C"
     //! \param comment A comment to attach to the song
     //! \param iTrackLength Total track length in seconds
     //! \sa IEncoder::Init
-    bool (__cdecl* Init) (int iInChannels, int iInRate, int iInBits,
-                          const char* title, const char* artist,
-                          const char* albumartist, const char* album,
-                          const char* year, const char* track,
-                          const char* genre, const char* comment,
-                          int iTrackLength);
+    bool (__cdecl* Start) (int iInChannels, int iInRate, int iInBits,
+                           const char* title, const char* artist,
+                           const char* albumartist, const char* album,
+                           const char* year, const char* track,
+                           const char* genre, const char* comment,
+                           int iTrackLength);
 
     //! \brief Encode a chunk of audio
     //! \param nNumBytesRead Number of bytes in input buffer
     //! \param pbtStream the input buffer
-    //! \param buffer The output buffer
-    //! \return Number of bytes in output buffer
+    //! \return Number of bytes consumed
     //! \sa IEncoder::Encode
-    int  (__cdecl* Encode) (int nNumBytesRead, uint8_t* pbtStream, uint8_t* buffer);
+    int  (__cdecl* Encode) (int nNumBytesRead, uint8_t* pbtStream);
 
-    //! \brief Flush the remaining data to output buffer
-    //! \param buffer The output buffer
-    //! \return Number of bytes in output buffer
-    int  (__cdecl* Flush) (uint8_t* buffer);
+    //! \brief Finalize encoding
+    //! \return True on success, false on failure.
+    bool (__cdecl* Finish) ();
 
-    //! \brief Close down the encoder
-    //! \param File The URL for the final file (for post-processing)
-    //! \return True on success, false on failure
-    bool (__cdecl* Close)(const char* File);
+    //! \brief Free encoder context
+    //! \param context the encoder context
+    void (__cdecl* Free)(void *context);
   };
 }
 

@@ -1,7 +1,7 @@
 -include ../../Makefile.include
 include AUDIO-ADDONS-VERSION
 
-LIBNAME = xbmc-audioencoder-addons
+LIBNAME = xbmc-audio-addons
 ifeq ($(RETRIEVE_TOOL),)
   RETRIEVE_TOOL = curl
 endif
@@ -45,14 +45,13 @@ endif
         cd - && echo $$VERSION > $@
 
 clean:
-	for addon in $(ADDONS) ; do \
-          ARCHIVE=$$(cat .$$addon) ;\
-          make -C $(PLATFORM)/$$addon clean ;\
+	@for addon in $(ADDONS) ; do \
+          if [ -d $(PLATFORM)/$$addon ]; then  make -C $(PLATFORM)/$$addon clean ; fi ;\
         done
-	rm -f .installed-$(PLATFORM) $(foreach addon,$(ADDONS),.$(addon)-installed)
+	rm -f .installed-$(PLATFORM) $(addprefix .,$(notdir $(ADDONS)))
 
-distclean::
-	rm -rf $(PLATFORM) .installed-$(PLATFORM) $(foreach addon,$(ADDONS),.$(addon)-installed)
+distclean:
+	rm -rf $(PLATFORM) .installed-$(PLATFORM) $(foreach addon,$(ADDONS),.$(addon)-installed) *.tar.gz
 
 .installed-$(PLATFORM): $(foreach addon,$(ADDONS),.$(addon)-installed)
 	@touch $@

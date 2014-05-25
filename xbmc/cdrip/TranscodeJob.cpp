@@ -222,7 +222,7 @@ int CTranscodeJob::TranscodeChunk(CAudioDecoder& decoder, CEncoder* encoder, int
 
 CEncoder* CTranscodeJob::SetupEncoder(std::string &outFile, CMusicInfoTag *tag, unsigned int samplerate, unsigned int channels, unsigned int bps)
 {
-  CEncoder* encoder;
+  CEncoder* encoder = NULL;
   std::string extension;
   if (CSettings::Get().GetString("audiocds.encoder") == "audioencoder.xbmc.builtin.wav")
   {
@@ -232,12 +232,14 @@ CEncoder* CTranscodeJob::SetupEncoder(std::string &outFile, CMusicInfoTag *tag, 
   }
   else if (CSettings::Get().GetString("audiocds.encoder") == "audioencoder.xbmc.builtin.aac")
   {
-    encoder = new CEncoderFFmpeg();
+    boost::shared_ptr<IEncoder> enc(new CEncoderFFmpeg());
+    encoder = new CEncoder(enc);
     extension = ".aac";
   }
   else if (CSettings::Get().GetString("audiocds.encoder") == "audioencoder.xbmc.builtin.wma")
   {
-    encoder = new CEncoderFFmpeg();
+    boost::shared_ptr<IEncoder> enc(new CEncoderFFmpeg());
+    encoder = new CEncoder(enc);
     extension = ".wma";
   }
   else

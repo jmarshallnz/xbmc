@@ -33,8 +33,15 @@ AddonPtr CAudioEncoder::Clone() const
   return AddonPtr(new CAudioEncoder(*this));
 }
 
-bool CAudioEncoder::Init()
+bool CAudioEncoder::Init(void *opaque, write_callback write, seek_callback seek)
 {
+  if (!write || !seek)
+    return false;
+
+  m_opaque        = opaque;
+  m_writeCallback = write;
+  m_seekCallback  = seek;
+
   return Initialized() && m_pStruct->Init(m_iInChannels, m_iInSampleRate,
                                           m_iInBitsPerSample,
                                           m_strTitle.c_str(),
@@ -48,26 +55,32 @@ bool CAudioEncoder::Init()
                                           m_iTrackLength);
 }
 
-int CAudioEncoder::Encode(int nNumBytesRead, uint8_t* pbtStream, uint8_t* buffer)
+int CAudioEncoder::Encode(int nNumBytesRead, uint8_t* pbtStream)
 {
-  if (!Initialized())
+  if (!Initialized() || !m_writeCallback)
     return 0;
 
-  return m_pStruct->Encode(nNumBytesRead, pbtStream, buffer);
-}
+  int bytes = m_pStruct->Encode(nNumBytesRead, pbtStream, m_buffer);
 
-int CAudioEncoder::Flush(uint8_t* buffer)
-{
-  if (!Initialized())
-    return 0;
+  if (bytes < 0) // error
+    return bytes;
 
-  return m_pStruct->Flush(buffer);
+  return m_writeCallback(m_opaque, m_buffer, bytes);
 }
 
 bool CAudioEncoder::Close()
 {
-  // get info from screensaver
-  return Initialized() && m_pStruct->Close(m_strFile.c_str());
+  if (!Initialized() || !m_writeCallback)
+    return false;
+
+  int bytes = m_pStruct->Flush(m_buffer);
+  if (bytes < 0) // error
+    return false;
+
+  if (bytes != m_writeCallback(m_opaque, m_buffer, bytes))
+    return false;
+
+  return m_pStruct->Close(m_strFile.c_str());
 }
 
 void CAudioEncoder::Destroy()

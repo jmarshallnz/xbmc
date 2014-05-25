@@ -25,14 +25,6 @@
 #include <boost/shared_ptr.hpp>
 #include <stdint.h>
 
-#define ENC_ARTIST  11
-#define ENC_TITLE   12
-#define ENC_ALBUM   13
-#define ENC_YEAR    14
-#define ENC_COMMENT 15
-#define ENC_TRACK   16
-#define ENC_GENRE   17
-
 #define WRITEBUFFER_SIZE 131072 // 128k buffer
 
 namespace XFILE { class CFile; }
@@ -40,17 +32,19 @@ namespace XFILE { class CFile; }
 class IEncoder
 {
 public:
-  IEncoder()
+  typedef int (*write_callback)(void *opaque, uint8_t *buf, int buf_size);
+  typedef int64_t (*seek_callback)(void *opaque, int64_t position, int whence);
+
+  IEncoder() :
+    m_opaque(NULL), m_writeCallback(NULL), m_seekCallback(NULL)
   {
     m_iInChannels = 0;
     m_iInSampleRate = 0;
     m_iInBitsPerSample = 0;
   }
   virtual ~IEncoder() {}
-  virtual bool Init() = 0;
-  virtual int Encode(int nNumBytesRead, uint8_t* pbtStream,
-                       uint8_t* buffer) = 0;
-  virtual int Flush(uint8_t* buffer) = 0;
+  virtual bool Init(void *opaque, write_callback, seek_callback) = 0;
+  virtual int Encode(int nNumBytesRead, uint8_t* pbtStream) = 0;
   virtual bool Close() = 0;
 
   // tag info
@@ -67,6 +61,11 @@ public:
   int m_iInChannels;
   int m_iInSampleRate;
   int m_iInBitsPerSample;
+
+protected:
+  void          *m_opaque;
+  write_callback m_writeCallback;
+  seek_callback  m_seekCallback;
 };
 
 class CEncoder
@@ -97,12 +96,14 @@ protected:
   int WriteStream(const void *pBuffer, uint32_t iBytes);
   int FlushStream();
 
+  static int WriteCallback(void *opaque, uint8_t *data, int size);
+  static int64_t SeekCallback(void *opaque, int64_t offset, int whence);
+
   boost::shared_ptr<IEncoder> m_impl;
 
   XFILE::CFile *m_file;
 
   uint8_t m_btWriteBuffer[WRITEBUFFER_SIZE]; // 128k buffer for writing to disc
-  uint8_t m_buffer[WRITEBUFFER_SIZE*3/2]; // encode buffer - data may occasionally grow
   uint32_t m_dwWriteBufferPointer;
 };
 

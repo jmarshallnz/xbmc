@@ -46,16 +46,15 @@ class CEncoderWav : public IEncoder
 public:
   CEncoderWav();
   virtual ~CEncoderWav() {}
-  bool Init();
-  int Encode(int nNumBytesRead, uint8_t* pbtStream, uint8_t* buffer);
-  int Flush(uint8_t* buffer);
+  bool Init(void *opaque, write_callback, seek_callback);
+  int Encode(int nNumBytesRead, uint8_t* pbtStream);
   bool Close();
-  void AddTag(int key, const char* value);
 
 private:
+  bool WriteWavHeader(uint32_t dataLen = 0);
   bool first;
 
-  int m_iBytesWritten;
+  uint32_t m_iBytesWritten;
 };
 
 #endif // _ENCODERWAV_H

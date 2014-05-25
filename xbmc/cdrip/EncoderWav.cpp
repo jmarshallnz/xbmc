@@ -28,7 +28,7 @@ CEncoderWav::CEncoderWav()
   first = true;
 }
 
-bool CEncoderWav::Init()
+bool CEncoderWav::Init(void *opaque, write_callback write, seek_callback seek)
 {
   m_iBytesWritten = 0;
 
@@ -38,42 +38,44 @@ bool CEncoderWav::Init()
       m_iInBitsPerSample != 16)
     return false;
 
+  m_opaque        = opaque;
+  m_writeCallback = write;
+  m_seekCallback  = seek;
   // write dummy header file
   first = true;
 
   return true;
 }
 
-int CEncoderWav::Encode(int nNumBytesRead, uint8_t* pbtStream, uint8_t* buffer)
+int CEncoderWav::Encode(int nNumBytesRead, uint8_t* pbtStream)
 {
-  int extra=0;
+  if (!m_writeCallback)
+    return -1;
+
   if (first)
   {
-    memset(buffer, 0, sizeof(WAVHDR));
-    buffer += sizeof(WAVHDR);
+    if (!WriteWavHeader())
+      return -1;
+
     first = false;
-    extra = sizeof(WAVHDR);
   }
 
-  memcpy(buffer, pbtStream, nNumBytesRead);
-  m_iBytesWritten += nNumBytesRead;
+  // write the information from the stream directly out to our file
+  int numWritten = m_writeCallback(m_opaque, pbtStream, nNumBytesRead);
+  if (numWritten < 0)
+    return -1;
 
-  return nNumBytesRead+extra;
+  m_iBytesWritten += numWritten;
+  return numWritten;
 }
 
-int CEncoderWav::Flush(uint8_t* buffer)
+bool CEncoderWav::WriteWavHeader(uint32_t dataSize)
 {
-  return 0;
-}
-
-bool CEncoderWav::Close()
-{
-  WAVHDR wav;
-
-  XFILE::CFile file;
-  if (!file.OpenForWrite(m_strFile))
+  if (!m_writeCallback)
     return false;
 
+  // write a dummer wav header
+  WAVHDR wav;
   memcpy(wav.riff, "RIFF", 4);
   wav.len = m_iBytesWritten + 44 - 8;
   memcpy(wav.cWavFmt, "WAVEfmt ", 8);
@@ -85,11 +87,19 @@ bool CEncoderWav::Close()
   wav.dwBytesPerSec = m_iInSampleRate * m_iInChannels * (m_iInBitsPerSample >> 3);
   wav.wBlockAlign = 4;
   memcpy(wav.cData, "data", 4);
-  wav.dwDataLen = m_iBytesWritten;
+  wav.dwDataLen = dataSize;
 
-  // write header to beginning of stream
-  file.Seek(0, FILE_BEGIN);
-  file.Write(&wav, sizeof(wav));
+  return m_writeCallback(m_opaque, (uint8_t*)&wav, sizeof(WAVHDR));
+}
 
-  return true;
+bool CEncoderWav::Close()
+{
+  if (!m_writeCallback || !m_seekCallback)
+    return false;
+
+  // seek back to the start of the file
+  if (m_seekCallback(m_opaque, 0, SEEK_SET) == 0 && WriteWavHeader(m_iBytesWritten))
+    return true;
+
+  return false;
 }

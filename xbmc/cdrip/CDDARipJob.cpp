@@ -178,7 +178,7 @@ int CCDDARipJob::RipChunk(CFile& reader, CEncoder* encoder, int& percent)
 
 CEncoder* CCDDARipJob::SetupEncoder(CFile& reader)
 {
-  CEncoder* encoder;
+  CEncoder* encoder = NULL;
   if (CSettings::Get().GetString("audiocds.encoder") == "audioencoder.xbmc.builtin.wav")
   {
     boost::shared_ptr<IEncoder> enc(new CEncoderWav());
@@ -187,7 +187,8 @@ CEncoder* CCDDARipJob::SetupEncoder(CFile& reader)
   else if (CSettings::Get().GetString("audiocds.encoder") == "audioencoder.xbmc.builtin.aac" ||
            CSettings::Get().GetString("audiocds.encoder") == "audioencoder.xbmc.builtin.wma")
   {
-    encoder = new CEncoderFFmpeg();
+    boost::shared_ptr<IEncoder> enc(new CEncoderFFmpeg());
+    encoder = new CEncoder(enc);
   }
   else
   {

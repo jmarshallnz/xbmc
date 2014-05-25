@@ -35,52 +35,45 @@ AddonPtr CAudioEncoder::Clone() const
 
 bool CAudioEncoder::Init(void *opaque, write_callback write, seek_callback seek)
 {
-  if (!write || !seek)
+  if (!write || !seek || !Initialized())
     return false;
 
-  m_opaque        = opaque;
-  m_writeCallback = write;
-  m_seekCallback  = seek;
+  // create encoder instance
+  if (!m_pStruct->Create(opaque, write, seek))
+    return false;
 
-  return Initialized() && m_pStruct->Init(m_iInChannels, m_iInSampleRate,
-                                          m_iInBitsPerSample,
-                                          m_strTitle.c_str(),
-                                          m_strArtist.c_str(),
-                                          m_strAlbumArtist.c_str(),
-                                          m_strAlbum.c_str(),
-                                          m_strYear.c_str(),
-                                          m_strTrack.c_str(),
-                                          m_strGenre.c_str(),
-                                          m_strComment.c_str(),
-                                          m_iTrackLength);
+  return m_pStruct->Start(m_iInChannels,
+                          m_iInSampleRate,
+                          m_iInBitsPerSample,
+                          m_strTitle.c_str(),
+                          m_strArtist.c_str(),
+                          m_strAlbumArtist.c_str(),
+                          m_strAlbum.c_str(),
+                          m_strYear.c_str(),
+                          m_strTrack.c_str(),
+                          m_strGenre.c_str(),
+                          m_strComment.c_str(),
+                          m_iTrackLength);
 }
 
 int CAudioEncoder::Encode(int nNumBytesRead, uint8_t* pbtStream)
 {
-  if (!Initialized() || !m_writeCallback)
+  if (!Initialized())
     return 0;
 
-  int bytes = m_pStruct->Encode(nNumBytesRead, pbtStream, m_buffer);
-
-  if (bytes < 0) // error
-    return bytes;
-
-  return m_writeCallback(m_opaque, m_buffer, bytes);
+  return m_pStruct->Encode(nNumBytesRead, pbtStream);
 }
 
 bool CAudioEncoder::Close()
 {
-  if (!Initialized() || !m_writeCallback)
+  if (!Initialized())
     return false;
 
-  int bytes = m_pStruct->Flush(m_buffer);
-  if (bytes < 0) // error
+  if (!m_pStruct->Finish())
     return false;
 
-  if (bytes != m_writeCallback(m_opaque, m_buffer, bytes))
-    return false;
-
-  return m_pStruct->Close(m_strFile.c_str());
+  m_pStruct->Free(NULL);
+  return true;
 }
 
 void CAudioEncoder::Destroy()

@@ -30,21 +30,15 @@ extern "C" {
 #include "libswresample/swresample.h"
 }
 
-class CEncoderFFmpeg : public CEncoder, public IEncoder
+class CEncoderFFmpeg : public IEncoder
 {
 public:
   CEncoderFFmpeg();
   virtual ~CEncoderFFmpeg() {}
-  bool Init(const char* strFile, int iInChannels, int iInRate, int iInBits);
-  int Encode(int nNumBytesRead, uint8_t* pbtStream);
-  bool CloseEncode();
-  void AddTag(int key, const char* value);
 
-  // dummies
-  bool Init() {return true;}
-  int Encode(int,uint8_t*, uint8_t*) {return 0;}
-  int Flush(uint8_t*) {return 0;}
-  bool Close() {return true;}
+  bool Init(void *opaque, write_callback write, seek_callback seek);
+  int Encode(int nNumBytesRead, uint8_t *pbtStream);
+  bool Close();
 private:
 
   AVFormatContext  *m_Format;

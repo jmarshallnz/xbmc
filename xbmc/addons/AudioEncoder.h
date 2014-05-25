@@ -37,13 +37,14 @@ namespace ADDON
     virtual AddonPtr Clone() const;
 
     // Things that MUST be supplied by the child classes
-    bool Init();
-    int Encode(int nNumBytesRead, uint8_t* pbtStream, uint8_t* buffer);
-    int Flush(uint8_t* buffer);
+    bool Init(void *opaque, write_callback write, seek_callback seek);
+    int Encode(int nNumBytesRead, uint8_t* pbtStream);
     bool Close();
     void Destroy();
 
     const std::string extension;
+
+    uint8_t m_buffer[2 << 18];
   };
 
 } /*namespace ADDON*/

@@ -21,7 +21,6 @@
 #include "Encoder.h"
 #include "filesystem/File.h"
 #include "utils/log.h"
-#include "addons/AddonManager.h"
 
 CEncoder::CEncoder(boost::shared_ptr<IEncoder> encoder)
 {
@@ -33,6 +32,26 @@ CEncoder::CEncoder(boost::shared_ptr<IEncoder> encoder)
 CEncoder::~CEncoder()
 {
   FileClose();
+}
+
+int CEncoder::WriteCallback(void *opaque, uint8_t *data, int size)
+{
+  if (opaque)
+  {
+    CEncoder *encoder = static_cast<CEncoder *>(opaque);
+    return encoder->WriteStream(data, size);
+  }
+  return -1;
+}
+
+int64_t CEncoder::SeekCallback(void *opaque, int64_t position, int whence)
+{
+  if (opaque)
+  {
+    CEncoder *encoder = static_cast<CEncoder *>(opaque);
+    return encoder->FileSeek(position, whence);
+  }
+  return -1;
 }
 
 bool CEncoder::Init(const char* strFile, int iInChannels, int iInRate, int iInBits)
@@ -52,7 +71,7 @@ bool CEncoder::Init(const char* strFile, int iInChannels, int iInRate, int iInBi
     return false;
   }
 
-  return m_impl->Init();
+  return m_impl->Init(this, WriteCallback, SeekCallback);
 }
 
 bool CEncoder::FileCreate(const char* filename)
@@ -154,35 +173,23 @@ int CEncoder::FlushStream()
 
 int CEncoder::Encode(int nNumBytesRead, uint8_t* pbtStream)
 {
-  int iBytes = m_impl->Encode(nNumBytesRead, pbtStream, m_buffer);
+  int iBytes = m_impl->Encode(nNumBytesRead, pbtStream);
 
   if (iBytes < 0)
   {
     CLog::Log(LOGERROR, "Internal encoder error: %i", iBytes);
     return 0;
   }
-
-  if (WriteStream(m_buffer, iBytes) != iBytes)
-  {
-    CLog::Log(LOGERROR, "Error writing buffer to file");
-    return 0;
-  }
-
   return 1;
 }
 
 bool CEncoder::CloseEncode()
 {
-  int iBytes = m_impl->Flush(m_buffer);
-  if (iBytes < 0)
-  {
-    CLog::Log(LOGERROR, "Internal encoder error: %i", iBytes);
+  if (!m_impl->Close())
     return false;
-  }
 
-  WriteStream(m_buffer, iBytes);
   FlushStream();
   FileClose();
 
-  return m_impl->Close();
+  return true;
 }

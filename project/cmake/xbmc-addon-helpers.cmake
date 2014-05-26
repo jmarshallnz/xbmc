@@ -91,3 +91,8 @@ IF(HAVE_LTO)
   ENDIF(USE_LTO)
 ENDIF(HAVE_LTO) 
 
+# set this to try linking dependencies as static as possible
+IF(PREFER_STATIC_LIBS)
+  SET(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+ENDIF(PREFER_STATIC_LIBS)
+

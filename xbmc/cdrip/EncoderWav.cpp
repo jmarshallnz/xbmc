@@ -26,9 +26,10 @@ CEncoderWav::CEncoderWav()
 {
   m_iBytesWritten = 0;
   first = true;
+  memset(&m_callbacks, 0, sizeof(m_callbacks));
 }
 
-bool CEncoderWav::Init(void *opaque, write_callback write, seek_callback seek)
+bool CEncoderWav::Init(audioenc_callbacks &callbacks)
 {
   m_iBytesWritten = 0;
 
@@ -38,9 +39,8 @@ bool CEncoderWav::Init(void *opaque, write_callback write, seek_callback seek)
       m_iInBitsPerSample != 16)
     return false;
 
-  m_opaque        = opaque;
-  m_writeCallback = write;
-  m_seekCallback  = seek;
+  m_callbacks = callbacks;
+
   // write dummy header file
   first = true;
 
@@ -49,7 +49,7 @@ bool CEncoderWav::Init(void *opaque, write_callback write, seek_callback seek)
 
 int CEncoderWav::Encode(int nNumBytesRead, uint8_t* pbtStream)
 {
-  if (!m_writeCallback)
+  if (!m_callbacks.write)
     return -1;
 
   if (first)
@@ -61,7 +61,7 @@ int CEncoderWav::Encode(int nNumBytesRead, uint8_t* pbtStream)
   }
 
   // write the information from the stream directly out to our file
-  int numWritten = m_writeCallback(m_opaque, pbtStream, nNumBytesRead);
+  int numWritten = m_callbacks.write(m_callbacks.opaque, pbtStream, nNumBytesRead);
   if (numWritten < 0)
     return -1;
 
@@ -71,7 +71,7 @@ int CEncoderWav::Encode(int nNumBytesRead, uint8_t* pbtStream)
 
 bool CEncoderWav::WriteWavHeader(uint32_t dataSize)
 {
-  if (!m_writeCallback)
+  if (!m_callbacks.write)
     return false;
 
   // write a dummer wav header
@@ -89,16 +89,16 @@ bool CEncoderWav::WriteWavHeader(uint32_t dataSize)
   memcpy(wav.cData, "data", 4);
   wav.dwDataLen = dataSize;
 
-  return m_writeCallback(m_opaque, (uint8_t*)&wav, sizeof(WAVHDR));
+  return m_callbacks.write(m_callbacks.opaque, (uint8_t*)&wav, sizeof(WAVHDR));
 }
 
 bool CEncoderWav::Close()
 {
-  if (!m_writeCallback || !m_seekCallback)
+  if (!m_callbacks.write || !m_callbacks.seek)
     return false;
 
   // seek back to the start of the file
-  if (m_seekCallback(m_opaque, 0, SEEK_SET) == 0 && WriteWavHeader(m_iBytesWritten))
+  if (m_callbacks.seek(m_callbacks.opaque, 0, SEEK_SET) == 0 && WriteWavHeader(m_iBytesWritten))
     return true;
 
   return false;

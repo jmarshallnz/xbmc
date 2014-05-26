@@ -23,7 +23,8 @@ namespace ADDON
 
 CAudioEncoder::CAudioEncoder(const cp_extension_t* ext)
  : AudioEncoderDll(ext),
-   extension(CAddonMgr::Get().GetExtValue(ext->configuration, "@extension"))
+   extension(CAddonMgr::Get().GetExtValue(ext->configuration, "@extension")),
+   m_context(NULL)
 {
 }
 
@@ -33,16 +34,18 @@ AddonPtr CAudioEncoder::Clone() const
   return AddonPtr(new CAudioEncoder(*this));
 }
 
-bool CAudioEncoder::Init(void *opaque, write_callback write, seek_callback seek)
+bool CAudioEncoder::Init(audioenc_callbacks &callbacks)
 {
-  if (!write || !seek || !Initialized())
+  if (!Initialized())
     return false;
 
   // create encoder instance
-  if (!m_pStruct->Create(opaque, write, seek))
+  m_context = m_pStruct->Create(&callbacks);
+  if (!m_context)
     return false;
 
-  return m_pStruct->Start(m_iInChannels,
+  return m_pStruct->Start(m_context,
+                          m_iInChannels,
                           m_iInSampleRate,
                           m_iInBitsPerSample,
                           m_strTitle.c_str(),
@@ -58,21 +61,23 @@ bool CAudioEncoder::Init(void *opaque, write_callback write, seek_callback seek)
 
 int CAudioEncoder::Encode(int nNumBytesRead, uint8_t* pbtStream)
 {
-  if (!Initialized())
+  if (!Initialized() || !m_context)
     return 0;
 
-  return m_pStruct->Encode(nNumBytesRead, pbtStream);
+  return m_pStruct->Encode(m_context, nNumBytesRead, pbtStream);
 }
 
 bool CAudioEncoder::Close()
 {
-  if (!Initialized())
+  if (!Initialized() || !m_context)
     return false;
 
-  if (!m_pStruct->Finish())
+  if (!m_pStruct->Finish(m_context))
     return false;
 
-  m_pStruct->Free(NULL);
+  m_pStruct->Free(m_context);
+  m_context = NULL;
+
   return true;
 }
 

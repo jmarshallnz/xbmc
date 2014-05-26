@@ -36,7 +36,7 @@ public:
   CEncoderFFmpeg();
   virtual ~CEncoderFFmpeg() {}
 
-  bool Init(void *opaque, write_callback write, seek_callback seek);
+  bool Init(audioenc_callbacks &callbacks);
   int Encode(int nNumBytesRead, uint8_t *pbtStream);
   bool Close();
 private:
@@ -69,6 +69,8 @@ private:
   unsigned int      m_ResampledBufferSize;
   AVFrame          *m_ResampledFrame;
   bool              m_NeedConversion;
+
+  audioenc_callbacks m_callbacks;
 
   bool WriteFrame();
 };

@@ -46,7 +46,7 @@ class CEncoderWav : public IEncoder
 public:
   CEncoderWav();
   virtual ~CEncoderWav() {}
-  bool Init(void *opaque, write_callback, seek_callback);
+  bool Init(audioenc_callbacks &callbacks);
   int Encode(int nNumBytesRead, uint8_t* pbtStream);
   bool Close();
 
@@ -55,6 +55,7 @@ private:
   bool first;
 
   uint32_t m_iBytesWritten;
+  audioenc_callbacks m_callbacks;
 };
 
 #endif // _ENCODERWAV_H

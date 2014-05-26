@@ -37,14 +37,15 @@ namespace ADDON
     virtual AddonPtr Clone() const;
 
     // Things that MUST be supplied by the child classes
-    bool Init(void *opaque, write_callback write, seek_callback seek);
+    bool Init(audioenc_callbacks &callbacks);
     int Encode(int nNumBytesRead, uint8_t* pbtStream);
     bool Close();
     void Destroy();
 
     const std::string extension;
 
-    uint8_t m_buffer[2 << 18];
+  private:
+    void *m_context; ///< audio encoder context
   };
 
 } /*namespace ADDON*/

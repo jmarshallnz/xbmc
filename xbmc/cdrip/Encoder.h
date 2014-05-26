@@ -24,6 +24,7 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include <stdint.h>
+#include "addons/include/xbmc_audioenc_types.h"
 
 #define WRITEBUFFER_SIZE 131072 // 128k buffer
 
@@ -32,18 +33,15 @@ namespace XFILE { class CFile; }
 class IEncoder
 {
 public:
-  typedef int (*write_callback)(void *opaque, uint8_t *buf, int buf_size);
-  typedef int64_t (*seek_callback)(void *opaque, int64_t position, int whence);
-
   IEncoder() :
-    m_opaque(NULL), m_writeCallback(NULL), m_seekCallback(NULL)
+    m_iTrackLength(0),
+    m_iInChannels(0),
+    m_iInSampleRate(0),
+    m_iInBitsPerSample(0)
   {
-    m_iInChannels = 0;
-    m_iInSampleRate = 0;
-    m_iInBitsPerSample = 0;
   }
   virtual ~IEncoder() {}
-  virtual bool Init(void *opaque, write_callback, seek_callback) = 0;
+  virtual bool Init(audioenc_callbacks &callbacks) = 0;
   virtual int Encode(int nNumBytesRead, uint8_t* pbtStream) = 0;
   virtual bool Close() = 0;
 
@@ -61,11 +59,6 @@ public:
   int m_iInChannels;
   int m_iInSampleRate;
   int m_iInBitsPerSample;
-
-protected:
-  void          *m_opaque;
-  write_callback m_writeCallback;
-  seek_callback  m_seekCallback;
 };
 
 class CEncoder

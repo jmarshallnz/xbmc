@@ -71,7 +71,11 @@ bool CEncoder::Init(const char* strFile, int iInChannels, int iInRate, int iInBi
     return false;
   }
 
-  return m_impl->Init(this, WriteCallback, SeekCallback);
+  audioenc_callbacks callbacks;
+  callbacks.opaque = this;
+  callbacks.write  = WriteCallback;
+  callbacks.seek   = SeekCallback;
+  return m_impl->Init(callbacks);
 }
 
 bool CEncoder::FileCreate(const char* filename)

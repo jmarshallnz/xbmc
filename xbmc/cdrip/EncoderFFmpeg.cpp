@@ -57,16 +57,15 @@ CEncoderFFmpeg::CEncoderFFmpeg():
   m_ResampledFrame(NULL),
   m_NeedConversion(false)
 {
+  memset(&m_callbacks, 0, sizeof(m_callbacks));
 }
 
-bool CEncoderFFmpeg::Init(void *opaque, write_callback write, seek_callback seek)
+bool CEncoderFFmpeg::Init(audioenc_callbacks &callbacks)
 {
-  if (!write || !seek)
+  if (!callbacks.opaque || !callbacks.write || !callbacks.seek)
     return false;
 
-  m_opaque        = opaque;
-  m_writeCallback = write;
-  m_seekCallback  = seek;
+  m_callbacks = callbacks;
 
   CStdString filename = URIUtils::GetFileName(m_strFile);
   if(avformat_alloc_output_context2(&m_Format,NULL,NULL,filename.c_str()))
@@ -253,7 +252,7 @@ void CEncoderFFmpeg::SetTag(const std::string &tag, const std::string &value)
 int CEncoderFFmpeg::avio_write_callback(void *opaque, uint8_t *buf, int buf_size)
 {
   CEncoderFFmpeg *enc = (CEncoderFFmpeg*)opaque;
-  if(enc->m_writeCallback(enc->m_opaque, buf, buf_size) != buf_size)
+  if(enc->m_callbacks.write(enc->m_callbacks.opaque, buf, buf_size) != buf_size)
   {
     CLog::Log(LOGERROR, "Error writing FFmpeg buffer to file");
     return -1;
@@ -264,7 +263,7 @@ int CEncoderFFmpeg::avio_write_callback(void *opaque, uint8_t *buf, int buf_size
 int64_t CEncoderFFmpeg::avio_seek_callback(void *opaque, int64_t offset, int whence)
 {
   CEncoderFFmpeg *enc = (CEncoderFFmpeg*)opaque;
-  return enc->m_seekCallback(enc->m_opaque, offset, whence);
+  return enc->m_callbacks.seek(enc->m_callbacks.opaque, offset, whence);
 }
 
 int CEncoderFFmpeg::Encode(int nNumBytesRead, uint8_t* pbtStream)

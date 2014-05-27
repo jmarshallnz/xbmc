@@ -1,7 +1,7 @@
 -include ../../Makefile.include
 include AUDIO-ADDONS-VERSION
 
-LIBNAME = xbmc-audio-addons
+LIBNAME = xbmc-audioencoder-addons
 ifeq ($(RETRIEVE_TOOL),)
   RETRIEVE_TOOL = curl
 endif

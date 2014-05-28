@@ -30,13 +30,6 @@ $(LIBDYLIB): $(PLATFORM)
 
 .installed-$(PLATFORM): $(LIBDYLIB)
 	$(MAKE) -C $(PLATFORM) install
-ifeq ($(OS),android)
-	rm -f $(PREFIX)/lib/libogg.la $(PREFIX)/lib/libogg.so $(PREFIX)/lib/libogg.so.0
-	mv -f $(PREFIX)/lib/libogg.so.0.6.0 $(PREFIX)/lib/libxbogg.so
-	ln -sf $(PREFIX)/lib/libxbogg.so $(PREFIX)/lib/libogg.so
-	$(RPL) -e "libogg.so.0" "libxbogg.so" $(PREFIX)/lib/libxbogg.so
-	-$(READELF) --dynamic $(PREFIX)/lib/libxbogg.so | grep ibrary
-endif
 	touch $@
 
 clean:

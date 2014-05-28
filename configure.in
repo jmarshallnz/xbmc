@@ -729,6 +729,17 @@ if test "$GIT_REV" = ""; then
 fi
 final_message="$final_message\n  git Rev.:\t${GIT_REV}"
 
+# detect Xbmc soname version
+XBMC_MAJOR_VERSION=$(${AWK} '/VERSION_MAJOR/ {print $3}' xbmc/GUIInfoManager.h)
+XBMC_MINOR_VERSION=$(${AWK} '/VERSION_MINOR/ {print $3}' xbmc/GUIInfoManager.h)
+if test "$XBMC_MAJOR_VERSION" != "" && test "$XBMC_MINOR_VERSION" != ""; then
+  final_message="$final_message\n  Xbmc Version:\t${XBMC_MAJOR_VERSION}.${XBMC_MINOR_VERSION}"
+  AC_SUBST(XBMC_MAJOR_VERSION)
+  AC_SUBST(XBMC_MINOR_VERSION)
+else
+  AC_MSG_ERROR(could not detect XBMC Version)
+fi
+
 if test "$host_vendor" = "apple"; then
   echo "#define GIT_REV \"$GIT_REV\"" > git_revision.h
 else

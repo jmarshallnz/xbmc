@@ -1,4 +1,4 @@
-BASE_URL=https://github.com/wsnipex
+BASE_URL=https://github.com/jmarshallnz
 ADDONS=audioencoder.flac audioencoder.lame audioencoder.vorbis
 audioencoder.flac-VERSION=alternate_api
 audioencoder.lame-VERSION=alternate_api

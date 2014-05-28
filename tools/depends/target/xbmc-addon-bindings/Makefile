@@ -1,6 +1,9 @@
 include ../../Makefile.include
 DEPS= ../../Makefile.include Makefile
 
+XBMC_MAJOR_VERSION = $(shell awk '/VERSION_MAJOR/ {print $$3}' $(XBMCROOT)/xbmc/GUIInfoManager.h)
+XBMC_MINOR_VERSION = $(shell awk '/VERSION_MINOR/ {print $$3}' $(XBMCROOT)/xbmc/GUIInfoManager.h)
+
 # sync with <xbmc root>Makefile.in
 BINDINGS =xbmc/addons/include/xbmc_addon_cpp_dll.h
 BINDINGS+=xbmc/addons/include/xbmc_addon_dll.h
@@ -31,7 +34,7 @@ all: .installed-$(PLATFORM)
 	  cp -f $(XBMCROOT)/$$f $(PREFIX)/include/xbmc ; \
 	done
 	@mkdir -p $(PREFIX)/lib/xbmc
-	@cat $(XBMCROOT)/project/cmake/xbmc-config.cmake.in | sed -e 's|@prefix@|$(PREFIX)|' -e 's|@ARCH_DEFINES@|$(ARCH_DEFINES)|' > $(PREFIX)/lib/xbmc/xbmc-config.cmake
+	@cat $(XBMCROOT)/project/cmake/xbmc-config.cmake.in | sed -e 's|@prefix@|$(PREFIX)|' -e 's|@ARCH_DEFINES@|$(ARCH_DEFINES)|' -e 's|@XBMC_MAJOR_VERSION@|$(XBMC_MAJOR_VERSION)|' -e 's|@XBMC_MINOR_VERSION@|$(XBMC_MINOR_VERSION)|' > $(PREFIX)/lib/xbmc/xbmc-config.cmake
 	@cp -f $(XBMCROOT)/project/cmake/xbmc-addon-helpers.cmake $(PREFIX)/lib/xbmc
 	@cp -f $(XBMCROOT)/project/cmake/AddOptions.cmake $(PREFIX)/lib/xbmc
 	@touch $@

@@ -22,5 +22,9 @@ clean:
 	make -C src clean
 	@rm -f JsonSchemaBuilder .installed-$(PLATFORM)
 
+distclean:
+	make -C src clean
+	@rm -f JsonSchemaBuilder .installed-$(PLATFORM)
+
 .installed-$(PLATFORM): $(PREFIX)/JsonSchemaBuilder
 	touch $@

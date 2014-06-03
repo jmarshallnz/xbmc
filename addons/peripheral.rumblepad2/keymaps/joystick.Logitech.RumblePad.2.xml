@@ -2,7 +2,7 @@
 <keymap device="joystick" name="rumblepad2">
   <alias>Logitech Logitech Cordless RumblePad 2</alias>
   <alias>Logitech Cordless RumblePad 2</alias>
-  <altname>Logitech RumblePad 2 USB</altname>
+  <alias>Logitech RumblePad 2 USB</alias>
   <global>
     <button id="1">FullScreen</button>
     <button id="2">Select</button>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- This file contains the mapping of keys (gamepad, remote, and keyboard) to actions within XBMC -->
 <!-- The <global> section is a fall through - they will only be used if the button is not          -->
 <!-- used in the current window's section.  Note that there is only handling                       -->
@@ -117,6 +118,9 @@
     <prev_track>SkipPrevious</prev_track>
     <stop>Stop</stop>
     <play_pause>Pause</play_pause>
+    <fastforward>FastForward</fastforward>
+    <rewind>Rewind</rewind>
+    <record/>
     <launch_mail></launch_mail>
     <launch_media_select>XBMC.ActivateWindow(MyMusic)</launch_media_select>
     <launch_app1_pc_icon>ActivateWindow(MyPrograms)</launch_app1_pc_icon>
@@ -211,8 +215,8 @@
     <l>NextSubtitle</l>
     <left>StepBack</left>
     <right>StepForward</right>
-    <up>BigStepForward</up>
-    <down>BigStepBack</down>
+    <up>ChapterOrBigStepForward</up>
+    <down>ChapterOrBigStepBack</down>
     <a>AudioDelay</a>
     <escape>Fullscreen</escape>
     <c>Playlist</c>
@@ -408,6 +412,8 @@
   </Teletext>
   <Favourites>
     <backspace>Close</backspace>
+    <u>MoveItemUp</u>
+    <d>MoveItemDown</d>
   </Favourites>
   <NumericInput>
     <backspace>Close</backspace>

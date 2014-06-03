@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <keymap device="touchscreen" name="reference">
   <global>
     <tap>LeftClick</tap>
@@ -10,8 +11,20 @@
     <swipe direction="up">SwipeUp</swipe>
     <swipe direction="down">SwipeDown</swipe>
   </global>
+  <FullScreenVideo>
+    <swipe direction="left">StepBack</swipe>
+    <swipe direction="right">StepForward</swipe>
+    <swipe direction="up">ChapterOrBigStepForward</swipe>
+    <swipe direction="down">ChapterOrBigStepBack</swipe>
+    <swipe direction="left" pointers="2">SmallStepBack</swipe>
+  </FullScreenVideo>
   <SlideShow>
     <zoom>ZoomGesture</zoom>
     <rotate>RotateGesture</rotate>
   </SlideShow>
+  <MyFiles>
+    <tap>Select</tap>
+    <swipe direction="left">Highlight</swipe>
+    <swipe direction="right">Highlight</swipe>
+  </MyFiles>
 </keymap>

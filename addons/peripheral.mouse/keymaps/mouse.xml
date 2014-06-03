@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <keymap device="mouse" name="reference">
   <global>
     <leftclick>leftclick</leftclick>

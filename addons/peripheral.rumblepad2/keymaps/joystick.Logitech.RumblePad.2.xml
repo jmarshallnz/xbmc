@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <keymap device="joystick" name="rumblepad2">
   <alias>Logitech Logitech Cordless RumblePad 2</alias>
   <alias>Logitech Cordless RumblePad 2</alias>
+  <altname>Logitech RumblePad 2 USB</altname>
   <global>
     <button id="1">FullScreen</button>
     <button id="2">Select</button>
@@ -46,8 +48,8 @@
 
     <hat    id="1" position="left">StepBack</hat>
     <hat    id="1" position="right">StepForward</hat>
-    <hat    id="1" position="up">BigStepForward</hat>
-    <hat    id="1" position="down">BigStepBack</hat>
+    <hat    id="1" position="up">ChapterOrBigStepForward</hat>
+    <hat    id="1" position="down">ChapterOrBigStepBack</hat>
   </FullscreenVideo>
 
   <FullscreenLiveTV>

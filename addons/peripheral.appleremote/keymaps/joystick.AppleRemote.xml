@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- This file contains the mapping of keys (gamepad,remote and keyboard) to actions within XBMC -->
 <!-- The <global> section is a fall through - they will only be used if the button is not        -->
 <!-- used in the current window's section.  Note that there is only handling                     -->
@@ -102,8 +103,8 @@
     <!-- SwipeDown  -->      <button id="83">BigStepBack</button>
     <!-- FlickLeft  -->      <button id="85">Rewind</button>
     <!-- FlickRight -->      <button id="86">FastForward</button>
-    <!-- FlickUp    -->      <button id="87">BigStepForward</button>
-    <!-- FlickDown  -->      <button id="88">BigStepBack</button>
+    <!-- FlickUp    -->      <button id="87">ChapterOrBigStepForward</button>
+    <!-- FlickDown  -->      <button id="88">ChapterOrBigStepBack</button>
   </FullscreenVideo>
   <FullscreenLiveTV>
     <button id="3">ChannelDown</button>

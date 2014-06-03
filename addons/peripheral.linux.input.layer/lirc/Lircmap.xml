@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- This file contains the mapping of LIRC keys to XBMC keys used in Keymap.xml  -->
 <!--                                                                              -->
 <!-- How to add remotes                                                           -->
@@ -11,7 +12,6 @@
 <lircmap>
 	<remote device="linux-input-layer">
 	<alias>cx23885_remote</alias>
-	<alias>devinput</alias>
 		<left>KEY_LEFT</left>
 		<right>KEY_RIGHT</right>
 		<up>KEY_UP</up>

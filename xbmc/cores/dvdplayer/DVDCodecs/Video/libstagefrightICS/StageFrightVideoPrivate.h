@@ -126,7 +126,7 @@ public:
 
   stSlot texslots[NUMFBOTEX];
 
-  android::sp<android::Metadata> meta;
+  android::sp<android::MetaData> meta;
   int64_t framecount;
   std::list<Frame*> in_queue;
   std::map<int64_t, Frame*> out_queue;

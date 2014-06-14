@@ -25,6 +25,11 @@ specific paths:
   * OUTPUT_DIR points to the directory where the built addons and their
     additional files (addon.xml, resources ...) will be installed to (defaults
     to <PREFIX>/addons).
+  * CMAKE_TOOLCHAIN_FILE can be used to pass a toolchain file into the add-on
+    builds.
+  * PACKAGE_ZIP=1 will mean the add-ons will be 'packaged' into a common folder.
+    If not specified, the add-ons will be installed into OUTPUT_DIR/lib/xbmc/addons
+    and OUTPUT_DIR/share/lib/addons.
   * ARCH_DEFINES specifies the platform-specific C/C++ preprocessor defines
     (defaults to empty).
   * XBMC_MAJOR_VERSION specifies the major version of the xbmc release (defaults

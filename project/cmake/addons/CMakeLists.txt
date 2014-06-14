@@ -36,6 +36,22 @@ if(NOT OUTPUT_DIR)
 endif()
 list(APPEND CMAKE_PREFIX_PATH ${OUTPUT_DIR})
 
+set(BUILD_ARGS -DCMAKE_PREFIX_PATH=${prefix}
+               -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+               -DCMAKE_BUILD_TYPE=Release
+               -DBUILD_SHARED_LIBS=1)
+
+if(PACKAGE_ZIP)
+  list(APPEND BUILD_ARGS -DPACKAGE_ZIP=1) #needed for project installing
+  MESSAGE("package zip specified")
+endif()
+
+if(CMAKE_TOOLCHAIN_FILE)
+  list(APPEND BUILD_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
+  MESSAGE("toolchain specified")
+  MESSAGE(${BUILD_ARGS})
+endif()
+
 ### copy all the addon binding header files to include/xbmc
 # make sure include/xbmc exists and is empty
 set(XBMC_INCLUDE_DIR ${PREFIX_INCLUDE_DIR}/xbmc)
@@ -81,10 +97,6 @@ foreach(addon ${addons})
                       GIT_REPOSITORY ${url}/${id}
                       GIT_TAG ${revision}
                       INSTALL_DIR "${OUTPUT_DIR}"
-                      CMAKE_ARGS -DCMAKE_PREFIX_PATH=${prefix}
-                                 -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-                                 -DCMAKE_BUILD_TYPE=Release
-                                 -DPACKAGE_ZIP=1                            #needed for project installing
-                                 -DBUILD_SHARED_LIBS=1
+                      CMAKE_ARGS ${BUILD_ARGS}
                      )
 endforeach()

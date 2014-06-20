@@ -68,6 +68,8 @@ CD "%ADDONS_BUILD_PATH%"
 
 rem execute cmake to generate makefiles processable by nmake
 cmake "%ADDONS_PATH%" -G "NMake Makefiles" ^
+      -DCMAKE_USER_MAKE_RULES_OVERRIDE="%BASE_PATH%/xbmc-c-flag-overrides.cmake" ^
+      -DCMAKE_USER_MAKE_RULES_OVERRIDE_CXX="%BASE_PATH%/xbmc-cxx-flag-overrides.cmake" ^
       -DXBMCROOT=%WORKDIR% ^
       -DPREFIX=%ADDON_DEPENDS_PATH% ^
       -DOUTPUT_DIR=%WORKDIR%\project\Win32BuildSetup\BUILD_WIN32\Xbmc\xbmc-addons ^

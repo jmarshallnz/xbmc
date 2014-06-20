@@ -4,12 +4,24 @@ SETLOCAL
 
 SET EXITCODE=0
 
+SET noclean=false
+SET dependency=
+FOR %%b in (%1, %2) DO (
+  IF %%b == noclean (
+    SET noclean=true
+  ) ELSE ( IF %%b == clean (
+    SET noclean=false
+  ) ELSE (
+    SET dependency=%%b
+  ))
+)
+
 rem set Visual C++ build environment
 call "%VS120COMNTOOLS%..\..\VC\bin\vcvars32.bat"
 
 SET WORKDIR=%WORKSPACE%
 
-IF "%WORKDIR%"=="" (
+IF "%WORKDIR%" == "" (
   SET WORKDIR=%CD%\..\..\..
 )
 
@@ -22,26 +34,43 @@ SET ADDONS_OUTPUT_PATH=%ADDONS_PATH%\output
 SET ADDON_DEPENDS_PATH=%ADDONS_PATH%\depends\win32
 SET ADDON_DEPENDS_BUILD_PATH=%ADDON_DEPENDS_PATH%\build
 
+SET XBMC_INCLUDE_PATH=%ADDONS_OUTPUT_PATH%\include\xbmc
+SET XBMC_LIB_PATH=%ADDONS_OUTPUT_PATH%\lib\xbmc
+
 SET ERRORFILE=%BASE_PATH%\make-addon-depends.error
 
-rem remove the output directory if it exists
-IF EXIST "%ADDONS_OUTPUT_PATH%" (
-	RMDIR "%ADDONS_OUTPUT_PATH%" /S /Q > NUL
+IF %noclean% == false (
+  rem remove the output directory if it exists
+  IF EXIST "%ADDONS_OUTPUT_PATH%" (
+    RMDIR "%ADDONS_OUTPUT_PATH%" /S /Q > NUL
+  )
+  
+  IF EXIST "%XBMC_INCLUDE_PATH%" (
+    RMDIR "%XBMC_INCLUDE_PATH%" /S /Q > NUL
+  )
+  IF EXIST "%XBMC_LIB_PATH%" (
+    RMDIR "%XBMC_LIB_PATH%" /S /Q > NUL
+  )
+
+  rem remove the build directory if it exists
+  IF EXIST "%ADDON_DEPENDS_BUILD_PATH%" (
+    RMDIR "%ADDON_DEPENDS_BUILD_PATH%" /S /Q > NUL
+  )
 )
 
 rem create the output directory
-MKDIR "%ADDONS_OUTPUT_PATH%"
+IF NOT EXIST "%ADDONS_OUTPUT_PATH%" MKDIR "%ADDONS_OUTPUT_PATH%"
 
-rem go into the addon depends directory
-CD %ADDON_DEPENDS_PATH%
-
-rem remove the build directory if it exists
-IF EXIST "%ADDON_DEPENDS_BUILD_PATH%" (
-	RMDIR "%ADDON_DEPENDS_BUILD_PATH%" /S /Q > NUL
-)
+rem make sure the xbmc include and library paths exist
+IF NOT EXIST "%XBMC_INCLUDE_PATH%" MKDIR "%XBMC_INCLUDE_PATH%"
+IF NOT EXIST "%XBMC_LIB_PATH%" MKDIR "%XBMC_LIB_PATH%"
 
 rem create the build directory
-MKDIR "%ADDON_DEPENDS_BUILD_PATH%"
+IF NOT EXIST "%ADDON_DEPENDS_BUILD_PATH%" MKDIR "%ADDON_DEPENDS_BUILD_PATH%"
+
+rem now copy the cmake helper scripts to where they are expected
+COPY %BASE_PATH%\xbmc-addon-helpers.cmake %XBMC_LIB_PATH%
+COPY %BASE_PATH%\AddOptions.cmake %XBMC_LIB_PATH%
 
 rem go into the build directory
 CD "%ADDON_DEPENDS_BUILD_PATH%"
@@ -49,15 +78,15 @@ CD "%ADDON_DEPENDS_BUILD_PATH%"
 rem execute cmake to generate makefiles processable by nmake
 cmake "%ADDON_DEPENDS_PATH%" -G "NMake Makefiles" -DOUTPUT_DIR=%ADDONS_OUTPUT_PATH%
 IF ERRORLEVEL 1 (
-	ECHO cmake error level: %ERRORLEVEL% > %ERRORFILE%
-	GOTO ERROR
+  ECHO cmake error level: %ERRORLEVEL% > %ERRORFILE%
+  GOTO ERROR
 )
 
 rem execute nmake to build the addon depends
-nmake
+nmake %dependency%
 IF ERRORLEVEL 1 (
-	ECHO nmake error level: %ERRORLEVEL% > %ERRORFILE%
-	GOTO ERROR
+  ECHO nmake error level: %ERRORLEVEL% > %ERRORFILE%
+  GOTO ERROR
 )
 
 rem everything was fine

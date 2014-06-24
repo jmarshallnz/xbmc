@@ -264,25 +264,25 @@ PopulateObjectFromTag(CVideoInfoTag&         tag,
                       EClientQuirks          quirks)
 {
     if (!tag.m_strFileNameAndPath.empty() && file_path)
-      *file_path = tag.m_strFileNameAndPath;
+      *file_path = tag.m_strFileNameAndPath.c_str();
 
     if (tag.m_iDbId != -1 ) {
         if (tag.m_type == MediaTypeMusicVideo) {
           object.m_ObjectClass.type = "object.item.videoItem.musicVideoClip";
           object.m_Creator = StringUtils::Join(tag.m_artist, g_advancedSettings.m_videoItemSeparator).c_str();
-          object.m_Title = tag.m_strTitle;
+          object.m_Title = tag.m_strTitle.c_str();
           object.m_ReferenceID = NPT_String::Format("videodb://musicvideos/titles/%i", tag.m_iDbId);
         } else if (tag.m_type == MediaTypeMovie) {
           object.m_ObjectClass.type = "object.item.videoItem.movie";
-          object.m_Title = tag.m_strTitle;
+          object.m_Title = tag.m_strTitle.c_str();
           object.m_Date = CDateTime(tag.m_iYear, 0, 0, 0, 0, 0).GetAsW3CDate().c_str();
           object.m_ReferenceID = NPT_String::Format("videodb://movies/titles/%i", tag.m_iDbId);
         } else {
           object.m_ObjectClass.type = "object.item.videoItem.videoBroadcast";
           object.m_Recorded.program_title  = "S" + ("0" + NPT_String::FromInteger(tag.m_iSeason)).Right(2);
           object.m_Recorded.program_title += "E" + ("0" + NPT_String::FromInteger(tag.m_iEpisode)).Right(2);
-          object.m_Recorded.program_title += " : " + tag.m_strTitle;
-          object.m_Recorded.series_title = tag.m_strShowTitle;
+          object.m_Recorded.program_title += (" : " + tag.m_strTitle).c_str();
+          object.m_Recorded.series_title = tag.m_strShowTitle.c_str();
           int season = tag.m_iSeason > 1 ? tag.m_iSeason : 1;
           object.m_Recorded.episode_number = season * 100 + tag.m_iEpisode;
           object.m_Title = object.m_Recorded.series_title + " - " + object.m_Recorded.program_title;
@@ -303,7 +303,7 @@ PopulateObjectFromTag(CVideoInfoTag&         tag,
 
     object.m_XbmcInfo.date_added = tag.m_dateAdded.GetAsDBDate().c_str();
     object.m_XbmcInfo.rating = tag.m_fRating;
-    object.m_XbmcInfo.votes = tag.m_strVotes;
+    object.m_XbmcInfo.votes = tag.m_strVotes.c_str();
 
     for (unsigned int index = 0; index < tag.m_genre.size(); index++)
       object.m_Affiliation.genres.Add(tag.m_genre.at(index).c_str());
@@ -318,9 +318,9 @@ PopulateObjectFromTag(CVideoInfoTag&         tag,
     for (unsigned int index = 0; index < tag.m_writingCredits.size(); index++)
       object.m_People.authors.Add(tag.m_writingCredits[index].c_str());
 
-    object.m_Description.description = tag.m_strTagLine;
-    object.m_Description.long_description = tag.m_strPlot;
-    object.m_Description.rating = tag.m_strMPAARating;
+    object.m_Description.description = tag.m_strTagLine.c_str();
+    object.m_Description.long_description = tag.m_strPlot.c_str();
+    object.m_Description.rating = tag.m_strMPAARating.c_str();
     object.m_MiscInfo.last_position = (NPT_UInt32)tag.m_resumePoint.timeInSeconds;
     object.m_MiscInfo.last_time = tag.m_lastPlayed.GetAsW3CDateTime().c_str();
     object.m_MiscInfo.play_count = tag.m_playCount;
@@ -503,15 +503,15 @@ BuildObject(CFileItem&                    item,
                 case VIDEODATABASEDIRECTORY::NODE_TYPE_ACTOR:
                   container->m_ObjectClass.type += ".person.videoArtist";
                   container->m_Creator = StringUtils::Join(tag.m_artist, g_advancedSettings.m_videoItemSeparator).c_str();
-                  container->m_Title   = tag.m_strTitle;
+                  container->m_Title   = tag.m_strTitle.c_str();
                   break;
                 case VIDEODATABASEDIRECTORY::NODE_TYPE_SEASONS:
                 case VIDEODATABASEDIRECTORY::NODE_TYPE_TITLE_TVSHOWS:
                   container->m_ObjectClass.type += ".album.videoAlbum";
-                  container->m_Recorded.series_title = tag.m_strShowTitle;
+                  container->m_Recorded.series_title = tag.m_strShowTitle.c_str();
                   container->m_Recorded.episode_number = tag.m_iEpisode;
                   container->m_MiscInfo.play_count = tag.m_playCount;
-                  container->m_Title = tag.m_strTitle;
+                  container->m_Title = tag.m_strTitle.c_str();
                   if(!tag.m_premiered.IsValid() && tag.m_iYear)
                     container->m_Date = NPT_String::FromInteger(tag.m_iYear) + "-01-01";
                   else
@@ -529,8 +529,8 @@ BuildObject(CFileItem&                    item,
                   for (unsigned int index = 0; index < tag.m_writingCredits.size(); index++)
                     container->m_People.authors.Add(tag.m_writingCredits[index].c_str());
 
-                  container->m_Description.description = tag.m_strTagLine;
-                  container->m_Description.long_description = tag.m_strPlot;
+                  container->m_Description.description = tag.m_strTagLine.c_str();
+                  container->m_Description.long_description = tag.m_strPlot.c_str();
 
                   break;
                 default:

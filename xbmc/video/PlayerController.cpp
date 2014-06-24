@@ -20,7 +20,6 @@
 
 #include "PlayerController.h"
 #include "dialogs/GUIDialogSlider.h"
-#include "utils/StdString.h"
 #include "settings/AdvancedSettings.h"
 #include "settings/DisplaySettings.h"
 #include "settings/MediaSettings.h"
@@ -65,7 +64,7 @@ bool CPlayerController::OnAction(const CAction &action)
 
         CMediaSettings::Get().GetCurrentVideoSettings().m_SubtitleOn = !CMediaSettings::Get().GetCurrentVideoSettings().m_SubtitleOn;
         g_application.m_pPlayer->SetSubtitleVisible(CMediaSettings::Get().GetCurrentVideoSettings().m_SubtitleOn);
-        CStdString sub, lang;
+        std::string sub, lang;
         if (CMediaSettings::Get().GetCurrentVideoSettings().m_SubtitleOn)
         {
           SPlayerSubtitleStreamInfo info;
@@ -110,7 +109,7 @@ bool CPlayerController::OnAction(const CAction &action)
           g_application.m_pPlayer->SetSubtitleVisible(true);
         }
 
-        CStdString sub, lang;
+        std::string sub, lang;
         if (CMediaSettings::Get().GetCurrentVideoSettings().m_SubtitleOn)
         {
           SPlayerSubtitleStreamInfo info;
@@ -209,8 +208,8 @@ bool CPlayerController::OnAction(const CAction &action)
         if (CMediaSettings::Get().GetCurrentVideoSettings().m_AudioStream >= g_application.m_pPlayer->GetAudioStreamCount())
           CMediaSettings::Get().GetCurrentVideoSettings().m_AudioStream = 0;
         g_application.m_pPlayer->SetAudioStream(CMediaSettings::Get().GetCurrentVideoSettings().m_AudioStream);    // Set the audio stream to the one selected
-        CStdString aud;
-        CStdString lan;
+        std::string aud;
+        std::string lan;
         SPlayerAudioStreamInfo info;
         g_application.m_pPlayer->GetAudioStreamInfo(CMediaSettings::Get().GetCurrentVideoSettings().m_AudioStream, info);
         if (!g_LangCodeExpander.Lookup(lan, info.language))
@@ -419,7 +418,7 @@ void CPlayerController::OnSliderChange(void *data, CGUISliderControl *slider)
       m_sliderAction == ACTION_VSHIFT_UP || m_sliderAction == ACTION_VSHIFT_DOWN ||
       m_sliderAction == ACTION_SUBTITLE_VSHIFT_UP || m_sliderAction == ACTION_SUBTITLE_VSHIFT_DOWN)
   {
-    CStdString strValue = StringUtils::Format("%1.2f",slider->GetFloatValue());
+    std::string strValue = StringUtils::Format("%1.2f",slider->GetFloatValue());
     slider->SetTextValue(strValue);
   }
   else if (m_sliderAction == ACTION_VOLAMP_UP || m_sliderAction == ACTION_VOLAMP_DOWN)

@@ -153,7 +153,7 @@ bool CWinSystemX11GL::IsExtSupported(const char* extension)
   if(strncmp(extension, "GLX_", 4) != 0)
     return CRenderSystemGL::IsExtSupported(extension);
 
-  CStdString name;
+  std::string name;
 
   name  = " ";
   name += extension;
@@ -162,7 +162,7 @@ bool CWinSystemX11GL::IsExtSupported(const char* extension)
   return m_glxext.find(name) != std::string::npos;
 }
 
-bool CWinSystemX11GL::CreateNewWindow(const CStdString& name, bool fullScreen, RESOLUTION_INFO& res, PHANDLE_EVENT_FUNC userFunction)
+bool CWinSystemX11GL::CreateNewWindow(const std::string& name, bool fullScreen, RESOLUTION_INFO& res, PHANDLE_EVENT_FUNC userFunction)
 {
   if(!CWinSystemX11::CreateNewWindow(name, fullScreen, res, userFunction))
     return false;

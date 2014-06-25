@@ -295,7 +295,7 @@ bool CPVRClient::CheckAPIVersion(void)
 
 bool CPVRClient::GetAddonProperties(void)
 {
-  CStdString strHostName, strBackendName, strConnectionString, strFriendlyName, strBackendVersion;
+  std::string strHostName, strBackendName, strConnectionString, strFriendlyName, strBackendVersion;
   PVR_ADDON_CAPABILITIES addonCapabilities;
 
   /* get the capabilities */
@@ -342,27 +342,27 @@ PVR_ADDON_CAPABILITIES CPVRClient::GetAddonCapabilities(void) const
   return addonCapabilities;
 }
 
-CStdString CPVRClient::GetBackendName(void) const
+std::string CPVRClient::GetBackendName(void) const
 {
-  CStdString strReturn(m_strBackendName);
+  std::string strReturn(m_strBackendName);
   return strReturn;
 }
 
-CStdString CPVRClient::GetBackendVersion(void) const
+std::string CPVRClient::GetBackendVersion(void) const
 {
-  CStdString strReturn(m_strBackendVersion);
+  std::string strReturn(m_strBackendVersion);
   return strReturn;
 }
 
-CStdString CPVRClient::GetConnectionString(void) const
+std::string CPVRClient::GetConnectionString(void) const
 {
-  CStdString strReturn(m_strConnectionString);
+  std::string strReturn(m_strConnectionString);
   return strReturn;
 }
 
-CStdString CPVRClient::GetFriendlyName(void) const
+std::string CPVRClient::GetFriendlyName(void) const
 {
-  CStdString strReturn(m_strFriendlyName);
+  std::string strReturn(m_strFriendlyName);
   return strReturn;
 }
 
@@ -874,7 +874,7 @@ PVR_ERROR CPVRClient::DeleteTimer(const CPVRTimerInfoTag &timer, bool bForce /* 
   return retVal;
 }
 
-PVR_ERROR CPVRClient::RenameTimer(const CPVRTimerInfoTag &timer, const CStdString &strNewName)
+PVR_ERROR CPVRClient::RenameTimer(const CPVRTimerInfoTag &timer, const std::string &strNewName)
 {
   if (!m_bReadyToUse)
     return PVR_ERROR_REJECTED;
@@ -1048,9 +1048,9 @@ bool CPVRClient::SignalQuality(PVR_SIGNAL_STATUS &qualityinfo)
   return false;
 }
 
-CStdString CPVRClient::GetLiveStreamURL(const CPVRChannel &channel)
+std::string CPVRClient::GetLiveStreamURL(const CPVRChannel &channel)
 {
-  CStdString strReturn;
+  std::string strReturn;
 
   if (!m_bReadyToUse || !CanPlayChannel(channel))
     return strReturn;

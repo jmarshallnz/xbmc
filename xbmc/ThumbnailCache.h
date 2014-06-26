@@ -19,8 +19,6 @@
  *
  */
 
-#include "utils/StdString.h"
-
 #include <map>
 
 class CCriticalSection;

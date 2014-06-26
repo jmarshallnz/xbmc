@@ -150,7 +150,7 @@ protected:
 TEST_F(TestRegExpLog, DumpOvector)
 {
   CRegExp regex;
-  CStdString logfile, logstring;
+  std::string logfile, logstring;
   char buf[100];
   unsigned int bytesread;
   XFILE::CFile file;

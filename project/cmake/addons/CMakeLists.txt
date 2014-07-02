@@ -74,6 +74,22 @@ foreach(binding ${bindings})
   file(COPY ${XBMCROOT}/${header} DESTINATION ${XBMC_INCLUDE_DIR})
 endforeach()
 
+# parse version.txt to get the version info
+if (EXISTS "${XBMCROOT}/version.txt")
+  file(STRINGS "${XBMCROOT}/version.txt" versions)
+  foreach (version ${versions})
+    string(REGEX MATCH "^[^ ]+" version_name ${version})
+    string(REPLACE "${version_name} " "" version_value ${version})
+    set(APP_${version_name} "${version_value}")
+    message("APP_${version_name}: ${APP_${version_name}} (${version_value})")
+  endforeach()
+endif()
+
+# bail if we can't parse versions
+if (NOT DEFINED APP_VERSION_MAJOR OR NOT DEFINED APP_VERSION_MINOR)
+  message(FATAL_ERROR "Could not determine app version! make sure that ${XBMCROOT}/version.txt exists")
+endif()
+
 # generate the proper xbmc-config.cmake file
 configure_file(${XBMCROOT}/project/cmake/xbmc-config.cmake.in ${XBMC_LIB_DIR}/xbmc-config.cmake @ONLY)
 # copy cmake helpers to lib/xbmc

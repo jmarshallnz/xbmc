@@ -18,25 +18,35 @@ else()
 endif()
 get_filename_component(XBMCROOT "${XBMCROOT}" ABSOLUTE)
 
-# there's something odd going on with passing -Dprefix so we use -DPREFIX but in here we use ${prefix}
-if(NOT PREFIX)
-  set(prefix "${CMAKE_BINARY_DIR}/addons")
+#make sure CMAKE_PREFIX_PATH is set
+if (NOT CMAKE_PREFIX_PATH)
+  set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}/addons")
 else()
-  set(prefix "${PREFIX}")
-  file(TO_CMAKE_PATH "${prefix}" prefix)
+  file(TO_CMAKE_PATH "${CMAKE_PREFIX_PATH}" CMAKE_PREFIX_PATH)
 endif()
-get_filename_component(prefix "${prefix}" ABSOLUTE)
+# xbmc-config.cmake.in (further down) expects a "prefix" variable
+get_filename_component(prefix "${CMAKE_PREFIX_PATH}" ABSOLUTE)
 
-list(APPEND CMAKE_PREFIX_PATH ${prefix})
-set(PREFIX_INCLUDE_DIR ${prefix}/include)
-set(PREFIX_LIB_DIR ${prefix}/lib)
-
-if(NOT OUTPUT_DIR)
-  set(OUTPUT_DIR ${prefix}/addons)
+# make sure CMAKE_INCLUDE_PATH is set
+if (NOT CMAKE_INCLUDE_PATH)
+  set(CMAKE_INCLUDE_PATH "${CMAKE_PREFIX_PATH}/include")
+else()
+  file(TO_CMAKE_PATH "${CMAKE_INCLUDE_PATH}" CMAKE_INCLUDE_PATH)
 endif()
-list(APPEND CMAKE_PREFIX_PATH ${OUTPUT_DIR})
 
-set(BUILD_ARGS -DCMAKE_PREFIX_PATH=${prefix}
+# make sure CMAKE_LIBRARY_PATH is set
+if (NOT CMAKE_LIBRARY_PATH)
+  set(CMAKE_LIBRARY_PATH "${CMAKE_PREFIX_PATH}/lib")
+else()
+  file(TO_CMAKE_PATH "${CMAKE_LIBRARY_PATH}" CMAKE_LIBRARY_PATH)
+endif()
+
+if(NOT CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX ${prefix})
+endif()
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_INSTALL_PREFIX})
+
+set(BUILD_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
                -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
                -DCMAKE_BUILD_TYPE=Release
                -DBUILD_SHARED_LIBS=1)
@@ -54,8 +64,8 @@ endif()
 
 ### copy all the addon binding header files to include/xbmc
 # make sure include/xbmc exists and is empty
-set(XBMC_INCLUDE_DIR ${PREFIX_INCLUDE_DIR}/xbmc)
-set(XBMC_LIB_DIR ${PREFIX_LIB_DIR}/xbmc)
+set(XBMC_INCLUDE_DIR ${CMAKE_INCLUDE_PATH}/xbmc)
+set(XBMC_LIB_DIR ${CMAKE_LIBRARY_PATH}/xbmc)
 if(NOT EXISTS "${XBMC_INCLUDE_DIR}/")
   file(MAKE_DIRECTORY ${XBMC_INCLUDE_DIR})
 endif()
@@ -81,7 +91,6 @@ if (EXISTS "${XBMCROOT}/version.txt")
     string(REGEX MATCH "^[^ ]+" version_name ${version})
     string(REPLACE "${version_name} " "" version_value ${version})
     set(APP_${version_name} "${version_value}")
-    message("APP_${version_name}: ${APP_${version_name}} (${version_value})")
   endforeach()
 endif()
 
@@ -106,15 +115,15 @@ foreach(addon ${addons})
   list(GET def 2 revision)
 
   # make sure the output directory is clean
-  if(EXISTS "${OUTPUT_DIR}/${id}")
-    file(REMOVE_RECURSE "${OUTPUT_DIR}/${id}/")
+  if(EXISTS "${CMAKE_INSTALL_PREFIX}/${id}")
+    file(REMOVE_RECURSE "${CMAKE_INSTALL_PREFIX}/${id}/")
   endif()
 
   # add the addon as an external project for automatic building
   externalproject_add(${id}
                       GIT_REPOSITORY ${url}/${id}
                       GIT_TAG ${revision}
-                      INSTALL_DIR "${OUTPUT_DIR}"
+                      INSTALL_DIR "${CMAKE_INSTALL_PREFIX}"
                       CMAKE_ARGS ${BUILD_ARGS}
                      )
 endforeach()

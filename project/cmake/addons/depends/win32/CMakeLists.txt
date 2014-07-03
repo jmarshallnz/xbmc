@@ -10,10 +10,10 @@ endif()
 
 include(ExternalProject)
 
-if(NOT OUTPUT_DIR)
-  set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/depends)
+if(NOT CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/depends)
 endif()
-list(APPEND CMAKE_PREFIX_PATH ${OUTPUT_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_INSTALL_PREFIX})
 
 function(add_internal id url inputfile)
   externalproject_add(${id}
@@ -24,7 +24,7 @@ function(add_internal id url inputfile)
                       INSTALL_COMMAND ${CMAKE_COMMAND}
                                       -DINPUTDIR=${CMAKE_BINARY_DIR}/build/${id}/src/${id}
                                       -DINPUTFILE=${inputfile}
-                                      -DDESTDIR=${OUTPUT_DIR}
+                                      -DDESTDIR=${CMAKE_INSTALL_PREFIX}
                                       -P ${PROJECT_SOURCE_DIR}/install.cmake)
 endfunction()
 
@@ -42,7 +42,7 @@ function(add_7zip id url inputfile)
                       INSTALL_COMMAND ${CMAKE_COMMAND}
                                       -DINPUTDIR=${CMAKE_BINARY_DIR}/build/${id}/src/${id}-build/
                                       -DINPUTFILE=${inputfile}
-                                      -DDESTDIR=${OUTPUT_DIR}
+                                      -DDESTDIR=${CMAKE_INSTALL_PREFIX}
                                       -P ${PROJECT_SOURCE_DIR}/install.cmake)
 endfunction()
 

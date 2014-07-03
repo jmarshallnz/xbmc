@@ -7,15 +7,14 @@ ifeq ($(PLATFORM),)
 endif
 ifeq ($(CMAKE),)
   CMAKE = cmake
-  ifneq ($(PREFIX),)
-    INSTALL_PREFIX = -DCMAKE_INSTALL_PREFIX=$(PREFIX)
-  endif
 endif
 
+CMAKE_EXTRA =
 ifeq (darwin, $(findstring darwin, $(HOST)))
-  CMAKE_EXTRA = -DPACKAGE_ZIP=1 -DOUTPUT_DIR=../../../../../addons/
-else
-  CMAKE_EXTRA = -DOUTPUT_DIR=$(PREFIX)
+  INSTALL_PREFIX = ../../../../../addons/
+  CMAKE_EXTRA = -DPACKAGE_ZIP=1
+else ifneq ($(PREFIX),)
+  INSTALL_PREFIX = $(PREFIX)
 endif
 
 all: .installed-$(PLATFORM)
@@ -35,7 +34,7 @@ ifeq ($(PREFIX),)
 endif
 	mkdir -p $(PLATFORM); \
          cd $(PLATFORM); \
-         $(CMAKE) $(INSTALL_PREFIX) -DPREFIX=$(PREFIX) $(CMAKE_EXTRA) \
+         $(CMAKE) -DCMAKE_INSTALL_PREFIX=$(INSTALL_PREFIX) -DCMAKE_PREFIX_PATH=$(PREFIX) $(CMAKE_EXTRA) \
          ../../../../../project/cmake/addons/ ;\
          $(MAKE);
 	touch $@

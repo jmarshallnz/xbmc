@@ -76,6 +76,8 @@ endforeach()
 
 # generate the proper xbmc-config.cmake file
 configure_file(${XBMCROOT}/project/cmake/xbmc-config.cmake.in ${XBMC_LIB_DIR}/xbmc-config.cmake @ONLY)
+# copy cmake helpers to lib/xbmc
+file(COPY ${XBMCROOT}/project/cmake/xbmc-addon-helpers.cmake ${XBMCROOT}/project/cmake/AddOptions.cmake DESTINATION ${XBMC_LIB_DIR})
 
 ### get and build all the binary addons
 # look for all the addons to be built

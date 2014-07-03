@@ -25,7 +25,7 @@ clean:
 	rm -f .installed-$(PLATFORM)
 
 distclean:
-	rm -rf $(PLATFORM) .installed-$(PLATFORM)
+	rm -rf $(PLATFORM) .installed-$(PLATFORM) native
 
 .installed-$(PLATFORM):
 ifeq ($(PREFIX),)

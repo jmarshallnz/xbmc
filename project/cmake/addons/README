@@ -32,10 +32,6 @@ specific paths:
     and OUTPUT_DIR/share/lib/addons.
   * ARCH_DEFINES specifies the platform-specific C/C++ preprocessor defines
     (defaults to empty).
-  * XBMC_MAJOR_VERSION specifies the major version of the xbmc release (defaults
-    to empty).
-  * XBMC_MINOR_VERSION specifies the minor version of the xbmc release (defaults
-    to empty).
 
 The buildsystem makes some assumptions about the environment which must be met
 by whoever uses it:

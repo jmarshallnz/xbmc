@@ -48,10 +48,6 @@ IF EXIST "%XBMC_LIB_PATH%" (
 MKDIR "%XBMC_INCLUDE_PATH%"
 MKDIR "%XBMC_LIB_PATH%"
 
-rem now copy the cmake helper scripts to where they are expected
-COPY %BASE_PATH%\xbmc-addon-helpers.cmake %XBMC_LIB_PATH%
-COPY %BASE_PATH%\AddOptions.cmake %XBMC_LIB_PATH%
-
 rem go into the addons directory
 CD %ADDONS_PATH%
 
@@ -69,12 +65,10 @@ CD "%ADDONS_BUILD_PATH%"
 rem execute cmake to generate makefiles processable by nmake
 cmake "%ADDONS_PATH%" -G "NMake Makefiles" ^
       -DXBMCROOT=%WORKDIR% ^
-      -DPREFIX=%ADDON_DEPENDS_PATH% ^
-      -DOUTPUT_DIR=%WORKDIR%\project\Win32BuildSetup\BUILD_WIN32\Xbmc\xbmc-addons ^
+      -DCMAKE_PREFIX_PATH=%ADDON_DEPENDS_PATH% ^
+      -DCMAKE_INSTALL_PREFIX=%WORKDIR%\project\Win32BuildSetup\BUILD_WIN32\Xbmc\xbmc-addons ^
       -DPACKAGE_ZIP=1 ^
-      -DARCH_DEFINES="-DTARGET_WINDOWS -DNOMINMAX" ^
-      -DXBMC_MAJOR_VERSION=14 ^
-      -DXBMC_MINOR_VERSION=0
+      -DARCH_DEFINES="-DTARGET_WINDOWS -DNOMINMAX"
 IF ERRORLEVEL 1 (
   ECHO cmake error level: %ERRORLEVEL% > %ERRORFILE%
   GOTO ERROR

@@ -504,12 +504,6 @@ AC_ARG_ENABLE([libcec],
   [use_libcec=$enableval],
   [use_libcec=auto])
 
-AC_ARG_ENABLE([libvorbisenc],
-  [AS_HELP_STRING([--enable-libvorbisenc],
-  [enable vorbis encoder support (default is auto)])],
-  [use_libvorbisenc=$enableval],
-  [use_libvorbisenc=auto])
-
 AC_ARG_ENABLE([libcap],
   [AS_HELP_STRING([--enable-libcap],
   [enable libcap support (default is auto)])],
@@ -2422,18 +2416,6 @@ else
   final_message="$final_message\n  libcec support:\tNo"
 fi
 
-if test "x$use_libmp3lame" != "xno"; then
-  final_message="$final_message\n  libmp3lame support:\tYes"
-else
-  final_message="$final_message\n  libmp3lame support:\tNo"
-fi
-
-if test "x$use_libvorbisenc" != "xno"; then
-  final_message="$final_message\n  libvorbisenc support:\tYes"
-else
-  final_message="$final_message\n  libvorbisenc support:\tNo"
-fi
-
 if test "x$use_libcap" != "xno"; then
   final_message="$final_message\n  libcap support:\tYes"
 else
@@ -2614,7 +2596,6 @@ AC_SUBST(LIBFLAC_BASENAME)
 AC_SUBST(LIBVORBISFILE_BASENAME)
 AC_SUBST(LIBMODPLUG_BASENAME)
 AC_SUBST(LIBOGG_BASENAME)
-AC_SUBST(LIBVORBISENC_BASENAME)
 AC_SUBST(LIBVORBIS_BASENAME)
 AC_SUBST(LIBASS_BASENAME)
 AC_SUBST(LIBMEPG2_BASENAME)

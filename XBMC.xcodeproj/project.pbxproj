@@ -73,8 +73,6 @@
 		18B7C7C01294222E009E7A26 /* GUIFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76B1294222E009E7A26 /* GUIFont.cpp */; };
 		18B7C7C11294222E009E7A26 /* GUIFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76C1294222E009E7A26 /* GUIFontManager.cpp */; };
 		18B7C7C21294222E009E7A26 /* GUIFontTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76D1294222E009E7A26 /* GUIFontTTF.cpp */; };
-		18B7C7C31294222E009E7A26 /* GUIFontTTFDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76E1294222E009E7A26 /* GUIFontTTFDX.cpp */; };
-		18B7C7C41294222E009E7A26 /* GUIFontTTFGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76F1294222E009E7A26 /* GUIFontTTFGL.cpp */; };
 		18B7C7C51294222E009E7A26 /* GUIImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7701294222E009E7A26 /* GUIImage.cpp */; };
 		18B7C7C61294222E009E7A26 /* GUIIncludes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7711294222E009E7A26 /* GUIIncludes.cpp */; };
 		18B7C7C71294222E009E7A26 /* GUIInfoTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7721294222E009E7A26 /* GUIInfoTypes.cpp */; };
@@ -106,9 +104,6 @@
 		18B7C7E31294222E009E7A26 /* GUITextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C78E1294222E009E7A26 /* GUITextBox.cpp */; };
 		18B7C7E41294222E009E7A26 /* GUITextLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C78F1294222E009E7A26 /* GUITextLayout.cpp */; };
 		18B7C7E51294222E009E7A26 /* GUITexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7901294222E009E7A26 /* GUITexture.cpp */; };
-		18B7C7E61294222E009E7A26 /* GUITextureD3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7911294222E009E7A26 /* GUITextureD3D.cpp */; };
-		18B7C7E71294222E009E7A26 /* GUITextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7921294222E009E7A26 /* GUITextureGL.cpp */; };
-		18B7C7E81294222E009E7A26 /* GUITextureGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7931294222E009E7A26 /* GUITextureGLES.cpp */; };
 		18B7C7E91294222E009E7A26 /* GUIToggleButtonControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7941294222E009E7A26 /* GUIToggleButtonControl.cpp */; };
 		18B7C7EA1294222E009E7A26 /* GUIVideoControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7951294222E009E7A26 /* GUIVideoControl.cpp */; };
 		18B7C7EB1294222E009E7A26 /* GUIVisualisationControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7961294222E009E7A26 /* GUIVisualisationControl.cpp */; };
@@ -124,8 +119,6 @@
 		18B7C7F51294222E009E7A26 /* TextureBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A01294222E009E7A26 /* TextureBundle.cpp */; };
 		18B7C7F61294222E009E7A26 /* TextureBundleXBT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A11294222E009E7A26 /* TextureBundleXBT.cpp */; };
 		18B7C7F71294222E009E7A26 /* TextureBundleXPR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A21294222E009E7A26 /* TextureBundleXPR.cpp */; };
-		18B7C7F81294222E009E7A26 /* TextureDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A31294222E009E7A26 /* TextureDX.cpp */; };
-		18B7C7F91294222E009E7A26 /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A41294222E009E7A26 /* TextureGL.cpp */; };
 		18B7C7FA1294222E009E7A26 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A51294222E009E7A26 /* TextureManager.cpp */; };
 		18B7C7FB1294222E009E7A26 /* VisibleEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A61294222E009E7A26 /* VisibleEffect.cpp */; };
 		18B7C7FC1294222E009E7A26 /* XBTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A71294222E009E7A26 /* XBTF.cpp */; };
@@ -1087,6 +1080,12 @@
 		7CF34D9F1930264A00D543C5 /* AudioEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */; };
 		7CF34DA01930264A00D543C5 /* AudioEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */; };
 		7CF34DA11930264A00D543C5 /* AudioEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */; };
+		7CF80DC119710123003B2B34 /* BatchDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF80DBD19710123003B2B34 /* BatchDraw.cpp */; };
+		7CF80DC219710123003B2B34 /* BatchDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF80DBD19710123003B2B34 /* BatchDraw.cpp */; };
+		7CF80DC319710123003B2B34 /* BatchDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF80DBD19710123003B2B34 /* BatchDraw.cpp */; };
+		7CF80DC419710123003B2B34 /* SceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF80DBF19710123003B2B34 /* SceneGraph.cpp */; };
+		7CF80DC519710123003B2B34 /* SceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF80DBF19710123003B2B34 /* SceneGraph.cpp */; };
+		7CF80DC619710123003B2B34 /* SceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF80DBF19710123003B2B34 /* SceneGraph.cpp */; };
 		810C9FA90D67D1FB0095F5DD /* MythDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9FA50D67D1FB0095F5DD /* MythDirectory.cpp */; };
 		810C9FAA0D67D1FB0095F5DD /* MythFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 810C9FA70D67D1FB0095F5DD /* MythFile.cpp */; };
 		815EE6350E17F1DC009FBE3C /* DVDInputStreamRTMP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 815EE6330E17F1DC009FBE3C /* DVDInputStreamRTMP.cpp */; };
@@ -1753,8 +1752,6 @@
 		DFF0F28A17528350002DA3A4 /* GUIFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76B1294222E009E7A26 /* GUIFont.cpp */; };
 		DFF0F28B17528350002DA3A4 /* GUIFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76C1294222E009E7A26 /* GUIFontManager.cpp */; };
 		DFF0F28C17528350002DA3A4 /* GUIFontTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76D1294222E009E7A26 /* GUIFontTTF.cpp */; };
-		DFF0F28D17528350002DA3A4 /* GUIFontTTFDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76E1294222E009E7A26 /* GUIFontTTFDX.cpp */; };
-		DFF0F28E17528350002DA3A4 /* GUIFontTTFGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76F1294222E009E7A26 /* GUIFontTTFGL.cpp */; };
 		DFF0F28F17528350002DA3A4 /* GUIImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7701294222E009E7A26 /* GUIImage.cpp */; };
 		DFF0F29017528350002DA3A4 /* GUIIncludes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7711294222E009E7A26 /* GUIIncludes.cpp */; };
 		DFF0F29117528350002DA3A4 /* GUIInfoTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7721294222E009E7A26 /* GUIInfoTypes.cpp */; };
@@ -1787,9 +1784,6 @@
 		DFF0F2AC17528350002DA3A4 /* GUITextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C78E1294222E009E7A26 /* GUITextBox.cpp */; };
 		DFF0F2AD17528350002DA3A4 /* GUITextLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C78F1294222E009E7A26 /* GUITextLayout.cpp */; };
 		DFF0F2AE17528350002DA3A4 /* GUITexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7901294222E009E7A26 /* GUITexture.cpp */; };
-		DFF0F2AF17528350002DA3A4 /* GUITextureD3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7911294222E009E7A26 /* GUITextureD3D.cpp */; };
-		DFF0F2B017528350002DA3A4 /* GUITextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7921294222E009E7A26 /* GUITextureGL.cpp */; };
-		DFF0F2B117528350002DA3A4 /* GUITextureGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7931294222E009E7A26 /* GUITextureGLES.cpp */; };
 		DFF0F2B217528350002DA3A4 /* GUIToggleButtonControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7941294222E009E7A26 /* GUIToggleButtonControl.cpp */; };
 		DFF0F2B317528350002DA3A4 /* GUIVideoControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7951294222E009E7A26 /* GUIVideoControl.cpp */; };
 		DFF0F2B417528350002DA3A4 /* GUIVisualisationControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7961294222E009E7A26 /* GUIVisualisationControl.cpp */; };
@@ -1807,8 +1801,6 @@
 		DFF0F2C017528350002DA3A4 /* TextureBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A01294222E009E7A26 /* TextureBundle.cpp */; };
 		DFF0F2C117528350002DA3A4 /* TextureBundleXBT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A11294222E009E7A26 /* TextureBundleXBT.cpp */; };
 		DFF0F2C217528350002DA3A4 /* TextureBundleXPR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A21294222E009E7A26 /* TextureBundleXPR.cpp */; };
-		DFF0F2C317528350002DA3A4 /* TextureDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A31294222E009E7A26 /* TextureDX.cpp */; };
-		DFF0F2C417528350002DA3A4 /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A41294222E009E7A26 /* TextureGL.cpp */; };
 		DFF0F2C517528350002DA3A4 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A51294222E009E7A26 /* TextureManager.cpp */; };
 		DFF0F2C617528350002DA3A4 /* VisibleEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A61294222E009E7A26 /* VisibleEffect.cpp */; };
 		DFF0F2C717528350002DA3A4 /* XBTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A71294222E009E7A26 /* XBTF.cpp */; };
@@ -3019,8 +3011,6 @@
 		E49912F3174E5DAD00741B6D /* GUIFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76B1294222E009E7A26 /* GUIFont.cpp */; };
 		E49912F4174E5DAD00741B6D /* GUIFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76C1294222E009E7A26 /* GUIFontManager.cpp */; };
 		E49912F5174E5DAD00741B6D /* GUIFontTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76D1294222E009E7A26 /* GUIFontTTF.cpp */; };
-		E49912F6174E5DAD00741B6D /* GUIFontTTFDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76E1294222E009E7A26 /* GUIFontTTFDX.cpp */; };
-		E49912F7174E5DAD00741B6D /* GUIFontTTFGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C76F1294222E009E7A26 /* GUIFontTTFGL.cpp */; };
 		E49912F8174E5DAD00741B6D /* GUIImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7701294222E009E7A26 /* GUIImage.cpp */; };
 		E49912F9174E5DAD00741B6D /* GUIIncludes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7711294222E009E7A26 /* GUIIncludes.cpp */; };
 		E49912FA174E5DAD00741B6D /* GUIInfoTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7721294222E009E7A26 /* GUIInfoTypes.cpp */; };
@@ -3053,9 +3043,6 @@
 		E4991315174E5DAD00741B6D /* GUITextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C78E1294222E009E7A26 /* GUITextBox.cpp */; };
 		E4991316174E5DAD00741B6D /* GUITextLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C78F1294222E009E7A26 /* GUITextLayout.cpp */; };
 		E4991317174E5DAD00741B6D /* GUITexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7901294222E009E7A26 /* GUITexture.cpp */; };
-		E4991318174E5DAD00741B6D /* GUITextureD3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7911294222E009E7A26 /* GUITextureD3D.cpp */; };
-		E4991319174E5DAD00741B6D /* GUITextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7921294222E009E7A26 /* GUITextureGL.cpp */; };
-		E499131A174E5DAD00741B6D /* GUITextureGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7931294222E009E7A26 /* GUITextureGLES.cpp */; };
 		E499131B174E5DAD00741B6D /* GUIToggleButtonControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7941294222E009E7A26 /* GUIToggleButtonControl.cpp */; };
 		E499131C174E5DAD00741B6D /* GUIVideoControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7951294222E009E7A26 /* GUIVideoControl.cpp */; };
 		E499131D174E5DAD00741B6D /* GUIVisualisationControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7961294222E009E7A26 /* GUIVisualisationControl.cpp */; };
@@ -3073,8 +3060,6 @@
 		E4991329174E5DAD00741B6D /* TextureBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A01294222E009E7A26 /* TextureBundle.cpp */; };
 		E499132A174E5DAD00741B6D /* TextureBundleXBT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A11294222E009E7A26 /* TextureBundleXBT.cpp */; };
 		E499132B174E5DAD00741B6D /* TextureBundleXPR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A21294222E009E7A26 /* TextureBundleXPR.cpp */; };
-		E499132C174E5DAD00741B6D /* TextureDX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A31294222E009E7A26 /* TextureDX.cpp */; };
-		E499132D174E5DAD00741B6D /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A41294222E009E7A26 /* TextureGL.cpp */; };
 		E499132E174E5DAD00741B6D /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A51294222E009E7A26 /* TextureManager.cpp */; };
 		E499132F174E5DAD00741B6D /* VisibleEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A61294222E009E7A26 /* VisibleEffect.cpp */; };
 		E4991330174E5DAD00741B6D /* XBTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B7C7A71294222E009E7A26 /* XBTF.cpp */; };
@@ -3788,8 +3773,6 @@
 		18B7C7111294222D009E7A26 /* GUIFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIFont.h; sourceTree = "<group>"; };
 		18B7C7121294222D009E7A26 /* GUIFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIFontManager.h; sourceTree = "<group>"; };
 		18B7C7131294222D009E7A26 /* GUIFontTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIFontTTF.h; sourceTree = "<group>"; };
-		18B7C7141294222D009E7A26 /* GUIFontTTFDX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIFontTTFDX.h; sourceTree = "<group>"; };
-		18B7C7151294222D009E7A26 /* GUIFontTTFGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIFontTTFGL.h; sourceTree = "<group>"; };
 		18B7C7161294222D009E7A26 /* GUIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIImage.h; sourceTree = "<group>"; };
 		18B7C7171294222D009E7A26 /* GUIIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIIncludes.h; sourceTree = "<group>"; };
 		18B7C7181294222D009E7A26 /* GUIInfoTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIInfoTypes.h; sourceTree = "<group>"; };
@@ -3821,9 +3804,6 @@
 		18B7C7341294222D009E7A26 /* GUITextBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUITextBox.h; sourceTree = "<group>"; };
 		18B7C7351294222D009E7A26 /* GUITextLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUITextLayout.h; sourceTree = "<group>"; };
 		18B7C7361294222D009E7A26 /* GUITexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUITexture.h; sourceTree = "<group>"; };
-		18B7C7371294222D009E7A26 /* GUITextureD3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUITextureD3D.h; sourceTree = "<group>"; };
-		18B7C7381294222D009E7A26 /* GUITextureGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUITextureGL.h; sourceTree = "<group>"; };
-		18B7C7391294222D009E7A26 /* GUITextureGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUITextureGLES.h; sourceTree = "<group>"; };
 		18B7C73A1294222D009E7A26 /* GUIToggleButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIToggleButtonControl.h; sourceTree = "<group>"; };
 		18B7C73B1294222D009E7A26 /* GUIVideoControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIVideoControl.h; sourceTree = "<group>"; };
 		18B7C73C1294222D009E7A26 /* GUIVisualisationControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIVisualisationControl.h; sourceTree = "<group>"; };
@@ -3842,8 +3822,6 @@
 		18B7C7491294222E009E7A26 /* TextureBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBundle.h; sourceTree = "<group>"; };
 		18B7C74A1294222E009E7A26 /* TextureBundleXBT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBundleXBT.h; sourceTree = "<group>"; };
 		18B7C74B1294222E009E7A26 /* TextureBundleXPR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureBundleXPR.h; sourceTree = "<group>"; };
-		18B7C74C1294222E009E7A26 /* TextureDX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureDX.h; sourceTree = "<group>"; };
-		18B7C74D1294222E009E7A26 /* TextureGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureGL.h; sourceTree = "<group>"; };
 		18B7C74E1294222E009E7A26 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
 		18B7C74F1294222E009E7A26 /* TransformMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformMatrix.h; sourceTree = "<group>"; };
 		18B7C7501294222E009E7A26 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tween.h; sourceTree = "<group>"; };
@@ -3874,8 +3852,6 @@
 		18B7C76B1294222E009E7A26 /* GUIFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIFont.cpp; sourceTree = "<group>"; };
 		18B7C76C1294222E009E7A26 /* GUIFontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIFontManager.cpp; sourceTree = "<group>"; };
 		18B7C76D1294222E009E7A26 /* GUIFontTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIFontTTF.cpp; sourceTree = "<group>"; };
-		18B7C76E1294222E009E7A26 /* GUIFontTTFDX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIFontTTFDX.cpp; sourceTree = "<group>"; };
-		18B7C76F1294222E009E7A26 /* GUIFontTTFGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIFontTTFGL.cpp; sourceTree = "<group>"; };
 		18B7C7701294222E009E7A26 /* GUIImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIImage.cpp; sourceTree = "<group>"; };
 		18B7C7711294222E009E7A26 /* GUIIncludes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIIncludes.cpp; sourceTree = "<group>"; };
 		18B7C7721294222E009E7A26 /* GUIInfoTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIInfoTypes.cpp; sourceTree = "<group>"; };
@@ -3907,9 +3883,6 @@
 		18B7C78E1294222E009E7A26 /* GUITextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUITextBox.cpp; sourceTree = "<group>"; };
 		18B7C78F1294222E009E7A26 /* GUITextLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUITextLayout.cpp; sourceTree = "<group>"; };
 		18B7C7901294222E009E7A26 /* GUITexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUITexture.cpp; sourceTree = "<group>"; };
-		18B7C7911294222E009E7A26 /* GUITextureD3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUITextureD3D.cpp; sourceTree = "<group>"; };
-		18B7C7921294222E009E7A26 /* GUITextureGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUITextureGL.cpp; sourceTree = "<group>"; };
-		18B7C7931294222E009E7A26 /* GUITextureGLES.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUITextureGLES.cpp; sourceTree = "<group>"; };
 		18B7C7941294222E009E7A26 /* GUIToggleButtonControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIToggleButtonControl.cpp; sourceTree = "<group>"; };
 		18B7C7951294222E009E7A26 /* GUIVideoControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIVideoControl.cpp; sourceTree = "<group>"; };
 		18B7C7961294222E009E7A26 /* GUIVisualisationControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIVisualisationControl.cpp; sourceTree = "<group>"; };
@@ -3925,8 +3898,6 @@
 		18B7C7A01294222E009E7A26 /* TextureBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBundle.cpp; sourceTree = "<group>"; };
 		18B7C7A11294222E009E7A26 /* TextureBundleXBT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBundleXBT.cpp; sourceTree = "<group>"; };
 		18B7C7A21294222E009E7A26 /* TextureBundleXPR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBundleXPR.cpp; sourceTree = "<group>"; };
-		18B7C7A31294222E009E7A26 /* TextureDX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureDX.cpp; sourceTree = "<group>"; };
-		18B7C7A41294222E009E7A26 /* TextureGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureGL.cpp; sourceTree = "<group>"; };
 		18B7C7A51294222E009E7A26 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
 		18B7C7A61294222E009E7A26 /* VisibleEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisibleEffect.cpp; sourceTree = "<group>"; };
 		18B7C7A71294222E009E7A26 /* XBTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XBTF.cpp; sourceTree = "<group>"; };
@@ -4599,6 +4570,10 @@
 		7CF1FB0A123B1AF000B2CBCB /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
 		7CF34D9D1930264A00D543C5 /* AudioEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioEncoder.cpp; sourceTree = "<group>"; };
 		7CF34D9E1930264A00D543C5 /* AudioEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEncoder.h; sourceTree = "<group>"; };
+		7CF80DBD19710123003B2B34 /* BatchDraw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchDraw.cpp; sourceTree = "<group>"; };
+		7CF80DBE19710123003B2B34 /* BatchDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchDraw.h; sourceTree = "<group>"; };
+		7CF80DBF19710123003B2B34 /* SceneGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneGraph.cpp; sourceTree = "<group>"; };
+		7CF80DC019710123003B2B34 /* SceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
 		810C9FA50D67D1FB0095F5DD /* MythDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MythDirectory.cpp; sourceTree = "<group>"; };
 		810C9FA60D67D1FB0095F5DD /* MythDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MythDirectory.h; sourceTree = "<group>"; };
 		810C9FA70D67D1FB0095F5DD /* MythFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MythFile.cpp; sourceTree = "<group>"; };
@@ -6521,10 +6496,6 @@
 				18B7C7121294222D009E7A26 /* GUIFontManager.h */,
 				18B7C76D1294222E009E7A26 /* GUIFontTTF.cpp */,
 				18B7C7131294222D009E7A26 /* GUIFontTTF.h */,
-				18B7C76E1294222E009E7A26 /* GUIFontTTFDX.cpp */,
-				18B7C7141294222D009E7A26 /* GUIFontTTFDX.h */,
-				18B7C76F1294222E009E7A26 /* GUIFontTTFGL.cpp */,
-				18B7C7151294222D009E7A26 /* GUIFontTTFGL.h */,
 				18B7C7701294222E009E7A26 /* GUIImage.cpp */,
 				18B7C7161294222D009E7A26 /* GUIImage.h */,
 				18B7C7711294222E009E7A26 /* GUIIncludes.cpp */,
@@ -6590,12 +6561,6 @@
 				18B7C7351294222D009E7A26 /* GUITextLayout.h */,
 				18B7C7901294222E009E7A26 /* GUITexture.cpp */,
 				18B7C7361294222D009E7A26 /* GUITexture.h */,
-				18B7C7911294222E009E7A26 /* GUITextureD3D.cpp */,
-				18B7C7371294222D009E7A26 /* GUITextureD3D.h */,
-				18B7C7921294222E009E7A26 /* GUITextureGL.cpp */,
-				18B7C7381294222D009E7A26 /* GUITextureGL.h */,
-				18B7C7931294222E009E7A26 /* GUITextureGLES.cpp */,
-				18B7C7391294222D009E7A26 /* GUITextureGLES.h */,
 				18B7C7941294222E009E7A26 /* GUIToggleButtonControl.cpp */,
 				18B7C73A1294222D009E7A26 /* GUIToggleButtonControl.h */,
 				18B7C7951294222E009E7A26 /* GUIVideoControl.cpp */,
@@ -6636,10 +6601,6 @@
 				18B7C74A1294222E009E7A26 /* TextureBundleXBT.h */,
 				18B7C7A21294222E009E7A26 /* TextureBundleXPR.cpp */,
 				18B7C74B1294222E009E7A26 /* TextureBundleXPR.h */,
-				18B7C7A31294222E009E7A26 /* TextureDX.cpp */,
-				18B7C74C1294222E009E7A26 /* TextureDX.h */,
-				18B7C7A41294222E009E7A26 /* TextureGL.cpp */,
-				18B7C74D1294222E009E7A26 /* TextureGL.h */,
 				18B7C7A51294222E009E7A26 /* TextureManager.cpp */,
 				18B7C74E1294222E009E7A26 /* TextureManager.h */,
 				18B7C74F1294222E009E7A26 /* TransformMatrix.h */,
@@ -7283,8 +7244,12 @@
 			children = (
 				E4991412174E5FF000741B6D /* gles */,
 				43FAC8C312D63BBB00F67914 /* gl */,
+				7CF80DBD19710123003B2B34 /* BatchDraw.cpp */,
+				7CF80DBE19710123003B2B34 /* BatchDraw.h */,
 				7C779E1F104A57E500F444C4 /* RenderSystem.cpp */,
 				7C779E20104A57E500F444C4 /* RenderSystem.h */,
+				7CF80DBF19710123003B2B34 /* SceneGraph.cpp */,
+				7CF80DC019710123003B2B34 /* SceneGraph.h */,
 			);
 			path = rendering;
 			sourceTree = "<group>";
@@ -11136,8 +11101,6 @@
 				18B7C7C01294222E009E7A26 /* GUIFont.cpp in Sources */,
 				18B7C7C11294222E009E7A26 /* GUIFontManager.cpp in Sources */,
 				18B7C7C21294222E009E7A26 /* GUIFontTTF.cpp in Sources */,
-				18B7C7C31294222E009E7A26 /* GUIFontTTFDX.cpp in Sources */,
-				18B7C7C41294222E009E7A26 /* GUIFontTTFGL.cpp in Sources */,
 				18B7C7C51294222E009E7A26 /* GUIImage.cpp in Sources */,
 				18B7C7C61294222E009E7A26 /* GUIIncludes.cpp in Sources */,
 				18B7C7C71294222E009E7A26 /* GUIInfoTypes.cpp in Sources */,
@@ -11169,9 +11132,6 @@
 				18B7C7E31294222E009E7A26 /* GUITextBox.cpp in Sources */,
 				18B7C7E41294222E009E7A26 /* GUITextLayout.cpp in Sources */,
 				18B7C7E51294222E009E7A26 /* GUITexture.cpp in Sources */,
-				18B7C7E61294222E009E7A26 /* GUITextureD3D.cpp in Sources */,
-				18B7C7E71294222E009E7A26 /* GUITextureGL.cpp in Sources */,
-				18B7C7E81294222E009E7A26 /* GUITextureGLES.cpp in Sources */,
 				18B7C7E91294222E009E7A26 /* GUIToggleButtonControl.cpp in Sources */,
 				18B7C7EA1294222E009E7A26 /* GUIVideoControl.cpp in Sources */,
 				18B7C7EB1294222E009E7A26 /* GUIVisualisationControl.cpp in Sources */,
@@ -11187,8 +11147,6 @@
 				18B7C7F51294222E009E7A26 /* TextureBundle.cpp in Sources */,
 				18B7C7F61294222E009E7A26 /* TextureBundleXBT.cpp in Sources */,
 				18B7C7F71294222E009E7A26 /* TextureBundleXPR.cpp in Sources */,
-				18B7C7F81294222E009E7A26 /* TextureDX.cpp in Sources */,
-				18B7C7F91294222E009E7A26 /* TextureGL.cpp in Sources */,
 				18B7C7FA1294222E009E7A26 /* TextureManager.cpp in Sources */,
 				18B7C7FB1294222E009E7A26 /* VisibleEffect.cpp in Sources */,
 				18B7C7FC1294222E009E7A26 /* XBTF.cpp in Sources */,
@@ -11826,6 +11784,8 @@
 				7C525DF5195E2D8100BE3482 /* SaveFileStateJob.cpp in Sources */,
 				7C908894196358A8003D0619 /* auto_buffer.cpp in Sources */,
 				7CF34D9F1930264A00D543C5 /* AudioEncoder.cpp in Sources */,
+				7CF80DC119710123003B2B34 /* BatchDraw.cpp in Sources */,
+				7CF80DC419710123003B2B34 /* SceneGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12224,8 +12184,6 @@
 				DFF0F28A17528350002DA3A4 /* GUIFont.cpp in Sources */,
 				DFF0F28B17528350002DA3A4 /* GUIFontManager.cpp in Sources */,
 				DFF0F28C17528350002DA3A4 /* GUIFontTTF.cpp in Sources */,
-				DFF0F28D17528350002DA3A4 /* GUIFontTTFDX.cpp in Sources */,
-				DFF0F28E17528350002DA3A4 /* GUIFontTTFGL.cpp in Sources */,
 				DFF0F28F17528350002DA3A4 /* GUIImage.cpp in Sources */,
 				DFF0F29017528350002DA3A4 /* GUIIncludes.cpp in Sources */,
 				DFF0F29117528350002DA3A4 /* GUIInfoTypes.cpp in Sources */,
@@ -12258,9 +12216,6 @@
 				DFF0F2AC17528350002DA3A4 /* GUITextBox.cpp in Sources */,
 				DFF0F2AD17528350002DA3A4 /* GUITextLayout.cpp in Sources */,
 				DFF0F2AE17528350002DA3A4 /* GUITexture.cpp in Sources */,
-				DFF0F2AF17528350002DA3A4 /* GUITextureD3D.cpp in Sources */,
-				DFF0F2B017528350002DA3A4 /* GUITextureGL.cpp in Sources */,
-				DFF0F2B117528350002DA3A4 /* GUITextureGLES.cpp in Sources */,
 				DFF0F2B217528350002DA3A4 /* GUIToggleButtonControl.cpp in Sources */,
 				DFF0F2B317528350002DA3A4 /* GUIVideoControl.cpp in Sources */,
 				DFF0F2B417528350002DA3A4 /* GUIVisualisationControl.cpp in Sources */,
@@ -12278,8 +12233,6 @@
 				DFF0F2C017528350002DA3A4 /* TextureBundle.cpp in Sources */,
 				DFF0F2C117528350002DA3A4 /* TextureBundleXBT.cpp in Sources */,
 				DFF0F2C217528350002DA3A4 /* TextureBundleXPR.cpp in Sources */,
-				DFF0F2C317528350002DA3A4 /* TextureDX.cpp in Sources */,
-				DFF0F2C417528350002DA3A4 /* TextureGL.cpp in Sources */,
 				DFF0F2C517528350002DA3A4 /* TextureManager.cpp in Sources */,
 				DFF0F2C617528350002DA3A4 /* VisibleEffect.cpp in Sources */,
 				F597B05D18A804E0005AADAE /* DVDVideoCodec.cpp in Sources */,
@@ -13017,6 +12970,8 @@
 				7C525DF7195E2D8100BE3482 /* SaveFileStateJob.cpp in Sources */,
 				7C908896196358A8003D0619 /* auto_buffer.cpp in Sources */,
 				7CF34DA11930264A00D543C5 /* AudioEncoder.cpp in Sources */,
+				7CF80DC319710123003B2B34 /* BatchDraw.cpp in Sources */,
+				7CF80DC619710123003B2B34 /* SceneGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13423,8 +13378,6 @@
 				E49912F3174E5DAD00741B6D /* GUIFont.cpp in Sources */,
 				E49912F4174E5DAD00741B6D /* GUIFontManager.cpp in Sources */,
 				E49912F5174E5DAD00741B6D /* GUIFontTTF.cpp in Sources */,
-				E49912F6174E5DAD00741B6D /* GUIFontTTFDX.cpp in Sources */,
-				E49912F7174E5DAD00741B6D /* GUIFontTTFGL.cpp in Sources */,
 				E49912F8174E5DAD00741B6D /* GUIImage.cpp in Sources */,
 				E49912F9174E5DAD00741B6D /* GUIIncludes.cpp in Sources */,
 				E49912FA174E5DAD00741B6D /* GUIInfoTypes.cpp in Sources */,
@@ -13457,9 +13410,6 @@
 				E4991315174E5DAD00741B6D /* GUITextBox.cpp in Sources */,
 				E4991316174E5DAD00741B6D /* GUITextLayout.cpp in Sources */,
 				E4991317174E5DAD00741B6D /* GUITexture.cpp in Sources */,
-				E4991318174E5DAD00741B6D /* GUITextureD3D.cpp in Sources */,
-				E4991319174E5DAD00741B6D /* GUITextureGL.cpp in Sources */,
-				E499131A174E5DAD00741B6D /* GUITextureGLES.cpp in Sources */,
 				E499131B174E5DAD00741B6D /* GUIToggleButtonControl.cpp in Sources */,
 				E499131C174E5DAD00741B6D /* GUIVideoControl.cpp in Sources */,
 				E499131D174E5DAD00741B6D /* GUIVisualisationControl.cpp in Sources */,
@@ -13477,8 +13427,6 @@
 				E4991329174E5DAD00741B6D /* TextureBundle.cpp in Sources */,
 				E499132A174E5DAD00741B6D /* TextureBundleXBT.cpp in Sources */,
 				E499132B174E5DAD00741B6D /* TextureBundleXPR.cpp in Sources */,
-				E499132C174E5DAD00741B6D /* TextureDX.cpp in Sources */,
-				E499132D174E5DAD00741B6D /* TextureGL.cpp in Sources */,
 				E499132E174E5DAD00741B6D /* TextureManager.cpp in Sources */,
 				E499132F174E5DAD00741B6D /* VisibleEffect.cpp in Sources */,
 				E4991330174E5DAD00741B6D /* XBTF.cpp in Sources */,
@@ -14210,6 +14158,8 @@
 				7C525DF6195E2D8100BE3482 /* SaveFileStateJob.cpp in Sources */,
 				7C908895196358A8003D0619 /* auto_buffer.cpp in Sources */,
 				7CF34DA01930264A00D543C5 /* AudioEncoder.cpp in Sources */,
+				7CF80DC219710123003B2B34 /* BatchDraw.cpp in Sources */,
+				7CF80DC519710123003B2B34 /* SceneGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

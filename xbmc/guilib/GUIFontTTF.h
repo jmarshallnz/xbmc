@@ -161,8 +161,8 @@ private:
   CStdString m_strFileName;
 
 private:
-  CGUIFontTTFBase(const CGUIFontTTFBase&);
-  CGUIFontTTFBase& operator=(const CGUIFontTTFBase&);
+  CGUIFontTTF(const CGUIFontTTF&);
+  CGUIFontTTF& operator=(const CGUIFontTTF&);
   int m_referenceCount;
   unsigned char *m_cachePixels;
   mapVertices m_vertices;

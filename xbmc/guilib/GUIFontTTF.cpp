@@ -142,8 +142,6 @@ CGUIFontTTF::CGUIFontTTF(const CStdString& strFileName)
   m_maxChars = 0;
   m_nestedBeginCount = 0;
 
-  m_bTextureLoaded = false;
-
   m_face = NULL;
   m_stroker = NULL;
   memset(m_charquick, 0, sizeof(m_charquick));

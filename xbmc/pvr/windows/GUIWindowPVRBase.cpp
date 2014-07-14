@@ -228,10 +228,10 @@ bool CGUIWindowPVRBase::PlayFile(CFileItem *item, bool bPlayMinimized /* = false
 
     if (!bSwitchSuccessful)
     {
-      CStdString channelName = g_localizeStrings.Get(19029); // Channel
+      std::string channelName = g_localizeStrings.Get(19029); // Channel
       if (channel)
         channelName = channel->ChannelName();
-      CStdString msg = StringUtils::Format(g_localizeStrings.Get(19035).c_str(), channelName.c_str()); // CHANNELNAME could not be played. Check the log for details.
+      std::string msg = StringUtils::Format(g_localizeStrings.Get(19035).c_str(), channelName.c_str()); // CHANNELNAME could not be played. Check the log for details.
 
       CGUIDialogKaiToast::QueueNotification(CGUIDialogKaiToast::Error,
               g_localizeStrings.Get(19166), // PVR information
@@ -307,7 +307,7 @@ bool CGUIWindowPVRBase::PlayRecording(CFileItem *item, bool bPlayMinimized /* = 
   if (!item->HasPVRRecordingInfoTag())
     return false;
 
-  CStdString stream = item->GetPVRRecordingInfoTag()->m_strStreamURL;
+  std::string stream = item->GetPVRRecordingInfoTag()->m_strStreamURL;
   if (stream.empty())
   {
     CApplicationMessenger::Get().PlayFile(*item, false);
@@ -316,17 +316,17 @@ bool CGUIWindowPVRBase::PlayRecording(CFileItem *item, bool bPlayMinimized /* = 
 
   /* Isolate the folder from the filename */
   size_t found = stream.find_last_of("/");
-  if (found == CStdString::npos)
+  if (found == std::string::npos)
     found = stream.find_last_of("\\");
 
-  if (found != CStdString::npos)
+  if (found != std::string::npos)
   {
     /* Check here for asterisk at the begin of the filename */
     if (stream[found+1] == '*')
     {
       /* Create a "stack://" url with all files matching the extension */
-      CStdString ext = URIUtils::GetExtension(stream);
-      CStdString dir = stream.substr(0, found).c_str();
+      std::string ext = URIUtils::GetExtension(stream);
+      std::string dir = stream.substr(0, found);
 
       CFileItemList items;
       XFILE::CDirectory::GetDirectory(dir, items);
@@ -343,7 +343,7 @@ bool CGUIWindowPVRBase::PlayRecording(CFileItem *item, bool bPlayMinimized /* = 
       {
         /* If we have a stack change the path of the item to it */
         XFILE::CStackDirectory dir;
-        CStdString stackPath = dir.ConstructStackPath(items, stack);
+        std::string stackPath = dir.ConstructStackPath(items, stack);
         item->SetPath(stackPath);
       }
     }
@@ -414,7 +414,7 @@ void CGUIWindowPVRBase::ShowEPGInfo(CFileItem *item)
 
 bool CGUIWindowPVRBase::ActionInputChannelNumber(int input)
 {
-  CStdString strInput = StringUtils::Format("%i", input);
+  std::string strInput = StringUtils::Format("%i", input);
   if (CGUIDialogNumeric::ShowAndGetNumber(strInput, g_localizeStrings.Get(19103)))
   {
     int iChannelNumber = atoi(strInput.c_str());
@@ -488,7 +488,7 @@ bool CGUIWindowPVRBase::ActionPlayEpg(CFileItem *item)
   if (!PlayFile(&fileItem))
   {
     // CHANNELNAME could not be played. Check the log for details.
-    CStdString msg = StringUtils::Format(g_localizeStrings.Get(19035).c_str(), channel->ChannelName().c_str());
+    std::string msg = StringUtils::Format(g_localizeStrings.Get(19035).c_str(), channel->ChannelName().c_str());
     CGUIDialogOK::ShowAndGetInput(19033, 0, msg, 0);
     return false;
   }

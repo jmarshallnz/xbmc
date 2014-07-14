@@ -1294,7 +1294,7 @@ bool CGUIDialogVideoInfo::DeleteVideoItemFromDatabase(const CFileItemPtr &item, 
       return false;
   }
 
-  CStdString path;
+  std::string path;
   database.GetFilePathById(item->GetVideoInfoTag()->m_iDbId, path, type);
   if (!path.empty())
   {

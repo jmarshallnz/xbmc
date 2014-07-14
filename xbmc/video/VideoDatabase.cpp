@@ -388,7 +388,7 @@ void CVideoDatabase::CreateViews()
   /* NOTE: The tvshowview needs to have "GROUP BY tvshow.idShow" added to any usage if you wish to
            avoid duplicates due to multiple paths per tvshow (from the join on tvshowlinkpath) */
   CLog::Log(LOGINFO, "create tvshowcounts");
-  CStdString tvshowcounts = PrepareSQL("CREATE VIEW tvshowcounts AS SELECT "
+  std::string tvshowcounts = PrepareSQL("CREATE VIEW tvshowcounts AS SELECT "
                                        "      tvshow.idShow AS idShow,"
                                        "      MAX(files.lastPlayed) AS lastPlayed,"
                                        "      NULLIF(COUNT(episode.c12), 0) AS totalCount,"
@@ -689,7 +689,7 @@ int CVideoDatabase::AddPath(const std::string& strPath, const std::string &paren
 
     URIUtils::AddSlashAtEnd(strPath1);
 
-    int idParentPath = GetPathId(parentPath.empty() ? (CStdString)URIUtils::GetParentPath(strPath1) : parentPath);
+    int idParentPath = GetPathId(parentPath.empty() ? URIUtils::GetParentPath(strPath1) : parentPath);
 
     // add the path
     if (idParentPath < 0)
@@ -4575,7 +4575,7 @@ void CVideoDatabase::UpdateTables(int iVersion)
   if (iVersion < 83)
   {
     // drop duplicates in tvshow table, and update tvshowlinkpath accordingly
-    CStdString sql = PrepareSQL("SELECT tvshow.idShow,idPath,c%02d,c%02d,c%02d FROM tvshow JOIN tvshowlinkpath ON tvshow.idShow = tvshowlinkpath.idShow", VIDEODB_ID_TV_TITLE, VIDEODB_ID_TV_PREMIERED, VIDEODB_ID_TV_IDENT);
+    std::string sql = PrepareSQL("SELECT tvshow.idShow,idPath,c%02d,c%02d,c%02d FROM tvshow JOIN tvshowlinkpath ON tvshow.idShow = tvshowlinkpath.idShow", VIDEODB_ID_TV_TITLE, VIDEODB_ID_TV_PREMIERED, VIDEODB_ID_TV_IDENT);
     m_pDS->query(sql.c_str());
     vector<CShowItem> shows;
     while (!m_pDS->eof())

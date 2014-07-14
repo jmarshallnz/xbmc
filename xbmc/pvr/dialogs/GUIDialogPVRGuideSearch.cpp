@@ -253,7 +253,7 @@ void CGUIDialogPVRGuideSearch::OnSearch()
   m_searchFilter->m_iChannelNumber = GetSpinValue(CONTROL_SPIN_CHANNELS);
   m_searchFilter->m_iChannelGroup = GetSpinValue(CONTROL_SPIN_GROUPS);
 
-  CStdString strTmp = GetEditValue(CONTROL_EDIT_START_TIME);
+  std::string strTmp = GetEditValue(CONTROL_EDIT_START_TIME);
   ReadDateTime(GetEditValue(CONTROL_EDIT_START_DATE), strTmp, m_searchFilter->m_startDateTime);
   strTmp = GetEditValue(CONTROL_EDIT_STOP_TIME);
   ReadDateTime(GetEditValue(CONTROL_EDIT_STOP_DATE), strTmp, m_searchFilter->m_endDateTime);

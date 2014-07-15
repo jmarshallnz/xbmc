@@ -77,7 +77,7 @@ const CGFloat timeFadeSecs                    = 2.0;
     descText              += g_localizeStrings.Get(34407) + "\n";
     descText              += g_localizeStrings.Get(34408) + "\n";
 
-    NSString *stringFromUTFString = [[NSString alloc] initWithUTF8String:descText];
+    NSString *stringFromUTFString = [[NSString alloc] initWithUTF8String:descText.c_str()];
     
     [descriptionLabel setText:stringFromUTFString];
     [stringFromUTFString release];

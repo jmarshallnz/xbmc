@@ -73,7 +73,7 @@ public:
     // value will mean the text starts to the right
     pixelPos = -initialPos;
     // privates:
-    m_averageFrameTime = 1000.f / fabs(defaultSpeed);
+    m_averageFrameTime = 1000.f / fabs((float)defaultSpeed);
     m_lastFrameTime = 0;
   }
   uint32_t GetCurrentChar(const vecText &text) const

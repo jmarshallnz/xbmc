@@ -2203,6 +2203,51 @@ CStdString CVideoDatabase::GetValueString(const CVideoInfoTag &details, int min,
   return StringUtils::Join(conditions, ",");
 }
 
+// Merge/refactor the above
+CStdString CVideoDatabase::GetValueString(const CVideoInfoTag &details, const std::vector<VIDEODB_IDS> simpleUpdates, const SDbTableOffsets *offsets, std::vector<std::string> conditions) const
+{
+  for (std::vector<VIDEODB_IDS>::const_iterator it = simpleUpdates.begin(); it != simpleUpdates.end(); ++it)
+  {
+    int i = *it;
+    switch (offsets[i].type)
+    {
+    case VIDEODB_TYPE_STRING:
+      conditions.push_back(PrepareSQL("c%02d='%s'", i, ((CStdString*)(((char*)&details)+offsets[i].offset))->c_str()));
+      break;
+    case VIDEODB_TYPE_INT:
+      conditions.push_back(PrepareSQL("c%02d='%i'", i, *(int*)(((char*)&details)+offsets[i].offset)));
+      break;
+    case VIDEODB_TYPE_COUNT:
+      {
+        int value = *(int*)(((char*)&details)+offsets[i].offset);
+        if (value)
+          conditions.push_back(PrepareSQL("c%02d=%i", i, value));
+        else
+          conditions.push_back(PrepareSQL("c%02d=NULL", i));
+      }
+      break;
+    case VIDEODB_TYPE_BOOL:
+      conditions.push_back(PrepareSQL("c%02d='%s'", i, *(bool*)(((char*)&details)+offsets[i].offset)?"true":"false"));
+      break;
+    case VIDEODB_TYPE_FLOAT:
+      conditions.push_back(PrepareSQL("c%02d='%f'", i, *(float*)(((char*)&details)+offsets[i].offset)));
+      break;
+    case VIDEODB_TYPE_STRINGARRAY:
+      conditions.push_back(PrepareSQL("c%02d='%s'", i, StringUtils::Join(*((std::vector<std::string>*)(((char*)&details)+offsets[i].offset)),
+                                                                          g_advancedSettings.m_videoItemSeparator).c_str()));
+      break;
+    case VIDEODB_TYPE_DATE:
+      conditions.push_back(PrepareSQL("c%02d='%s'", i, ((CDateTime*)(((char*)&details)+offsets[i].offset))->GetAsDBDate().c_str()));
+      break;
+    case VIDEODB_TYPE_DATETIME:
+      conditions.push_back(PrepareSQL("c%02d='%s'", i, ((CDateTime*)(((char*)&details)+offsets[i].offset))->GetAsDBDateTime().c_str()));
+      break;
+    }
+  }
+  return StringUtils::Join(conditions, ",");
+}
+
+
 //********************************************************************************************************************************
 int CVideoDatabase::SetDetailsForMovie(const CStdString& strFilenameAndPath, const CVideoInfoTag& details, const map<string, string> &artwork, int idMovie /* = -1 */)
 {

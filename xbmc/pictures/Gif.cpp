@@ -153,10 +153,6 @@ bool Gif::LoadGifMetaData(GifFileType* file)
   m_numFrames = m_gif->ImageCount;
   if (m_numFrames > 0)
   {
-#if GIFLIB_MAJOR == 5
-    GraphicsControlBlock GCB;
-    m_dll.DGifSavedExtensionToGCB(m_gif, 0, &GCB);
-#endif
     ExtensionBlock* extb = m_gif->SavedImages[0].ExtensionBlocks;
     if (extb && extb->Function == APPLICATION_EXT_FUNC_CODE)
     {

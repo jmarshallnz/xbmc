@@ -23,6 +23,7 @@
 #include "guilib/iimage.h"
 #include "DllLibGif.h"
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace XFILE
 {
@@ -61,6 +62,7 @@ private:
 class Gif : public IImage
 {
   friend class GifFrame;
+  typedef boost::shared_ptr<GifFrame> FramePtr;
 public:
   Gif();
   virtual ~Gif();
@@ -73,12 +75,12 @@ public:
   virtual bool CreateThumbnailFromSurface(unsigned char* bufferin, unsigned int width, unsigned int height, unsigned int format, unsigned int pitch, const CStdString& destFile,
                                           unsigned char* &bufferout, unsigned int &bufferoutSize);
   bool IsAnimated(const char* file);
-  std::vector<GifFrame>& GetFrames() { return m_frames; }
+  const std::vector<FramePtr>& GetFrames() const { return m_frames; }
   unsigned int GetPitch() const { return m_pitch; }
   unsigned int GetNumLoops() const { return m_loops; }
 
 private:
-  std::vector<GifFrame> m_frames;
+  std::vector<FramePtr> m_frames;
   unsigned int    m_imageSize;
   unsigned int    m_pitch;
   unsigned int    m_loops;

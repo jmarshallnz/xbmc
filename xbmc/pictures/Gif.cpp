@@ -343,44 +343,44 @@ bool Gif::ExtractFrames(unsigned int count)
 
   for (unsigned int i = 0; i < count; i++)
   {
-    GifFrame frame;
+    FramePtr frame(new GifFrame);
     SavedImage savedImage = m_gif->SavedImages[i];
     GifImageDesc imageDesc = m_gif->SavedImages[i].ImageDesc;
-    frame.m_height = imageDesc.Height;
-    frame.m_width = imageDesc.Width;
-    frame.m_top = imageDesc.Top;
-    frame.m_left = imageDesc.Left;
+    frame->m_height = imageDesc.Height;
+    frame->m_width = imageDesc.Width;
+    frame->m_top = imageDesc.Top;
+    frame->m_left = imageDesc.Left;
 
-    if (frame.m_top + frame.m_height > m_height || frame.m_left + frame.m_width > m_width
-      || !frame.m_width || !frame.m_height)
+    if (frame->m_top + frame->m_height > m_height || frame->m_left + frame->m_width > m_width
+      || !frame->m_width || !frame->m_height)
     {
       CLog::Log(LOGDEBUG, "Gif::ExtractFrames(): Illegal frame dimensions: width: %d, height: %d, left: %d, top: %d instead of (%d,%d)",
-        frame.m_width, frame.m_height, frame.m_left, frame.m_top, m_width, m_height);
+        frame->m_width, frame->m_height, frame->m_left, frame->m_top, m_width, m_height);
       return false;
     }
 
     if (imageDesc.ColorMap)
     {
-      frame.m_palette.clear();
-      ConvertColorTable(frame.m_palette, imageDesc.ColorMap, imageDesc.ColorMap->ColorCount);
+      frame->m_palette.clear();
+      ConvertColorTable(frame->m_palette, imageDesc.ColorMap, imageDesc.ColorMap->ColorCount);
       // TODO save a backup of the palette for frames without a table in case there's no gloabl table.
     }
     else if (m_gif->SColorMap)
     {
-      frame.m_palette = m_globalPalette;
+      frame->m_palette = m_globalPalette;
     }
 
     // fill delay, disposal and transparent color into frame
-    if (!gcbToFrame(frame, i))
+    if (!gcbToFrame(*frame, i))
       return false;
 
-    frame.m_pImage = new unsigned char[m_imageSize];
-    frame.m_imageSize = m_imageSize;
-    memcpy(frame.m_pImage, m_pTemplate, m_imageSize);
+    frame->m_pImage = new unsigned char[m_imageSize];
+    frame->m_imageSize = m_imageSize;
+    memcpy(frame->m_pImage, m_pTemplate, m_imageSize);
 
-    ConstructFrame(frame, savedImage.RasterBits);
+    ConstructFrame(*frame, savedImage.RasterBits);
 
-    if(!PrepareTemplate(frame))
+    if(!PrepareTemplate(*frame))
       return false;
 
     m_frames.push_back(frame);
@@ -442,9 +442,9 @@ bool Gif::PrepareTemplate(const GifFrame &frame)
 
       for (int i = m_frames.size() - 1 ; i >= 0; --i)
       {
-        if (m_frames[i].m_disposal != DISPOSE_PREVIOUS)
+        if (m_frames[i]->m_disposal != DISPOSE_PREVIOUS)
         {
-          memcpy(m_pTemplate, m_frames[i].m_pImage, m_imageSize);
+          memcpy(m_pTemplate, m_frames[i]->m_pImage, m_imageSize);
           valid = true;
           break;
         }
@@ -540,7 +540,7 @@ bool Gif::Decode(const unsigned char *pixels, unsigned int pitch, unsigned int f
     || format != XB_FMT_A8R8G8B8 || !m_numFrames)
     return false;
 
-  const unsigned char *src = m_frames[0].m_pImage;
+  const unsigned char *src = m_frames[0]->m_pImage;
   unsigned char *dst = (unsigned char*)pixels;
 
   if (pitch == m_pitch)

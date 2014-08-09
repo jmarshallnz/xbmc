@@ -367,13 +367,13 @@ const CTextureArray& CGUITextureManager::Load(const CStdString& strTextureName, 
 
       pMap = new CTextureMap(strTextureName, gif.Width(), gif.Height(), gif.GetNumLoops());
       
-      for (std::vector<GifFrame>::iterator frame = gif.GetFrames().begin(); frame != gif.GetFrames().end(); ++frame)
+      for (std::vector<Gif::FramePtr>::const_iterator frame = gif.GetFrames().begin(); frame != gif.GetFrames().end(); ++frame)
       {
         CTexture *glTexture = new CTexture();
         if (glTexture)
         {
-          glTexture->LoadFromMemory(gif.Width(), gif.Height(), gif.GetPitch(), XB_FMT_A8R8G8B8, false, frame->m_pImage );
-          pMap->Add(glTexture, frame->m_delay);
+          glTexture->LoadFromMemory(gif.Width(), gif.Height(), gif.GetPitch(), XB_FMT_A8R8G8B8, false, (*frame)->m_pImage );
+          pMap->Add(glTexture, (*frame)->m_delay);
         }
       }
 #endif//HAS_GIFLIB

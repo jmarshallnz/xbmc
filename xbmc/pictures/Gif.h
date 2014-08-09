@@ -40,12 +40,11 @@ public:
   virtual ~GifFrame();
   void Release();
 
-  GifFrame(const GifFrame& src);
-
   unsigned char*  m_pImage;
   unsigned int    m_delay;
 
 private:
+  GifFrame(const GifFrame& src);
 
   unsigned int    m_imageSize;
   unsigned int    m_height;

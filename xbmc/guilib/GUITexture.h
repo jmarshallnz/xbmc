@@ -129,6 +129,7 @@ protected:
   bool UpdateAnimFrame(unsigned int currentTime);
   void Render(float left, float top, float bottom, float right, float u1, float v1, float u2, float v2, float u3, float v3);
   static void OrientateTexture(CRect &rect, float width, float height, int orientation);
+  void resetAnimState();
 
   // functions that our implementation classes handle
   virtual void Allocate() {}; ///< called after our textures have been allocated

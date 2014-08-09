@@ -75,9 +75,7 @@ CGUITextureBase::CGUITextureBase(float posX, float posY, float width, float heig
   m_diffuseScaleV = 1.0f;
 
   // anim gifs
-  m_currentFrame = 0;
-  m_lasttime = 0;
-  m_currentLoop = 0;
+  resetAnimState();
 
   m_allocateDynamically = false;
   m_isAllocated = NO;
@@ -114,8 +112,7 @@ CGUITextureBase::CGUITextureBase(const CGUITextureBase &right) :
   m_diffuseScaleU = 1.0f;
   m_diffuseScaleV = 1.0f;
 
-  m_currentFrame = 0;
-  m_currentLoop = 0;
+  resetAnimState();
 
   m_isAllocated = NO;
   m_invalid = true;
@@ -137,8 +134,7 @@ bool CGUITextureBase::AllocateOnDemand()
     if (m_allocateDynamically && IsAllocated())
       FreeResources();
     // reset animated textures (animgifs)
-    m_currentLoop = 0;
-    m_currentFrame = 0;
+    resetAnimState();
   }
 
   return false;
@@ -294,8 +290,7 @@ bool CGUITextureBase::AllocResources()
     return false; // already have our texture
 
   // reset our animstate
-  m_currentFrame = 0;
-  m_currentLoop = 0;
+  resetAnimState();
 
   bool changed = false;
   bool useLarge = m_info.useLarge || !g_TextureManager.CanLoad(m_info.filename);
@@ -467,8 +462,8 @@ void CGUITextureBase::FreeResources(bool immediately /* = false */)
 
   m_texture.Reset();
 
-  m_currentFrame = 0;
-  m_currentLoop = 0;
+  resetAnimState();
+
   m_texCoordsScaleU = 1.0f;
   m_texCoordsScaleV = 1.0f;
 
@@ -595,6 +590,13 @@ void CGUITextureBase::OrientateTexture(CRect &rect, float width, float height, i
     rect.x2 = rect.y2 * width/height;
     rect.y2 = temp * height/width;
   }
+}
+
+void CGUITextureBase::resetAnimState()
+{
+  m_lasttime = 0;
+  m_currentFrame = 0;
+  m_currentLoop = 0;
 }
 
 bool CGUITextureBase::SetWidth(float width)

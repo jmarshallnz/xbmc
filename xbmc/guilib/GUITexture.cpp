@@ -493,15 +493,29 @@ bool CGUITextureBase::UpdateAnimFrame(unsigned int currentTime)
   bool changed = false;
   unsigned int delay = m_texture.m_delays[m_currentFrame]/2;//fixme - its to slow if not divided by 2!
 
-  if ((currentTime - m_lasttime) >= delay)
+  if (m_lasttime == 0)
   {
-    if (m_currentFrame + 1 >= m_texture.size())
+    m_lasttime = currentTime;
+  }
+  else
+  {
+    if ((currentTime - m_lasttime) >= delay)
     {
-      if (m_texture.m_loops > 0)
+      if (m_currentFrame + 1 >= m_texture.size())
       {
-        if (m_currentLoop + 1 < m_texture.m_loops)
+        if (m_texture.m_loops > 0)
         {
-          m_currentLoop++;
+          if (m_currentLoop + 1 < m_texture.m_loops)
+          {
+            m_currentLoop++;
+            m_currentFrame = 0;
+            m_lasttime = currentTime;
+            changed = true;
+          }
+        }
+        else
+        {
+          // 0 == loop forever
           m_currentFrame = 0;
           m_lasttime = currentTime;
           changed = true;
@@ -509,17 +523,10 @@ bool CGUITextureBase::UpdateAnimFrame(unsigned int currentTime)
       }
       else
       {
-        // 0 == loop forever
-        m_currentFrame = 0;
+        m_currentFrame++;
         m_lasttime = currentTime;
         changed = true;
       }
-    }
-    else
-    {
-      m_currentFrame++;
-      m_lasttime = currentTime;
-      changed = true;
     }
   }
 

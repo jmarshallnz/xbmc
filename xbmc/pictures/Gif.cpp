@@ -60,8 +60,8 @@ int ReadFromMemory(GifFileType* gif, GifByteType* gifbyte, int len)
 
 int ReadFromVfs(GifFileType* gif, GifByteType* gifbyte, int len)
 {
-	XFILE::CFile *gifFile = (XFILE::CFile*)gif->UserData;
-	return gifFile->Read(gifbyte, len);
+  XFILE::CFile *gifFile = (XFILE::CFile*)gif->UserData;
+  return gifFile->Read(gifbyte, len);
 }
 
 

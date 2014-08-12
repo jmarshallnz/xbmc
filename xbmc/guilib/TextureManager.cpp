@@ -366,7 +366,7 @@ const CTextureArray& CGUITextureManager::Load(const CStdString& strTextureName, 
       }
 
       pMap = new CTextureMap(strTextureName, gif.Width(), gif.Height(), gif.GetNumLoops());
-      
+
       for (std::vector<Gif::FramePtr>::const_iterator frame = gif.GetFrames().begin(); frame != gif.GetFrames().end(); ++frame)
       {
         CTexture *glTexture = new CTexture();

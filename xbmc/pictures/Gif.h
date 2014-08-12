@@ -63,13 +63,11 @@ private:
   int m_transparent;
 };
 
-
-
 class Gif : public IImage
 {
-  friend class GifFrame;
-  typedef boost::shared_ptr<GifFrame> FramePtr;
 public:
+  typedef boost::shared_ptr<GifFrame> FramePtr;
+
   Gif();
   virtual ~Gif();
 

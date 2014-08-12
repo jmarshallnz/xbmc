@@ -46,7 +46,7 @@ int ReadFromMemory(GifFileType* gif, GifByteType* gifbyte, int len)
   if (len <= 0)
     readBytes = 0;
 
-  if (len > buffSizeLeft)
+  if (len > (int)buffSizeLeft)
     readBytes = buffSizeLeft;
 
   if (readBytes > 0)

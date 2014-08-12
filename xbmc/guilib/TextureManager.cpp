@@ -20,6 +20,7 @@
 
 #include "TextureManager.h"
 #include "Texture.h"
+#include "system.h"
 #if defined(HAS_GIFLIB)
 #include "pictures/Gif.h"
 #endif//HAS_GIFLIB

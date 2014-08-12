@@ -78,9 +78,7 @@ Gif::Gif() :
 {
   if (!m_dll.Load())
     CLog::Log(LOGERROR, "Gif::Gif(): Could not load giflib");
-  m_backColor = new COLOR();
-  memset(m_backColor, 0, sizeof(COLOR));
-  m_frames.clear();
+  memset(&m_backColor, 0, sizeof(m_backColor));
   m_gifFile = new XFILE::CFile();
 }
 
@@ -97,7 +95,6 @@ Gif::~Gif()
     m_dll.Unload();
     Release();
   }
-  delete m_backColor;
   delete m_gifFile;
 }
 
@@ -109,16 +106,16 @@ void Gif::Release()
   m_frames.clear();
 }
 
-void Gif::ConvertColorTable(std::vector<COLOR> &dest, ColorMapObject* src, unsigned int size)
+void Gif::ConvertColorTable(std::vector<GifColor> &dest, ColorMapObject* src, unsigned int size)
 {
   for (unsigned int i = 0; i < size; ++i)
   {
-    COLOR c;
+    GifColor c;
 
     c.r = src->Colors[i].Red;
     c.g = src->Colors[i].Green;
     c.b = src->Colors[i].Blue;
-    c.x = 0xff;
+    c.a = 0xff;
     dest.push_back(c);
   }
 }
@@ -169,7 +166,7 @@ bool Gif::LoadGifMetaData(GifFileType* file)
     return false;
   }
 
-  m_pitch     = m_width * sizeof(COLOR);
+  m_pitch     = m_width * sizeof(GifColor);
   m_imageSize = m_pitch * m_height;
   unsigned long memoryUsage = m_numFrames * m_imageSize;
   if (memoryUsage > GIF_MAX_MEMORY)
@@ -275,13 +272,13 @@ void Gif::InitTemplateAndColormap()
     ConvertColorTable(m_globalPalette, m_gif->SColorMap, m_gif->SColorMap->ColorCount);
 
     // draw the canvas
-    *m_backColor = m_globalPalette[m_gif->SBackGroundColor];
+    m_backColor = m_globalPalette[m_gif->SBackGroundColor];
     m_hasBackground = true;
 
     for (unsigned int i = 0; i < m_height * m_width; ++i)
     {
-      unsigned char *dest = m_pTemplate + (i *sizeof(COLOR));
-      memcpy(dest, m_backColor, sizeof(COLOR));
+      unsigned char *dest = m_pTemplate + (i *sizeof(GifColor));
+      memcpy(dest, &m_backColor, sizeof(GifColor));
     }
   }
   else
@@ -322,7 +319,7 @@ bool Gif::gcbToFrame(GifFrame &frame, unsigned int imgIdx)
   transparent = gcb.TransparentColor;
 #endif
   if (transparent >= 0 && (unsigned)transparent < frame.m_palette.size())
-    frame.m_palette[transparent].x = 0;
+    frame.m_palette[transparent].a = 0;
   return true;
 }
 
@@ -388,18 +385,18 @@ void Gif::ConstructFrame(GifFrame &frame, const unsigned char* src) const
 {
   for (unsigned int dest_y = frame.m_top, src_y = 0; src_y < frame.m_height; ++dest_y, ++src_y)
   {
-    unsigned char *to = frame.m_pImage + (dest_y * m_pitch) + (frame.m_left * sizeof(COLOR));
+    unsigned char *to = frame.m_pImage + (dest_y * m_pitch) + (frame.m_left * sizeof(GifColor));
 
     const unsigned char *from = src + (src_y * frame.m_width);
     for (unsigned int src_x = 0; src_x < frame.m_width; ++src_x)
     {
-      COLOR col = frame.m_palette[*from++];
-      if (col.x != 0)
+      GifColor col = frame.m_palette[*from++];
+      if (col.a != 0)
       {
         *to++ = col.b;
         *to++ = col.g;
         *to++ = col.r;
-        *to++ = col.x;
+        *to++ = col.a;
       }
       else
       {
@@ -465,10 +462,10 @@ void Gif::SetFrameAreaToBack(unsigned char* dest, const GifFrame &frame)
 {
   for (unsigned int dest_y = frame.m_top, src_y = 0; src_y < frame.m_height; ++dest_y, ++src_y)
   {
-    unsigned char *to = dest + (dest_y * m_pitch) + (frame.m_left * sizeof(COLOR));
+    unsigned char *to = dest + (dest_y * m_pitch) + (frame.m_left * sizeof(GifColor));
     for (unsigned int src_x = 0; src_x < frame.m_width; ++src_x)
     {
-      memcpy(to, m_backColor, sizeof(COLOR));
+      memcpy(to, &m_backColor, sizeof(m_backColor));
       to += 4;
     }
   }

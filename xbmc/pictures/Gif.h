@@ -30,7 +30,14 @@ namespace XFILE
   class CFile;
 };
 
-struct COLOR;
+#pragma pack(1)
+struct GifColor
+{
+  uint8_t b, g, r, a;
+};
+#pragma pack()
+
+
 class GifFrame
 {
   friend class Gif;
@@ -51,7 +58,7 @@ private:
   unsigned int    m_width;
   unsigned int    m_top;
   unsigned int    m_left;
-  std::vector<COLOR>   m_palette;
+  std::vector<GifColor> m_palette;
   unsigned int m_disposal;
   int m_transparent;
 };
@@ -89,15 +96,15 @@ private:
   std::string     m_filename;
   GifFileType*    m_gif;
   bool            m_hasBackground;
-  COLOR*          m_backColor;
-  std::vector<COLOR> m_globalPalette;
+  GifColor        m_backColor;
+  std::vector<GifColor> m_globalPalette;
   unsigned char*  m_pTemplate;
   int             m_isAnimated;
   XFILE::CFile*   m_gifFile;
 
   void InitTemplateAndColormap();
   bool LoadGifMetaData(GifFileType* file);
-  static void ConvertColorTable(std::vector<COLOR> &dest, ColorMapObject* src, unsigned int size);
+  static void ConvertColorTable(std::vector<GifColor> &dest, ColorMapObject* src, unsigned int size);
   bool gcbToFrame(GifFrame &frame, unsigned int imgIdx);
   bool ExtractFrames(unsigned int count);
   void SetFrameAreaToBack(unsigned char* dest, const GifFrame &frame);

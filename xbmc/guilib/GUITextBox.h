@@ -65,7 +65,7 @@ public:
 
   virtual bool GetCondition(int condition, int data) const;
   virtual std::string GetLabel(int info) const;
-  std::string GetDescription() const;
+  std::string GetDescription(int index = 0) const;
 
   void Scroll(unsigned int offset);
 

@@ -122,7 +122,7 @@ const std::string CGUISpinControlEx::GetCurrentLabel() const
   return CGUISpinControl::GetLabel();
 }
 
-std::string CGUISpinControlEx::GetDescription() const
+std::string CGUISpinControlEx::GetDescription(int index) const
 {
   return StringUtils::Format("%s (%s)", m_buttonControl.GetDescription().c_str(), GetLabel().c_str());
 }

@@ -57,7 +57,7 @@ public:
   virtual void SetPosition(float posX, float posY);
   virtual void SetWidth(float width);
   virtual void SetHeight(float height);
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription(int index = 0) const;
   void SetRadioDimensions(float posX, float posY, float width, float height);
   void SetToggleSelect(const std::string &toggleSelect);
   bool IsSelected() const { return m_bSelected; };

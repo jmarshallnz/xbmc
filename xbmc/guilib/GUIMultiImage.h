@@ -57,7 +57,7 @@ public:
   virtual bool IsDynamicallyAllocated() { return m_bDynamicResourceAlloc; };
   virtual void SetInvalid();
   virtual bool CanFocus() const;
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription(int index = 0) const;
 
   void SetInfo(const CGUIInfoLabel &info);
   void SetAspectRatio(const CAspectRatio &ratio);

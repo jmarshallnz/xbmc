@@ -62,7 +62,7 @@ namespace EPG
     virtual bool OnMessage(CGUIMessage& message);
     virtual void SetFocus(bool focus);
 
-    virtual std::string GetDescription() const;
+    virtual std::string GetDescription(int index = 0) const;
     const int GetNumChannels()   { return m_channels; };
     virtual int GetSelectedItem() const;
     const int GetSelectedChannel() const;

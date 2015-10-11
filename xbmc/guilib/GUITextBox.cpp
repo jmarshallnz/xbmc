@@ -432,7 +432,7 @@ bool CGUITextBox::GetCondition(int condition, int data) const
   }
 }
 
-std::string CGUITextBox::GetDescription() const
+std::string CGUITextBox::GetDescription(int index) const
 {
   return GetText();
 }

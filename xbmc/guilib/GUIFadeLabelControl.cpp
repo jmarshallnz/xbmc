@@ -239,7 +239,7 @@ bool CGUIFadeLabelControl::OnMessage(CGUIMessage& message)
   return CGUIControl::OnMessage(message);
 }
 
-std::string CGUIFadeLabelControl::GetDescription() const
+std::string CGUIFadeLabelControl::GetDescription(int index) const
 {
   return (m_currentLabel < m_infoLabels.size()) ?  m_infoLabels[m_currentLabel].GetLabel(m_parentID) : "";
 }

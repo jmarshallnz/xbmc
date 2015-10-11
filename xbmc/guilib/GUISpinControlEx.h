@@ -58,7 +58,7 @@ public:
   virtual void SetEnabled(bool bEnable);
   virtual float GetXPosition() const { return m_buttonControl.GetXPosition();};
   virtual float GetYPosition() const { return m_buttonControl.GetYPosition();};
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription(int index = 0) const;
   virtual bool HitTest(const CPoint &point) const { return m_buttonControl.HitTest(point); };
   void SetSpinPosition(float spinPosX);
 

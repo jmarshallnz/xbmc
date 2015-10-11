@@ -219,7 +219,7 @@ void CGUIRadioButtonControl::SetHeight(float height)
   SetPosition(GetXPosition(), GetYPosition());
 }
 
-std::string CGUIRadioButtonControl::GetDescription() const
+std::string CGUIRadioButtonControl::GetDescription(int index) const
 {
   std::string strLabel = CGUIButtonControl::GetDescription();
   if (m_bSelected)

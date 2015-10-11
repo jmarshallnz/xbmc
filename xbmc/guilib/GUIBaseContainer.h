@@ -64,7 +64,7 @@ public:
 
   void SetPageControl(int id);
 
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription(int index = 0) const;
   virtual void SaveStates(std::vector<CControlState> &states);
   virtual int GetSelectedItem() const;
 

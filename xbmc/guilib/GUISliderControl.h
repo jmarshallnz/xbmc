@@ -85,7 +85,7 @@ public:
   void SetIntInterval(int iInterval);
   void SetFloatInterval(float fInterval);
   void SetType(int iType) { m_iType = iType; };
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription(int index = 0) const;
   void SetTextValue(const std::string &textValue) { m_textValue = textValue; };
   void SetAction(const std::string &action);
 protected:

@@ -61,7 +61,7 @@ public:
   int GetInfo() const {return m_iInfoCode;};
 
   float GetPercentage() const;
-  std::string GetDescription() const;
+  std::string GetDescription(int index = 0) const;
   virtual void UpdateInfo(const CGUIListItem *item = NULL);
   bool UpdateLayout(void);
 protected:

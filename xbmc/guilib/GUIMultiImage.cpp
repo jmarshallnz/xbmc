@@ -283,7 +283,7 @@ void CGUIMultiImage::SetInfo(const CGUIInfoLabel &info)
     m_currentPath = m_texturePath.GetLabel(WINDOW_INVALID);
 }
 
-std::string CGUIMultiImage::GetDescription() const
+std::string CGUIMultiImage::GetDescription(int index) const
 {
   return m_image.GetDescription();
 }

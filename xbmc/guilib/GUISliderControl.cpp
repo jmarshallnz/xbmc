@@ -596,7 +596,7 @@ void CGUISliderControl::SetInfo(int iInfo)
   m_iInfoCode = iInfo;
 }
 
-std::string CGUISliderControl::GetDescription() const
+std::string CGUISliderControl::GetDescription(int index) const
 {
   if (!m_textValue.empty())
     return m_textValue;

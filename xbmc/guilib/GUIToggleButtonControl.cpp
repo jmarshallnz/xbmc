@@ -151,7 +151,7 @@ void CGUIToggleButtonControl::SetAltLabel(const std::string &label)
     m_selectButton.SetLabel(label);
 }
 
-std::string CGUIToggleButtonControl::GetDescription() const
+std::string CGUIToggleButtonControl::GetDescription(int index) const
 {
   if (m_bSelected)
     return m_selectButton.GetDescription();

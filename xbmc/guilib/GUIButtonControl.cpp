@@ -323,7 +323,7 @@ EVENT_RESULT CGUIButtonControl::OnMouseEvent(const CPoint &point, const CMouseEv
   return EVENT_RESULT_UNHANDLED;
 }
 
-std::string CGUIButtonControl::GetDescription() const
+std::string CGUIButtonControl::GetDescription(int index) const
 {
   std::string strLabel(m_info.GetLabel(m_parentID));
   return strLabel;

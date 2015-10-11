@@ -765,7 +765,7 @@ bool CGUIBaseContainer::OnClick(int actionID)
   return SendWindowMessage(msg);
 }
 
-std::string CGUIBaseContainer::GetDescription() const
+std::string CGUIBaseContainer::GetDescription(int index) const
 {
   std::string strLabel;
   int item = GetSelectedItem();

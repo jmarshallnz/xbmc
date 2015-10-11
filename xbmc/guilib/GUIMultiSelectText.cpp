@@ -366,7 +366,7 @@ void CGUIMultiSelectTextControl::PositionButtons()
     m_totalWidth += m_label.offsetX;
 }
 
-std::string CGUIMultiSelectTextControl::GetDescription() const
+std::string CGUIMultiSelectTextControl::GetDescription(int index) const
 {
   // We currently just return the entire string - should we bother returning the
   // particular subitems of this?

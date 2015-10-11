@@ -1855,7 +1855,7 @@ void CGUIEPGGridContainer::LoadLayout(TiXmlElement *layout)
   }
 }
 
-std::string CGUIEPGGridContainer::GetDescription() const
+std::string CGUIEPGGridContainer::GetDescription(int index) const
 {
   CSingleLock lock(m_critSection);
 

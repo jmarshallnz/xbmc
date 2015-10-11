@@ -986,7 +986,7 @@ EVENT_RESULT CGUISpinControl::OnMouseEvent(const CPoint &point, const CMouseEven
   return EVENT_RESULT_UNHANDLED;
 }
 
-std::string CGUISpinControl::GetDescription() const
+std::string CGUISpinControl::GetDescription(int index) const
 {
   return StringUtils::Format("%i/%i", 1 + GetValue(), GetMaximum());
 }

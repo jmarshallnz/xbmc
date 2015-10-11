@@ -89,7 +89,7 @@ public:
   virtual void SetWidth(float width);
   virtual void SetHeight(float height);
   virtual void SetPosition(float posX, float posY);
-  virtual std::string GetDescription() const;
+  virtual std::string GetDescription(int index = 0) const;
   void SetCrossFade(unsigned int time);
 
   const std::string& GetFileName() const;

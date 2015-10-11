@@ -90,7 +90,7 @@ protected:
   virtual void RenderText();
   virtual CGUILabel::COLOR GetTextColor() const;
   std::wstring GetDisplayedText() const;
-  std::string GetDescriptionByIndex(int index) const;
+  virtual std::string GetDescription(int index) const;
   bool SetStyledText(const std::wstring &text);
   void RecalcLabelPosition();
   void ValidateCursor();

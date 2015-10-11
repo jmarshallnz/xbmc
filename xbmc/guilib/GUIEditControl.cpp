@@ -750,12 +750,12 @@ void CGUIEditControl::SetFocus(bool focus)
   SetInvalid();
 }
 
-std::string CGUIEditControl::GetDescriptionByIndex(int index) const
+std::string CGUIEditControl::GetDescription(int index) const
 {
   if (index == 0)
-    return GetDescription();
+    return CGUIButtonControl::GetDescription();
   else if(index == 1)
     return GetLabel2();
-  
+
   return "";
 }
